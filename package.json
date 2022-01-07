@@ -62,11 +62,5 @@
     "hooks": {
       "pre-commit": "prettier --write . && git add -A ."
     }
-  },
-  "lint-staged": {
-    "**/{*.js,*.jsx}": [
-      "eslint --fix",
-      "git add"
-    ]
   }
 }
