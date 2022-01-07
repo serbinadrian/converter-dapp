@@ -59,11 +59,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit":["yarn run build"]
+      "applypatch-msg": "echo \"[Husky] applypatch-msg\"",
+      "pre-applypatch": "echo \"[Husky] pre-applypatch\"",
+      "post-applypatch": "echo \"[Husky] post-applypatch\"",
+      "pre-commit": "echo \"[Husky] pre-commit\""
     }
   },
   "lint-staged": {
-    "**/*.js": [
+    "**/{*.js,*.jsx}": [
       "eslint --fix",
       "git add"
     ]
