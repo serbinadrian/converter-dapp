@@ -22,17 +22,15 @@ const SnetDialog = ({ isDialogOpen, onDialogClose, dialogTitle, children }) => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <div>
-      <BootstrapDialog fullScreen={fullScreen} onClose={onDialogClose} aria-labelledby="snet-dialog-title" open={isDialogOpen}>
-        <DialogTitle sx={dialogueStyle.dialogTitle}>
-          {dialogTitle}
-          <IconButton aria-label="close" onClick={onDialogClose} sx={dialogueStyle.iconButton}>
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent dividers>{children}</DialogContent>
-      </BootstrapDialog>
-    </div>
+    <BootstrapDialog fullScreen={fullScreen} maxWidth="xl" onClose={onDialogClose} aria-labelledby="snet-dialog-title" open={isDialogOpen}>
+      <DialogTitle sx={dialogueStyle.dialogTitle}>
+        {dialogTitle}
+        <IconButton aria-label="close" onClick={onDialogClose} sx={dialogueStyle.iconButton}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent dividers>{children}</DialogContent>
+    </BootstrapDialog>
   );
 };
 
