@@ -31,13 +31,16 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: colorCode.blueLight
+      main: colorCode.lightBlue
     },
     secondary: {
       main: colorCode.gray
     },
     error: {
       main: red.A400
+    },
+    white: {
+      main: colorCode.white
     }
   }
 });

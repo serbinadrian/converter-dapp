@@ -1,5 +1,5 @@
 const ColorCodes = {
-  blueLight: '#4086FF',
+  lightBlue: '#4086FF',
   secondary: '#DBE3E7',
   blue: '#062362',
   black: '#0A0B09',
