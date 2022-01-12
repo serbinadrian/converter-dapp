@@ -6,12 +6,12 @@ const style = {
   grid: {
     bgcolor: 'background.paper',
     display: 'flex',
-    alignItems: 'end',
+    alignItems: 'center',
     justifyContent: 'space-between',
     padding: '1rem'
   },
   blockchain: { marginLeft: '12px', fontSize: '20px' },
-  blockchainInfo: { display: 'inline', lineHeight: 0.5, fontSize: '14px' }
+  blockchainInfo: { display: 'inline', lineHeight: 0.5, fontSize: '14px', textAlign: 'left' }
 };
 
 export default style;
