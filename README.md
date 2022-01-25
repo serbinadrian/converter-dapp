@@ -1,3 +1,21 @@
+# Stack
+
+- React
+- React Router
+- Redux
+- Redux toolkit
+- Material UI
+
+# Directory structure
+
+### Router
+
+All Converter dApp routes are defined here. These routes are pointed against the files in pages folder.
+
+### Components
+
+All Converter dApp components are managed here. Creadted components can be imported inside pages or within other components tp loosely couple the logics.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

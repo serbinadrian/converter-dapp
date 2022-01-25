@@ -1,7 +1,7 @@
 const Paths = {
-    Converter: '/',
-    ContactUs: 'contact-us',
-    NotFound: '*',
-}
+  Converter: '/',
+  ContactUs: 'contact-us',
+  NotFound: '*'
+};
 
 export default Paths;

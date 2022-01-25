@@ -13,6 +13,10 @@ module.exports = {
   },
   plugins: ['react', 'prettier'],
   rules: {
+    'no-shadow': 'warn',
+    'import/no-unresolved': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/function-component-definition': [
       2,

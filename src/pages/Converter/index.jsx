@@ -1,5 +1,9 @@
+import { lazy } from 'react';
+
+const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
+
 const Converter = () => {
-  return <h1>Converter</h1>;
+  return <GeneralLayout />;
 };
 
 export default Converter;
