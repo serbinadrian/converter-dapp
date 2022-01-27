@@ -1,18 +1,30 @@
-import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
+import isNil from 'lodash/isNil';
 import propTypes from 'prop-types';
-import Box from '@mui/material/Box';
+import { useState, useEffect } from 'react';
 import Button from '../snet-button';
+import SnetWalletConnector from '../snet-wallet-connector';
 import style from './style';
 import WalletAddressInput from './WalletAddressInput';
-import SnetWalletConnector from '../snet-wallet-connector';
 
-const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isWalletAvailable }) => {
+const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isWalletAvailable, walletAddress }) => {
   const [showInput, setShowInput] = useState(false);
   const [showWalletmodal, setShowWalletmodal] = useState(false);
+  const [showConnectButton, setShowConnectButton] = useState(false);
+
+  const toggleShowConnectButton = () => {
+    setShowConnectButton(!showConnectButton);
+  };
+
+  useEffect(() => {
+    if (isNil(walletAddress)) {
+      toggleShowConnectButton();
+    }
+  }, [walletAddress]);
 
   const showOrHideInput = () => {
     setShowInput(!showInput);
@@ -41,15 +53,9 @@ const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isW
             />
           </Grid>
           <Grid item sm={4}>
-            {showInput ? (
-              <WalletAddressInput
-                onSaveAddress={(address) => {
-                  alert(address);
-                }}
-                blockchain={blockchain}
-                onCancel={showOrHideInput}
-              />
-            ) : (
+            {!isNil(walletAddress) ? <h6>{walletAddress}</h6> : null}
+            {showInput ? <WalletAddressInput blockchain={blockchain} onCancel={showOrHideInput} /> : null}
+            {showConnectButton ? (
               <Button
                 onClick={() => {
                   if (!isWalletAvailable) {
@@ -61,7 +67,7 @@ const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isW
                 name={isWalletAvailable ? 'Connect' : 'Add'}
                 variant="outlined"
               />
-            )}
+            ) : null}
           </Grid>
         </Grid>
       </Box>
@@ -73,7 +79,8 @@ BlockchainList.propTypes = {
   blockchain: propTypes.string.isRequired,
   blockchainLogo: propTypes.string.isRequired,
   blockChainConnectInfo: propTypes.string.isRequired,
-  isWalletAvailable: propTypes.bool.isRequired
+  isWalletAvailable: propTypes.bool.isRequired,
+  walletAddress: propTypes.string
 };
 
 export default BlockchainList;
