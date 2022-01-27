@@ -11,7 +11,8 @@ const style = {
     padding: '1rem'
   },
   blockchain: { marginLeft: '12px', fontSize: '20px' },
-  blockchainInfo: { display: 'inline', lineHeight: 0.5, fontSize: '14px', textAlign: 'left' }
+  blockchainInfo: { display: 'inline', lineHeight: 0.5, fontSize: '14px', textAlign: 'left' },
+  icon: { height: 20 }
 };
 
 export default style;

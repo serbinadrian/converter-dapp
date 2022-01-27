@@ -5,26 +5,16 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import isNil from 'lodash/isNil';
 import propTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Button from '../snet-button';
 import SnetWalletConnector from '../snet-wallet-connector';
 import style from './style';
+import WalletAddressInfo from './WalletAddressInfo';
 import WalletAddressInput from './WalletAddressInput';
 
 const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isWalletAvailable, walletAddress }) => {
   const [showInput, setShowInput] = useState(false);
   const [showWalletmodal, setShowWalletmodal] = useState(false);
-  const [showConnectButton, setShowConnectButton] = useState(false);
-
-  const toggleShowConnectButton = () => {
-    setShowConnectButton(!showConnectButton);
-  };
-
-  useEffect(() => {
-    if (isNil(walletAddress)) {
-      toggleShowConnectButton();
-    }
-  }, [walletAddress]);
 
   const showOrHideInput = () => {
     setShowInput(!showInput);
@@ -53,9 +43,9 @@ const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isW
             />
           </Grid>
           <Grid item sm={4}>
-            {!isNil(walletAddress) ? <h6>{walletAddress}</h6> : null}
+            {!isNil(walletAddress) ? <WalletAddressInfo walletAddress={walletAddress} isWalletAvailable={isWalletAvailable} /> : null}
             {showInput ? <WalletAddressInput blockchain={blockchain} onCancel={showOrHideInput} /> : null}
-            {showConnectButton ? (
+            {isNil(walletAddress) ? (
               <Button
                 onClick={() => {
                   if (!isWalletAvailable) {

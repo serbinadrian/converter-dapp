@@ -42,7 +42,7 @@ const SnetNavigation = () => {
       return account;
     }
     if (blockchainName === 'CARDANO') {
-      return '0x0';
+      return null;
     }
     return null;
   };
