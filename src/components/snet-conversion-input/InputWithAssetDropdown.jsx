@@ -11,7 +11,7 @@ const InputWithAssetDropdown = () => {
       InputProps={{
         endAdornment: (
           <Box sx={styles.texfieldWithDropdown}>
-            <BlockchainDropdown curvedBorders={false} />
+            <BlockchainDropdown size="medium" curvedBorders={false} />
           </Box>
         )
       }}
