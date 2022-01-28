@@ -1,10 +1,10 @@
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 import { Typography } from '@mui/material';
 import styles from './styles';
 
-const WelcomeBoxLinks = () => {
+const HelpLinks = () => {
   const links = [
     { name: 'Bridge Overview', url: '' },
     { name: 'Selecting Networks ', url: '' },
@@ -18,9 +18,10 @@ const WelcomeBoxLinks = () => {
       <List>
         {links.map((link) => {
           return (
-            <ListItem divider>
+            <>
               <ListItemText style={styles.listItem} primary={link.name} />
-            </ListItem>
+              <Divider />
+            </>
           );
         })}
       </List>
@@ -31,4 +32,4 @@ const WelcomeBoxLinks = () => {
   );
 };
 
-export default WelcomeBoxLinks;
+export default HelpLinks;

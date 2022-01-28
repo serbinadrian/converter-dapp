@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import WelcomeBoxLinks from './WelcomeBoxLinks';
+import WelcomeBoxLinks from './HelpLinks';
 import styles from './styles';
 
 const WelcomeBox = () => {
