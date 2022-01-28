@@ -1,8 +1,8 @@
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
 import { Typography } from '@mui/material';
+import styles from './styles';
 
 const WelcomeBoxLinks = () => {
   const links = [
@@ -18,16 +18,13 @@ const WelcomeBoxLinks = () => {
       <List>
         {links.map((link) => {
           return (
-            <>
-              <ListItem>
-                <ListItemText primary={link.name} />
-              </ListItem>
-              <Divider />
-            </>
+            <ListItem divider>
+              <ListItemText style={styles.listItem} primary={link.name} />
+            </ListItem>
           );
         })}
       </List>
-      <Typography variant="caption" marginTop={3}>
+      <Typography variant="caption" color="white.main" marginTop={3}>
         View all help topics
       </Typography>
     </>
