@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 const ConverterForm = lazy(() => import('./ConverterForm'));
@@ -8,10 +8,14 @@ const WelcomeBox = lazy(() => import('./WelcomeBox'));
 const Converter = () => {
   return (
     <GeneralLayout>
-      <Stack direction="row" alignItems="start" justifyContent="space-between">
-        <WelcomeBox />
-        <ConverterForm />
-      </Stack>
+      <Grid display="flex" container spacing={2}>
+        <Grid item xs={4}>
+          <WelcomeBox />
+        </Grid>
+        <Grid item xs={8}>
+          <ConverterForm />
+        </Grid>
+      </Grid>
     </GeneralLayout>
   );
 };
