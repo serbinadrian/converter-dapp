@@ -3,7 +3,8 @@ const ColorCodes = {
   blue: '#062362',
   black: '#0A0B09',
   gray: '#DBE3E7',
-  white: '#FFFFFF'
+  white: '#FFFFFF',
+  lightGray: '#EEEEEE'
 };
 
 export default ColorCodes;
