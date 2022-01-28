@@ -8,11 +8,11 @@ const WelcomeBox = lazy(() => import('./WelcomeBox'));
 const Converter = () => {
   return (
     <GeneralLayout>
-      <Grid display="flex" container spacing={2}>
-        <Grid item xs={12} md={4}>
+      <Grid display="flex" alignItems="flex-start" container spacing={2}>
+        <Grid item xs={12} md={5}>
           <WelcomeBox />
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={7}>
           <ConverterForm />
         </Grid>
       </Grid>
