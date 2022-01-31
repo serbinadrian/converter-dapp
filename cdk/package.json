@@ -10,8 +10,8 @@
     "test": "jest",
     "cdk": "cdk",
     "build:app": "cd.. && yarn run build cd cdk",
-    "synth": "cdk synth --all --profile SingNET",
-    "deploy": "cdk deploy --all --profile SingNET"
+    "synth": "cdk synth --all",
+    "deploy": "cdk deploy --all"
   },
   "devDependencies": {
     "@types/jest": "^26.0.10",
