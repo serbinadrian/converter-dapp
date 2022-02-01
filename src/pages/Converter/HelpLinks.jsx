@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
@@ -18,10 +19,10 @@ const HelpLinks = () => {
       <List>
         {links.map((link) => {
           return (
-            <>
+            <Fragment key={link.name}>
               <ListItemText style={styles.listItem} primary={link.name} />
               <Divider />
-            </>
+            </Fragment>
           );
         })}
       </List>

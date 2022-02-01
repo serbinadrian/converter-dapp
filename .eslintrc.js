@@ -14,6 +14,8 @@ module.exports = {
   plugins: ['react', 'prettier'],
   rules: {
     'no-shadow': 'warn',
+    'import/prefer-default-export': 'warn',
+    'no-param-reassign': 'warn',
     'import/no-unresolved': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',
