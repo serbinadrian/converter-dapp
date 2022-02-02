@@ -45,7 +45,7 @@ const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isW
           <Grid item sm={4}>
             {!isNil(walletAddress) ? <WalletAddressInfo walletAddress={walletAddress} isWalletAvailable={isWalletAvailable} /> : null}
             {showInput ? <WalletAddressInput blockchain={blockchain} onCancel={showOrHideInput} /> : null}
-            {isNil(walletAddress) ? (
+            {isNil(walletAddress) && !showInput ? (
               <Button
                 onClick={() => {
                   if (!isWalletAvailable) {
