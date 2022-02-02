@@ -1,4 +1,5 @@
 import colorCodes from '../../assets/theme/colorCodes';
+import WelcomeImage from '../../assets/images/welcome.png';
 
 const styles = {
   welcome: {
@@ -10,7 +11,8 @@ const styles = {
     padding: 4,
     backgroundColor: colorCodes.white,
     background: 'linear-gradient(180deg, #184FA7 0%, #061753 100%)',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    backgroundImage: WelcomeImage
   },
   listItem: {
     color: 'white'

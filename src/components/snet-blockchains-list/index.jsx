@@ -12,12 +12,19 @@ import style from './style';
 import WalletAddressInfo from './WalletAddressInfo';
 import WalletAddressInput from './WalletAddressInput';
 
-const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isWalletAvailable, walletAddress }) => {
+const BlockchainList = ({ blockchain, blockchainLogo, onSaveAddress, blockChainConnectInfo, isWalletAvailable, walletAddress }) => {
   const [showInput, setShowInput] = useState(false);
   const [showWalletmodal, setShowWalletmodal] = useState(false);
 
   const showOrHideInput = () => {
     setShowInput(!showInput);
+  };
+
+  const saveAddress = (address) => {
+    showOrHideInput();
+    if (address.length > 0) {
+      onSaveAddress(address);
+    }
   };
 
   const showOrHideWalletconnectModal = () => {
@@ -43,8 +50,10 @@ const BlockchainList = ({ blockchain, blockchainLogo, blockChainConnectInfo, isW
             />
           </Grid>
           <Grid item sm={4}>
-            {!isNil(walletAddress) ? <WalletAddressInfo walletAddress={walletAddress} isWalletAvailable={isWalletAvailable} /> : null}
-            {showInput ? <WalletAddressInput blockchain={blockchain} onCancel={showOrHideInput} /> : null}
+            {!isNil(walletAddress) && !showInput ? (
+              <WalletAddressInfo onEdit={showOrHideInput} walletAddress={walletAddress} isWalletAvailable={isWalletAvailable} />
+            ) : null}
+            {showInput ? <WalletAddressInput onSaveAddress={saveAddress} blockchain={blockchain} onCancel={showOrHideInput} /> : null}
             {isNil(walletAddress) && !showInput ? (
               <Button
                 onClick={() => {
@@ -70,7 +79,8 @@ BlockchainList.propTypes = {
   blockchainLogo: propTypes.string.isRequired,
   blockChainConnectInfo: propTypes.string.isRequired,
   isWalletAvailable: propTypes.bool.isRequired,
-  walletAddress: propTypes.string
+  walletAddress: propTypes.string,
+  onSaveAddress: propTypes.func
 };
 
 export default BlockchainList;

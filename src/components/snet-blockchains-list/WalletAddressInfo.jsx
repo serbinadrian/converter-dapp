@@ -7,7 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import propTypes from 'prop-types';
 import style from './style';
 
-const WalletAddressInfo = ({ walletAddress, isWalletAvailable }) => {
+const WalletAddressInfo = ({ walletAddress, isWalletAvailable, onEdit }) => {
   return (
     <>
       <Stack direction="row" spacing={2} marginBottom={2} alignItems="center">
@@ -21,7 +21,7 @@ const WalletAddressInfo = ({ walletAddress, isWalletAvailable }) => {
           Copy
         </Button>
         {!isWalletAvailable ? (
-          <Button variant="text" startIcon={<CopyOrEditIcon />}>
+          <Button onClick={onEdit} variant="text" startIcon={<CopyOrEditIcon />}>
             Edit
           </Button>
         ) : null}
@@ -35,7 +35,8 @@ const WalletAddressInfo = ({ walletAddress, isWalletAvailable }) => {
 
 WalletAddressInfo.propTypes = {
   walletAddress: propTypes.string.isRequired,
-  isWalletAvailable: propTypes.bool.isRequired
+  isWalletAvailable: propTypes.bool.isRequired,
+  onEdit: propTypes.func
 };
 
 export default WalletAddressInfo;

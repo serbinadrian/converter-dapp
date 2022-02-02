@@ -9,19 +9,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { styles, MenuProps } from './styles';
 
-const blockchains = [
-  { name: 'Ethereum', image: 'https://logos-world.net/wp-content/uploads/2020/12/Ethereum-Symbol.png' },
-  { name: 'Cardano', image: 'https://c.tenor.com/4hza808FnG4AAAAC/cardano-logo.gif' }
-];
-
-const BlockchainDropdown = ({ curvedBorders, size }) => {
-  const [blockchainName, setblockchainName] = useState([]);
+const BlockchainDropdown = ({ curvedBorders, size, tokens }) => {
+  const [tokenName, setTokenName] = useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value }
     } = event;
-    setblockchainName(typeof value === 'string' ? value.split(',') : value);
+    setTokenName(typeof value === 'string' ? value.split(',') : value);
   };
 
   return (
@@ -29,7 +24,7 @@ const BlockchainDropdown = ({ curvedBorders, size }) => {
       <Select
         size={size}
         displayEmpty
-        value={blockchainName}
+        value={tokenName}
         onChange={handleChange}
         input={<OutlinedInput />}
         renderValue={(selected) => {
@@ -45,12 +40,12 @@ const BlockchainDropdown = ({ curvedBorders, size }) => {
         inputProps={{ 'aria-label': 'blockchain-dropown' }}
         sx={curvedBorders ? styles.dropdownWithBorders : styles.dropdown}
       >
-        {blockchains.map((blockchain) => (
-          <MenuItem key={blockchain.name} value={blockchain.name}>
+        {tokens.map((token) => (
+          <MenuItem key={token.name} value={token.name}>
             <ListItemAvatar>
-              <Avatar sx={styles.avatar} alt={blockchain.name} src={blockchain.image} />
+              <Avatar sx={styles.avatar} alt={token.name} src={token.logo} />
             </ListItemAvatar>
-            <ListItemText>{blockchain.name}</ListItemText>
+            <ListItemText>{token.name}</ListItemText>
           </MenuItem>
         ))}
       </Select>
@@ -60,12 +55,14 @@ const BlockchainDropdown = ({ curvedBorders, size }) => {
 
 BlockchainDropdown.propTypes = {
   curvedBorders: propTypes.bool,
-  size: propTypes.string
+  size: propTypes.string,
+  tokens: propTypes.arrayOf(propTypes.object)
 };
 
 BlockchainDropdown.defaultProps = {
   curvedBorders: true,
-  size: 'small'
+  size: 'small',
+  tokens: []
 };
 
 export default BlockchainDropdown;
