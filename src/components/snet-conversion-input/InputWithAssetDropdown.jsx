@@ -26,14 +26,13 @@ InputWithAssetDropdown.propTypes = {
   tokenPairs: propTypes.arrayOf(propTypes.object),
   value: propTypes.objectOf(propTypes.object),
   handleSelect: propTypes.func.isRequired,
-  inputValue: propTypes.string,
+  inputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
   onInputChange: propTypes.func
 };
 
 InputWithAssetDropdown.defaultProps = {
   tokenPairs: [],
-  value: { id: '' },
-  inputValue: ''
+  value: { id: '' }
 };
 
 export default InputWithAssetDropdown;

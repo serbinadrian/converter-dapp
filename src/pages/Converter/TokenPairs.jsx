@@ -22,9 +22,9 @@ TokenPairs.propTypes = {
   fromBlockchains: propTypes.arrayOf(propTypes.object).isRequired,
   toBlockchains: propTypes.arrayOf(propTypes.object).isRequired,
   toInputChange: propTypes.func.isRequired,
-  toInputValue: propTypes.string.isRequired,
+  toInputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
   fromInputChange: propTypes.func.isRequired,
-  fromInputValue: propTypes.string.isRequired
+  fromInputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired
 };
 
 export default TokenPairs;

@@ -49,7 +49,7 @@ SnetConversionOptions.propTypes = {
   direction: propTypes.string.isRequired,
   blockchains: propTypes.arrayOf(propTypes.object),
   onInputChange: propTypes.func,
-  inputValue: propTypes.string
+  inputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired
 };
 
 SnetConversionOptions.defaultProps = {
