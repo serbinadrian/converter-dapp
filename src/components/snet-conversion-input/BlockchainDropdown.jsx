@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { Typography } from '@mui/material';
 import propTypes from 'prop-types';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -9,48 +9,27 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { styles, MenuProps } from './styles';
 
-const blockchains = [
-  { name: 'Ethereum', image: 'https://logos-world.net/wp-content/uploads/2020/12/Ethereum-Symbol.png' },
-  { name: 'Cardano', image: 'https://c.tenor.com/4hza808FnG4AAAAC/cardano-logo.gif' }
-];
-
-const BlockchainDropdown = ({ curvedBorders, size }) => {
-  const [blockchainName, setblockchainName] = useState([]);
-
-  const handleChange = (event) => {
-    const {
-      target: { value }
-    } = event;
-    setblockchainName(typeof value === 'string' ? value.split(',') : value);
-  };
-
+const BlockchainDropdown = ({ curvedBorders, size, tokens, value, handleSelect }) => {
   return (
     <FormControl sx={styles.formControl}>
       <Select
         size={size}
-        displayEmpty
-        value={blockchainName}
-        onChange={handleChange}
+        onChange={handleSelect}
         input={<OutlinedInput />}
+        value={value.id}
         renderValue={(selected) => {
-          return (
-            <div>
-              {selected.image}
-              <img width="40" src={selected.image} alt={selected.name} />
-              {selected}
-            </div>
-          );
+          return <Typography variant="body2">{selected.name || selected.symbol}</Typography>;
         }}
         MenuProps={MenuProps}
         inputProps={{ 'aria-label': 'blockchain-dropown' }}
         sx={curvedBorders ? styles.dropdownWithBorders : styles.dropdown}
       >
-        {blockchains.map((blockchain) => (
-          <MenuItem key={blockchain.name} value={blockchain.name}>
+        {tokens.map((token) => (
+          <MenuItem key={token.id} value={token}>
             <ListItemAvatar>
-              <Avatar sx={styles.avatar} alt={blockchain.name} src={blockchain.image} />
+              <Avatar sx={styles.avatar} alt={token.name} src={token.logo} />
             </ListItemAvatar>
-            <ListItemText>{blockchain.name}</ListItemText>
+            <ListItemText>{token.name || token.symbol}</ListItemText>
           </MenuItem>
         ))}
       </Select>
@@ -60,12 +39,17 @@ const BlockchainDropdown = ({ curvedBorders, size }) => {
 
 BlockchainDropdown.propTypes = {
   curvedBorders: propTypes.bool,
-  size: propTypes.string
+  size: propTypes.string,
+  value: propTypes.objectOf(propTypes.object),
+  tokens: propTypes.arrayOf(propTypes.object),
+  handleSelect: propTypes.func.isRequired
 };
 
 BlockchainDropdown.defaultProps = {
   curvedBorders: true,
-  size: 'small'
+  size: 'small',
+  tokens: [],
+  value: { id: '' }
 };
 
 export default BlockchainDropdown;

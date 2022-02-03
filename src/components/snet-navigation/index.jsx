@@ -14,6 +14,7 @@ const availableBlockchains = {
 
 const SnetNavigation = ({ blockchains }) => {
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
+  const [cardanoAddress, setCardanoAddress] = useState(null);
   const { account } = useWeb3React();
 
   const toggleWalletConnecting = () => {
@@ -30,9 +31,13 @@ const SnetNavigation = ({ blockchains }) => {
       return account;
     }
     if (blockchainName === availableBlockchains.CARDANO) {
-      return null;
+      return cardanoAddress;
     }
     return null;
+  };
+
+  const onSaveAddress = (address) => {
+    setCardanoAddress(address);
   };
 
   return (
@@ -47,6 +52,7 @@ const SnetNavigation = ({ blockchains }) => {
               blockChainConnectInfo={blockchain.description}
               isWalletAvailable={blockchain.is_extension_available}
               walletAddress={getWalletAddress(blockchain.name)}
+              onSaveAddress={onSaveAddress}
             />
           );
         })}

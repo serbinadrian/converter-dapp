@@ -8,3 +8,12 @@ export const getBlockchains = async () => {
     return [];
   }
 };
+
+export const getTokenPairs = async () => {
+  try {
+    const { data } = await axios.get('token/pair');
+    return data;
+  } catch (error) {
+    return [];
+  }
+};
