@@ -11,14 +11,14 @@ const ConverterForm = () => {
     // TODO: Implement conversion logic
   };
 
-  return (
+  return !isConversionDisabled ? (
     <SnetPaper>
       <TokenPairs fromBlockchains={fromTokenPairs} toBlockchains={toTokenPairs} />
       <Stack direction="row" alignItems="center" justifyContent="center" padding={4}>
         <SnetButton disabled={isConversionDisabled} name="Convert" onClick={onClickConvert} />
       </Stack>
     </SnetPaper>
-  );
+  ) : null;
 };
 
 export default ConverterForm;

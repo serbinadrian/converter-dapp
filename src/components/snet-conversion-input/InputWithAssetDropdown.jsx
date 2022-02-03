@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 import BlockchainDropdown from './BlockchainDropdown';
 import { styles } from './styles';
 
-const InputWithAssetDropdown = ({ tokenPairs, value }) => {
+const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect }) => {
   return (
     <TextField
       fullWidth
@@ -12,7 +12,7 @@ const InputWithAssetDropdown = ({ tokenPairs, value }) => {
       InputProps={{
         endAdornment: (
           <Box sx={styles.texfieldWithDropdown}>
-            <BlockchainDropdown value={value} size="medium" curvedBorders={false} tokens={tokenPairs} />
+            <BlockchainDropdown handleSelect={handleSelect} value={value} size="medium" curvedBorders={false} tokens={tokenPairs} />
           </Box>
         )
       }}
@@ -22,7 +22,8 @@ const InputWithAssetDropdown = ({ tokenPairs, value }) => {
 
 InputWithAssetDropdown.propTypes = {
   tokenPairs: propTypes.arrayOf(propTypes.object),
-  value: propTypes.objectOf(propTypes.object)
+  value: propTypes.objectOf(propTypes.object),
+  handleSelect: propTypes.func.isRequired
 };
 
 InputWithAssetDropdown.defaultProps = {

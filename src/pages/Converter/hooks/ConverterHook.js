@@ -8,7 +8,7 @@ const tokenPairDirection = {
 };
 
 export const useConverterHook = () => {
-  const [isConversionDisabled] = useState(true);
+  const [isConversionDisabled, setConversionDisabled] = useState(true);
   const [fromTokenPairs, setFromTokenPairs] = useState([]);
   const [toTokenPairs, setToTokenPairs] = useState([]);
   const state = useSelector((state) => state);
@@ -37,6 +37,7 @@ export const useConverterHook = () => {
       const toTokenPairs = getPairs(tokenPairDirection.TO).reverse();
       setFromTokenPairs(fromTokenPairs);
       setToTokenPairs(toTokenPairs);
+      setConversionDisabled(false);
     }
   }, [tokens]);
 
