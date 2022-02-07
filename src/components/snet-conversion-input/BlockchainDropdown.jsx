@@ -16,7 +16,7 @@ const BlockchainDropdown = ({ curvedBorders, size, tokens, value, handleSelect }
         size={size}
         onChange={handleSelect}
         input={<OutlinedInput />}
-        value={value.id}
+        value={value}
         renderValue={(selected) => {
           return <Typography variant="body2">{selected.name || selected.symbol}</Typography>;
         }}

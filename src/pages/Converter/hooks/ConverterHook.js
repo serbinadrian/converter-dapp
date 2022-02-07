@@ -8,7 +8,8 @@ const tokenPairDirection = {
 };
 
 export const useConverterHook = () => {
-  const [isConversionDisabled] = useState(true);
+  const [isConversionDisabled, setConversionDisabled] = useState(true);
+  const [fromAndToTokenValues, setFromAndToTokenPairs] = useState({ fromValue: 0, toValue: 0 });
   const [fromTokenPairs, setFromTokenPairs] = useState([]);
   const [toTokenPairs, setToTokenPairs] = useState([]);
   const state = useSelector((state) => state);
@@ -37,8 +38,19 @@ export const useConverterHook = () => {
       const toTokenPairs = getPairs(tokenPairDirection.TO).reverse();
       setFromTokenPairs(fromTokenPairs);
       setToTokenPairs(toTokenPairs);
+      setConversionDisabled(false);
     }
   }, [tokens]);
 
-  return { tokens, isConversionDisabled, fromTokenPairs, toTokenPairs, blockchains };
+  const handleFromInputChange = (event) => {
+    const { value } = event.target;
+    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: value });
+  };
+
+  const handleToInputChange = (event) => {
+    const { value } = event.target;
+    setFromAndToTokenPairs({ ...fromAndToTokenValues, toValue: value });
+  };
+
+  return { tokens, isConversionDisabled, fromTokenPairs, toTokenPairs, blockchains, handleFromInputChange, handleToInputChange, fromAndToTokenValues };
 };
