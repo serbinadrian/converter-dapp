@@ -8,6 +8,7 @@ import App from './App';
 import store from './services/redux';
 import reportWebVitals from './reportWebVitals';
 import theme from './assets/theme/theme';
+import './assets/theme/style.css';
 
 ReactDOM.render(
   <React.StrictMode>
