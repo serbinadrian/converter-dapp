@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Stack, Typography } from '@mui/material';
 import WalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import propTypes from 'prop-types';
@@ -7,7 +7,7 @@ import InputWithAssetDropdown from './InputWithAssetDropdown';
 import { styles } from './styles';
 
 const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputValue }) => {
-  const [selectedBlockchain, setSelectedBlockchain] = useState(blockchains[0]);
+  const [selectedBlockchain, setSelectedBlockchain] = useState([]);
   const [blockchainTokenPairs, setBlockchainTokenpairs] = useState([]);
   const [selectedToken, setSelectedToken] = useState({});
 
@@ -21,6 +21,14 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
     const token = event.target.value;
     setSelectedToken(token);
   };
+
+  useEffect(() => {
+    const [defaultBlockchain] = blockchains;
+    const [defaultTokenPair] = defaultBlockchain.pairs;
+    setSelectedBlockchain(defaultBlockchain);
+    setBlockchainTokenpairs(defaultBlockchain.pairs);
+    setSelectedToken(defaultTokenPair);
+  }, []);
 
   return (
     <>
