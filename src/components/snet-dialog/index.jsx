@@ -17,17 +17,19 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   }
 }));
 
-const SnetDialog = ({ isDialogOpen, onDialogClose, dialogTitle, children }) => {
+const SnetDialog = ({ isDialogOpen, onDialogClose, dialogTitle, children, showClosebutton }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <BootstrapDialog fullScreen={fullScreen} maxWidth="xl" onClose={onDialogClose} aria-labelledby="snet-dialog-title" open={isDialogOpen}>
-      <DialogTitle sx={dialogueStyle.dialogTitle}>
+      <DialogTitle sx={{ ...dialogueStyle.dialogTitle, textAlign: onDialogClose ? 'center' : 'left' }}>
         {dialogTitle}
-        <IconButton aria-label="close" onClick={onDialogClose} sx={dialogueStyle.iconButton}>
-          <CloseIcon />
-        </IconButton>
+        {showClosebutton ? (
+          <IconButton aria-label="close" onClick={onDialogClose} sx={dialogueStyle.iconButton}>
+            <CloseIcon />
+          </IconButton>
+        ) : null}
       </DialogTitle>
       <DialogContent dividers>{children}</DialogContent>
     </BootstrapDialog>
@@ -38,7 +40,12 @@ SnetDialog.propTypes = {
   isDialogOpen: propTypes.bool.isRequired,
   onDialogClose: propTypes.func.isRequired,
   dialogTitle: propTypes.string.isRequired,
-  children: propTypes.node.isRequired
+  children: propTypes.node.isRequired,
+  showClosebutton: propTypes.bool
+};
+
+SnetDialog.defaultProps = {
+  showClosebutton: true
 };
 
 export default SnetDialog;
