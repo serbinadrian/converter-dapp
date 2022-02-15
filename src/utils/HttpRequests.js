@@ -17,3 +17,21 @@ export const getTokenPairs = async () => {
     return [];
   }
 };
+
+export const generateConversionID = async (tokenPairdId, amount, signature, blockNumber, fromAddress, toAddress) => {
+  try {
+    const payload = {
+      amount,
+      signature,
+      token_pair_id: tokenPairdId,
+      block_number: blockNumber,
+      to_address: toAddress,
+      from_address: fromAddress
+    };
+    const { data } = await axios.post('conversion', payload);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
