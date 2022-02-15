@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import upperCase from 'lodash/upperCase';
-import { useWeb3React } from '@web3-react/core';
 import propTypes from 'prop-types';
+import store from 'store';
 
 import WalletNotConnectedMenu from './WalletNotConnectedMenu';
 import SnetDialog from '../snet-dialog';
 import SnetBlockchainList from '../snet-blockchains-list';
+import { useWalletHook } from '../snet-wallet-connector/walletHook';
 
 const availableBlockchains = {
   ETHEREUM: 'ETHEREUM',
@@ -15,7 +16,7 @@ const availableBlockchains = {
 const SnetNavigation = ({ blockchains }) => {
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
   const [cardanoAddress, setCardanoAddress] = useState(null);
-  const { account } = useWeb3React();
+  const { address, openWallet, disconnectWallet } = useWalletHook();
 
   const toggleWalletConnecting = () => {
     setIsWalletConnecting(!isWalletConnecting);
@@ -28,7 +29,7 @@ const SnetNavigation = ({ blockchains }) => {
   const getWalletAddress = (blockchain) => {
     const blockchainName = upperCase(blockchain);
     if (blockchainName === availableBlockchains.ETHEREUM) {
-      return account;
+      return address;
     }
     if (blockchainName === availableBlockchains.CARDANO) {
       return cardanoAddress;
@@ -36,8 +37,9 @@ const SnetNavigation = ({ blockchains }) => {
     return null;
   };
 
-  const onSaveAddress = (address) => {
+  const onSaveAddress = async (address) => {
     setCardanoAddress(address);
+    await store.set(availableBlockchains.CARDANO, address);
   };
 
   return (
@@ -53,6 +55,8 @@ const SnetNavigation = ({ blockchains }) => {
               isWalletAvailable={blockchain.is_extension_available}
               walletAddress={getWalletAddress(blockchain.name)}
               onSaveAddress={onSaveAddress}
+              openWallet={openWallet}
+              disconnectWallet={disconnectWallet}
             />
           );
         })}

@@ -23,7 +23,7 @@ const SnetDialog = ({ isDialogOpen, onDialogClose, dialogTitle, children, showCl
 
   return (
     <BootstrapDialog fullScreen={fullScreen} maxWidth="xl" onClose={onDialogClose} aria-labelledby="snet-dialog-title" open={isDialogOpen}>
-      <DialogTitle sx={{ ...dialogueStyle.dialogTitle, textAlign: onDialogClose ? 'center' : 'left' }}>
+      <DialogTitle sx={{ ...dialogueStyle.dialogTitle, textAlign: onDialogClose ? 'left' : 'center' }}>
         {dialogTitle}
         {showClosebutton ? (
           <IconButton aria-label="close" onClick={onDialogClose} sx={dialogueStyle.iconButton}>
