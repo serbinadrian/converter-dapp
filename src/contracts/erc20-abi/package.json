@@ -1,0 +1,49 @@
+{
+  "_args": [
+    [
+      "singularitynet-token-contracts@3.0.0",
+      "/home/adminuser/singnet/src/github.com/singnet/snet-daemon/resources/blockchain"
+    ]
+  ],
+  "_from": "singularitynet-token-contracts@3.0.0",
+  "_id": "singularitynet-token-contracts@3.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-f2auof9gSN8TQNPZkdN8GvKFqY6rQTgmIrPzRgKR3H5xZ9OO5RGAWxFDsaCmBFjQqL+9ba7AaPgEMdRJ6OHs9g==",
+  "_location": "/singularitynet-token-contracts",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "singularitynet-token-contracts@3.0.0",
+    "name": "singularitynet-token-contracts",
+    "escapedName": "singularitynet-token-contracts",
+    "rawSpec": "3.0.0",
+    "saveSpec": null,
+    "fetchSpec": "3.0.0"
+  },
+  "_requiredBy": [
+    "/",
+    "/singularitynet-platform-contracts"
+  ],
+  "_resolved": "https://registry.npmjs.org/singularitynet-token-contracts/-/singularitynet-token-contracts-3.0.0.tgz",
+  "_spec": "3.0.0",
+  "_where": "/home/adminuser/singnet/src/github.com/singnet/snet-daemon/resources/blockchain",
+  "author": {
+    "name": "SingularityNET"
+  },
+  "bugs": {
+    "url": "https://github.com/singnet/agix-contracts/issues"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.2.0"
+  },
+  "description": "Includes token contracts, migrations, tests",
+  "homepage": "https://github.com/singnet/agix-contracts#readme",
+  "license": "MIT",
+  "name": "singularitynet-token-contracts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/singnet/agix-contracts.git"
+  },
+  "version": "3.0.0"
+}
