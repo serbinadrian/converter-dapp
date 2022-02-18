@@ -11,7 +11,7 @@
     "cdk": "cdk",
     "build:app": "cd.. && yarn run build cd cdk",
     "synth": "cdk synth --all",
-    "deploy": "cdk deploy --all"
+    "deploy": "cdk deploy --all --require-approval never"
   },
   "devDependencies": {
     "@types/jest": "^26.0.10",
