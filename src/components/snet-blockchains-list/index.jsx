@@ -38,6 +38,10 @@ const BlockchainList = ({
     return !isNil(walletAddress) && !showInput;
   };
 
+  const onCopyAddress = (address) => {
+    navigator.clipboard.writeText(address);
+  };
+
   return (
     <Box sx={style.box} divider>
       <Grid spacing={2} container sx={style.grid} minWidth="0">
@@ -59,12 +63,12 @@ const BlockchainList = ({
         <Grid item sm={isWalletAddressAvailable() ? 6 : 4}>
           {isWalletAddressAvailable() ? (
             <WalletAddressInfo
+              onCopyAddress={() => onCopyAddress(walletAddress)}
               onDisconnect={() => {
-                if (isWalletAvailable) {
-                  disconnectWallet();
-                } else {
+                if (!isWalletAvailable) {
                   showOrHideInput();
                 }
+                disconnectWallet();
               }}
               onEdit={showOrHideInput}
               walletAddress={walletAddress}

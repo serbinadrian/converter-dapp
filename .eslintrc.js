@@ -15,7 +15,9 @@ module.exports = {
   rules: {
     'no-shadow': 'warn',
     'import/prefer-default-export': 'warn',
+    'react/forbid-prop-types': 'warn',
     'no-param-reassign': 'warn',
+    'import/no-relative-packages': 'off',
     'import/no-unresolved': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',

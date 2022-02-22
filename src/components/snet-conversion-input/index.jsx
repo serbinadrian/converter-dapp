@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Stack, Typography } from '@mui/material';
+import { toUpper } from 'lodash';
 import WalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import propTypes from 'prop-types';
 import BlockchainDropdown from './BlockchainDropdown';
@@ -10,6 +12,10 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
   const [selectedBlockchain, setSelectedBlockchain] = useState([]);
   const [blockchainTokenPairs, setBlockchainTokenpairs] = useState([]);
   const [selectedToken, setSelectedToken] = useState({});
+  const [walletAddress, setWalletAddress] = useState(undefined);
+
+  const state = useSelector((state) => state);
+  const { wallets } = state.wallet;
 
   const onSelectBlockchain = (event) => {
     const blockchain = event.target.value;
@@ -21,6 +27,17 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
     const token = event.target.value;
     setSelectedToken(token);
   };
+
+  const getAddressByBlockchain = (blockchainName) => {
+    if (blockchainName.length > 0) {
+      const [address] = wallets.filter((wallet) => wallet[blockchainName]);
+      setWalletAddress(address[blockchainName]);
+    }
+  };
+
+  useEffect(() => {
+    getAddressByBlockchain(toUpper(selectedBlockchain.name));
+  }, [wallets]);
 
   useEffect(() => {
     const [defaultBlockchain] = blockchains;
@@ -39,7 +56,11 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
         </Stack>
         <Stack spacing={1} direction="row" alignItems="center">
           <WalletIcon color="grey" sx={styles.walletIconSize} />
-          <Typography sx={styles.walletNotSelected}>Wallet Not Selected</Typography>
+          {walletAddress ? (
+            <Typography sx={styles.walletNotSelected}>{walletAddress}</Typography>
+          ) : (
+            <Typography sx={styles.walletNotSelected}>Wallet Not Selected</Typography>
+          )}
         </Stack>
       </Stack>
       <InputWithAssetDropdown
