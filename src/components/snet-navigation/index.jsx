@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import upperCase from 'lodash/upperCase';
 import propTypes from 'prop-types';
-import { Divider, Box, Typography } from '@mui/material';
+import { Divider, Box, Typography, Link } from '@mui/material';
 import isNil from 'lodash/isNil';
 import store from 'store';
 
@@ -13,7 +13,6 @@ import SnetBlockchainList from '../snet-blockchains-list';
 import { useWalletHook } from '../snet-wallet-connector/walletHook';
 import SnetSnackbar from '../snet-snackbar';
 import SnetButton from '../snet-button';
-import { generateConversionID } from '../../utils/HttpRequests';
 import { setSignature, setWallets } from '../../services/redux/slices/wallet/walletSlice';
 
 const availableBlockchains = {
@@ -26,7 +25,7 @@ const SnetNavigation = ({ blockchains }) => {
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
   const [cardanoAddress, setCardanoAddress] = useState(null);
   const [error, setError] = useState({ showError: false, message: '' });
-  const { address, openWallet, disconnectWallet, signMessage, getLatestBlock } = useWalletHook();
+  const { address, openWallet, disconnectWallet, signMessage } = useWalletHook();
   const state = useSelector((state) => state);
   const { tokens } = state.tokenPairs;
   const { wallets } = state.wallet;
@@ -69,6 +68,10 @@ const SnetNavigation = ({ blockchains }) => {
     return null;
   };
 
+  const getWalletPairs = () => {
+    return [{ [availableBlockchains.CARDANO]: cardanoAddress }, { [availableBlockchains.ETHEREUM]: address }];
+  };
+
   const onSaveAddress = async (address) => {
     setCardanoAddress(address);
     await store.set(availableBlockchains.CARDANO, address);
@@ -84,9 +87,6 @@ const SnetNavigation = ({ blockchains }) => {
       store.remove(availableBlockchains.CARDANO);
     }
   };
-  const getWalletPairs = () => {
-    return [{ [availableBlockchains.CARDANO]: cardanoAddress }, { [availableBlockchains.ETHEREUM]: address }];
-  };
 
   const getSignatureFromWallet = async () => {
     try {
@@ -95,8 +95,6 @@ const SnetNavigation = ({ blockchains }) => {
       const tokenPairdId = pair.id;
       const amountToLock = 1;
       const signature = await signMessage(tokenPairdId, amountToLock, address, cardanoAddress);
-      const blockNumber = await getLatestBlock();
-      await generateConversionID(tokenPairdId, amountToLock, signature, blockNumber, address, cardanoAddress);
 
       dispatch(setWallets(getWalletPairs()));
       dispatch(setSignature(signature));
@@ -116,7 +114,7 @@ const SnetNavigation = ({ blockchains }) => {
   return (
     <>
       <SnetSnackbar open={error.showError} message={error.message} onClose={closeError} />
-      <SnetDialog dialogTitle="Connect Wallets" onDialogClose={toggleWalletConnecting} isDialogOpen={isWalletConnecting}>
+      <SnetDialog title="Connect Wallets" onDialogClose={toggleWalletConnecting} isDialogOpen={isWalletConnecting}>
         {blockchains.map((blockchain) => {
           return (
             <SnetBlockchainList
@@ -135,7 +133,7 @@ const SnetNavigation = ({ blockchains }) => {
         <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
         <Box display="flex" justifyContent="end" alignItems="center">
           <Typography variant="caption" marginRight={2}>
-            By connecting a wallet, you agree to our Terms & Conditions
+            By connecting to the wallets, you agree to our <Link href="#terms">Terms & Conditions</Link>
           </Typography>
           <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree & Sign" />
         </Box>

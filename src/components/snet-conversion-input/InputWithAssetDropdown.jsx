@@ -4,9 +4,10 @@ import propTypes from 'prop-types';
 import BlockchainDropdown from './BlockchainDropdown';
 import { styles } from './styles';
 
-const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange }) => {
+const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange, readOnly }) => {
   return (
     <TextField
+      disabled={readOnly}
       fullWidth
       value={inputValue}
       onChange={onInputChange}
@@ -24,10 +25,11 @@ const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, o
 
 InputWithAssetDropdown.propTypes = {
   tokenPairs: propTypes.arrayOf(propTypes.object),
-  value: propTypes.objectOf(propTypes.object),
+  value: propTypes.any,
   handleSelect: propTypes.func.isRequired,
   inputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
-  onInputChange: propTypes.func
+  onInputChange: propTypes.func,
+  readOnly: propTypes.bool.isRequired
 };
 
 InputWithAssetDropdown.defaultProps = {
