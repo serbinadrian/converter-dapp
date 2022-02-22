@@ -40,7 +40,7 @@ const BlockchainDropdown = ({ curvedBorders, size, tokens, value, handleSelect }
 BlockchainDropdown.propTypes = {
   curvedBorders: propTypes.bool,
   size: propTypes.string,
-  value: propTypes.objectOf(propTypes.object),
+  value: propTypes.any,
   tokens: propTypes.arrayOf(propTypes.object),
   handleSelect: propTypes.func.isRequired
 };

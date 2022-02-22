@@ -8,7 +8,7 @@ import BlockchainDropdown from './BlockchainDropdown';
 import InputWithAssetDropdown from './InputWithAssetDropdown';
 import { styles } from './styles';
 
-const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputValue }) => {
+const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken }) => {
   const [selectedBlockchain, setSelectedBlockchain] = useState([]);
   const [blockchainTokenPairs, setBlockchainTokenpairs] = useState([]);
   const [selectedToken, setSelectedToken] = useState({});
@@ -26,6 +26,7 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
   const onSelectToken = (event) => {
     const token = event.target.value;
     setSelectedToken(token);
+    handleSelectToken(token);
   };
 
   const getAddressByBlockchain = (blockchainName) => {
@@ -45,6 +46,7 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
     setSelectedBlockchain(defaultBlockchain);
     setBlockchainTokenpairs(defaultBlockchain.pairs);
     setSelectedToken(defaultTokenPair);
+    handleSelectToken(defaultTokenPair);
   }, []);
 
   return (
@@ -64,6 +66,7 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
         </Stack>
       </Stack>
       <InputWithAssetDropdown
+        readOnly={readOnly}
         onInputChange={onInputChange}
         inputValue={inputValue}
         value={selectedToken}
@@ -78,11 +81,14 @@ SnetConversionOptions.propTypes = {
   direction: propTypes.string.isRequired,
   blockchains: propTypes.arrayOf(propTypes.object),
   onInputChange: propTypes.func,
-  inputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired
+  inputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
+  readOnly: propTypes.bool,
+  handleSelectToken: propTypes.func.isRequired
 };
 
 SnetConversionOptions.defaultProps = {
-  blockchains: []
+  blockchains: [],
+  readOnly: false
 };
 
 export default SnetConversionOptions;
