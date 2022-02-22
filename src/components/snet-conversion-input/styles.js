@@ -29,7 +29,7 @@ const styles = {
     padding: 1.6,
     paddingRight: 0
   },
-  walletNotSelected: { fontSize: '12px' },
+  walletNotSelected: { fontSize: '12px', textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: '200px' },
   walletIconSize: { fontSize: '20px' },
   avatar: { width: 25, height: 25 }
 };
