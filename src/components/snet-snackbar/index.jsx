@@ -1,15 +1,22 @@
+import { useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
-import Slide from '@mui/material/Slide';
 import propTypes from 'prop-types';
 
-const SnetSnackbar = ({ open, onClose, key, message }) => {
-  return <Snackbar open={open} onClose={onClose} TransitionComponent={<Slide direction="up" />} message={message} key={key} />;
+const SnetSnackbar = ({ open, onClose, message }) => {
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => {
+        onClose();
+      }, 6000);
+    }
+  }, []);
+
+  return <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={open} autoHideDuration={6000} onClose={onClose} message={message} />;
 };
 
 SnetSnackbar.propTypes = {
   open: propTypes.bool.isRequired,
   onClose: propTypes.func.isRequired,
-  key: propTypes.string.isRequired,
   message: propTypes.string.isRequired
 };
 
