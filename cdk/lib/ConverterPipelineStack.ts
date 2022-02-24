@@ -82,13 +82,13 @@ export class ConverterPipeLineStack extends cdk.Stack {
           },
           behaviors: [{ isDefaultBehavior: true }]
         }
-      ]
+      ],
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
     });
 
     new deploy.BucketDeployment(this, `${environment}-converter-dapp-deployment`, {
       sources: [deploy.Source.asset('../build')],
       destinationBucket: siteBucket,
-      destinationKeyPrefix: `${environment}-converter-dapp`,
       distribution: siteDistribution,
       distributionPaths: ['/*']
     });
