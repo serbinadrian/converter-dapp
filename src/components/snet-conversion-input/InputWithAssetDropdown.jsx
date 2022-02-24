@@ -9,6 +9,7 @@ const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, o
     <TextField
       disabled={readOnly}
       fullWidth
+      type="number"
       value={inputValue}
       onChange={onInputChange}
       size="small"
