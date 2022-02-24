@@ -15,7 +15,10 @@ const TokenPairs = ({
   fromInputChange,
   fromInputValue,
   onSelectingFromToken,
-  onSelectingToToken
+  onSelectingToToken,
+  balance,
+  tokenSymbol,
+  onUseFullamount
 }) => {
   return (
     <>
@@ -28,8 +31,10 @@ const TokenPairs = ({
       />
       {showFetchAmountFromWallet ? (
         <Box display="flex" alignItems="center" marginTop={1}>
-          <Typography fontSize="12px">Balance: 40 AGIX</Typography>
-          <Button sx={{ fontSize: '12px', marginLeft: '12px' }} size="small" variant="text">
+          <Typography fontSize="12px">
+            Balance: {balance} {tokenSymbol}
+          </Typography>
+          <Button onClick={onUseFullamount} sx={{ fontSize: '12px', marginLeft: '12px' }} size="small" variant="text">
             USE FULL AMOUNT
           </Button>
         </Box>
@@ -61,7 +66,15 @@ TokenPairs.propTypes = {
   onSwapPairs: propTypes.func.isRequired,
   showFetchAmountFromWallet: propTypes.bool.isRequired,
   onSelectingToToken: propTypes.func.isRequired,
-  onSelectingFromToken: propTypes.func.isRequired
+  onSelectingFromToken: propTypes.func.isRequired,
+  onUseFullamount: propTypes.func,
+  balance: propTypes.oneOfType([propTypes.string, propTypes.number]),
+  tokenSymbol: propTypes.string
+};
+
+TokenPairs.defaultProps = {
+  balance: 0,
+  tokenSymbol: ''
 };
 
 export default TokenPairs;
