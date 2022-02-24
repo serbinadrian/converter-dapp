@@ -53,7 +53,8 @@ export const useConverterHook = () => {
   }, [tokens]);
 
   const setWalletAmount = (amount) => {
-    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: amount, toValue: amount });
+    const amountInString = amount.toString();
+    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: amountInString, toValue: amountInString });
   };
 
   const handleFromInputChange = (event) => {
@@ -91,11 +92,17 @@ export const useConverterHook = () => {
   };
 
   const onSelectingFromToken = (pair) => {
-    setFromAndToTokenPair({ ...fromAndToTokenPair, fromPair: pair });
+    const [selectedPair] = tokens.filter((token) => {
+      return token.from_token.id === pair.id;
+    });
+    setFromAndToTokenPair({ toTokenPair: selectedPair.to_token, fromPair: pair });
   };
 
   const onSelectingToToken = (pair) => {
-    setFromAndToTokenPair({ ...fromAndToTokenPair, toTokenPair: pair });
+    const [selectedPair] = tokens.filter((token) => {
+      return token.to_token.id === pair.id;
+    });
+    setFromAndToTokenPair({ fromPair: selectedPair.from_token, toTokenPair: pair });
   };
 
   useEffect(() => {

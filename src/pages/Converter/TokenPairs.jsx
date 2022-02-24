@@ -18,11 +18,14 @@ const TokenPairs = ({
   onSelectingToToken,
   balance,
   tokenSymbol,
-  onUseFullamount
+  onUseFullamount,
+  fromTokenPair,
+  toTokenPair
 }) => {
   return (
     <>
       <SnetConversionOptions
+        tokenPair={fromTokenPair}
         handleSelectToken={onSelectingFromToken}
         blockchains={fromBlockchains}
         onInputChange={fromInputChange}
@@ -45,6 +48,7 @@ const TokenPairs = ({
         </Fab>
       </Stack>
       <SnetConversionOptions
+        tokenPair={toTokenPair}
         handleSelectToken={onSelectingToToken}
         readOnly
         blockchains={toBlockchains}
@@ -69,7 +73,9 @@ TokenPairs.propTypes = {
   onSelectingFromToken: propTypes.func.isRequired,
   onUseFullamount: propTypes.func,
   balance: propTypes.oneOfType([propTypes.string, propTypes.number]),
-  tokenSymbol: propTypes.string
+  tokenSymbol: propTypes.string,
+  fromTokenPair: propTypes.object,
+  toTokenPair: propTypes.object
 };
 
 TokenPairs.defaultProps = {
