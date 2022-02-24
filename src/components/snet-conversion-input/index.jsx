@@ -8,10 +8,9 @@ import BlockchainDropdown from './BlockchainDropdown';
 import InputWithAssetDropdown from './InputWithAssetDropdown';
 import { styles } from './styles';
 
-const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken }) => {
+const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken }) => {
   const [selectedBlockchain, setSelectedBlockchain] = useState([]);
   const [blockchainTokenPairs, setBlockchainTokenpairs] = useState([]);
-  const [selectedToken, setSelectedToken] = useState({});
   const [walletAddress, setWalletAddress] = useState(undefined);
 
   const state = useSelector((state) => state);
@@ -25,7 +24,6 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
 
   const onSelectToken = (event) => {
     const token = event.target.value;
-    setSelectedToken(token);
     handleSelectToken(token);
   };
 
@@ -45,7 +43,6 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
     const [defaultTokenPair] = defaultBlockchain.pairs;
     setSelectedBlockchain(defaultBlockchain);
     setBlockchainTokenpairs(defaultBlockchain.pairs);
-    setSelectedToken(defaultTokenPair);
     handleSelectToken(defaultTokenPair);
   }, []);
 
@@ -69,7 +66,7 @@ const SnetConversionOptions = ({ direction, blockchains, onInputChange, inputVal
         readOnly={readOnly}
         onInputChange={onInputChange}
         inputValue={inputValue}
-        value={selectedToken}
+        value={tokenPair}
         handleSelect={onSelectToken}
         tokenPairs={blockchainTokenPairs}
       />
@@ -83,7 +80,8 @@ SnetConversionOptions.propTypes = {
   onInputChange: propTypes.func,
   inputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
   readOnly: propTypes.bool,
-  handleSelectToken: propTypes.func.isRequired
+  handleSelectToken: propTypes.func.isRequired,
+  tokenPair: propTypes.object
 };
 
 SnetConversionOptions.defaultProps = {

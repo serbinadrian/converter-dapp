@@ -13,7 +13,7 @@ import SnetBlockchainList from '../snet-blockchains-list';
 import { useWalletHook } from '../snet-wallet-connector/walletHook';
 import SnetSnackbar from '../snet-snackbar';
 import SnetButton from '../snet-button';
-import { setSignature, setWallets } from '../../services/redux/slices/wallet/walletSlice';
+import { setWallets } from '../../services/redux/slices/wallet/walletSlice';
 
 const availableBlockchains = {
   ETHEREUM: 'ETHEREUM',
@@ -25,9 +25,8 @@ const SnetNavigation = ({ blockchains }) => {
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
   const [cardanoAddress, setCardanoAddress] = useState(null);
   const [error, setError] = useState({ showError: false, message: '' });
-  const { address, openWallet, disconnectWallet, signMessage } = useWalletHook();
+  const { address, openWallet, disconnectWallet } = useWalletHook();
   const state = useSelector((state) => state);
-  const { tokens } = state.tokenPairs;
   const { wallets } = state.wallet;
 
   const dispatch = useDispatch();
@@ -90,20 +89,11 @@ const SnetNavigation = ({ blockchains }) => {
 
   const getSignatureFromWallet = async () => {
     try {
-      setEnableAgreeButton(false);
-      const [pair] = tokens;
-      const tokenPairdId = pair.id;
-      const amountToLock = 1;
-      const signature = await signMessage(tokenPairdId, amountToLock, address, cardanoAddress);
-
       dispatch(setWallets(getWalletPairs()));
-      dispatch(setSignature(signature));
       toggleWalletConnecting();
     } catch (e) {
       const message = e.message.toString() ?? e.toString();
       setError({ showError: true, message });
-    } finally {
-      setEnableAgreeButton(true);
     }
   };
 
@@ -135,7 +125,7 @@ const SnetNavigation = ({ blockchains }) => {
           <Typography variant="caption" marginRight={2}>
             By connecting to the wallets, you agree to our <Link href="#terms">Terms & Conditions</Link>
           </Typography>
-          <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree & Sign" />
+          <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree" />
         </Box>
       </SnetDialog>
       {wallets.length > 0 ? (

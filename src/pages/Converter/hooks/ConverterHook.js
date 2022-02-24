@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty, round } from 'lodash';
+import BigNumber from 'bignumber.js';
 import { getAvailableTokenPairs } from '../../../services/redux/slices/tokenPairs/tokenPairActions';
 
 const tokenPairDirection = {
@@ -15,10 +16,11 @@ export const useConverterHook = () => {
   const [toTokenPairs, setToTokenPairs] = useState([]);
   const [fromAndToTokenPair, setFromAndToTokenPair] = useState({ fromPair: {}, toTokenPair: {} });
   const [conversionCharge, setConversionCharge] = useState({ symbol: '', amount: 0 });
-  const [pairId, setPairdId] = useState({});
+  const [tokenPair, setTokenPair] = useState({});
   const state = useSelector((state) => state);
   const blockchains = state.blockchains.entities;
   const { tokens } = state.tokenPairs;
+  const { wallets } = state.wallet;
 
   const dispatch = useDispatch();
 
@@ -50,6 +52,11 @@ export const useConverterHook = () => {
     }
   }, [tokens]);
 
+  const setWalletAmount = (amount) => {
+    const amountInString = amount.toString();
+    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: amountInString, toValue: amountInString });
+  };
+
   const handleFromInputChange = (event) => {
     const { value } = event.target;
     setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: value, toValue: value });
@@ -62,10 +69,13 @@ export const useConverterHook = () => {
 
   const updateConversionFees = () => {
     const { fromValue } = fromAndToTokenValues;
-    if (fromValue > 0 && !isEmpty(pairId.conversion_fee)) {
-      const percentageFromSource = Number(pairId.conversion_fee.percentage_from_source);
+    if (fromValue > 0 && !isEmpty(tokenPair)) {
+      let percentageFromSource = 0;
+      if (!isEmpty(tokenPair.conversion_fee)) {
+        percentageFromSource = BigNumber(tokenPair.conversion_fee.percentage_from_source);
+      }
 
-      const { symbol } = pairId.from_token;
+      const { symbol } = tokenPair.from_token;
 
       const fee = round((percentageFromSource * fromValue) / 100, 2);
 
@@ -78,15 +88,21 @@ export const useConverterHook = () => {
       return token.from_token.id === fromAndToTokenPair.fromPair.id && token.to_token.id === fromAndToTokenPair.toTokenPair.id;
     });
 
-    setPairdId(selectedPair);
+    setTokenPair(selectedPair);
   };
 
   const onSelectingFromToken = (pair) => {
-    setFromAndToTokenPair({ ...fromAndToTokenPair, fromPair: pair });
+    const [selectedPair] = tokens.filter((token) => {
+      return token.from_token.id === pair.id;
+    });
+    setFromAndToTokenPair({ toTokenPair: selectedPair.to_token, fromPair: pair });
   };
 
   const onSelectingToToken = (pair) => {
-    setFromAndToTokenPair({ ...fromAndToTokenPair, toTokenPair: pair });
+    const [selectedPair] = tokens.filter((token) => {
+      return token.to_token.id === pair.id;
+    });
+    setFromAndToTokenPair({ fromPair: selectedPair.from_token, toTokenPair: pair });
   };
 
   useEffect(() => {
@@ -99,10 +115,15 @@ export const useConverterHook = () => {
     }
   }, [fromAndToTokenPair]);
 
+  const getAddress = (blockchain) => {
+    const [address] = wallets.filter((wallet) => wallet[blockchain]);
+    return address[blockchain] ?? '';
+  };
+
   const swapPairs = () => {};
 
   return {
-    pairId,
+    tokenPair,
     tokens,
     isConversionDisabled,
     fromTokenPairs,
@@ -115,6 +136,8 @@ export const useConverterHook = () => {
     onSelectingFromToken,
     onSelectingToToken,
     fromAndToTokenPair,
-    conversionCharge
+    conversionCharge,
+    setWalletAmount,
+    getAddress
   };
 };
