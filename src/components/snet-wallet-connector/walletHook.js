@@ -104,12 +104,11 @@ export const useWalletHook = () => {
   };
 
   const convertToCogs = (amount, decimals) => {
-    const amountInCogs = new BigNumber(amount).times(10 ** decimals);
-    return amountInCogs.toString();
+    return new BigNumber(amount).times(10 ** decimals).toFixed();
   };
 
   const convertAsReadableAmount = (balanceInCogs, decimals) => {
-    const rawbalance = new BigNumber(balanceInCogs).dividedBy(new BigNumber(10 ** decimals));
+    const rawbalance = new BigNumber(balanceInCogs).dividedBy(new BigNumber(10 ** decimals)).toFixed();
     return round(rawbalance, 2);
   };
 
@@ -128,11 +127,13 @@ export const useWalletHook = () => {
   };
 
   const approveSpender = async (tokenContractAddress, spenderAddress) => {
-    const limitInCogs = new BigNumber(1000000).multipliedBy(new BigNumber(10 ** 8));
+    const limitInCogs = new BigNumber(100000000).multipliedBy(new BigNumber(10 ** 8)).toFixed();
+    console.log('limitincogs', limitInCogs);
+    console.log('tokenContractAddress', tokenContractAddress);
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
     const estimateGasPrice = await contract.methods.approve(spenderAddress, limitInCogs).estimateGas({ from: address });
     console.log('approveSpender estimateGasPrice', estimateGasPrice);
-    contract.methods
+    const response = await contract.methods
       .approve(spenderAddress, limitInCogs)
       .send({ from: address, gasPrice: estimateGasPrice })
       .on('transactionHash', (hash) => {
@@ -142,6 +143,7 @@ export const useWalletHook = () => {
         console.log('approveSpender error', error.toString());
         console.log('approveSpender error receipt', receipt.toString());
       });
+    return response;
   };
 
   const checkAllowance = async (tokenContractAddress, walletAddress, spenderAddress) => {
@@ -166,7 +168,7 @@ export const useWalletHook = () => {
     const gasPrice = await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
     console.log('gasLimit - ', gasPrice);
 
-    contract.methods
+    const response = await contract.methods
       .conversionOut(amount, hexifiedConsversionId, v, r, s)
       .send({ from: address, gasPrice: gasPrice * 2 })
       .on('transactionHash', (hash) => {
@@ -176,6 +178,7 @@ export const useWalletHook = () => {
         console.log('conversionOut error', error.toString());
         console.log('conversionOut error receipt', receipt.toString());
       });
+    return response;
   };
 
   return {
