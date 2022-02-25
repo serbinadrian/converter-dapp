@@ -127,7 +127,7 @@ export const useWalletHook = () => {
   };
 
   const approveSpender = async (tokenContractAddress, spenderAddress) => {
-    const limitInCogs = new BigNumber(100000000).multipliedBy(new BigNumber(10 ** 8)).toFixed();
+    const limitInCogs = convertToCogs(100000000, 8);
     console.log('limitincogs', limitInCogs);
     console.log('tokenContractAddress', tokenContractAddress);
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
