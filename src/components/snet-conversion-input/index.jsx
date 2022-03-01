@@ -8,7 +8,7 @@ import BlockchainDropdown from './BlockchainDropdown';
 import InputWithAssetDropdown from './InputWithAssetDropdown';
 import { styles } from './styles';
 
-const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken ,id}) => {
+const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken, id }) => {
   const [selectedBlockchain, setSelectedBlockchain] = useState([]);
   const [blockchainTokenPairs, setBlockchainTokenpairs] = useState([]);
   const [walletAddress, setWalletAddress] = useState(undefined);
@@ -51,7 +51,9 @@ const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChang
       <Stack spacing={1} direction="row" alignItems="center" marginBottom={2} justifyContent="space-between" id={`conversion-direction-${id}`}>
         <Stack spacing={1} direction="row" alignItems="center">
           <Typography variant="body2">{direction}</Typography>
-          {blockchains ? <BlockchainDropdown value={selectedBlockchain} handleSelect={onSelectBlockchain} tokens={blockchains} id="snet-conversion-input" /> : null}
+          {blockchains ? (
+            <BlockchainDropdown value={selectedBlockchain} handleSelect={onSelectBlockchain} tokens={blockchains} id="snet-conversion-input" />
+          ) : null}
         </Stack>
         <Stack spacing={1} direction="row" alignItems="center">
           <WalletIcon color="grey" sx={styles.walletIconSize} />
@@ -82,7 +84,7 @@ SnetConversionOptions.propTypes = {
   readOnly: propTypes.bool,
   handleSelectToken: propTypes.func.isRequired,
   tokenPair: propTypes.object,
-  id:propTypes.string.isRequired
+  id: propTypes.string.isRequired
 };
 
 SnetConversionOptions.defaultProps = {
