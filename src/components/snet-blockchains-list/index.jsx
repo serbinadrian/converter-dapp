@@ -43,7 +43,7 @@ const BlockchainList = ({
   };
 
   return (
-    <Box sx={style.box} divider id={snet-blockchains-list-box-1}>
+    <Box sx={style.box} divider id="snet-blockchains-list-box-1">
       <Grid spacing={2} container sx={style.grid} minWidth="0">
         <Grid item sm={isWalletAddressAvailable() ? 6 : 4} sx={style.flex}>
           <Avatar alt={blockchain} src={blockchainLogo} />
