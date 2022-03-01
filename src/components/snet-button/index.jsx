@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const SnetButton = ({ name, onClick, variant, disabled }) => {
   return (
-    <Button disabled={disabled} onClick={onClick} variant={variant} color="primary">
+    <Button disabled={disabled} onClick={onClick} variant={variant} color="primary" id = {`snet-button-${name}`}>
       {name}
     </Button>
   );

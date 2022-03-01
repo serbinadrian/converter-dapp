@@ -11,7 +11,7 @@ import { styles, MenuProps } from './styles';
 
 const BlockchainDropdown = ({ curvedBorders, size, tokens, value, handleSelect }) => {
   return (
-    <FormControl sx={styles.formControl}>
+    <FormControl sx={styles.formControl} id = "blockchain_dropdown">
       <Select
         size={size}
         onChange={handleSelect}

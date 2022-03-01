@@ -7,6 +7,7 @@ import { styles } from './styles';
 const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange, readOnly }) => {
   return (
     <TextField
+      id = "snet-conversion-input-textfield"
       disabled={readOnly}
       fullWidth
       type="number"
