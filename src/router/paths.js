@@ -1,7 +1,7 @@
 const Paths = {
   Converter: '/',
-  ContactUs: 'contact-us',
-  Transactions: 'transactions/:pairId',
+  ContactUs: '/contact-us',
+  Transactions: '/transactions',
   NotFound: '*'
 };
 

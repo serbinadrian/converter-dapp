@@ -1,5 +1,6 @@
 import AppBar from '@mui/material/AppBar';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -7,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import snetBlackLogo from '../../assets/images/singnet_black_logo.svg';
 import useMenubarStyles from './style';
+import Paths from '../../router/paths';
 
 const WalletConnectedMenu = ({ openConnectedWallets }) => {
   const classes = useMenubarStyles();
@@ -16,9 +18,21 @@ const WalletConnectedMenu = ({ openConnectedWallets }) => {
   return (
     <AppBar position="static" color="white" sx={{ padding: 2 }}>
       <Box className={classes.items}>
-        <Box className={classes.flex}>
-          <img src={snetBlackLogo} alt="SingNet Logo" className={classes.logo} />
-          <Typography variant="h6">Bridge</Typography>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Box className={classes.flex}>
+            <img src={snetBlackLogo} alt="SingNet Logo" className={classes.logo} />
+            <Typography variant="h6">Bridge</Typography>
+          </Box>
+          <Box display="flex" marginLeft={12}>
+            <Link to={Paths.Converter}>
+              <Typography variant="body2" marginRight={6}>
+                Home
+              </Typography>
+            </Link>
+            <Link to={Paths.Transactions}>
+              <Typography variant="body2">Transactions</Typography>
+            </Link>
+          </Box>
         </Box>
         <Box onClick={openConnectedWallets} className={classes.flex} sx={{ cursor: 'pointer' }}>
           <IconButton>

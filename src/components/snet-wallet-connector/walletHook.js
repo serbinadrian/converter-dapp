@@ -146,6 +146,12 @@ export const useWalletHook = () => {
     return response;
   };
 
+  const estimateGasFee = async (estimate) => {
+    const latestBlock = await web3.eth.getBlock('latest');
+    const blockGas = latestBlock.gasLimit;
+    return new BigNumber(blockGas).multipliedBy(estimate).dividedBy(3).toFixed();
+  };
+
   const checkAllowance = async (tokenContractAddress, walletAddress, spenderAddress) => {
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
     const allowanceInCogs = await contract.methods.allowance(walletAddress, spenderAddress).call();
@@ -166,11 +172,12 @@ export const useWalletHook = () => {
     console.log('amountToLock', amount);
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
     const gasPrice = await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
-    console.log('gasLimit - ', gasPrice);
+    const estimatedFees = await estimateGasFee(gasPrice);
+    console.log('estimatedFees', estimatedFees);
 
     const response = await contract.methods
       .conversionOut(amount, hexifiedConsversionId, v, r, s)
-      .send({ from: address, gasPrice: gasPrice * 2 })
+      .send({ from: address, gasPrice: estimatedFees })
       .on('transactionHash', (hash) => {
         console.log('transactionHash', hash);
       })
