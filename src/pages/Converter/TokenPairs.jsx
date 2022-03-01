@@ -31,6 +31,7 @@ const TokenPairs = ({
         onInputChange={fromInputChange}
         inputValue={fromInputValue}
         direction="FROM"
+        id = "from"
       />
       {showFetchAmountFromWallet ? (
         <Box display="flex" alignItems="center" marginTop={1}>
@@ -55,6 +56,7 @@ const TokenPairs = ({
         onInputChange={toInputChange}
         inputValue={toInputValue}
         direction="TO"
+        id = "to"
       />
     </>
   );
