@@ -48,10 +48,10 @@ const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChang
 
   return (
     <>
-      <Stack spacing={1} direction="row" alignItems="center" marginBottom={2} justifyContent="space-between" id ={`conversion-direction-${id}`}>
+      <Stack spacing={1} direction="row" alignItems="center" marginBottom={2} justifyContent="space-between" id={`conversion-direction-${id}`}>
         <Stack spacing={1} direction="row" alignItems="center">
           <Typography variant="body2">{direction}</Typography>
-          {blockchains ? <BlockchainDropdown value={selectedBlockchain} handleSelect={onSelectBlockchain} tokens={blockchains} id = "snet-conversion-input" /> : null}
+          {blockchains ? <BlockchainDropdown value={selectedBlockchain} handleSelect={onSelectBlockchain} tokens={blockchains} id="snet-conversion-input" /> : null}
         </Stack>
         <Stack spacing={1} direction="row" alignItems="center">
           <WalletIcon color="grey" sx={styles.walletIconSize} />

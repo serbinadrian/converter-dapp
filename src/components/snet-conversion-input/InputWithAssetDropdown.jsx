@@ -7,7 +7,7 @@ import { styles } from './styles';
 const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange, readOnly }) => {
   return (
     <TextField
-      id = "snet-conversion-input-textfield"
+      id="snet-conversion-input-textfield"
       disabled={readOnly}
       fullWidth
       type="number"
@@ -17,7 +17,7 @@ const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, o
       InputProps={{
         endAdornment: (
           <Box sx={styles.texfieldWithDropdown}>
-            <BlockchainDropdown handleSelect={handleSelect} value={value} size="medium" curvedBorders={false} tokens={tokenPairs} id = "snet-conversion-input-InputWithAssetDropdown" />
+            <BlockchainDropdown handleSelect={handleSelect} value={value} size="medium" curvedBorders={false} tokens={tokenPairs} id="snet-conversion-input-InputWithAssetDropdown" />
           </Box>
         )
       }}
