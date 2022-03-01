@@ -23,10 +23,10 @@ const WalletAddressInput = ({ blockchain, onCancel, onSaveAddress }) => {
         focused
       />
       <Stack spacing={1} marginTop={2} direction="row">
-        <Button onClick={onCancel} variant="text" size="small">
+        <Button onClick={onCancel} variant="text" size="small" id={WalletAddressInput_cancelButton}>
           Cancel
         </Button>
-        <Button onClick={() => onSaveAddress(address)} variant="text" size="small">
+        <Button onClick={() => onSaveAddress(address)} variant="text" size="small" id={WalletAddressInput_saveButton}>
           Save
         </Button>
       </Stack>

@@ -23,20 +23,20 @@ const WalletAddressInfo = ({ onCopyAddress, walletAddress, isWalletAvailable, on
     <>
       <Stack direction="row" spacing={2} marginBottom={2} alignItems="center">
         <WalletIcon sx={style.icon} color="grey" />
-        <Typography variant="caption" color="text.primary" textOverflow="ellipsis" overflow="hidden">
+        <Typography variant="caption" color="text.primary" textOverflow="ellipsis" overflow="hidden" id={WalletAddressInfo_walletAddressText}>
           {walletAddress}
         </Typography>
       </Stack>
       <Stack direction="row" spacing={2}>
-        <Button variant="text" onClick={onClickCopy} startIcon={<CopyOrEditIcon />}>
+        <Button variant="text" onClick={onClickCopy} startIcon={<CopyOrEditIcon />} id={WalletAddressInfo_copyButton}>
           {copyBtn}
         </Button>
         {!isWalletAvailable ? (
-          <Button onClick={onEdit} variant="text" startIcon={<CopyOrEditIcon />}>
+          <Button onClick={onEdit} variant="text" startIcon={<CopyOrEditIcon />} id={WalletAddressInfo_editButton}>
             Edit
           </Button>
         ) : null}
-        <Button onClick={onDisconnect} variant="text" color="error" startIcon={<LogoutIcon />}>
+        <Button onClick={onDisconnect} variant="text" color="error" startIcon={<LogoutIcon />} id={WalletAddressInfo_disconnectButton}>
           Disconnect
         </Button>
       </Stack>
