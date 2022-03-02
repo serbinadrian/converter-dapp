@@ -1,6 +1,9 @@
 import { makeStyles } from '@mui/styles';
 
 const useMenubarStyles = makeStyles(() => ({
+  cursor: {
+    cursor: 'pointer'
+  },
   logo: {
     height: '40px',
     marginRight: 8
