@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import upperCase from 'lodash/upperCase';
 import propTypes from 'prop-types';
-import { Divider, Box, Typography, Link } from '@mui/material';
+import { Divider, Box, Typography } from '@mui/material';
 import isNil from 'lodash/isNil';
 import store from 'store';
 
@@ -14,6 +14,7 @@ import { useWalletHook } from '../snet-wallet-connector/walletHook';
 import SnetSnackbar from '../snet-snackbar';
 import SnetButton from '../snet-button';
 import { setWallets } from '../../services/redux/slices/wallet/walletSlice';
+import { externalLinks } from '../../utils/ConverterConstants';
 
 const availableBlockchains = {
   ETHEREUM: 'ETHEREUM',
@@ -54,6 +55,10 @@ const SnetNavigation = ({ blockchains }) => {
 
   const openAvailableWalletOptions = () => {
     toggleWalletConnecting();
+  };
+
+  const openTermsAndConditions = () => {
+    window.open(externalLinks.TERMS_AND_CONDITIONS, '_blank');
   };
 
   const getWalletAddress = (blockchain) => {
@@ -122,8 +127,11 @@ const SnetNavigation = ({ blockchains }) => {
         })}
         <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
         <Box display="flex" justifyContent="end" alignItems="center">
-          <Typography variant="caption" marginRight={2}>
-            By connecting to the wallets, you agree to our <Link href="#terms">Terms & Conditions</Link>
+          <Typography variant="caption" marginRight={1}>
+            By connecting to the wallets, you agree to our
+          </Typography>
+          <Typography onClick={openTermsAndConditions} variant="caption" color="primary" cursor="pointer" sx={{ cursor: 'pointer' }} marginRight={2}>
+            Terms & Conditions
           </Typography>
           <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree" />
         </Box>
