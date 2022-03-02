@@ -1,4 +1,4 @@
-import { red, grey } from '@mui/material/colors';
+import { red, grey, orange } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 import colorCode from './colorCodes';
 import MuliRegular from '../fonts/muli/Muli-Regular.ttf';
@@ -44,6 +44,9 @@ const theme = createTheme({
     },
     grey: {
       main: grey[600]
+    },
+    warning: {
+      main: orange[500]
     }
   }
 });

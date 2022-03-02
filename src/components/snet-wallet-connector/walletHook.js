@@ -146,11 +146,11 @@ export const useWalletHook = () => {
     return response;
   };
 
-  const estimateGasFee = async (estimate) => {
-    const latestBlock = await web3.eth.getBlock('latest');
-    const blockGas = latestBlock.gasLimit;
-    return new BigNumber(blockGas).multipliedBy(estimate).dividedBy(3).toFixed();
-  };
+  // const estimateGasFee = async (estimate) => {
+  //   const latestBlock = await web3.eth.getBlock('latest');
+  //   const blockGas = latestBlock.gasLimit;
+  //   return new BigNumber(blockGas).multipliedBy(estimate).toFixed();
+  // };
 
   const checkAllowance = async (tokenContractAddress, walletAddress, spenderAddress) => {
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
@@ -159,25 +159,21 @@ export const useWalletHook = () => {
     return convertAsReadableAmount(allowanceInCogs, decimals);
   };
 
-  const conversionOut = async (contractAddress, amountToLock, conversionId, signature, decimals) => {
-    console.log('contractAddress', contractAddress);
-    console.log('decimals', decimals);
-    const amount = web3.utils.toNumber(convertToCogs(amountToLock, decimals));
+  const conversionOut = async (contractAddress, amountForBurn, conversionId, signature, decimals) => {
+    const amount = web3.utils.toNumber(convertToCogs(amountForBurn, decimals));
     const { v, r, s } = splitSignature(signature);
     const hexifiedConsversionId = web3.utils.toHex(conversionId);
-    console.log('hexifiedConsversionId', hexifiedConsversionId);
-    console.log('v', v);
-    console.log('r', r);
-    console.log('s', s);
-    console.log('amountToLock', amount);
+
+    console.log('Contract Address', contractAddress);
+    console.log('Contract decimals', decimals);
+    console.log('Amount for burn', amount);
+
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
-    const gasPrice = await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
-    const estimatedFees = await estimateGasFee(gasPrice);
-    console.log('estimatedFees', estimatedFees);
+    await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
 
     const response = await contract.methods
       .conversionOut(amount, hexifiedConsversionId, v, r, s)
-      .send({ from: address, gasPrice: estimatedFees })
+      .send({ from: address })
       .on('transactionHash', (hash) => {
         console.log('transactionHash', hash);
       })

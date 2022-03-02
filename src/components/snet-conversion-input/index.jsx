@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Stack, Typography } from '@mui/material';
-import { toUpper } from 'lodash';
+import { isNil, toUpper } from 'lodash';
 import WalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import propTypes from 'prop-types';
 import BlockchainDropdown from './BlockchainDropdown';
 import InputWithAssetDropdown from './InputWithAssetDropdown';
 import { styles } from './styles';
 
-const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken ,id}) => {
-  const [selectedBlockchain, setSelectedBlockchain] = useState([]);
+const SnetConversionOptions = ({ selectedBlockchain, tokenPair, direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken, id }) => {
+  // const [selectedBlockchain, setSelectedBlockchain] = useState([]);
   const [blockchainTokenPairs, setBlockchainTokenpairs] = useState([]);
   const [walletAddress, setWalletAddress] = useState(undefined);
 
@@ -18,7 +18,8 @@ const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChang
 
   const onSelectBlockchain = (event) => {
     const blockchain = event.target.value;
-    setSelectedBlockchain(blockchain);
+    // setSelectedBlockchain(blockchain);
+    // TODO: selectedBlockchain is not used
     setBlockchainTokenpairs(blockchain.pairs);
   };
 
@@ -30,7 +31,9 @@ const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChang
   const getAddressByBlockchain = (blockchainName) => {
     if (blockchainName.length > 0) {
       const [address] = wallets.filter((wallet) => wallet[blockchainName]);
-      setWalletAddress(address[blockchainName]);
+      if (!isNil(address)) {
+        setWalletAddress(address[blockchainName]);
+      }
     }
   };
 
@@ -41,7 +44,8 @@ const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChang
   useEffect(() => {
     const [defaultBlockchain] = blockchains;
     const [defaultTokenPair] = defaultBlockchain.pairs;
-    setSelectedBlockchain(defaultBlockchain);
+    // setSelectedBlockchain(defaultBlockchain);
+    // TODO: selectedBlockchain is not used
     setBlockchainTokenpairs(defaultBlockchain.pairs);
     handleSelectToken(defaultTokenPair);
   }, []);
@@ -51,7 +55,9 @@ const SnetConversionOptions = ({ tokenPair, direction, blockchains, onInputChang
       <Stack spacing={1} direction="row" alignItems="center" marginBottom={2} justifyContent="space-between" id={`conversion-direction-${id}`}>
         <Stack spacing={1} direction="row" alignItems="center">
           <Typography variant="body2">{direction}</Typography>
-          {blockchains ? <BlockchainDropdown value={selectedBlockchain} handleSelect={onSelectBlockchain} tokens={blockchains} id="snet-conversion-input" /> : null}
+          {blockchains ? (
+            <BlockchainDropdown value={selectedBlockchain} handleSelect={onSelectBlockchain} tokens={blockchains} id="snet-conversion-input" />
+          ) : null}
         </Stack>
         <Stack spacing={1} direction="row" alignItems="center">
           <WalletIcon color="grey" sx={styles.walletIconSize} />
@@ -82,7 +88,8 @@ SnetConversionOptions.propTypes = {
   readOnly: propTypes.bool,
   handleSelectToken: propTypes.func.isRequired,
   tokenPair: propTypes.object,
-  id:propTypes.string.isRequired
+  id: propTypes.string.isRequired,
+  selectedBlockchain: propTypes.object.isRequired
 };
 
 SnetConversionOptions.defaultProps = {
