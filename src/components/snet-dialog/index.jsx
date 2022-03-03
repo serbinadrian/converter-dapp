@@ -17,14 +17,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   }
 }));
 
-const SnetDialog = ({ isDialogOpen, onDialogClose, dialogTitle, children, showClosebutton }) => {
+const SnetDialog = ({ isDialogOpen, onDialogClose, title, children, showClosebutton }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <BootstrapDialog fullScreen={fullScreen} maxWidth="xl" onClose={onDialogClose} aria-labelledby="snet-dialog-title" open={isDialogOpen}>
       <DialogTitle sx={{ ...dialogueStyle.dialogTitle, textAlign: onDialogClose ? 'left' : 'center' }}>
-        {dialogTitle}
+        {title}
         {showClosebutton ? (
           <IconButton aria-label="close" onClick={onDialogClose} sx={dialogueStyle.iconButton}>
             <CloseIcon />
@@ -39,7 +39,7 @@ const SnetDialog = ({ isDialogOpen, onDialogClose, dialogTitle, children, showCl
 SnetDialog.propTypes = {
   isDialogOpen: propTypes.bool.isRequired,
   onDialogClose: propTypes.func.isRequired,
-  dialogTitle: propTypes.string.isRequired,
+  title: propTypes.string.isRequired,
   children: propTypes.node.isRequired,
   showClosebutton: propTypes.bool
 };

@@ -4,17 +4,27 @@ import propTypes from 'prop-types';
 import BlockchainDropdown from './BlockchainDropdown';
 import { styles } from './styles';
 
-const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange }) => {
+const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange, readOnly, id }) => {
   return (
     <TextField
+      id={id}
+      disabled={readOnly}
       fullWidth
+      type="number"
       value={inputValue}
       onChange={onInputChange}
       size="small"
       InputProps={{
         endAdornment: (
           <Box sx={styles.texfieldWithDropdown}>
-            <BlockchainDropdown handleSelect={handleSelect} value={value} size="medium" curvedBorders={false} tokens={tokenPairs} />
+            <BlockchainDropdown
+              handleSelect={handleSelect}
+              value={value}
+              size="medium"
+              curvedBorders={false}
+              tokens={tokenPairs}
+              id={`conversion-token-${id}`}
+            />
           </Box>
         )
       }}
@@ -23,11 +33,13 @@ const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, o
 };
 
 InputWithAssetDropdown.propTypes = {
+  id: propTypes.string.isRequired,
   tokenPairs: propTypes.arrayOf(propTypes.object),
-  value: propTypes.objectOf(propTypes.object),
+  value: propTypes.any,
   handleSelect: propTypes.func.isRequired,
   inputValue: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
-  onInputChange: propTypes.func
+  onInputChange: propTypes.func,
+  readOnly: propTypes.bool.isRequired
 };
 
 InputWithAssetDropdown.defaultProps = {

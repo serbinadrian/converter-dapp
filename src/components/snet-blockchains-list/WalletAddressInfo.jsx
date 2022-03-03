@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import WalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -7,7 +8,17 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import propTypes from 'prop-types';
 import style from './style';
 
-const WalletAddressInfo = ({ walletAddress, isWalletAvailable, onEdit, onDisconnect }) => {
+const WalletAddressInfo = ({ onCopyAddress, walletAddress, isWalletAvailable, onEdit, onDisconnect }) => {
+  const [copyBtn, setCopyBtn] = useState('Copy');
+
+  const onClickCopy = () => {
+    onCopyAddress(walletAddress);
+    setCopyBtn('Copied');
+    setTimeout(() => {
+      setCopyBtn('Copy');
+    }, 5000);
+  };
+
   return (
     <>
       <Stack direction="row" spacing={2} marginBottom={2} alignItems="center">
@@ -17,8 +28,8 @@ const WalletAddressInfo = ({ walletAddress, isWalletAvailable, onEdit, onDisconn
         </Typography>
       </Stack>
       <Stack direction="row" spacing={2}>
-        <Button variant="text" startIcon={<CopyOrEditIcon />}>
-          Copy
+        <Button variant="text" onClick={onClickCopy} startIcon={<CopyOrEditIcon />}>
+          {copyBtn}
         </Button>
         {!isWalletAvailable ? (
           <Button onClick={onEdit} variant="text" startIcon={<CopyOrEditIcon />}>
@@ -37,7 +48,8 @@ WalletAddressInfo.propTypes = {
   walletAddress: propTypes.string.isRequired,
   isWalletAvailable: propTypes.bool.isRequired,
   onEdit: propTypes.func,
-  onDisconnect: propTypes.func
+  onDisconnect: propTypes.func,
+  onCopyAddress: propTypes.func
 };
 
 export default WalletAddressInfo;
