@@ -35,7 +35,7 @@ const TokenPairs = ({
       />
       {showFetchAmountFromWallet ? (
         <Box display="flex" alignItems="center" marginTop={1}>
-          <Typography fontSize="12px">
+          <Typography fontSize="12px" id="wallet-balance">
             Balance: {balance} {tokenSymbol}
           </Typography>
           <Button onClick={onUseFullamount} sx={{ fontSize: '12px', marginLeft: '12px' }} size="small" variant="text">
