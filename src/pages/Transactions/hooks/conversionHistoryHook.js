@@ -2,20 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from '../../../utils/Axios';
 
 export const useConversionHistoryHook = (address) => {
-  const [rows] = useState([
-    { field: 'DATE', headerName: 'DATE', width: 120 },
-    { field: 'CHAIN TYPE', headerName: 'CHAIN TYPE', width: 150 },
-    { field: 'FROM', headerName: 'FROM', width: 150 },
-    { field: 'TO', headerName: 'TO', width: 150 },
-    { field: 'STATUS', headerName: 'STATUS', width: 150 },
-    { field: 'STATUSX', headerName: '', width: 150 }
-  ]);
   const [conversionHistory, setConversionHistory] = useState([]);
   const [pageSize] = useState(10);
   const [pageNumber] = useState(1);
 
   const formatSingleEntity = (entity) => {
-    const chainType = `${entity.from_token.name} - ${entity.to_token.name}`;
+    const chainType = `${entity.from_token.symbol} - ${entity.to_token.symbol}`;
 
     return {
       id: entity.conversion.id,
@@ -26,7 +18,9 @@ export const useConversionHistoryHook = (address) => {
       claimAmount: entity.conversion.claim_amount,
       feeAmount: entity.conversion.fee_amount,
       lastUpdatedAt: entity.conversion.updated_at,
-      chainType
+      chainType,
+      fromToken: entity.from_token.symbol,
+      toToken: entity.to_token.symbol
     };
   };
 
@@ -61,7 +55,6 @@ export const useConversionHistoryHook = (address) => {
   }, [address]);
 
   return {
-    conversionHistory,
-    rows
+    conversionHistory
   };
 };

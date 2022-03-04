@@ -36,7 +36,9 @@ const ConverterForm = () => {
     fromAndToTokenPair,
     conversionCharge,
     setWalletAmount,
-    getAddress
+    getAddress,
+    fromBlockchain,
+    toBlockchain
   } = useConverterHook();
   const { balanceFromWallet, approveSpender, signMessage, getLatestBlock, address, conversionOut, checkAllowance } = useWalletHook();
 
@@ -197,6 +199,8 @@ const ConverterForm = () => {
       <SnetPaper>
         {fromAndToTokenPair.fromPair ? (
           <TokenPairs
+            fromBlockchain={fromBlockchain}
+            toBlockchain={toBlockchain}
             onSelectingFromToken={fetchBalance}
             onSelectingToToken={fetchBalanceAndSelect}
             showFetchAmountFromWallet={showFetchAmountFromWallet}

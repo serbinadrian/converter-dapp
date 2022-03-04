@@ -10,6 +10,8 @@ const tokenPairDirection = {
 };
 
 export const useConverterHook = () => {
+  const [fromBlockchain, setFromBlockchain] = useState({});
+  const [toBlockchain, setToBlockchain] = useState({});
   const [isConversionDisabled, setConversionDisabled] = useState(true);
   const [fromAndToTokenValues, setFromAndToTokenPairs] = useState({ fromValue: 0, toValue: 0 });
   const [fromTokenPairs, setFromTokenPairs] = useState([]);
@@ -43,6 +45,8 @@ export const useConverterHook = () => {
     const toTokenPairs = getPairs(tokenPairDirection.TO).reverse();
     setFromTokenPairs(fromTokenPairs);
     setToTokenPairs(toTokenPairs);
+    setFromBlockchain(fromTokenPairs[0]);
+    setToBlockchain(toTokenPairs[0]);
     setConversionDisabled(false);
   };
 
@@ -138,6 +142,8 @@ export const useConverterHook = () => {
     fromAndToTokenPair,
     conversionCharge,
     setWalletAmount,
-    getAddress
+    getAddress,
+    fromBlockchain,
+    toBlockchain
   };
 };

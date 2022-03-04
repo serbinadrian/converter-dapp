@@ -20,7 +20,9 @@ const TokenPairs = ({
   tokenSymbol,
   onUseFullamount,
   fromTokenPair,
-  toTokenPair
+  toTokenPair,
+  fromBlockchain,
+  toBlockchain
 }) => {
   return (
     <>
@@ -28,6 +30,7 @@ const TokenPairs = ({
         tokenPair={fromTokenPair}
         handleSelectToken={onSelectingFromToken}
         blockchains={fromBlockchains}
+        selectedBlockchain={fromBlockchain}
         onInputChange={fromInputChange}
         inputValue={fromInputValue}
         direction="FROM"
@@ -53,6 +56,7 @@ const TokenPairs = ({
         handleSelectToken={onSelectingToToken}
         readOnly
         blockchains={toBlockchains}
+        selectedBlockchain={toBlockchain}
         onInputChange={toInputChange}
         inputValue={toInputValue}
         direction="TO"
@@ -77,7 +81,9 @@ TokenPairs.propTypes = {
   balance: propTypes.oneOfType([propTypes.string, propTypes.number]),
   tokenSymbol: propTypes.string,
   fromTokenPair: propTypes.object,
-  toTokenPair: propTypes.object
+  toTokenPair: propTypes.object,
+  fromBlockchain: propTypes.object.isRequired,
+  toBlockchain: propTypes.object.isRequired
 };
 
 TokenPairs.defaultProps = {
