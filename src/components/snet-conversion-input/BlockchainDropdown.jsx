@@ -9,10 +9,11 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { styles, MenuProps } from './styles';
 
-const BlockchainDropdown = ({ curvedBorders, size, tokens, value, handleSelect }) => {
+const BlockchainDropdown = ({ curvedBorders, size, tokens, value, handleSelect, id }) => {
   return (
-    <FormControl sx={styles.formControl} id="blockchain_dropdown">
+    <FormControl sx={styles.formControl}>
       <Select
+        id={id}
         size={size}
         onChange={handleSelect}
         input={<OutlinedInput />}
@@ -38,6 +39,7 @@ const BlockchainDropdown = ({ curvedBorders, size, tokens, value, handleSelect }
 };
 
 BlockchainDropdown.propTypes = {
+  id: propTypes.string.isRequired,
   curvedBorders: propTypes.bool,
   size: propTypes.string,
   value: propTypes.any,
