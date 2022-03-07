@@ -16,6 +16,9 @@ const styles = {
   },
   listItem: {
     color: 'white'
+  },
+  padding: {
+    padding: '2rem'
   }
 };
 

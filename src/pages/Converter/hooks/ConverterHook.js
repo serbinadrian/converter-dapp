@@ -144,6 +144,8 @@ export const useConverterHook = () => {
     setWalletAmount,
     getAddress,
     fromBlockchain,
-    toBlockchain
+    toBlockchain,
+    setFromBlockchain,
+    setToBlockchain
   };
 };

@@ -22,7 +22,9 @@ const TokenPairs = ({
   fromTokenPair,
   toTokenPair,
   fromBlockchain,
-  toBlockchain
+  toBlockchain,
+  onSelectingFromBlockchain,
+  onSelectingToBlockchain
 }) => {
   return (
     <>
@@ -35,6 +37,7 @@ const TokenPairs = ({
         inputValue={fromInputValue}
         direction="FROM"
         id="from"
+        handleBlockchainSelect={onSelectingFromBlockchain}
       />
       {showFetchAmountFromWallet ? (
         <Box display="flex" alignItems="center" marginTop={1}>
@@ -61,6 +64,7 @@ const TokenPairs = ({
         inputValue={toInputValue}
         direction="TO"
         id="to"
+        handleBlockchainSelect={onSelectingToBlockchain}
       />
     </>
   );
@@ -83,7 +87,9 @@ TokenPairs.propTypes = {
   fromTokenPair: propTypes.object,
   toTokenPair: propTypes.object,
   fromBlockchain: propTypes.object.isRequired,
-  toBlockchain: propTypes.object.isRequired
+  toBlockchain: propTypes.object.isRequired,
+  onSelectingFromBlockchain: propTypes.func.isRequired,
+  onSelectingToBlockchain: propTypes.func.isRequired
 };
 
 TokenPairs.defaultProps = {

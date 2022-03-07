@@ -16,7 +16,7 @@ const BridgeLogo = () => {
   return (
     <Box onClick={onClickLogo} className={`${classes.flex} ${classes.cursor}`}>
       <img src={snetBlackLogo} alt="SingNet Logo" className={classes.logo} />
-      <Typography variant="h6">Bridge</Typography>
+      <Typography variant="h5">Bridge</Typography>
     </Box>
   );
 };
