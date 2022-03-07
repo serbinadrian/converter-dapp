@@ -4,10 +4,10 @@ import propTypes from 'prop-types';
 import BlockchainDropdown from './BlockchainDropdown';
 import { styles } from './styles';
 
-const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange, readOnly }) => {
+const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange, readOnly, id }) => {
   return (
     <TextField
-      id="snet-conversion-input-textfield"
+      id={id}
       disabled={readOnly}
       fullWidth
       type="number"
@@ -23,7 +23,7 @@ const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, o
               size="medium"
               curvedBorders={false}
               tokens={tokenPairs}
-              id="snet-conversion-input-InputWithAssetDropdown"
+              id={`conversion-token-${id}`}
             />
           </Box>
         )
@@ -33,6 +33,7 @@ const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, o
 };
 
 InputWithAssetDropdown.propTypes = {
+  id: propTypes.string.isRequired,
   tokenPairs: propTypes.arrayOf(propTypes.object),
   value: propTypes.any,
   handleSelect: propTypes.func.isRequired,

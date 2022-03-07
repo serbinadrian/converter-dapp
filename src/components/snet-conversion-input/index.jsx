@@ -20,7 +20,10 @@ const SnetConversionOptions = ({
   handleSelectToken,
   id
 }) => {
+
+  const SnetConversionOptions = ({ selectedBlockchain, tokenPair, direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken, id }) => {
   // const [selectedBlockchain, setSelectedBlockchain] = useState([]);
+
   const [blockchainTokenPairs, setBlockchainTokenpairs] = useState([]);
   const [walletAddress, setWalletAddress] = useState(undefined);
 
@@ -71,7 +74,7 @@ const SnetConversionOptions = ({
             <BlockchainDropdown value={selectedBlockchain} handleSelect={onSelectBlockchain} tokens={blockchains} id="snet-conversion-input" />
           ) : null}
         </Stack>
-        <Stack spacing={1} direction="row" alignItems="center">
+        <Stack spacing={1} direction="row" alignItems="center" id={`wallet-address-${id}`}>
           <WalletIcon color="grey" sx={styles.walletIconSize} />
           {walletAddress ? (
             <Typography sx={styles.walletNotSelected}>{walletAddress}</Typography>
@@ -81,6 +84,7 @@ const SnetConversionOptions = ({
         </Stack>
       </Stack>
       <InputWithAssetDropdown
+        id={`snet-conversion-value-${id}`}
         readOnly={readOnly}
         onInputChange={onInputChange}
         inputValue={inputValue}
