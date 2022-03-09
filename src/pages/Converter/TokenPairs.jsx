@@ -1,8 +1,8 @@
-import Fab from '@mui/material/Fab';
-import propTypes from 'prop-types';
-import { Typography, Box, Button } from '@mui/material';
-import Stack from '@mui/material/Stack';
 import SwapIcon from '@mui/icons-material/SwapVert';
+import { Box, Button, Typography } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import Stack from '@mui/material/Stack';
+import propTypes from 'prop-types';
 import SnetConversionOptions from '../../components/snet-conversion-input';
 
 const TokenPairs = ({

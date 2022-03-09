@@ -1,4 +1,5 @@
 import propTypes from 'prop-types';
+import { toLocalDateTime } from '../../utils/Date';
 import Columns from './Columns';
 import Rows from './Rows';
 
@@ -10,7 +11,7 @@ const SnetDataGrid = ({ columns, rows }) => {
         return (
           <Rows
             key={row.id}
-            date={row.lastUpdatedAt}
+            date={toLocalDateTime(row.lastUpdatedAt)}
             fromToken={row.fromToken}
             chainType={row.chainType}
             fromAddress={row.fromAddress}

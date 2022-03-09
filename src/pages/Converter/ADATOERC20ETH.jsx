@@ -40,7 +40,7 @@ const ADATOERC20ETH = () => {
       } catch (error) {
         console.log(error);
       }
-    }, 5000);
+    }, 60000);
   };
 
   const updateLoaderStatus = (isLoading, message = '', title = 'Awaiting Confirmation...') => {
@@ -75,6 +75,7 @@ const ADATOERC20ETH = () => {
       const { toAddress, fromAddress, conversionId } = conversion;
       const signature = await generateSignatureForClaim(conversionId, amount, fromAddress, toAddress);
       const response = await conversionClaim(conversionId, amount, signature, toAddress, fromAddress);
+      updateLoaderStatus(true, 'Please confirm the transaction on your wallet...');
       const txn = await claimTheTokens(conversionId, response.claim_amount, response.signature);
       setTransactionHash(txn.transactionHash);
       const receipt = generateReceipt(
