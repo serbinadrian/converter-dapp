@@ -1,15 +1,25 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import WalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { Stack, Typography } from '@mui/material';
 import { isNil, toUpper } from 'lodash';
-import WalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import propTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import BlockchainDropdown from './BlockchainDropdown';
 import InputWithAssetDropdown from './InputWithAssetDropdown';
 import { styles } from './styles';
 
-
-  const SnetConversionOptions = ({ selectedBlockchain, tokenPair, direction, blockchains, onInputChange, inputValue, readOnly, handleSelectToken, id }) => {
+const SnetConversionOptions = ({
+  handleBlockchainSelect,
+  selectedBlockchain,
+  tokenPair,
+  direction,
+  blockchains,
+  onInputChange,
+  inputValue,
+  readOnly,
+  handleSelectToken,
+  id
+}) => {
   // const [selectedBlockchain, setSelectedBlockchain] = useState([]);
 
   const [blockchainTokenPairs, setBlockchainTokenpairs] = useState([]);
@@ -23,6 +33,7 @@ import { styles } from './styles';
     // setSelectedBlockchain(blockchain);
     // TODO: selectedBlockchain is not used
     setBlockchainTokenpairs(blockchain.pairs);
+    handleBlockchainSelect(blockchain);
   };
 
   const onSelectToken = (event) => {
@@ -92,7 +103,8 @@ SnetConversionOptions.propTypes = {
   handleSelectToken: propTypes.func.isRequired,
   tokenPair: propTypes.object,
   id: propTypes.string.isRequired,
-  selectedBlockchain: propTypes.object.isRequired
+  selectedBlockchain: propTypes.object.isRequired,
+  handleBlockchainSelect: propTypes.func.isRequired
 };
 
 SnetConversionOptions.defaultProps = {

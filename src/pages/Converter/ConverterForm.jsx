@@ -1,5 +1,7 @@
 import Stack from '@mui/material/Stack';
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { isNil, toUpper } from 'lodash';
 import SnetPaper from '../../components/snet-paper';
 import SnetButton from '../../components/snet-button';
@@ -13,6 +15,9 @@ import { availableBlockchains } from '../../utils/ConverterConstants';
 import SnetSnackbar from '../../components/snet-snackbar';
 import axios from '../../utils/Axios';
 import SnetConversionStatus from '../../components/snet-conversion-status';
+import Paths from '../../router/paths';
+import { setAdaConversionInfo, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { bigNumberSubtract, convertFromCogs } from '../../utils/bignumber';
 
 const ConverterForm = () => {
   const [conversionPopup, setConversionPopup] = useState({ open: false, title: 'Converting AGIX [ETH] to AGIX [ADA]', link: '' });
@@ -38,13 +43,18 @@ const ConverterForm = () => {
     setWalletAmount,
     getAddress,
     fromBlockchain,
-    toBlockchain
+    toBlockchain,
+    setFromBlockchain,
+    setToBlockchain
   } = useConverterHook();
   const { balanceFromWallet, approveSpender, signMessage, getLatestBlock, address, conversionOut, checkAllowance } = useWalletHook();
 
   const updateLoaderStatus = (isLoading, message = '', title = 'Awaiting Confirmation...') => {
     setLoader({ isLoading, message, title });
   };
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const updateTxnHash = async (conversionId, txnHash) => {
     try {
@@ -71,6 +81,37 @@ const ConverterForm = () => {
     }
   };
 
+  const createConversionIdForAdaToEth = async () => {
+    try {
+      updateLoaderStatus(true, 'Please sign from your wallet');
+      const conversionAmount = fromAndToTokenValues.fromValue;
+      const blockNumber = await getLatestBlock();
+      const toAddress = address;
+      const fromAddress = getAddress(availableBlockchains.CARDANO);
+      const personalSignature = await signMessage(tokenPair.id, conversionAmount, fromAddress, toAddress);
+      const response = await generateConversionID(tokenPair.id, conversionAmount, personalSignature, blockNumber, fromAddress, toAddress);
+      const conversionPair = fromAndToTokenPair;
+      const fromTokenAllowedDecimals = conversionPair.fromPair.allowed_decimal;
+
+      const depositAmount = convertFromCogs(response.deposit_amount, fromTokenAllowedDecimals);
+      const receievingAmount = bigNumberSubtract(depositAmount, conversionCharge.amount);
+      updateLoaderStatus(false);
+      return {
+        conversionCharge,
+        conversionPair,
+        fromAddress,
+        toAddress,
+        conversionId: response.id,
+        depositAddress: response.deposit_address,
+        depositAmount,
+        receievingAmount
+      };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const createConversionIdForEthToAda = async () => {
     try {
       updateLoaderStatus(true, 'Please sign from your wallet');
@@ -88,14 +129,26 @@ const ConverterForm = () => {
   };
 
   const onConvert = async () => {
-    try {
-      const { amountToLock, conversionId, signature } = await createConversionIdForEthToAda();
-      await convertEthToAda(amountToLock, conversionId, signature);
-      updateLoaderStatus(false);
-    } catch (error) {
-      const e = error.message || error;
-      updateLoaderStatus(false);
-      setError({ open: true, message: e });
+    if (fromAndToTokenPair.fromPair.blockchain.symbol === 'ETH') {
+      try {
+        const { amountToLock, conversionId, signature } = await createConversionIdForEthToAda();
+        await convertEthToAda(amountToLock, conversionId, signature);
+        updateLoaderStatus(false);
+      } catch (error) {
+        const e = error.message || error;
+        updateLoaderStatus(false);
+        setError({ open: true, message: e });
+      }
+    } else {
+      try {
+        const conversionInfo = await createConversionIdForAdaToEth();
+        dispatch(setAdaConversionInfo(conversionInfo));
+        dispatch(setConversionDirection(availableBlockchains.CARDANO));
+      } catch (error) {
+        const e = error.message || error;
+        setError({ open: true, message: e });
+        updateLoaderStatus(false);
+      }
     }
   };
 
@@ -170,12 +223,28 @@ const ConverterForm = () => {
 
   useEffect(() => {
     if (fromAndToTokenValues.fromValue > 0) {
-      getAllowanceInfo();
+      if (fromAndToTokenPair.fromPair.blockchain.name === availableBlockchains.ETHEREUM) {
+        getAllowanceInfo();
+      } else {
+        setIsAuthorizationRequired(false);
+        setIsTokenConvertible(true);
+      }
+    } else {
+      setIsAuthorizationRequired(false);
+      setIsTokenConvertible(false);
     }
   }, [fromAndToTokenValues, fromAndToTokenPair]);
 
-  const toggleConversionPopup = () => {
-    setConversionPopup({ ...conversionPopup, open: !conversionPopup.open });
+  const redirectToTxn = () => {
+    navigate(Paths.Transactions);
+  };
+
+  const onSelectFromBlockchain = (blockchain) => {
+    setFromBlockchain(blockchain);
+  };
+
+  const onSelectToBlockchain = (blockchain) => {
+    setToBlockchain(blockchain);
   };
 
   return !isConversionDisabled ? (
@@ -186,7 +255,7 @@ const ConverterForm = () => {
         amount={fromAndToTokenValues.fromValue}
         tokenName={fromAndToTokenPair.fromPair.symbol}
         link={conversionPopup.link}
-        onDialogClose={toggleConversionPopup}
+        onDialogClose={redirectToTxn}
       />
       <SnetSnackbar
         open={error.open}
@@ -201,8 +270,10 @@ const ConverterForm = () => {
           <TokenPairs
             fromBlockchain={fromBlockchain}
             toBlockchain={toBlockchain}
+            onSelectingFromBlockchain={onSelectFromBlockchain}
+            onSelectingToBlockchain={onSelectToBlockchain}
             onSelectingFromToken={fetchBalance}
-            onSelectingToToken={fetchBalanceAndSelect}
+            onSelectingToToken={fetchBalance}
             showFetchAmountFromWallet={showFetchAmountFromWallet}
             fromTokenPair={fromAndToTokenPair.fromPair}
             toTokenPair={fromAndToTokenPair.toTokenPair}

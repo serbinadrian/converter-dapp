@@ -7,7 +7,20 @@ import MuliLight from '../fonts/muli/Muli-Light.ttf';
 const theme = createTheme({
   typography: {
     fontFamily: ['MuliRegular', 'MuliLight'].join(','),
-    fontSize: 18
+    fontSize: 18,
+    h6: {
+      fontSize: '14px'
+    },
+    h5: {
+      fontSize: '16px'
+    },
+    h3: {
+      fontSize: '20px'
+    },
+    caption: {
+      fontSize: '12px',
+      color: grey[500]
+    }
   },
   components: {
     MuiCssBaseline: {

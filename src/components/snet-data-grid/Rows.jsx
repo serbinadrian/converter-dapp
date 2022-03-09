@@ -5,6 +5,7 @@ import { Box, Typography } from '@mui/material';
 // import Collapse from '@mui/material/Collapse';
 import WarningIcon from '@mui/icons-material/Warning';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import propTypes from 'prop-types';
 // import CardActions from '@mui/material/CardActions';
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -29,7 +30,8 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
 
   const availableStatus = {
     USER_INITIATED: 'USER_INITIATED',
-    SUCCESS: 'SUCCESS'
+    SUCCESS: 'SUCCESS',
+    PROCESSING: 'PROCESSING'
   };
 
   return (
@@ -62,9 +64,8 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
         <Box display="flex" alignItems="center">
           {status === availableStatus.USER_INITIATED ? <WarningIcon fontSize="small" color="warning" /> : null}
           {status === availableStatus.SUCCESS ? <CheckCircleOutlineIcon fontSize="small" color="success" /> : null}
-          <Typography variant="caption" color={status === availableStatus.USER_INITIATED ? '#ff9800' : 'green'}>
-            {status}
-          </Typography>
+          {status === availableStatus.PROCESSING ? <HourglassBottomIcon fontSize="small" color="primary" /> : null}
+          <Typography variant="caption">{status}</Typography>
         </Box>
         {/* <CardActions disableSpacing>
           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">

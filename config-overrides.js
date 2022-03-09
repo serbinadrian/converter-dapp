@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+
 module.exports = function override(config, env) {
   config.resolve.fallback = {
     url: require.resolve('url'),
@@ -18,5 +19,8 @@ module.exports = function override(config, env) {
       process: 'process/browser'
     })
   );
+
+  config.module.rules = [...config.module.rules];
+
   return config;
 };

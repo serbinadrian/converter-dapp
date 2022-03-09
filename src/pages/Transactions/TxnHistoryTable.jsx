@@ -8,11 +8,7 @@ const TxnHistoryTable = () => {
   const { address } = useWalletHook();
   const { conversionHistory } = useConversionHistoryHook(address);
 
-  return (
-    <div style={{ height: '600px' }}>
-      <SnetDataGrid columns={cols} rows={conversionHistory} />
-    </div>
-  );
+  return <SnetDataGrid columns={cols} rows={conversionHistory} />;
 };
 
 export default TxnHistoryTable;
