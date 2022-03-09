@@ -34,10 +34,11 @@ const web3Modal = new Web3Modal({
   providerOptions
 });
 
+// eslint-disable-next-line import/prefer-default-export
 export const useWalletHook = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [address, setWalletAddress] = useState(null);
-
+  const [networkId, setNetworkId] = useState(null);
   const subscribeProvider = async (provider) => {
     if (!provider.on) {
       return;
@@ -47,7 +48,7 @@ export const useWalletHook = () => {
       setWalletAddress(address);
     });
     provider.on('chainChanged', async (chainId) => {
-      const networkId = await web3.eth.net.getId();
+      setNetworkId(await web3.eth.net.getId());
       console.log('chainChanged', chainId, networkId);
     });
   };
