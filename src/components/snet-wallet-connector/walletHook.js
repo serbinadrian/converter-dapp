@@ -1,12 +1,14 @@
 import Web3 from 'web3';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
 import round from 'lodash/round';
+import store from 'store';
 import BigNumber from 'bignumber.js';
 import { splitSignature } from '@ethersproject/bytes';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import ERC20TokenABI from '../../contracts/erc20-abi/abi/SingularityNetToken.json';
 import TokenConversionManagerABI from '../../contracts/singularitynet-token-manager/abi/TokenConversionManager.json';
+import { availableBlockchains } from '../../utils/ConverterConstants';
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
 const INFURA_NETWORK_ID = process.env.REACT_APP_INFURA_NETWORK_ID;
@@ -51,7 +53,7 @@ export const useWalletHook = () => {
     });
   };
 
-  const openWallet = async () => {
+  const connectEthereumWallet = async () => {
     try {
       provider = await web3Modal.connect();
       subscribeProvider(provider);
@@ -60,11 +62,23 @@ export const useWalletHook = () => {
       web3 = new Web3(provider);
       const [account] = await web3.eth.getAccounts();
       setWalletAddress(web3.utils.toChecksumAddress(account));
+      await store.set(availableBlockchains.ETHEREUM, account);
       return web3;
     } catch (error) {
       throw new Error(error.toString());
     }
   };
+
+  const checkWalletHasPreviouslyConnected = async () => {
+    const walletAddress = await store.get(availableBlockchains.ETHEREUM);
+    if (walletAddress) {
+      await connectEthereumWallet();
+    }
+  };
+
+  useEffect(() => {
+    checkWalletHasPreviouslyConnected();
+  }, []);
 
   const getLatestBlock = async () => {
     const block = await web3.eth.getBlockNumber();
@@ -97,7 +111,7 @@ export const useWalletHook = () => {
     return hash;
   };
 
-  const disconnectWallet = () => {
+  const disconnectEthereumWallet = () => {
     web3Modal.clearCachedProvider();
     setWalletAddress(null);
   };
@@ -211,8 +225,8 @@ export const useWalletHook = () => {
   return {
     approveSpender,
     checkAllowance,
-    openWallet,
-    disconnectWallet,
+    connectEthereumWallet,
+    disconnectEthereumWallet,
     address,
     signMessage,
     getLatestBlock,
