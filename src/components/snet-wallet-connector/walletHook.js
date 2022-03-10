@@ -39,17 +39,23 @@ export const useWalletHook = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [address, setWalletAddress] = useState(null);
   const [networkId, setNetworkId] = useState(null);
+
+  const [userNetworkId, setUserNetworkId] = useState(null);
+
   const subscribeProvider = async (provider) => {
     if (!provider.on) {
       return;
     }
+    setUserNetworkId(await web3.eth.net.getId());
+    // console.log('####', userNetworkId);
     provider.on('accountsChanged', async (accounts) => {
       const [address] = accounts;
       setWalletAddress(address);
     });
     provider.on('chainChanged', async (chainId) => {
-      setNetworkId(await web3.eth.net.getId());
-      console.log('chainChanged', chainId, networkId);
+      const netId = await web3.eth.net.getId();
+      setNetworkId(netId);
+      console.log('chainChanged', chainId, netId, networkId, userNetworkId);
     });
   };
 

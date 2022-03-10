@@ -2,8 +2,7 @@
 
 const style = {
   box: {
-    padding: '15px 0 35px',
-    borderRadius: 4,
+    borderRadius: `4px !important`,
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -12,12 +11,14 @@ const style = {
     transform: 'translate(-50%, -50%)'
   },
   heading: {
-    color: '#4086FF',
+    padding: '15px 20px',
+    borderBottom: '1px solid grey',
+    color: '#09398d',
     fontSize: 14,
     fontWeight: 'bold'
   },
   message: {
-    padding: 25,
+    padding: `25px !important`,
     fontSize: 14
   }
 };
