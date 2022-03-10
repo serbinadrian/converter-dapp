@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import upperCase from 'lodash/upperCase';
+import { isValidShelleyAddress } from 'cardano-crypto.js';
 import propTypes from 'prop-types';
 import { Divider, Box, Typography } from '@mui/material';
 import isNil from 'lodash/isNil';
@@ -14,12 +15,7 @@ import { useWalletHook } from '../snet-wallet-connector/walletHook';
 import SnetSnackbar from '../snet-snackbar';
 import SnetButton from '../snet-button';
 import { setWallets } from '../../services/redux/slices/wallet/walletSlice';
-import { externalLinks } from '../../utils/ConverterConstants';
-
-const availableBlockchains = {
-  ETHEREUM: 'ETHEREUM',
-  CARDANO: 'CARDANO'
-};
+import { availableBlockchains, externalLinks } from '../../utils/ConverterConstants';
 
 const SnetNavigation = ({ blockchains }) => {
   const [enableAgreeButton, setEnableAgreeButton] = useState(false);
@@ -77,14 +73,23 @@ const SnetNavigation = ({ blockchains }) => {
   };
 
   useEffect(() => {
+    // Fetching wallet addresses from cache
     if (!isNil(address) && !isNil(cardanoAddress)) {
       dispatch(setWallets(getWalletPairs()));
     }
   }, [address, cardanoAddress]);
 
-  const onSaveAddress = async (address) => {
-    setCardanoAddress(address);
-    await store.set(availableBlockchains.CARDANO, address);
+  const onSaveAddress = async (cardanoWalletAddress) => {
+    // Saving Cardano address to cache
+
+    const isValidCardanoWalletAddress = isValidShelleyAddress(cardanoWalletAddress);
+
+    if (isValidCardanoWalletAddress) {
+      setCardanoAddress(cardanoWalletAddress);
+      await store.set(availableBlockchains.CARDANO, cardanoWalletAddress);
+    } else {
+      setError({ showError: true, message: 'Invalid Cardano wallet address' });
+    }
   };
 
   const onClickDisconnectWallet = (blockchain) => {
