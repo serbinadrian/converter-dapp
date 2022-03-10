@@ -1,6 +1,5 @@
 import Web3 from 'web3';
-import isNil from 'lodash/isNil';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Web3Modal from 'web3modal';
 import round from 'lodash/round';
 import BigNumber from 'bignumber.js';
@@ -35,7 +34,6 @@ const web3Modal = new Web3Modal({
 });
 
 export const useWalletHook = () => {
-  const [isConnected, setIsConnected] = useState(false);
   const [address, setWalletAddress] = useState(null);
 
   const subscribeProvider = async (provider) => {
@@ -67,18 +65,6 @@ export const useWalletHook = () => {
       throw new Error(error.toString());
     }
   };
-
-  const initializeConnection = () => {
-    const connected = !isNil(web3Modal.cachedProvider);
-    setIsConnected(connected);
-    if (connected) {
-      openWallet();
-    }
-  };
-
-  useEffect(() => {
-    initializeConnection();
-  }, []);
 
   const getLatestBlock = async () => {
     const block = await web3.eth.getBlockNumber();
@@ -227,7 +213,6 @@ export const useWalletHook = () => {
     checkAllowance,
     openWallet,
     disconnectWallet,
-    isConnected,
     address,
     signMessage,
     getLatestBlock,
