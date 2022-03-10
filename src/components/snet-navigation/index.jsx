@@ -22,7 +22,7 @@ const SnetNavigation = ({ blockchains }) => {
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
   const [cardanoAddress, setCardanoAddress] = useState(null);
   const [error, setError] = useState({ showError: false, message: '' });
-  const { address, openWallet, disconnectWallet } = useWalletHook();
+  const { address, openWallet, disconnectEthereumWallet } = useWalletHook();
   const state = useSelector((state) => state);
   const { wallets } = state.wallet;
 
@@ -95,7 +95,7 @@ const SnetNavigation = ({ blockchains }) => {
   const onClickDisconnectWallet = (blockchain) => {
     const blockchainName = upperCase(blockchain);
     if (blockchainName === availableBlockchains.ETHEREUM) {
-      disconnectWallet();
+      disconnectEthereumWallet();
     }
     if (blockchainName === availableBlockchains.CARDANO) {
       setCardanoAddress(null);
