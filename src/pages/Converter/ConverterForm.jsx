@@ -184,7 +184,7 @@ const ConverterForm = () => {
       await approveSpender(tokenContractAddress, spender);
 
       setIsAuthorizationRequired(false);
-      setIsTokenConvertible(true);
+      setIsTokenConvertible(walletBalance.balance > 0);
 
       updateLoaderStatus(false);
     } catch (error) {
@@ -227,7 +227,7 @@ const ConverterForm = () => {
         getAllowanceInfo();
       } else {
         setIsAuthorizationRequired(false);
-        setIsTokenConvertible(true);
+        setIsTokenConvertible(walletBalance.balance > 0);
       }
     } else {
       setIsAuthorizationRequired(false);
