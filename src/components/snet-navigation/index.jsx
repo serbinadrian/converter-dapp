@@ -76,6 +76,12 @@ const SnetNavigation = ({ blockchains }) => {
     return [{ [availableBlockchains.CARDANO]: cardanoAddress }, { [availableBlockchains.ETHEREUM]: address }];
   };
 
+  useEffect(() => {
+    if (!isNil(address) && !isNil(cardanoAddress)) {
+      dispatch(setWallets(getWalletPairs()));
+    }
+  }, [address, cardanoAddress]);
+
   const onSaveAddress = async (address) => {
     setCardanoAddress(address);
     await store.set(availableBlockchains.CARDANO, address);
