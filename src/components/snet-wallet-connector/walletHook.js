@@ -38,24 +38,33 @@ const web3Modal = new Web3Modal({
 export const useWalletHook = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [address, setWalletAddress] = useState(null);
-  const [networkId, setNetworkId] = useState(null);
+  const [isUserAtExpectedNetwork, setIsUserAtExpectedNetwork] = useState(true);
 
-  const [userNetworkId, setUserNetworkId] = useState(null);
+  const detectNetwork = async () => {
+    console.log('@@@@');
+    const networkId = await web3.eth.net.getId();
+    const expectedNetworkId = process.env.REACT_APP_INFURA_NETWORK_ID;
+    console.log(`detectNetwork: networkId: ${networkId}`);
+    console.log(`detectNetwork: expectedNetworkId: ${expectedNetworkId}`);
+    setIsUserAtExpectedNetwork(Number(networkId) !== Number(expectedNetworkId));
+  };
+
+  useEffect(() => {
+    detectNetwork();
+  }, []);
 
   const subscribeProvider = async (provider) => {
     if (!provider.on) {
       return;
     }
-    setUserNetworkId(await web3.eth.net.getId());
-    // console.log('####', userNetworkId);
     provider.on('accountsChanged', async (accounts) => {
       const [address] = accounts;
       setWalletAddress(address);
     });
     provider.on('chainChanged', async (chainId) => {
-      const netId = await web3.eth.net.getId();
-      setNetworkId(netId);
-      console.log('chainChanged', chainId, netId, networkId, userNetworkId);
+      detectNetwork();
+      const networkId = await web3.eth.net.getId();
+      console.log('chainChanged', chainId, networkId);
     });
   };
 
@@ -206,6 +215,7 @@ export const useWalletHook = () => {
     getLatestBlock,
     conversionOut,
     balanceFromWallet,
-    convertToCogs
+    convertToCogs,
+    isUserAtExpectedNetwork
   };
 };

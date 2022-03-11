@@ -10,20 +10,19 @@ import { useWalletHook } from '../components/snet-wallet-connector/walletHook';
 const GeneralLayout = ({ children }) => {
   const dispatch = useDispatch();
   const { entities } = useSelector((state) => state.blockchains);
+  const { isUserAtExpectedNetwork } = useWalletHook();
   const [openModal, setOpenModal] = useState(false);
   const handleClose = () => setOpenModal(false);
-  const { userNetworkId } = useWalletHook();
+
+  console.log('$$$$$$$$', isUserAtExpectedNetwork);
+
+  useEffect(() => {
+    setOpenModal(isUserAtExpectedNetwork);
+  }, []);
 
   useEffect(() => {
     if (entities.length < 1) {
       dispatch(getAvailableBlockchains());
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log('@@@@@@@@@@@@@@@@', process.env.REACT_APP_INFURA_NETWORK_ID, userNetworkId);
-    if (process.env.REACT_APP_INFURA_NETWORK_ID !== userNetworkId) {
-      setOpenModal(true);
     }
   }, []);
 
