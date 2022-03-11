@@ -1,4 +1,4 @@
-import { red, grey } from '@mui/material/colors';
+import { red, grey, orange } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 import colorCode from './colorCodes';
 import MuliRegular from '../fonts/muli/Muli-Regular.ttf';
@@ -7,7 +7,20 @@ import MuliLight from '../fonts/muli/Muli-Light.ttf';
 const theme = createTheme({
   typography: {
     fontFamily: ['MuliRegular', 'MuliLight'].join(','),
-    fontSize: 18
+    fontSize: 18,
+    h6: {
+      fontSize: '14px'
+    },
+    h5: {
+      fontSize: '16px'
+    },
+    h3: {
+      fontSize: '20px'
+    },
+    caption: {
+      fontSize: '12px',
+      color: grey[500]
+    }
   },
   components: {
     MuiCssBaseline: {
@@ -44,6 +57,9 @@ const theme = createTheme({
     },
     grey: {
       main: grey[600]
+    },
+    warning: {
+      main: orange[500]
     }
   }
 });

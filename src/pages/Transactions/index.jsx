@@ -9,7 +9,7 @@ const Transactions = () => {
   return (
     <GeneralLayout>
       <SnetPaper>
-        <Typography marginBottom={2}>Transactions History</Typography>
+        <Typography marginBottom={6}>Transactions History</Typography>
         <TxnHistoryTable />
       </SnetPaper>
     </GeneralLayout>

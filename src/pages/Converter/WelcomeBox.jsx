@@ -5,7 +5,7 @@ import styles from './styles';
 
 const WelcomeBox = () => {
   return (
-    <Box sx={styles.welcomeBox}>
+    <Box sx={{ ...styles.welcomeBox }}>
       <Typography variant="h4" color="white.main" sx={styles.welcome}>
         Welcome
       </Typography>
