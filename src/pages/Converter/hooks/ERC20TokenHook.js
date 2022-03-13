@@ -42,8 +42,8 @@ export const useERC20TokenHook = () => {
     try {
       const [pair] = tokens.filter((token) => token.from_token.id === tokenPairId);
       const contractAddress = pair.contract_address;
-      // const amountInCogs = convertToCogs(amount, pair.from_token.allowed_decimal);
-      const amountInCogs = amount;
+      const amountInCogs = convertToCogs(amount, pair.from_token.allowed_decimal);
+      // const amountInCogs = amount;
       const { conversionId, signature } = await getConversionId(pair.id, amountInCogs, toTokenAddress);
       const txnLink = await convertEthToAda(contractAddress, amount, conversionId, signature, pair.from_token.allowed_decimal);
       setTxnInfo({ txnLink, txnAmount: amount, tokenName: pair.from_token.name, tokenSymbol: pair.from_token.symbol });
@@ -98,5 +98,20 @@ export const useERC20TokenHook = () => {
     }
   };
 
-  return { fetchWalletBalance, getAllowanceInfo, conversionEnabled, authorizationRequired, approveSpendLimit, loader, burnERC20Tokens, txnInfo };
+  const disableApprovalAndConversionChecks = () => {
+    setConversionEnabled(true);
+    setAuthorizationRequired(false);
+  };
+
+  return {
+    disableApprovalAndConversionChecks,
+    fetchWalletBalance,
+    getAllowanceInfo,
+    conversionEnabled,
+    authorizationRequired,
+    approveSpendLimit,
+    loader,
+    burnERC20Tokens,
+    txnInfo
+  };
 };

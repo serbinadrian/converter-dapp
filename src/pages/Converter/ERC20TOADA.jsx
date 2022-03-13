@@ -36,8 +36,17 @@ const ERC20TOADA = () => {
     updateWalletBalance,
     walletBalance
   } = useConverterHook();
-  const { fetchWalletBalance, getAllowanceInfo, conversionEnabled, authorizationRequired, approveSpendLimit, loader, burnERC20Tokens, txnInfo } =
-    useERC20TokenHook();
+  const {
+    disableApprovalAndConversionChecks,
+    fetchWalletBalance,
+    getAllowanceInfo,
+    conversionEnabled,
+    authorizationRequired,
+    approveSpendLimit,
+    loader,
+    burnERC20Tokens,
+    txnInfo
+  } = useERC20TokenHook();
   const { toAddress } = wallet;
 
   const getBalanceFromWallet = async () => {
