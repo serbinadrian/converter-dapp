@@ -148,7 +148,7 @@ export const useWalletHook = () => {
     console.log('approveSpender estimateGasPrice', estimateGasPrice);
     const response = await contract.methods
       .approve(spenderAddress, limitInCogs)
-      .send({ from: address, gasPrice: estimateGasPrice })
+      .send({ from: address })
       .on('transactionHash', (hash) => {
         console.log('approveSpender transactionHash', hash);
       })
@@ -165,9 +165,9 @@ export const useWalletHook = () => {
   //   return new BigNumber(blockGas).multipliedBy(estimate).toFixed();
   // };
 
-  const checkAllowance = async (tokenContractAddress, walletAddress, spenderAddress) => {
+  const checkAllowance = async (tokenContractAddress, spenderAddress) => {
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
-    const allowanceInCogs = await contract.methods.allowance(walletAddress, spenderAddress).call();
+    const allowanceInCogs = await contract.methods.allowance(address, spenderAddress).call();
     const decimals = await contract.methods.decimals().call();
     return convertAsReadableAmount(allowanceInCogs, decimals);
   };
@@ -205,6 +205,7 @@ export const useWalletHook = () => {
     console.log('Contract Address', contractAddress);
     console.log('Contract decimals', decimals);
     console.log('Amount for burn', amount);
+    console.log('conversionId', hexifiedConsversionId);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
     await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });

@@ -10,9 +10,10 @@ import SnetButton from '../../components/snet-button';
 import { useERC20TokenHook } from './hooks/ERC20TokenHook';
 import { availableBlockchains } from '../../utils/ConverterConstants';
 import SnetAlert from '../../components/snet-alert';
+import SnetLoader from '../../components/snet-loader';
 
 const ERC20TOADA = () => {
-  const { blockchains } = useSelector((state) => state);
+  const { blockchains, wallet } = useSelector((state) => state);
   const {
     fromBlockchains,
     toBlockchains,
@@ -34,7 +35,8 @@ const ERC20TOADA = () => {
     updateWalletBalance,
     walletBalance
   } = useConverterHook();
-  const { fetchWalletBalance, getAllowanceInfo } = useERC20TokenHook();
+  const { fetchWalletBalance, getAllowanceInfo, conversionEnabled, authorizationRequired, approveSpendLimit, loader, burnERC20Tokens } = useERC20TokenHook();
+  const { toAddress } = wallet;
 
   const getBalanceFromWallet = async () => {
     const balanceInfo = await fetchWalletBalance(fromTokenPair.token_address);
@@ -43,8 +45,7 @@ const ERC20TOADA = () => {
 
   useEffect(() => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM && Number(fromAndToTokenValues.fromValue) > 0) {
-      console.log(fromAndToTokenValues.fromValue);
-      console.log('fromAndToTokenValues', fromTokenPair);
+      getAllowanceInfo(fromTokenPair.id, fromAndToTokenValues.fromValue);
     }
   }, [fromAndToTokenValues]);
 
@@ -54,9 +55,21 @@ const ERC20TOADA = () => {
     }
   }, [fromTokenPair]);
 
-  const onClickAuhorize = () => {};
+  const onClickAuhorize = async () => {
+    try {
+      await approveSpendLimit(fromTokenPair.id);
+    } catch (error) {
+      console.log('onClickAuhorize', error);
+    }
+  };
 
-  const onClickConvert = () => {};
+  const onClickConvert = async () => {
+    try {
+      const txnLink = await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
+    } catch (error) {
+      console.log('onClickAuhorize', error);
+    }
+  };
 
   if (blockchains.entities.length === 0) {
     return (
@@ -68,6 +81,7 @@ const ERC20TOADA = () => {
 
   return (
     <SnetPaper>
+      <SnetLoader dialogBody={loader.message} onDialogClose={() => {}} isDialogOpen={loader.isLoading} dialogTitle={loader.title} />
       <TokenPairs
         fromBlockchains={fromBlockchains}
         fromSelectedBlockchain={fromSelectedBlockchain}
@@ -96,8 +110,8 @@ const ERC20TOADA = () => {
         </Stack>
       ) : null}
       <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
-        <SnetButton disabled name="Convert" onClick={onClickConvert} />
-        <SnetButton disabled name="Authorize" onClick={onClickAuhorize} />
+        <SnetButton disabled={!conversionEnabled} name="Convert" onClick={onClickConvert} />
+        <SnetButton disabled={!authorizationRequired} name="Authorize" onClick={onClickAuhorize} />
       </Stack>
     </SnetPaper>
   );

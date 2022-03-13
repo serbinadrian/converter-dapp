@@ -11,3 +11,11 @@ export const bigNumberSubtract = (value, subtractValue) => {
 export const convertFromCogs = (cogs, decimals) => {
   return new BigNumber(cogs).dividedBy(10 ** decimals).toString();
 };
+
+export const isValueGreaterThanProvided = (value, providedValue) => {
+  return new BigNumber(value).gt(providedValue);
+};
+
+export const isValueLessThanProvided = (value, providedValue) => {
+  return new BigNumber(value).lt(providedValue);
+};

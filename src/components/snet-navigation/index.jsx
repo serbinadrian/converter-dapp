@@ -14,7 +14,7 @@ import SnetBlockchainList from '../snet-blockchains-list';
 import { useWalletHook } from '../snet-wallet-connector/walletHook';
 import SnetSnackbar from '../snet-snackbar';
 import SnetButton from '../snet-button';
-import { setWallets } from '../../services/redux/slices/wallet/walletSlice';
+import { setFromAddress, setToAddress, setWallets } from '../../services/redux/slices/wallet/walletSlice';
 import { availableBlockchains, externalLinks } from '../../utils/ConverterConstants';
 
 const SnetNavigation = ({ blockchains }) => {
@@ -72,10 +72,16 @@ const SnetNavigation = ({ blockchains }) => {
     return [{ [availableBlockchains.CARDANO]: cardanoAddress }, { [availableBlockchains.ETHEREUM]: address }];
   };
 
+  const setWalletAddresses = () => {
+    dispatch(setWallets(getWalletPairs()));
+    dispatch(setFromAddress(getWalletAddress(availableBlockchains.CARDANO)));
+    dispatch(setToAddress(getWalletAddress(availableBlockchains.ETHEREUM)));
+  };
+
   useEffect(() => {
     // Fetching wallet addresses from cache
     if (!isNil(address) && !isNil(cardanoAddress)) {
-      dispatch(setWallets(getWalletPairs()));
+      setWalletAddresses();
     }
   }, [address, cardanoAddress]);
 
@@ -105,7 +111,7 @@ const SnetNavigation = ({ blockchains }) => {
 
   const getSignatureFromWallet = async () => {
     try {
-      dispatch(setWallets(getWalletPairs()));
+      setWalletAddresses();
       toggleWalletConnecting();
     } catch (e) {
       const message = e.message.toString() ?? e.toString();
