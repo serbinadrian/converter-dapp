@@ -7,20 +7,20 @@ export const useERC20TokenHook = () => {
   const [authorizationRequired, setAuthorizationRequired] = useState(false);
   const [conversionEnabled, setConversionEnabled] = useState(false);
   const [loader, setLoader] = useState({ isLoading: false, message: '', title: '' });
+  const [txnInfo, setTxnInfo] = useState({ txnLink: null, txnAmount: 0, tokenName: null, tokenSymbol: null });
 
   const { tokens } = useSelector((state) => state.tokenPairs);
 
-  const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, address, signMessage, conversionOut } = useWalletHook();
+  const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, address, signMessage, conversionOut, convertToCogs } = useWalletHook();
 
   const getConversionId = async (tokenpairId, amount, toAddress) => {
     try {
       setLoader({ isLoading: true, message: 'Please sign from your wallet...', title: 'Wallet Interaction' });
-      const amountForConversion = amount;
       const blockNumber = await getLatestBlock();
       const fromTokenAddress = address;
-      const personalSignature = await signMessage(tokenpairId, amountForConversion, fromTokenAddress, toAddress);
-      const { id, signature } = await generateConversionID(tokenpairId, amountForConversion, personalSignature, blockNumber, fromTokenAddress, toAddress);
-      return { conversionId: id, signature, amountForConversion };
+      const personalSignature = await signMessage(tokenpairId, amount, fromTokenAddress, toAddress);
+      const { id, signature } = await generateConversionID(tokenpairId, amount, personalSignature, blockNumber, fromTokenAddress, toAddress);
+      return { conversionId: id, signature, amount };
     } catch (error) {
       console.error(error);
       throw error;
@@ -42,11 +42,14 @@ export const useERC20TokenHook = () => {
     try {
       const [pair] = tokens.filter((token) => token.from_token.id === tokenPairId);
       const contractAddress = pair.contract_address;
-      const { conversionId, amountForConversion, signature } = await getConversionId(pair.id, amount, toTokenAddress);
-      const txnLink = await convertEthToAda(contractAddress, amountForConversion, conversionId, signature, pair.from_token.allowed_decimal);
-      return txnLink;
+      const amountInCogs = convertToCogs(amount, pair.from_token.allowed_decimal);
+      // const amountInCogs = amount;
+      const { conversionId, signature } = await getConversionId(pair.id, amountInCogs, toTokenAddress);
+      const txnLink = await convertEthToAda(contractAddress, amount, conversionId, signature, pair.from_token.allowed_decimal);
+      setTxnInfo({ txnLink, txnAmount: amount, tokenName: pair.from_token.name, tokenSymbol: pair.from_token.symbol });
     } catch (error) {
-      console.log('burnerc20', error);
+      console.log('Error on burnERC20Tokens', error);
+      throw error;
     } finally {
       setLoader({ isLoading: false, message: '', title: '' });
     }
@@ -95,5 +98,20 @@ export const useERC20TokenHook = () => {
     }
   };
 
-  return { fetchWalletBalance, getAllowanceInfo, conversionEnabled, authorizationRequired, approveSpendLimit, loader, burnERC20Tokens };
+  const disableApprovalAndConversionChecks = () => {
+    setConversionEnabled(true);
+    setAuthorizationRequired(false);
+  };
+
+  return {
+    disableApprovalAndConversionChecks,
+    fetchWalletBalance,
+    getAllowanceInfo,
+    conversionEnabled,
+    authorizationRequired,
+    approveSpendLimit,
+    loader,
+    burnERC20Tokens,
+    txnInfo
+  };
 };
