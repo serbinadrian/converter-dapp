@@ -79,12 +79,12 @@ export const useConverterHook = () => {
 
     if (value <= 0) {
       updateError(errorMessages.INVALID_AMOUNT);
-      // } else if (isValueLessThanProvided(value, pair.min_value)) {
-      //   const minValue = new BigNumber(pair.min_value).toString();
-      //   updateError(errorMessages.MINIMUM_TRANSACTION_AMOUNT + minValue + pair.from_token.symbol);
-      // } else if (isValueGreaterThanProvided(value, pair.max_value)) {
-      //   const maxValue = new BigNumber(pair.max_value).toString();
-      //   updateError(errorMessages.MINIMUM_TRANSACTION_AMOUNT + maxValue + pair.from_token.symbol);
+    } else if (isValueLessThanProvided(value, pair.min_value)) {
+      const minValue = new BigNumber(pair.min_value).toString();
+      updateError(errorMessages.MINIMUM_TRANSACTION_AMOUNT + minValue + pair.from_token.symbol);
+    } else if (isValueGreaterThanProvided(value, pair.max_value)) {
+      const maxValue = new BigNumber(pair.max_value).toString();
+      updateError(errorMessages.MINIMUM_TRANSACTION_AMOUNT + maxValue + pair.from_token.symbol);
     } else if (value > walletBalance.balance) {
       updateError(errorMessages.INSUFFICIENT_BALANCE_FROM);
     } else {
