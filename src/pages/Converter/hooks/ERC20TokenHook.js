@@ -48,7 +48,6 @@ export const useERC20TokenHook = () => {
       const txnLink = await convertEthToAda(contractAddress, amount, conversionId, signature, pair.from_token.allowed_decimal);
       setTxnInfo({ txnLink, txnAmount: amount, tokenName: pair.from_token.name, tokenSymbol: pair.from_token.symbol });
     } catch (error) {
-      console.log('burnERC20Tokens', error);
       throw error;
     } finally {
       setLoader({ isLoading: false, message: '', title: '' });
