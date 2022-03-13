@@ -16,6 +16,8 @@ module.exports = {
     'no-shadow': 'warn',
     'no-unused-vars': 'warn',
     'import/prefer-default-export': 'warn',
+    'array-callback-return': 'warn',
+    'consistent-return': 'warn',
     'react/forbid-prop-types': 'warn',
     'no-param-reassign': 'warn',
     'import/no-relative-packages': 'off',

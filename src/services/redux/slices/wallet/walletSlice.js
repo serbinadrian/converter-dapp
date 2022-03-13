@@ -2,8 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const walletSlice = createSlice({
   name: 'wallets',
-  initialState: { wallets: [], signature: '' },
+  initialState: { wallets: [], signature: '', fromAddress: null, toAddress: null },
   reducers: {
+    setFromAddress: (state, action) => {
+      state.fromAddress = action.payload;
+    },
+    setToAddress: (state, action) => {
+      state.toAddress = action.payload;
+    },
     setWallets(state, action) {
       state.wallets = action.payload;
     },
@@ -13,6 +19,6 @@ const walletSlice = createSlice({
   }
 });
 
-export const { setWallets, setSignature } = walletSlice.actions;
+export const { setWallets, setSignature, setFromAddress, setToAddress } = walletSlice.actions;
 
 export default walletSlice;

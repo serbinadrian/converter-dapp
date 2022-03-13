@@ -44,7 +44,7 @@ SnetConversionStatus.propTypes = {
   isDialogOpen: propTypes.bool.isRequired,
   onDialogClose: propTypes.func.isRequired,
   link: propTypes.string.isRequired,
-  amount: propTypes.string.isRequired,
+  amount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
   tokenName: propTypes.string.isRequired
 };
 
