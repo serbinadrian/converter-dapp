@@ -7,9 +7,11 @@ const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 const ConverterForm = lazy(() => import('./ConverterForm'));
 const WelcomeBox = lazy(() => import('./WelcomeBox'));
 const ADATOERC20ETH = lazy(() => import('./ADATOERC20ETH'));
+const ERC20TOADA = lazy(() => import('./ERC20TOADA'));
 
 const Converter = () => {
-  const { conversionDirection } = useSelector((state) => state.tokenPairs);
+  const { tokenPairs, blockchains } = useSelector((state) => state);
+  const { conversionDirection } = tokenPairs;
 
   return (
     <GeneralLayout>
@@ -25,7 +27,7 @@ const Converter = () => {
             <WelcomeBox />
           </Grid>
           <Grid item xs={12} md={7}>
-            <ConverterForm />
+            <ERC20TOADA />
           </Grid>
         </Grid>
       )}
