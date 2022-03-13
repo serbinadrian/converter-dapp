@@ -79,6 +79,7 @@ const ERC20TOADA = () => {
       await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
     } catch (error) {
       console.log('onClickConvert', error);
+      throw error;
     }
   };
 
