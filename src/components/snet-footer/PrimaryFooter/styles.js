@@ -7,14 +7,15 @@ export const useStyles = makeStyles({
     '@media (max-width:1023px)': { display: 'inline-block' }
   },
   LeftData: {
-    padding: '12px 30px 0 0',
+    paddingRight: 42,
     borderRightWidth: 1,
     borderRightStyle: 'solid',
     borderRightColor: 'rgba(219, 227, 231, 0.5)',
     '@media (max-width:1023px)': {
       borderBottom: 1,
       borderBottomStyle: 'solid',
-      padding: '0 15px',
+      borderBottomColor: '#DBE3E7',
+      padding: '0 15px 15px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between'
@@ -35,6 +36,10 @@ export const useStyles = makeStyles({
       }
     },
     '& li': {
+      listStyle: 'none',
+      color: '#9b9b9b',
+      fontSize: 14,
+      lineHeight: '24px',
       '&:last-of-type': {
         '@media (max-width:1023px)': { marginRight: 0 }
       },

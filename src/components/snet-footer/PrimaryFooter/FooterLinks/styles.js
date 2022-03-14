@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 export const useStyles = makeStyles({
   footerRightSideLinks: {
     display: 'flex',
-    padding: '18px 0 0 35px',
+    padding: '12px 0 0 69px',
     width: '100%',
     '@media (max-width:1023px) and (min-width:768px)': {
       width: 'auto',
@@ -21,6 +21,19 @@ export const useStyles = makeStyles({
     padding: 0,
     margin: '0 10% 0 0',
     '&:last-of-type': { marginRight: 0 },
+    '& > span': {
+      paddingBottom: 10,
+      display: 'inline-block',
+      color: '#fff',
+      fontSize: 20,
+      opacity: 0.8
+    },
+    '& li': {
+      listStyle: 'none',
+      color: '#9b9b9b',
+      fontSize: 14,
+      lineHeight: '24px'
+    },
     '@media (max-width:1023px) and (min-width:768px)': { width: '30%' },
     '@media (max-width:1279px) and (min-width:768px)': { marginRight: '3%' },
     '@media (max-width:768px)': {

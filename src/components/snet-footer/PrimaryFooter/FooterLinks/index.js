@@ -8,7 +8,7 @@ const FooterLinks = ({ data }) => {
     <div className={classes.footerRightSideLinks}>
       {data.map((item) => (
         <ul key={item.title} className={classes.footerLinksList}>
-          <span className={classes.footerLinksTitle}>{item.title}</span>;
+          <span className={classes.footerLinksTitle}>{item.title}</span>
           {item.children.map((child) => (
             <FooterLink key={child.label} image={child.image} link={child.link} label={child.label} internalLink={child.internalLink} />
           ))}

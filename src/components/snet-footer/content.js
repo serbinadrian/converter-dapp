@@ -1,4 +1,21 @@
-const PrimaryFooterLeft = [{ label: 'Foundation Site', link: 'https://singularitynet.io/' }];
+const PrimaryFooterLeft = [
+  {
+    label: 'Foundation Site',
+    link: 'https://singularitynet.io/'
+  },
+  {
+    label: 'Contact Us',
+    link: '#'
+  },
+  {
+    label: 'Terms of Service',
+    link: '#'
+  },
+  {
+    label: 'Privacy Policy',
+    link: '#'
+  }
+];
 
 const PrimaryFooterMain = [
   {
