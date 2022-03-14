@@ -1,21 +1,34 @@
 import { lazy } from 'react';
+import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
+import { availableBlockchains } from '../../utils/ConverterConstants';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 const ConverterForm = lazy(() => import('./ConverterForm'));
 const WelcomeBox = lazy(() => import('./WelcomeBox'));
+const ADATOERC20ETH = lazy(() => import('./ADATOERC20ETH'));
 
 const Converter = () => {
+  const { conversionDirection } = useSelector((state) => state.tokenPairs);
+
   return (
     <GeneralLayout>
-      <Grid display="flex" alignItems="flex-start" container spacing={2}>
-        <Grid item xs={12} md={5}>
-          <WelcomeBox />
+      {conversionDirection === availableBlockchains.CARDANO ? (
+        <Grid display="flex" justifyContent="center">
+          <Grid item>
+            <ADATOERC20ETH />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={7}>
-          <ConverterForm />
+      ) : (
+        <Grid display="flex" alignItems="flex-start" container spacing={2}>
+          <Grid item xs={12} md={5}>
+            <WelcomeBox />
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <ConverterForm />
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </GeneralLayout>
   );
 };

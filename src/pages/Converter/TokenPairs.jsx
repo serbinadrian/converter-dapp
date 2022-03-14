@@ -1,8 +1,8 @@
-import Fab from '@mui/material/Fab';
-import propTypes from 'prop-types';
-import { Typography, Box, Button } from '@mui/material';
-import Stack from '@mui/material/Stack';
 import SwapIcon from '@mui/icons-material/SwapVert';
+import { Box, Button, Typography } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import Stack from '@mui/material/Stack';
+import propTypes from 'prop-types';
 import SnetConversionOptions from '../../components/snet-conversion-input';
 
 const TokenPairs = ({
@@ -20,7 +20,11 @@ const TokenPairs = ({
   tokenSymbol,
   onUseFullamount,
   fromTokenPair,
-  toTokenPair
+  toTokenPair,
+  fromBlockchain,
+  toBlockchain,
+  onSelectingFromBlockchain,
+  onSelectingToBlockchain
 }) => {
   return (
     <>
@@ -28,10 +32,12 @@ const TokenPairs = ({
         tokenPair={fromTokenPair}
         handleSelectToken={onSelectingFromToken}
         blockchains={fromBlockchains}
+        selectedBlockchain={fromBlockchain}
         onInputChange={fromInputChange}
         inputValue={fromInputValue}
         direction="FROM"
         id="from"
+        handleBlockchainSelect={onSelectingFromBlockchain}
       />
       {showFetchAmountFromWallet ? (
         <Box display="flex" alignItems="center" marginTop={1}>
@@ -53,10 +59,12 @@ const TokenPairs = ({
         handleSelectToken={onSelectingToToken}
         readOnly
         blockchains={toBlockchains}
+        selectedBlockchain={toBlockchain}
         onInputChange={toInputChange}
         inputValue={toInputValue}
         direction="TO"
         id="to"
+        handleBlockchainSelect={onSelectingToBlockchain}
       />
     </>
   );
@@ -77,7 +85,11 @@ TokenPairs.propTypes = {
   balance: propTypes.oneOfType([propTypes.string, propTypes.number]),
   tokenSymbol: propTypes.string,
   fromTokenPair: propTypes.object,
-  toTokenPair: propTypes.object
+  toTokenPair: propTypes.object,
+  fromBlockchain: propTypes.object.isRequired,
+  toBlockchain: propTypes.object.isRequired,
+  onSelectingFromBlockchain: propTypes.func.isRequired,
+  onSelectingToBlockchain: propTypes.func.isRequired
 };
 
 TokenPairs.defaultProps = {

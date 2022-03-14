@@ -1,12 +1,14 @@
 import propTypes from 'prop-types';
 import FooterLink from '../../FooterLink';
+import { useStyles } from './styles';
 
 const FooterLinks = ({ data }) => {
+  const classes = useStyles();
   return (
-    <div>
+    <div className={classes.footerRightSideLinks}>
       {data.map((item) => (
-        <ul key={item.title}>
-          <span>{item.title}</span>;
+        <ul key={item.title} className={classes.footerLinksList}>
+          <span className={classes.footerLinksTitle}>{item.title}</span>;
           {item.children.map((child) => (
             <FooterLink key={child.label} image={child.image} link={child.link} label={child.label} internalLink={child.internalLink} />
           ))}

@@ -35,3 +35,28 @@ export const generateConversionID = async (tokenPairdId, amount, signature, bloc
     throw error;
   }
 };
+
+export const getConversionStatus = async (conversionId) => {
+  try {
+    const { data } = await axios.get(`conversion/${conversionId}`);
+    return data;
+  } catch (error) {
+    return [];
+  }
+};
+
+export const conversionClaim = async (conversionId, amount, signature, toAddress, fromAddress) => {
+  try {
+    const payload = {
+      amount,
+      signature,
+      to_address: toAddress,
+      from_address: fromAddress
+    };
+    const { data } = await axios.post(`conversion/${conversionId}/claim`, payload);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
