@@ -23,14 +23,16 @@ const HelpLinks = () => {
           return (
             <Fragment key={link.name}>
               <ListItemText style={styles.listItem}>
-                <Link to={link.url}>{link.name}</Link>
+                <Link style={styles.listItemText} to={link.url}>
+                  {link.name}
+                </Link>
               </ListItemText>
-              <Divider />
+              <Divider style={styles.listDivider} />
             </Fragment>
           );
         })}
       </List>
-      <Typography variant="caption" color="white.main" marginTop={3}>
+      <Typography variant="caption" marginTop={3} style={styles.viewAllLink}>
         View all help topics
       </Typography>
     </>
