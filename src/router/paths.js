@@ -2,11 +2,11 @@ const Paths = {
   Converter: '/',
   ContactUs: '/contact-us',
   Transactions: '/transactions',
-  BridgeOverview: '/help/bridge-overview',
-  SelectingNetworks: '/help/selecting-networks',
-  ChoosingAssets: '/help/choosing-assets',
-  InitiatingConversions: '/help/initiating-conversions',
-  ViewingHistory: '/help/viewing-history',
+  BridgeOverview: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/overview',
+  SelectingNetworks: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/selecting-networks',
+  ChoosingAssets: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/choosing-assets',
+  InitiatingConversions: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/initiating-conversion',
+  ViewingHistory: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/viewing-history',
   NotFound: '*'
 };
 
