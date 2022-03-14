@@ -10,6 +10,10 @@ const walletSlice = createSlice({
     setToAddress: (state, action) => {
       state.toAddress = action.payload;
     },
+    removeFromAndToAddress: (state, action) => {
+      state.fromAddress = null;
+      state.toAddress = null;
+    },
     setWallets(state, action) {
       state.wallets = action.payload;
     },
@@ -19,6 +23,6 @@ const walletSlice = createSlice({
   }
 });
 
-export const { setWallets, setSignature, setFromAddress, setToAddress } = walletSlice.actions;
+export const { setWallets, setSignature, setFromAddress, setToAddress, removeFromAndToAddress } = walletSlice.actions;
 
 export default walletSlice;
