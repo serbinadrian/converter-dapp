@@ -173,13 +173,9 @@ export const useWalletHook = () => {
   };
 
   const conversionIn = async (contractAddress, amountForMint, conversionId, signature, decimals) => {
-    const amount = web3.utils.toNumber(new BigNumber(amountForMint).toFixed());
+    const amount = web3.utils.toNumber(convertToCogs(amountForMint, decimals));
     const { v, r, s } = splitSignature(signature);
     const hexifiedConsversionId = web3.utils.toHex(conversionId);
-
-    console.log('Conversion amount', amount);
-    console.log('To Wallet Address', address);
-    console.log('ConversionId', conversionId);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
     await contract.methods.conversionIn(address, amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
@@ -206,8 +202,10 @@ export const useWalletHook = () => {
 
     console.log('Contract Address', contractAddress);
     console.log('Contract decimals', decimals);
-    console.log('Amount for burn', amount);
+    console.log('Amount for burn in cogs', amount);
+    console.log('Amount for burn', amountForBurn);
     console.log('conversionId', hexifiedConsversionId);
+    console.log('Singature', signature);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
     await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
