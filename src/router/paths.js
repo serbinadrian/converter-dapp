@@ -2,11 +2,11 @@ const Paths = {
   Converter: '/',
   ContactUs: '/contact-us',
   Transactions: '/transactions',
-  BridgeOverview: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/overview',
-  SelectingNetworks: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/selecting-networks',
-  ChoosingAssets: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/choosing-assets',
-  InitiatingConversions: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/initiating-conversion',
-  ViewingHistory: 'https://app.gitbook.com/o/yAH4HgC8Smk2bDFIg7Bv/s/4WWOh3MB2j6yOmCMfHqx/bridge/viewing-history',
+  BridgeOverview: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/overview',
+  SelectingNetworks: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/selecting-networks',
+  ChoosingAssets: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/choosing-assets',
+  InitiatingConversions: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/initiating-conversion',
+  ViewingHistory: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/viewing-history',
   NotFound: '*'
 };
 
