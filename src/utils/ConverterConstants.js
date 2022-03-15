@@ -5,6 +5,11 @@ const progress = {
   ERROR: 'ERROR'
 };
 
+export const supportedEthereumNetworks = {
+  1: 'Mainnet',
+  3: 'Ropsten'
+};
+
 export const conversionDirections = {
   ETH_TO_ADA: 'ETH_TO_ADA',
   ADA_TO_ETH: 'ADA_TO_ETH'
