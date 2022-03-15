@@ -13,7 +13,7 @@ const SnetConversionStatus = ({ link, isDialogOpen, onDialogClose, title, amount
 
   return (
     <SnetDialog isDialogOpen={isDialogOpen} onDialogClose={onDialogClose} title={title} showClosebutton>
-      <Grid xs={12} padding={4}>
+      <Grid item xs={12} padding={4}>
         <Box paddingY={2} display="flex" alignItems="center">
           <ProgressIcon color="warning" />
           <Typography align="center" color="grey" variant="body2" marginLeft={2}>

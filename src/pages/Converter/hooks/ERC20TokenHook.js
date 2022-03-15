@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWalletHook } from '../../../components/snet-wallet-connector/walletHook';
@@ -74,11 +75,15 @@ export const useERC20TokenHook = () => {
       const toAddress = address;
       const conversionInfo = await getConversionId(pair.id, amountInCogs, fromAddress, toAddress);
       const depositAmount = convertFromCogs(conversionInfo.depositAmount, decimals);
-      const conversionFees = convertToValueFromPercentage(depositAmount, pair.conversion_fee.percentage_from_source);
+      let conversionFees = 0;
+      if (!isEmpty(pair.conversion_fee)) {
+        conversionFees = convertToValueFromPercentage(depositAmount, pair.conversion_fee.percentage_from_source);
+      }
       const receievingAmount = bigNumberSubtract(depositAmount, conversionFees);
       return { ...conversionInfo, depositAmount, pair, receievingAmount, conversionFees };
     } catch (error) {
       console.log(error);
+      throw error;
     } finally {
       setConversionEnabled(true);
       setLoader({ isLoading: false, message: '', title: '' });

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import SnetAdaEthSteps from '../../components/snet-ada-eth-conversion-form/SnetAdaEthSteps';
 import SnetAdaEthTitle from '../../components/snet-ada-eth-conversion-form/SnetAdaEthTitle';
@@ -13,6 +14,7 @@ import { availableBlockchains, conversionSteps } from '../../utils/ConverterCons
 import { conversionClaim, getConversionStatus } from '../../utils/HttpRequests';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetLoader from '../../components/snet-loader';
+import Paths from '../../router/paths';
 
 const ADATOERC20ETH = () => {
   const { generateSignatureForClaim, conversionIn } = useWalletHook();
@@ -22,7 +24,7 @@ const ADATOERC20ETH = () => {
   const { conversionStepsForAdaToEth, activeStep, conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
 
   const { fromAddress, toAddress } = useSelector((state) => state.wallet);
-  const { conversionPair } = conversion;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleCancel = () => {
@@ -49,8 +51,6 @@ const ADATOERC20ETH = () => {
 
   const claimTheTokens = async (contractAddress, conversionId, amount, signature, decimals) => {
     try {
-      console.log('Claiming the tokens');
-      console.log(contractAddress, conversionId, amount, signature, decimals);
       return await conversionIn(contractAddress, amount, conversionId, signature, decimals);
     } catch (error) {
       console.log(error);
@@ -97,6 +97,10 @@ const ADATOERC20ETH = () => {
     }
   };
 
+  const continueLater = () => {
+    navigate(Paths.Transactions);
+  };
+
   const formatConversionTitle = () => {
     const { pair } = conversion;
     const from = `${pair.from_token.symbol} [${pair.from_token.blockchain.symbol}]`;
@@ -119,7 +123,7 @@ const ADATOERC20ETH = () => {
         {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.BURN_TOKENS ? (
           <DepositAndBurnTokens onClickCancel={handleCancel} />
         ) : null}
-        {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickClaim={getSignatureForClaim} /> : null}
+        {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
         {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
       </Box>
     </SnetPaper>

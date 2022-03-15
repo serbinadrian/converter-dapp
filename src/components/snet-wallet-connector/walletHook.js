@@ -35,7 +35,6 @@ const web3Modal = new Web3Modal({
   providerOptions
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const useWalletHook = () => {
   const [address, setWalletAddress] = useState(null);
   const [userSelecteNetworkId, setUserSelectedNetworkId] = useState(null);
@@ -189,9 +188,17 @@ export const useWalletHook = () => {
   };
 
   const conversionIn = async (contractAddress, amountForMint, conversionId, signature, decimals) => {
-    const amount = web3.utils.toNumber(convertToCogs(amountForMint, decimals));
+    const amount = new BigNumber(amountForMint).toFixed();
     const { v, r, s } = splitSignature(signature);
     const hexifiedConsversionId = web3.utils.toHex(conversionId);
+
+    console.log('conversionIn amount', amount);
+    console.log('conversionIn v', v);
+    console.log('conversionIn r', r);
+    console.log('conversionIn s', s);
+    console.log('conversionIn hexifiedConsversionId', hexifiedConsversionId);
+    console.log('conversionIn contractAddress', contractAddress);
+    console.log('conversion decimals', decimals);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
     await contract.methods.conversionIn(address, amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });

@@ -1,5 +1,6 @@
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Stack, Typography, Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import propTypes from 'prop-types';
 import List from '@mui/material/List';
@@ -7,11 +8,15 @@ import ListItem from '@mui/material/ListItem';
 import ColorCodes from '../../assets/theme/colorCodes';
 import SnetButton from '../snet-button';
 import Paths from '../../router/paths';
+import { setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { availableBlockchains } from '../../utils/ConverterConstants';
 
 const TransactionReceipt = ({ receiptLines, txnHash }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onClickFinish = () => {
+    dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
     navigate(Paths.Transactions);
   };
 

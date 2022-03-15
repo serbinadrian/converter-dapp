@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import { Stack } from '@mui/material';
 import { toUpper, isEmpty, isNil } from 'lodash';
@@ -14,9 +14,11 @@ import SnetLoader from '../../components/snet-loader';
 import SnetConversionStatus from '../../components/snet-conversion-status';
 import ADATOETHButton from '../../components/snet-converter-form-buttons/ADATOETHButton';
 import ETHTOADAButton from '../../components/snet-converter-form-buttons/ETHTOADAButton';
+import SnetSnackbar from '../../components/snet-snackbar';
 
 const ERC20TOADA = ({ onADATOETHConversion }) => {
   const { blockchains, wallet } = useSelector((state) => state);
+  const [toast, setToast] = useState(null);
   const {
     fromBlockchains,
     toBlockchains,
@@ -73,7 +75,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     try {
       await approveSpendLimit(fromTokenPair.id);
     } catch (error) {
-      console.log('onClickAuhorize', error);
+      setToast(error.message || error.toString());
     }
   };
 
@@ -82,7 +84,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
       const conversionInfo = await mintERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, fromAddress);
       onADATOETHConversion(conversionInfo);
     } catch (error) {
-      console.log('onAdaToEthConversion', error);
+      setToast(error.message || error.toString());
     }
   };
 
@@ -90,9 +92,13 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     try {
       await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
     } catch (error) {
-      console.log('onClickConvert', error);
+      setToast(error.message || error.toString());
       throw error;
     }
+  };
+
+  const resetToast = () => {
+    setToast(null);
   };
 
   if (blockchains.entities.length === 0) {
@@ -105,6 +111,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 
   return (
     <>
+      <SnetSnackbar open={!isNil(toast)} message={toast} onClose={resetToast} />
       <SnetConversionStatus
         isDialogOpen={!isNil(txnInfo.txnLink)}
         title="Conversion Status"
@@ -137,14 +144,14 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
           walletBalance={walletBalance.balance}
           walletTokenSymbol={walletBalance.symbol}
         />
-        {error.error ? (
+        {error.error && error.message.length ? (
           <Stack marginTop={4}>
             <SnetAlert error={error.message} />
           </Stack>
         ) : null}
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
           {wallet.conversionDirection === conversionDirections.ADA_TO_ETH ? (
-            <ADATOETHButton conversionEnabled onClickConvert={getConversionIdForADATOETH} />
+            <ADATOETHButton conversionEnabled={!error.message.length} onClickConvert={getConversionIdForADATOETH} />
           ) : (
             <ETHTOADAButton
               conversionEnabled={conversionEnabled && !error.error}
