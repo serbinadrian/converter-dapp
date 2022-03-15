@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWalletHook } from '../../../components/snet-wallet-connector/walletHook';
+import { bigNumberSubtract, convertFromCogs, convertToValueFromPercentage } from '../../../utils/bignumber';
 import { generateConversionID } from '../../../utils/HttpRequests';
 
 export const useERC20TokenHook = () => {
@@ -11,7 +12,8 @@ export const useERC20TokenHook = () => {
 
   const { tokens } = useSelector((state) => state.tokenPairs);
 
-  const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, address, signMessage, conversionOut, convertToCogs } = useWalletHook();
+  const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, address, signMessage, conversionOut, conversionIn, convertToCogs } =
+    useWalletHook();
 
   const resetTxnInfo = () => {
     setTxnInfo({ ...txnInfo, txnLink: null });
@@ -22,8 +24,14 @@ export const useERC20TokenHook = () => {
       setLoader({ isLoading: true, message: 'Please sign from your wallet...', title: 'Wallet Interaction' });
       const blockNumber = await getLatestBlock();
       const personalSignature = await signMessage(tokenpairId, amount, fromTokenAddress, toAddress);
-      const { id, signature } = await generateConversionID(tokenpairId, amount, personalSignature, blockNumber, fromTokenAddress, toAddress);
-      return { conversionId: id, signature, amount };
+      const conversionResponse = await generateConversionID(tokenpairId, amount, personalSignature, blockNumber, fromTokenAddress, toAddress);
+      return {
+        conversionId: conversionResponse.id,
+        signature: conversionResponse.signature,
+        amount,
+        depositAddress: conversionResponse.deposit_address,
+        depositAmount: conversionResponse.deposit_amount
+      };
     } catch (error) {
       console.error(error);
       throw error;
@@ -41,6 +49,17 @@ export const useERC20TokenHook = () => {
     }
   };
 
+  const convertAdaToEth = async (contractAddress, amount, conversionId, signature) => {
+    try {
+      setLoader({ isLoading: true, message: 'Please confirm transaction from your wallet...', title: 'Wallet Interaction' });
+      const transactionHash = await conversionIn(contractAddress, amount, conversionId, signature);
+      return `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${transactionHash}`;
+    } catch (error) {
+      console.log(JSON.stringify(error));
+      throw error;
+    }
+  };
+
   const disableButtons = () => {
     setAuthorizationRequired(false);
     setConversionEnabled(false);
@@ -50,9 +69,14 @@ export const useERC20TokenHook = () => {
     try {
       disableButtons();
       const [pair] = tokens.filter((token) => token.from_token.id === tokenPairId);
-      const amountInCogs = convertToCogs(amount, pair.from_token.allowed_decimal);
+      const decimals = pair.from_token.allowed_decimal;
+      const amountInCogs = convertToCogs(amount, decimals);
       const toAddress = address;
-      await getConversionId(pair.id, amountInCogs, fromAddress, toAddress);
+      const conversionInfo = await getConversionId(pair.id, amountInCogs, fromAddress, toAddress);
+      const depositAmount = convertFromCogs(conversionInfo.depositAmount, decimals);
+      const conversionFees = convertToValueFromPercentage(depositAmount, pair.conversion_fee.percentage_from_source);
+      const receievingAmount = bigNumberSubtract(depositAmount, conversionFees);
+      return { ...conversionInfo, depositAmount, pair, receievingAmount, conversionFees };
     } catch (error) {
       console.log(error);
     } finally {

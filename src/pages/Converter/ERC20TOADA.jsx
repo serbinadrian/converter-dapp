@@ -77,9 +77,10 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     }
   };
 
-  const onAdaToEthConversion = async () => {
+  const getConversionIdForADATOETH = async () => {
     try {
-      await mintERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, fromAddress);
+      const conversionInfo = await mintERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, fromAddress);
+      onADATOETHConversion(conversionInfo);
     } catch (error) {
       console.log('onAdaToEthConversion', error);
     }
@@ -143,7 +144,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
         ) : null}
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
           {wallet.conversionDirection === conversionDirections.ADA_TO_ETH ? (
-            <ADATOETHButton conversionEnabled onClickConvert={onAdaToEthConversion} />
+            <ADATOETHButton conversionEnabled onClickConvert={getConversionIdForADATOETH} />
           ) : (
             <ETHTOADAButton
               conversionEnabled={conversionEnabled && !error.error}

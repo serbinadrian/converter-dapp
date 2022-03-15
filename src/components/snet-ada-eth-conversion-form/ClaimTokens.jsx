@@ -7,8 +7,6 @@ import AdaToEthTokenAndValue from './AdaToEthTokenAndValue';
 const ClaimTokens = ({ onClickClaim, onClickContinueLater }) => {
   const { conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
 
-  const { conversionPair } = conversion;
-
   return (
     <>
       <Typography variant="h6" marginY={6}>
@@ -16,11 +14,11 @@ const ClaimTokens = ({ onClickClaim, onClickContinueLater }) => {
       </Typography>
       <AdaToEthTokenAndValue
         fromTokenAmount={conversion.depositAmount}
-        fromTokenSymbol={conversionPair.fromPair.symbol}
+        fromTokenSymbol={conversion.pair.from_token.symbol}
         toTokenAmount={conversion.receievingAmount}
-        toTokenSymbol={conversionPair.toTokenPair.symbol}
-        conversionFee={conversion.conversionCharge.amount}
-        conversionFeeTokenSymbol={conversion.conversionCharge.symbol}
+        toTokenSymbol={conversion.pair.to_token.symbol}
+        conversionFee={conversion.conversionFees}
+        conversionFeeTokenSymbol={conversion.pair.from_token.symbol}
       />
       <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
         <SnetButton name="Continue Later" variant="outlined" onClick={onClickContinueLater} />
