@@ -1,11 +1,12 @@
-import Container from '@mui/material/Container';
 import propTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Menubar from '../components/snet-navigation';
 import { getAvailableBlockchains } from '../services/redux/slices/blockchain/blockchainActions';
+import { useStyles } from './styles';
 
 const GeneralLayout = ({ children }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { entities } = useSelector((state) => state.blockchains);
   useEffect(() => {
@@ -17,7 +18,9 @@ const GeneralLayout = ({ children }) => {
   return (
     <>
       <Menubar blockchains={entities} />
-      <Container sx={{ marginTop: 8 }}>{children}</Container>
+      <div className={classes.mainContainer}>
+        <div className={classes.mainContainerWrapper}>{children}</div>
+      </div>
     </>
   );
 };
