@@ -4,7 +4,7 @@ import upperCase from 'lodash/upperCase';
 import { isValidShelleyAddress } from 'cardano-crypto.js';
 import propTypes from 'prop-types';
 import { Divider, Box, Typography } from '@mui/material';
-import isNil from 'lodash/isNil';
+import { isEmpty, isNil } from 'lodash';
 import store from 'store';
 
 import WalletNotConnectedMenu from './WalletNotConnectedMenu';
@@ -14,7 +14,7 @@ import SnetBlockchainList from '../snet-blockchains-list';
 import { useWalletHook } from '../snet-wallet-connector/walletHook';
 import SnetSnackbar from '../snet-snackbar';
 import SnetButton from '../snet-button';
-import { setWallets } from '../../services/redux/slices/wallet/walletSlice';
+import { setWallets, removeFromAndToAddress } from '../../services/redux/slices/wallet/walletSlice';
 import { availableBlockchains, externalLinks } from '../../utils/ConverterConstants';
 
 const SnetNavigation = ({ blockchains }) => {
@@ -69,13 +69,20 @@ const SnetNavigation = ({ blockchains }) => {
   };
 
   const getWalletPairs = () => {
-    return [{ [availableBlockchains.CARDANO]: cardanoAddress }, { [availableBlockchains.ETHEREUM]: address }];
+    return {
+      [availableBlockchains.ETHEREUM]: address,
+      [availableBlockchains.CARDANO]: cardanoAddress
+    };
+  };
+
+  const setWalletAddresses = () => {
+    dispatch(setWallets(getWalletPairs()));
   };
 
   useEffect(() => {
     // Fetching wallet addresses from cache
     if (!isNil(address) && !isNil(cardanoAddress)) {
-      dispatch(setWallets(getWalletPairs()));
+      setWalletAddresses();
     }
   }, [address, cardanoAddress]);
 
@@ -101,11 +108,13 @@ const SnetNavigation = ({ blockchains }) => {
       setCardanoAddress(null);
       store.remove(availableBlockchains.CARDANO);
     }
+
+    dispatch(removeFromAndToAddress());
   };
 
   const getSignatureFromWallet = async () => {
     try {
-      dispatch(setWallets(getWalletPairs()));
+      setWalletAddresses();
       toggleWalletConnecting();
     } catch (e) {
       const message = e.message.toString() ?? e.toString();
@@ -147,7 +156,7 @@ const SnetNavigation = ({ blockchains }) => {
           <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree" />
         </Box>
       </SnetDialog>
-      {wallets.length > 0 ? (
+      {!isEmpty(wallets) ? (
         <WalletConnectedMenu openConnectedWallets={openAvailableWalletOptions} />
       ) : (
         <WalletNotConnectedMenu onConnectWallets={openAvailableWalletOptions} />

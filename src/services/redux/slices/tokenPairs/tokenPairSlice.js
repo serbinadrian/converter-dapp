@@ -32,6 +32,9 @@ const tokenPairSlice = createSlice({
     },
     setActiveStep(state, action) {
       state.conversionOfAdaToEth.activeStep = action.payload;
+    },
+    setConversionStatus(state, action) {
+      state.conversionOfAdaToEth.conversion.status = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -45,6 +48,6 @@ const tokenPairSlice = createSlice({
   }
 });
 
-export const { setConversionDirection, setActiveStep, setAdaConversionInfo } = tokenPairSlice.actions;
+export const { setConversionDirection, setActiveStep, setAdaConversionInfo, setConversionStatus } = tokenPairSlice.actions;
 
 export default tokenPairSlice;

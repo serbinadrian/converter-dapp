@@ -1,5 +1,5 @@
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import propTypes from 'prop-types';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -19,7 +19,12 @@ const BlockchainDropdown = ({ curvedBorders, size, tokens, value, handleSelect, 
         input={<OutlinedInput />}
         value={value}
         renderValue={(selected) => {
-          return <Typography variant="body2">{selected.name || selected.symbol}</Typography>;
+          return (
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Avatar sx={styles.avatar} alt={selected.name} src={selected.logo} />
+              <Typography variant="body2">{selected.name || selected.symbol}</Typography>
+            </Stack>
+          );
         }}
         MenuProps={MenuProps}
         inputProps={{ 'aria-label': 'blockchain-dropown' }}
@@ -51,7 +56,7 @@ BlockchainDropdown.defaultProps = {
   curvedBorders: true,
   size: 'small',
   tokens: [],
-  value: { id: '' }
+  value: { id: '', logo: '' }
 };
 
 export default BlockchainDropdown;

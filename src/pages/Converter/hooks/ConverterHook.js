@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isEmpty, round } from 'lodash';
+import { isEmpty, round, toUpper } from 'lodash';
 import BigNumber from 'bignumber.js';
 import { getAvailableTokenPairs } from '../../../services/redux/slices/tokenPairs/tokenPairActions';
+import { setConversionDirection, setFromAddress, setToAddress } from '../../../services/redux/slices/wallet/walletSlice';
+import { errorMessages, conversionDirections, availableBlockchains } from '../../../utils/ConverterConstants';
+import { convertFromCogs, isValueGreaterThanProvided, isValueLessThanProvided } from '../../../utils/bignumber';
 
 const tokenPairDirection = {
   FROM: 'from_token',
@@ -10,15 +13,17 @@ const tokenPairDirection = {
 };
 
 export const useConverterHook = () => {
-  const [fromBlockchain, setFromBlockchain] = useState({});
-  const [toBlockchain, setToBlockchain] = useState({});
-  const [isConversionDisabled, setConversionDisabled] = useState(true);
+  const [fromBlockchains, setFromBlockchains] = useState([]);
+  const [toBlockchains, setToBlockchains] = useState([]);
+  const [fromSelectedBlockchain, setFromSelectedBlockchain] = useState({});
+  const [toSelectedBlockchain, setToSelectedBlockchain] = useState({});
+  const [fromTokenPair, setFromTokenPair] = useState({});
+  const [toTokenPair, setToTokenPair] = useState({});
   const [fromAndToTokenValues, setFromAndToTokenPairs] = useState({ fromValue: 0, toValue: 0 });
-  const [fromTokenPairs, setFromTokenPairs] = useState([]);
-  const [toTokenPairs, setToTokenPairs] = useState([]);
-  const [fromAndToTokenPair, setFromAndToTokenPair] = useState({ fromPair: {}, toTokenPair: {} });
+  const [walletBalance, setWalletBalance] = useState({ symbol: '', balance: 0 });
+
   const [conversionCharge, setConversionCharge] = useState({ symbol: '', amount: 0 });
-  const [tokenPair, setTokenPair] = useState({});
+  const [error, setError] = useState({ error: false, message: '' });
   const state = useSelector((state) => state);
   const blockchains = state.blockchains.entities;
   const { tokens } = state.tokenPairs;
@@ -26,55 +31,28 @@ export const useConverterHook = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (tokens.length < 1) {
-      dispatch(getAvailableTokenPairs());
+  const resetError = () => {
+    setError({ error: false, message: '' });
+  };
+
+  const updateError = (errorMessage) => {
+    setError({ error: true, message: errorMessage });
+  };
+
+  const updateWalletBalance = (balanceInfo) => {
+    if (fromAndToTokenValues.fromValue > balanceInfo.balance) {
+      updateError(errorMessages.INSUFFICIENT_BALANCE_FROM);
+    } else {
+      resetError();
     }
-  }, []);
-
-  const getPairs = (direction) => {
-    return blockchains.map((blockchain) => {
-      const tokenPairs = tokens.filter((tokenPair) => tokenPair[direction].blockchain.id === blockchain.id);
-      const pairs = tokenPairs.map((tokenPair) => tokenPair[direction]);
-      return { ...blockchain, pairs };
-    });
-  };
-
-  const setFromAndToPairs = () => {
-    const fromTokenPairs = getPairs(tokenPairDirection.FROM);
-    const toTokenPairs = getPairs(tokenPairDirection.TO).reverse();
-    setFromTokenPairs(fromTokenPairs);
-    setToTokenPairs(toTokenPairs);
-    setFromBlockchain(fromTokenPairs[0]);
-    setToBlockchain(toTokenPairs[0]);
-    setConversionDisabled(false);
-  };
-
-  useEffect(() => {
-    if (tokens.length > 0) {
-      setFromAndToPairs();
-    }
-  }, [tokens]);
-
-  const setWalletAmount = (amount) => {
-    const amountInString = amount.toString();
-    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: amountInString, toValue: amountInString });
-  };
-
-  const handleFromInputChange = (event) => {
-    const { value } = event.target;
-    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: value, toValue: value });
-  };
-
-  const handleToInputChange = (event) => {
-    const { value } = event.target;
-    setFromAndToTokenPairs({ ...fromAndToTokenValues, toValue: value, fromValue: value });
+    setWalletBalance(balanceInfo);
   };
 
   const updateConversionFees = () => {
     const { fromValue } = fromAndToTokenValues;
-    if (fromValue > 0 && !isEmpty(tokenPair)) {
+    if (fromValue > 0 && !isEmpty(fromTokenPair)) {
       let percentageFromSource = 0;
+      const [tokenPair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === fromTokenPair.id);
       if (!isEmpty(tokenPair.conversion_fee)) {
         percentageFromSource = BigNumber(tokenPair.conversion_fee.percentage_from_source);
       }
@@ -84,68 +62,163 @@ export const useConverterHook = () => {
       const fee = round((percentageFromSource * fromValue) / 100, 2);
 
       setConversionCharge({ amount: fee, symbol });
+    } else {
+      setConversionCharge({ amount: 0, symbol: '' });
     }
   };
 
-  const updateTokenPairId = () => {
-    const [selectedPair] = tokens.filter((token) => {
-      return token.from_token.id === fromAndToTokenPair.fromPair.id && token.to_token.id === fromAndToTokenPair.toTokenPair.id;
-    });
-
-    setTokenPair(selectedPair);
+  const onUseFullamount = (amount) => {
+    const amountInString = amount.toString();
+    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: amountInString, toValue: amountInString });
   };
 
-  const onSelectingFromToken = (pair) => {
-    const [selectedPair] = tokens.filter((token) => {
-      return token.from_token.id === pair.id;
-    });
-    setFromAndToTokenPair({ toTokenPair: selectedPair.to_token, fromPair: pair });
+  const handleFromInputChange = (event) => {
+    const { value } = event.target;
+
+    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: value, toValue: value });
+
+    const [pair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === fromTokenPair.id);
+
+    const pairMinValue = convertFromCogs(pair.min_value, pair.from_token.allowed_decimal);
+    const pairMaxValue = convertFromCogs(pair.max_value, pair.from_token.allowed_decimal);
+
+    if (value <= 0) {
+      updateError(errorMessages.INVALID_AMOUNT);
+    } else if (isValueLessThanProvided(value, pairMinValue)) {
+      updateError(errorMessages.MINIMUM_TRANSACTION_AMOUNT + pairMinValue + pair.from_token.symbol);
+    } else if (isValueGreaterThanProvided(value, pairMaxValue)) {
+      updateError(errorMessages.MAXIMUM_TRANSACTION_AMOUNT + pairMaxValue + pair.from_token.symbol);
+    } else if (value > walletBalance.balance) {
+      updateError(errorMessages.INSUFFICIENT_BALANCE_FROM);
+    } else {
+      resetError();
+    }
   };
 
-  const onSelectingToToken = (pair) => {
-    const [selectedPair] = tokens.filter((token) => {
-      return token.to_token.id === pair.id;
+  const handleToInputChange = (event) => {
+    const { value } = event.target;
+    setFromAndToTokenPairs({ ...fromAndToTokenValues, toValue: value, fromValue: value });
+  };
+
+  const onSelectingFromToken = (selectedToken) => {
+    const [toPair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === selectedToken.id);
+    setFromTokenPair(selectedToken);
+    setToTokenPair(toPair[tokenPairDirection.TO]);
+  };
+
+  const onSelectingToToken = (selectedToken) => {
+    const [fromPair] = tokens.filter((token) => token[tokenPairDirection.TO].id === selectedToken.id);
+    setToTokenPair(selectedToken);
+    setFromTokenPair(fromPair[tokenPairDirection.FROM]);
+  };
+
+  const getTokenPairsForChainConversions = (blockchainList, direction) => {
+    return blockchainList.map((blockchain) => {
+      const blockchainName = toUpper(blockchain.name);
+      const tokenPairs = tokens
+        .filter((token) => toUpper(token[direction].blockchain.name) === blockchainName)
+        .map((token) => {
+          return token[direction];
+        });
+      return { ...blockchain, tokenPairs };
     });
-    setFromAndToTokenPair({ fromPair: selectedPair.from_token, toTokenPair: pair });
+  };
+
+  const getAndSetBlockchainPairs = () => {
+    const blockchainListReversed = [...blockchains].reverse();
+    const fromBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchainListReversed, tokenPairDirection.FROM);
+    const toBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchains, tokenPairDirection.TO);
+    setFromBlockchains(fromBlockchainsWithTokenPairs);
+    setToBlockchains(toBlockchainsWithTokenPairs);
+    setFromSelectedBlockchain(fromBlockchainsWithTokenPairs[0]);
+    setToSelectedBlockchain(toBlockchainsWithTokenPairs[0]);
+    console.log('fromBlockchainsWithTokenPairs[0]', fromBlockchainsWithTokenPairs[0]);
+    setFromTokenPair(fromBlockchainsWithTokenPairs[0].tokenPairs[0]);
+    setToTokenPair(toBlockchainsWithTokenPairs[0].tokenPairs[0]);
+  };
+
+  const swapBlockchains = () => {
+    setFromBlockchains(toBlockchains);
+    setToBlockchains(fromBlockchains);
+    setFromSelectedBlockchain(toBlockchains[0]);
+    setToSelectedBlockchain(fromBlockchains[0]);
+    setFromTokenPair(toBlockchains[0].tokenPairs[0]);
+    setToTokenPair(fromBlockchains[0].tokenPairs[0]);
+
+    updateConversionFees();
+  };
+
+  const handleFromBlockchainSelection = () => {
+    swapBlockchains();
+  };
+
+  const handleToBlockchainSelection = () => {
+    swapBlockchains();
   };
 
   useEffect(() => {
-    updateConversionFees();
+    if (tokens.length < 1) {
+      dispatch(getAvailableTokenPairs());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (tokens.length > 0) {
+      getAndSetBlockchainPairs();
+    }
+  }, [tokens]);
+
+  useEffect(() => {
+    if (!isEmpty(fromTokenPair)) {
+      updateConversionFees();
+    }
   }, [fromAndToTokenValues]);
 
-  useEffect(() => {
-    if (fromAndToTokenPair.fromPair.id !== undefined && fromAndToTokenPair.toTokenPair.id !== undefined) {
-      updateTokenPairId();
-    }
-  }, [fromAndToTokenPair]);
+  const detectAndUpdateConversionDirection = () => {
+    if (!isEmpty(fromTokenPair) || !isEmpty(toTokenPair)) {
+      const FROM = fromSelectedBlockchain.symbol;
+      const TO = toSelectedBlockchain.symbol;
+      const direction = `${FROM}_TO_${TO}`;
+      dispatch(setConversionDirection(direction));
 
-  const getAddress = (blockchain) => {
-    const [address] = wallets.filter((wallet) => wallet[blockchain]);
-    return address[blockchain] ?? '';
+      if (!isEmpty(wallets)) {
+        const cardanoAddress = wallets[availableBlockchains.CARDANO];
+        const ethereumAddress = wallets[availableBlockchains.ETHEREUM];
+
+        const fromAddress = direction === conversionDirections.ADA_TO_ETH ? cardanoAddress : ethereumAddress;
+        const toAddress = direction === conversionDirections.ADA_TO_ETH ? ethereumAddress : cardanoAddress;
+
+        dispatch(setFromAddress(fromAddress));
+        dispatch(setToAddress(toAddress));
+      }
+    }
   };
 
-  const swapPairs = () => {};
+  useEffect(() => {
+    detectAndUpdateConversionDirection();
+  }, [toSelectedBlockchain, fromSelectedBlockchain]);
 
   return {
-    tokenPair,
-    tokens,
-    isConversionDisabled,
-    fromTokenPairs,
-    toTokenPairs,
-    blockchains,
     handleFromInputChange,
     handleToInputChange,
     fromAndToTokenValues,
-    swapPairs,
+    conversionCharge,
+    onUseFullamount,
+    setFromSelectedBlockchain,
+    setToSelectedBlockchain,
+    fromBlockchains,
+    toBlockchains,
+    fromSelectedBlockchain,
+    toSelectedBlockchain,
+    handleFromBlockchainSelection,
+    handleToBlockchainSelection,
+    swapBlockchains,
+    fromTokenPair,
+    toTokenPair,
     onSelectingFromToken,
     onSelectingToToken,
-    fromAndToTokenPair,
-    conversionCharge,
-    setWalletAmount,
-    getAddress,
-    fromBlockchain,
-    toBlockchain,
-    setFromBlockchain,
-    setToBlockchain
+    error,
+    walletBalance,
+    updateWalletBalance
   };
 };

@@ -19,6 +19,11 @@ const styles = {
   },
   padding: {
     padding: '2rem'
+  },
+  iconButton: {
+    backgroundColor: colorCodes.lightBlue,
+    color: colorCodes.white,
+    '&:hover': { backgroundColor: colorCodes.lightBlue, color: colorCodes.white }
   }
 };
 

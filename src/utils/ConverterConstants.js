@@ -5,11 +5,21 @@ const progress = {
   ERROR: 'ERROR'
 };
 
+export const conversionDirections = {
+  ETH_TO_ADA: 'ETH_TO_ADA',
+  ADA_TO_ETH: 'ADA_TO_ETH'
+};
+
 export const conversionStatuses = {
   PROCESSING: 'PROCESSING',
   USER_INITIATED: 'USER_INITIATED',
   COMPLETE: 'WAITING_FOR_CLAIM',
   IDLE: 'IDLE'
+};
+
+export const conversionDirection = {
+  FROM: 'FROM',
+  TO: 'TO'
 };
 
 export const availableBlockchains = {
@@ -50,3 +60,16 @@ export const conversionStepsForAdaToEth = [
     progress: progress.IDLE
   }
 ];
+
+export const errorMessages = {
+  INVALID_TOKEN_PAIR: 'Invalid token pair',
+  INVALID_TOKEN_PAIR_FROM: 'Invalid token pair from',
+  INVALID_TOKEN_PAIR_TO: 'Invalid token pair to',
+  INSUFFICIENT_BALANCE_FROM: 'Insufficient wallet balance from',
+  INSUFFICIENT_BALANCE_TO: 'Insufficient wallet balance to',
+  LIMIT_EXCEEDED_FROM: 'Limit exceeded from',
+  MINIMUM_TRANSACTION_AMOUNT: 'Minimum transaction amount is ',
+  MAXIMUM_TRANSACTION_AMOUNT: 'Maximum transaction amount is ',
+  LIMIT_EXCEEDED_TO: 'Limit exceeded to',
+  INVALID_AMOUNT: 'Invalid amount'
+};

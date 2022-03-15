@@ -1,15 +1,24 @@
 import { lazy } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import { availableBlockchains } from '../../utils/ConverterConstants';
+import { setAdaConversionInfo, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
-const ConverterForm = lazy(() => import('./ConverterForm'));
 const WelcomeBox = lazy(() => import('./WelcomeBox'));
 const ADATOERC20ETH = lazy(() => import('./ADATOERC20ETH'));
+const ERC20TOADA = lazy(() => import('./ERC20TOADA'));
 
 const Converter = () => {
-  const { conversionDirection } = useSelector((state) => state.tokenPairs);
+  const { tokenPairs } = useSelector((state) => state);
+  const { conversionDirection } = tokenPairs;
+
+  const dispatch = useDispatch();
+
+  const onADATOETHConversion = (conversionInfo) => {
+    dispatch(setAdaConversionInfo(conversionInfo));
+    dispatch(setConversionDirection(availableBlockchains.CARDANO));
+  };
 
   return (
     <GeneralLayout>
@@ -25,7 +34,7 @@ const Converter = () => {
             <WelcomeBox />
           </Grid>
           <Grid item xs={12} md={7}>
-            <ConverterForm />
+            <ERC20TOADA onADATOETHConversion={onADATOETHConversion} />
           </Grid>
         </Grid>
       )}
