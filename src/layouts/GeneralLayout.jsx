@@ -1,5 +1,6 @@
 import Container from '@mui/material/Container';
 import propTypes from 'prop-types';
+import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Menubar from '../components/snet-navigation';
@@ -16,9 +17,11 @@ const GeneralLayout = ({ children }) => {
   const handleClose = () => setOpenModal(false);
 
   useEffect(() => {
-    const expectedNetworkId = Number(process.env.REACT_APP_INFURA_NETWORK_ID);
-    const currentNetworkId = Number(userSelecteNetworkId);
-    setOpenModal(expectedNetworkId !== currentNetworkId);
+    if (!isNil(userSelecteNetworkId)) {
+      const expectedNetworkId = Number(process.env.REACT_APP_INFURA_NETWORK_ID);
+      const currentNetworkId = Number(userSelecteNetworkId);
+      setOpenModal(expectedNetworkId !== currentNetworkId);
+    }
   }, [userSelecteNetworkId]);
 
   useEffect(() => {
