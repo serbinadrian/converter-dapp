@@ -141,7 +141,7 @@ export const useWalletHook = () => {
 
   const approveSpender = async (tokenContractAddress, spenderAddress) => {
     const limitInCogs = convertToCogs(100000000, 8);
-    console.log('Spender Limit in: ', limitInCogs);
+    console.log('Spender Limit : ', limitInCogs);
     console.log('Token contract address', tokenContractAddress);
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
     const estimateGasLimit = await contract.methods.approve(spenderAddress, limitInCogs).estimateGas({ from: address });
