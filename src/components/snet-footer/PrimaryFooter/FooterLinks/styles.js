@@ -32,7 +32,10 @@ export const useStyles = makeStyles({
       listStyle: 'none',
       color: '#9b9b9b',
       fontSize: 14,
-      lineHeight: '24px'
+      lineHeight: '24px',
+      '&:hover': {
+        '& a': { color: '#fff' }
+      }
     },
     '@media (max-width:1023px) and (min-width:768px)': { width: '30%' },
     '@media (max-width:1279px) and (min-width:768px)': { marginRight: '3%' },

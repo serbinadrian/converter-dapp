@@ -11,7 +11,7 @@ const PrimaryFooter = ({ leftData, mainData }) => {
       <div className={classes.LeftData}>
         <div className={classes.FooterLogo}>
           <h1>
-            <a href="/" title="SingularityNET">
+            <a href="https://singularitynet.io/" title="SingularityNET">
               <img src={WhiteSnetLogo} alt="SingularityNET" />
             </a>
           </h1>

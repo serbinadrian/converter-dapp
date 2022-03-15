@@ -43,6 +43,9 @@ export const useStyles = makeStyles({
       '&:last-of-type': {
         '@media (max-width:1023px)': { marginRight: 0 }
       },
+      '&:hover': {
+        '& a': { color: '#fff' }
+      },
       '@media (max-width:1023px)': {
         marginRight: 25,
         display: 'inline-block'

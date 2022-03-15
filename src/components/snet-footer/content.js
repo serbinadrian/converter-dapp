@@ -1,19 +1,11 @@
 const PrimaryFooterLeft = [
   {
-    label: 'Foundation Site',
-    link: 'https://singularitynet.io/'
-  },
-  {
     label: 'Contact Us',
-    link: '#'
-  },
-  {
-    label: 'Terms of Service',
-    link: '#'
+    link: 'https://singularitynet.io/contact/'
   },
   {
     label: 'Privacy Policy',
-    link: '#'
+    link: 'https://public.singularitynet.io/privacy_policy.html'
   }
 ];
 
@@ -39,10 +31,9 @@ const PrimaryFooterMain = [
   {
     title: 'Ecosystem',
     children: [
-      { label: 'SingularityDAO', link: '#' },
-      { label: 'Rejuve', link: '#' },
-      { label: 'Nunet', link: '#' },
-      { label: 'Mindplex', link: 'https://telegram.me/singularitynet' }
+      { label: 'SingularityDAO', link: 'https://singularitydao.ai/' },
+      { label: 'Rejuve', link: 'https://rejuve.ai/' },
+      { label: 'Nunet', link: 'https://nunet.io/' }
     ]
   },
   {
