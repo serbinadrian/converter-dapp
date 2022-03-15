@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
-import round from 'lodash/round';
+import { isNil, round } from 'lodash';
 import store from 'store';
 import BigNumber from 'bignumber.js';
 import { splitSignature } from '@ethersproject/bytes';
@@ -80,13 +80,21 @@ export const useWalletHook = () => {
     if (walletAddress) {
       await connectEthereumWallet();
     }
+  };
 
-    await detectNetwork();
+  const isWalletsAvailable = async () => {
+    if (!isNil(address)) {
+      await detectNetwork();
+    }
   };
 
   useEffect(() => {
     checkWalletHasPreviouslyConnected();
   }, []);
+
+  useEffect(() => {
+    isWalletsAvailable();
+  }, [address]);
 
   const getLatestBlock = async () => {
     const block = await web3.eth.getBlockNumber();
