@@ -75,6 +75,8 @@ export const useConverterHook = () => {
   const handleFromInputChange = (event) => {
     const { value } = event.target;
 
+    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: value, toValue: value });
+
     const [pair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === fromTokenPair.id);
 
     const pairMinValue = convertFromCogs(pair.min_value, pair.from_token.allowed_decimal);
@@ -85,14 +87,12 @@ export const useConverterHook = () => {
     } else if (isValueLessThanProvided(value, pairMinValue)) {
       updateError(errorMessages.MINIMUM_TRANSACTION_AMOUNT + pairMinValue + pair.from_token.symbol);
     } else if (isValueGreaterThanProvided(value, pairMaxValue)) {
-      updateError(errorMessages.MINIMUM_TRANSACTION_AMOUNT + pairMaxValue + pair.from_token.symbol);
+      updateError(errorMessages.MAXIMUM_TRANSACTION_AMOUNT + pairMaxValue + pair.from_token.symbol);
     } else if (value > walletBalance.balance) {
       updateError(errorMessages.INSUFFICIENT_BALANCE_FROM);
     } else {
       resetError();
     }
-
-    setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: value, toValue: value });
   };
 
   const handleToInputChange = (event) => {
@@ -132,6 +132,7 @@ export const useConverterHook = () => {
     setToBlockchains(toBlockchainsWithTokenPairs);
     setFromSelectedBlockchain(fromBlockchainsWithTokenPairs[0]);
     setToSelectedBlockchain(toBlockchainsWithTokenPairs[0]);
+    console.log('fromBlockchainsWithTokenPairs[0]', fromBlockchainsWithTokenPairs[0]);
     setFromTokenPair(fromBlockchainsWithTokenPairs[0].tokenPairs[0]);
     setToTokenPair(toBlockchainsWithTokenPairs[0].tokenPairs[0]);
   };
