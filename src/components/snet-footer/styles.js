@@ -7,7 +7,7 @@ export const useStyles = makeStyles({
     right: 0,
     left: 0,
     zIndex: 9,
-    backgroundColor: 'rgba(46,6,83,1)',
+    backgroundColor: '#29113F',
     '@media (max-width:767px)': { padding: '21px 0 52px' }
   },
   footerWrapper: {
