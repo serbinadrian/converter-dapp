@@ -111,7 +111,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 
   return (
     <>
-      <SnetSnackbar open={toast} message={toast} onClose={resetToast} />
+      <SnetSnackbar open={!isNil(toast)} message={toast} onClose={resetToast} />
       <SnetConversionStatus
         isDialogOpen={!isNil(txnInfo.txnLink)}
         title="Conversion Status"

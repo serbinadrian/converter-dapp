@@ -198,7 +198,7 @@ export const useConverterHook = () => {
 
   useEffect(() => {
     detectAndUpdateConversionDirection();
-  }, [toSelectedBlockchain, fromSelectedBlockchain]);
+  }, [toSelectedBlockchain, fromSelectedBlockchain, wallets]);
 
   return {
     handleFromInputChange,

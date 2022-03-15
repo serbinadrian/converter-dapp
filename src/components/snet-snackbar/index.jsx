@@ -15,9 +15,14 @@ const SnetSnackbar = ({ open, onClose, message }) => {
 };
 
 SnetSnackbar.propTypes = {
-  open: propTypes.bool.isRequired,
+  open: propTypes.bool,
   onClose: propTypes.func.isRequired,
-  message: propTypes.string.isRequired
+  message: propTypes.string
+};
+
+SnetSnackbar.defaultProps = {
+  open: false,
+  message: ''
 };
 
 export default SnetSnackbar;
