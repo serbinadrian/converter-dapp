@@ -5,6 +5,11 @@ const progress = {
   ERROR: 'ERROR'
 };
 
+export const conversionDirections = {
+  ETH_TO_ADA: 'ETH_TO_ADA',
+  ADA_TO_ETH: 'ADA_TO_ETH'
+};
+
 export const conversionStatuses = {
   PROCESSING: 'PROCESSING',
   USER_INITIATED: 'USER_INITIATED',
