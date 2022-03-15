@@ -47,9 +47,11 @@ const ADATOERC20ETH = () => {
     setLoader({ isLoading, message, title });
   };
 
-  const claimTheTokens = async (contractAddress, conversionId, amount, signature) => {
+  const claimTheTokens = async (contractAddress, conversionId, amount, signature, decimals) => {
     try {
-      return await conversionIn(contractAddress, amount, conversionId, signature);
+      console.log('Claiming the tokens');
+      console.log(contractAddress, conversionId, amount, signature, decimals);
+      return await conversionIn(contractAddress, amount, conversionId, signature, decimals);
     } catch (error) {
       console.log(error);
       throw error;
@@ -70,18 +72,21 @@ const ADATOERC20ETH = () => {
       updateLoaderStatus(true, 'Please sign from wallet...');
       const amount = conversion.depositAmount;
       const { conversionId } = conversion;
+      const decimals = conversion.pair.from_token.allowed_decimal;
       const signature = await generateSignatureForClaim(conversionId, amount, fromAddress, toAddress);
       const response = await conversionClaim(conversionId, amount, signature, toAddress, fromAddress);
+
       updateLoaderStatus(true, 'Please confirm the transaction on your wallet...');
       const contractAddress = conversion.pair.contract_address;
-      const txn = await claimTheTokens(contractAddress, conversionId, response.claim_amount, response.signature);
-      setTransactionHash(txn.transactionHash);
+      const txnHash = await claimTheTokens(contractAddress, conversionId, response.claim_amount, response.signature, decimals);
+      setTransactionHash(txnHash);
+
       const receipt = generateReceipt(
         conversion.depositAmount,
         conversion.receievingAmount,
-        conversion.conversionCharge.amount,
-        conversionPair.fromPair.symbol,
-        conversionPair.toTokenPair.symbol
+        conversion.conversionFees,
+        conversion.pair.from_token.symbol,
+        conversion.pair.to_token.symbol
       );
       setTransactionReceipt(receipt);
       dispatch(setActiveStep(conversionSteps.SUMMARY));

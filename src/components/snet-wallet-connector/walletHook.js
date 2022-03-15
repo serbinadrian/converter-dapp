@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
-import round from 'lodash/round';
+import { isNil, round } from 'lodash';
 import store from 'store';
 import BigNumber from 'bignumber.js';
 import { splitSignature } from '@ethersproject/bytes';
@@ -38,20 +38,12 @@ const web3Modal = new Web3Modal({
 // eslint-disable-next-line import/prefer-default-export
 export const useWalletHook = () => {
   const [address, setWalletAddress] = useState(null);
-  const [isUserAtExpectedNetwork, setIsUserAtExpectedNetwork] = useState(true);
+  const [userSelecteNetworkId, setUserSelectedNetworkId] = useState(null);
 
   const detectNetwork = async () => {
-    console.log('@@@@');
     const networkId = await web3.eth.net.getId();
-    const expectedNetworkId = process.env.REACT_APP_INFURA_NETWORK_ID;
-    console.log(`detectNetwork: networkId: ${networkId}`);
-    console.log(`detectNetwork: expectedNetworkId: ${expectedNetworkId}`);
-    setIsUserAtExpectedNetwork(Number(networkId) !== Number(expectedNetworkId));
+    setUserSelectedNetworkId(networkId);
   };
-
-  useEffect(() => {
-    detectNetwork();
-  }, []);
 
   const subscribeProvider = async (provider) => {
     if (!provider.on) {
@@ -62,10 +54,8 @@ export const useWalletHook = () => {
       setWalletAddress(address);
     });
     provider.on('chainChanged', async (chainId) => {
-      detectNetwork();
-      const networkId = await web3.eth.net.getId();
+      await detectNetwork();
       console.log('Network changed');
-      console.log('chainChanged', chainId, networkId);
     });
   };
 
@@ -92,9 +82,19 @@ export const useWalletHook = () => {
     }
   };
 
+  const isWalletsAvailable = async () => {
+    if (!isNil(address)) {
+      await detectNetwork();
+    }
+  };
+
   useEffect(() => {
     checkWalletHasPreviouslyConnected();
   }, []);
+
+  useEffect(() => {
+    isWalletsAvailable();
+  }, [address]);
 
   const getLatestBlock = async () => {
     const block = await web3.eth.getBlockNumber();
@@ -189,13 +189,9 @@ export const useWalletHook = () => {
   };
 
   const conversionIn = async (contractAddress, amountForMint, conversionId, signature, decimals) => {
-    const amount = web3.utils.toNumber(new BigNumber(amountForMint).toFixed());
+    const amount = web3.utils.toNumber(convertToCogs(amountForMint, decimals));
     const { v, r, s } = splitSignature(signature);
     const hexifiedConsversionId = web3.utils.toHex(conversionId);
-
-    console.log('Conversion amount', amount);
-    console.log('To Wallet Address', address);
-    console.log('ConversionId', conversionId);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
     await contract.methods.conversionIn(address, amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
@@ -222,8 +218,10 @@ export const useWalletHook = () => {
 
     console.log('Contract Address', contractAddress);
     console.log('Contract decimals', decimals);
-    console.log('Amount for burn', amount);
+    console.log('Amount for burn in cogs', amount);
+    console.log('Amount for burn', amountForBurn);
     console.log('conversionId', hexifiedConsversionId);
+    console.log('Singature', signature);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
     await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
@@ -254,7 +252,7 @@ export const useWalletHook = () => {
     conversionOut,
     balanceFromWallet,
     convertToCogs,
-    isUserAtExpectedNetwork,
+    userSelecteNetworkId,
     generateSignatureForClaim,
     conversionIn
   };
