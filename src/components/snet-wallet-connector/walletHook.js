@@ -35,8 +35,23 @@ const web3Modal = new Web3Modal({
   providerOptions
 });
 
+// eslint-disable-next-line import/prefer-default-export
 export const useWalletHook = () => {
   const [address, setWalletAddress] = useState(null);
+  const [isUserAtExpectedNetwork, setIsUserAtExpectedNetwork] = useState(true);
+
+  const detectNetwork = async () => {
+    console.log('@@@@');
+    const networkId = await web3.eth.net.getId();
+    const expectedNetworkId = process.env.REACT_APP_INFURA_NETWORK_ID;
+    console.log(`detectNetwork: networkId: ${networkId}`);
+    console.log(`detectNetwork: expectedNetworkId: ${expectedNetworkId}`);
+    setIsUserAtExpectedNetwork(Number(networkId) !== Number(expectedNetworkId));
+  };
+
+  useEffect(() => {
+    detectNetwork();
+  }, []);
 
   const subscribeProvider = async (provider) => {
     if (!provider.on) {
@@ -47,6 +62,7 @@ export const useWalletHook = () => {
       setWalletAddress(address);
     });
     provider.on('chainChanged', async (chainId) => {
+      detectNetwork();
       const networkId = await web3.eth.net.getId();
       console.log('Network changed');
       console.log('chainChanged', chainId, networkId);
@@ -238,6 +254,7 @@ export const useWalletHook = () => {
     conversionOut,
     balanceFromWallet,
     convertToCogs,
+    isUserAtExpectedNetwork,
     generateSignatureForClaim,
     conversionIn
   };
