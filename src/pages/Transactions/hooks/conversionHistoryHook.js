@@ -14,10 +14,8 @@ export const useConversionHistoryHook = (address) => {
     const conversionDirection = `${fromDirection}_TO_${toDirection}`;
     const conversionId = entity.conversion.id;
 
-    const allowedDecimals = entity.from_token.allowed_decimal ?? 8;
-
-    const depositAmount = convertFromCogs(entity.conversion.deposit_amount, allowedDecimals);
-    const receievingAmount = convertFromCogs(entity.conversion.claim_amount, allowedDecimals);
+    const depositAmount = convertFromCogs(entity.conversion.deposit_amount, entity.from_token.allowed_decimal);
+    const receievingAmount = convertFromCogs(entity.conversion.claim_amount, entity.to_token.allowed_decimal);
     const conversionInfo = {
       conversionId,
       amount: entity.conversion.claim_amount,

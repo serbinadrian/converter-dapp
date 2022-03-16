@@ -52,7 +52,7 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
         break;
 
       default:
-        component = {};
+        component = <HourglassBottomIcon fontSize="small" color="primary" />;
         break;
     }
 
