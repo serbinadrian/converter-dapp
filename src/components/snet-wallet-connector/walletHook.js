@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
-import round from 'lodash/round';
+import { isNil, round } from 'lodash';
 import store from 'store';
 import BigNumber from 'bignumber.js';
 import { splitSignature } from '@ethersproject/bytes';
@@ -37,6 +37,12 @@ const web3Modal = new Web3Modal({
 
 export const useWalletHook = () => {
   const [address, setWalletAddress] = useState(null);
+  const [userSelecteNetworkId, setUserSelectedNetworkId] = useState(null);
+
+  const detectNetwork = async () => {
+    const networkId = await web3.eth.net.getId();
+    setUserSelectedNetworkId(networkId);
+  };
 
   const subscribeProvider = async (provider) => {
     if (!provider.on) {
@@ -47,9 +53,8 @@ export const useWalletHook = () => {
       setWalletAddress(address);
     });
     provider.on('chainChanged', async (chainId) => {
-      const networkId = await web3.eth.net.getId();
+      await detectNetwork();
       console.log('Network changed');
-      console.log('chainChanged', chainId, networkId);
     });
   };
 
@@ -76,9 +81,19 @@ export const useWalletHook = () => {
     }
   };
 
+  const isWalletsAvailable = async () => {
+    if (!isNil(address)) {
+      await detectNetwork();
+    }
+  };
+
   useEffect(() => {
     checkWalletHasPreviouslyConnected();
   }, []);
+
+  useEffect(() => {
+    isWalletsAvailable();
+  }, [address]);
 
   const getLatestBlock = async () => {
     const block = await web3.eth.getBlockNumber();
@@ -141,11 +156,11 @@ export const useWalletHook = () => {
 
   const approveSpender = async (tokenContractAddress, spenderAddress) => {
     const limitInCogs = convertToCogs(100000000, 8);
-    console.log('limitincogs', limitInCogs);
-    console.log('tokenContractAddress', tokenContractAddress);
+    console.log('Spender Limit : ', limitInCogs);
+    console.log('Token contract address', tokenContractAddress);
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
-    const estimateGasPrice = await contract.methods.approve(spenderAddress, limitInCogs).estimateGas({ from: address });
-    console.log('approveSpender estimateGasPrice', estimateGasPrice);
+    const estimateGasLimit = await contract.methods.approve(spenderAddress, limitInCogs).estimateGas({ from: address });
+    console.log('approveSpender estimateGasLimit', estimateGasLimit);
     const response = await contract.methods
       .approve(spenderAddress, limitInCogs)
       .send({ from: address })
@@ -173,28 +188,34 @@ export const useWalletHook = () => {
   };
 
   const conversionIn = async (contractAddress, amountForMint, conversionId, signature, decimals) => {
-    const amount = web3.utils.toNumber(new BigNumber(amountForMint).toFixed());
+    const amount = new BigNumber(amountForMint).toFixed();
     const { v, r, s } = splitSignature(signature);
     const hexifiedConsversionId = web3.utils.toHex(conversionId);
 
     console.log('conversionIn amount', amount);
-    console.log('to', address);
-    console.log('conversionIn conversionId', conversionId);
+    console.log('conversionIn v', v);
+    console.log('conversionIn r', r);
+    console.log('conversionIn s', s);
+    console.log('conversionIn hexifiedConsversionId', hexifiedConsversionId);
+    console.log('conversionIn contractAddress', contractAddress);
+    console.log('conversion decimals', decimals);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
-    const estimateGasPrice = await contract.methods.conversionIn(address, amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
-    console.log('conversionIn estimateGasPrice', estimateGasPrice);
-    const response = await contract.methods
-      .conversionIn(address, amount, hexifiedConsversionId, v, r, s)
-      .send({ from: address })
-      .on('transactionHash', (hash) => {
-        console.log('conversionIn transactionHash', hash);
-      })
-      .on('error', (error, receipt) => {
-        console.log('conversionIn error', error.toString());
-        console.log('conversionIn error receipt', receipt.toString());
-      });
-    return response;
+    await contract.methods.conversionIn(address, amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
+
+    return new Promise((resolve, reject) => {
+      contract.methods
+        .conversionIn(address, amount, hexifiedConsversionId, v, r, s)
+        .send({ from: address })
+        .on('transactionHash', (transactionHash) => {
+          resolve(transactionHash);
+        })
+        .on('error', (error, receipt) => {
+          console.log('conversionIn error', error.toString());
+          console.log('conversionIn error receipt', receipt.toString());
+          reject(error.toString());
+        });
+    });
   };
 
   const conversionOut = async (contractAddress, amountForBurn, conversionId, signature, decimals) => {
@@ -204,23 +225,27 @@ export const useWalletHook = () => {
 
     console.log('Contract Address', contractAddress);
     console.log('Contract decimals', decimals);
-    console.log('Amount for burn', amount);
+    console.log('Amount for burn in cogs', amount);
+    console.log('Amount for burn', amountForBurn);
     console.log('conversionId', hexifiedConsversionId);
+    console.log('Singature', signature);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
     await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
 
-    const response = await contract.methods
-      .conversionOut(amount, hexifiedConsversionId, v, r, s)
-      .send({ from: address })
-      .on('transactionHash', (hash) => {
-        console.log('transactionHash', hash);
-      })
-      .on('error', (error, receipt) => {
-        console.log('conversionOut error', error.toString());
-        console.log('conversionOut error receipt', receipt.toString());
-      });
-    return response;
+    return new Promise((resolve, reject) => {
+      contract.methods
+        .conversionOut(amount, hexifiedConsversionId, v, r, s)
+        .send({ from: address })
+        .on('transactionHash', (transactionHash) => {
+          resolve(transactionHash);
+        })
+        .on('error', (error, receipt) => {
+          console.log('conversionOut error', error.toString());
+          console.log('conversionOut error receipt', receipt.toString());
+          reject(error.toString());
+        });
+    });
   };
 
   return {
@@ -234,6 +259,7 @@ export const useWalletHook = () => {
     conversionOut,
     balanceFromWallet,
     convertToCogs,
+    userSelecteNetworkId,
     generateSignatureForClaim,
     conversionIn
   };

@@ -1,9 +1,8 @@
 import { Fragment } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
-import { Link } from 'react-router-dom';
+import { Link, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
-import { Typography } from '@mui/material';
 import styles from './styles';
 import Paths from '../../router/paths';
 
@@ -23,7 +22,7 @@ const HelpLinks = () => {
           return (
             <Fragment key={link.name}>
               <ListItemText style={styles.listItem}>
-                <Link style={styles.listItemText} to={link.url}>
+                <Link target="_blank" rel="noopener noreferrer" href={link.url} color="inherit" underline="none" style={styles.listItemText}>
                   {link.name}
                 </Link>
               </ListItemText>

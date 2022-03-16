@@ -19,3 +19,7 @@ export const isValueGreaterThanProvided = (value, providedValue) => {
 export const isValueLessThanProvided = (value, providedValue) => {
   return new BigNumber(value).lt(providedValue);
 };
+
+export const convertToValueFromPercentage = (value, percentage) => {
+  return new BigNumber(value).times(percentage).dividedBy(100).toString();
+};

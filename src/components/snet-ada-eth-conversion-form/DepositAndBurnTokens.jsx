@@ -11,8 +11,6 @@ import { setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairS
 const DepositAndBurnTokens = ({ onClickCancel }) => {
   const { conversion, activeStep } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
 
-  const { conversionPair } = conversion;
-
   const isDepositReceived = conversion.status === conversionStatuses.COMPLETE;
   const isWaitingForDeposit = activeStep === conversionSteps.DEPOSIT_TOKENS;
 
@@ -34,11 +32,11 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
       <Box>
         <AdaToEthTokenAndValue
           fromTokenAmount={conversion.depositAmount}
-          fromTokenSymbol={conversionPair.fromPair.symbol}
+          fromTokenSymbol={conversion.pair.from_token.symbol}
           toTokenAmount={conversion.receievingAmount}
-          toTokenSymbol={conversionPair.toTokenPair.symbol}
-          conversionFee={conversion.conversionCharge.amount}
-          conversionFeeTokenSymbol={conversion.conversionCharge.symbol}
+          toTokenSymbol={conversion.pair.to_token.symbol}
+          conversionFee={conversion.conversionFees}
+          conversionFeeTokenSymbol={conversion.pair.from_token.symbol}
         />
         <Box marginY={6}>
           <SnetInputWithCopy value={conversion.depositAddress} label="Cardano Deposit Address" />

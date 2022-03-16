@@ -9,7 +9,10 @@ const axios = instance.create({
 
 axios.interceptors.response.use(
   (response) => response.data,
-  (error) => Promise.reject(error)
+  (error) => {
+    const exception = error.response.data.error.details || error.response;
+    return Promise.reject(exception);
+  }
 );
 
 export default axios;
