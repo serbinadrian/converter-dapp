@@ -8,6 +8,9 @@ export const useConversionHistoryHook = (address) => {
 
   const formatSingleEntity = (entity) => {
     const chainType = `${entity.from_token.symbol} - ${entity.to_token.symbol}`;
+    const fromDirection = entity.from_token.blockchain.symbol;
+    const toDirection = entity.to_token.blockchain.symbol;
+    const conversionDirection = `${fromDirection}_TO_${toDirection}`;
 
     return {
       id: entity.conversion.id,
@@ -18,14 +21,16 @@ export const useConversionHistoryHook = (address) => {
       claimAmount: entity.conversion.claim_amount,
       feeAmount: entity.conversion.fee_amount,
       lastUpdatedAt: entity.conversion.updated_at,
-      chainType,
       fromToken: entity.from_token.symbol,
-      toToken: entity.to_token.symbol
+      toToken: entity.to_token.symbol,
+      transactions: entity.transactions,
+      chainType,
+      conversionDirection
     };
   };
 
-  const formatConversionHistory = (conversionHistory) => {
-    const formatted = conversionHistory.map((conversion) => {
+  const formatConversionHistory = (history) => {
+    const formatted = history.map((conversion) => {
       return formatSingleEntity(conversion);
     });
 

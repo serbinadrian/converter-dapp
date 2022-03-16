@@ -15,6 +15,12 @@ export const conversionDirections = {
   ADA_TO_ETH: 'ADA_TO_ETH'
 };
 
+export const txnOperations = {
+  TOKEN_RECEIVED: 'TOKEN_RECEIVED',
+  TOKEN_BURNT: 'TOKEN_BURNT',
+  TOKEN_MINTED: 'TOKEN_MINTED'
+};
+
 export const conversionStatuses = {
   PROCESSING: 'PROCESSING',
   USER_INITIATED: 'USER_INITIATED',

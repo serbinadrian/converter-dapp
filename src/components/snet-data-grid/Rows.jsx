@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-// import Collapse from '@mui/material/Collapse';
+import Collapse from '@mui/material/Collapse';
 import WarningIcon from '@mui/icons-material/Warning';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
@@ -10,6 +10,7 @@ import propTypes from 'prop-types';
 import CardActions from '@mui/material/CardActions';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { utcToLocalDateTime } from '../../utils/Date';
+import Transactions from './Transactions';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -22,7 +23,7 @@ const ExpandMore = styled((props) => {
   })
 }));
 
-const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, status }) => {
+const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, status, transactions, conversionDirection }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -74,9 +75,11 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
           </ExpandMore>
         </CardActions>
       </Box>
-      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <Typography paragraph>Txn Hash</Typography>
-      </Collapse> */}
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {transactions.map((transaction) => {
+          return <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />;
+        })}
+      </Collapse>
     </>
   );
 };
@@ -88,7 +91,9 @@ Rows.propTypes = {
   fromAddress: propTypes.string.isRequired,
   toAddress: propTypes.string.isRequired,
   chainType: propTypes.string.isRequired,
-  status: propTypes.string.isRequired
+  status: propTypes.string.isRequired,
+  transactions: propTypes.arrayOf(propTypes.any).isRequired,
+  conversionDirection: propTypes.string.isRequired
 };
 
 export default Rows;
