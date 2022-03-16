@@ -23,9 +23,17 @@ export const txnOperations = {
 
 export const conversionStatuses = {
   PROCESSING: 'PROCESSING',
+  SUCCESS: 'SUCCESS',
   USER_INITIATED: 'USER_INITIATED',
-  COMPLETE: 'WAITING_FOR_CLAIM',
+  WAITING_FOR_CLAIM: 'WAITING_FOR_CLAIM',
   IDLE: 'IDLE'
+};
+
+export const conversionStatusMessages = {
+  [conversionStatuses.PROCESSING]: 'Processing',
+  [conversionStatuses.USER_INITIATED]: 'User initiated',
+  [conversionStatuses.WAITING_FOR_CLAIM]: 'Claim tokens',
+  [conversionStatuses.IDLE]: 'Idle'
 };
 
 export const conversionDirection = {

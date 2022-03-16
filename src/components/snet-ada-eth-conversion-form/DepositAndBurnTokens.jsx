@@ -11,7 +11,7 @@ import { setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairS
 const DepositAndBurnTokens = ({ onClickCancel }) => {
   const { conversion, activeStep } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
 
-  const isDepositReceived = conversion.status === conversionStatuses.COMPLETE;
+  const isDepositReceived = conversion.status === conversionStatuses.WAITING_FOR_CLAIM;
   const isWaitingForDeposit = activeStep === conversionSteps.DEPOSIT_TOKENS;
 
   const dispatch = useDispatch();
