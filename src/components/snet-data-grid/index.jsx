@@ -18,6 +18,8 @@ const SnetDataGrid = ({ columns, rows }) => {
             toAddress={row.toAddress}
             toToken={row.toToken}
             status={row.status}
+            transactions={row.transactions}
+            conversionDirection={row.conversionDirection}
           />
         );
       })}
