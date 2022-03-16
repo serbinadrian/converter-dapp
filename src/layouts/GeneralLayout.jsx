@@ -41,9 +41,7 @@ const GeneralLayout = ({ children }) => {
     <>
       <SnetModal open={openModal} handleClose={handleClose} heading="Unsupported Network" message={getNetworkName()} />
       <Menubar blockchains={entities} />
-      <div className={classes.mainContainer}>
-        {children}
-      </div>
+      <div className={classes.mainContainer}>{children}</div>
       <SnetFooter />
     </>
   );
