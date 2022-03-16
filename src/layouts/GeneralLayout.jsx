@@ -6,6 +6,7 @@ import Menubar from '../components/snet-navigation';
 import SnetModal from '../components/snet-modal';
 import { getAvailableBlockchains } from '../services/redux/slices/blockchain/blockchainActions';
 import { useStyles } from './styles';
+import SnetFooter from '../components/snet-footer';
 import { useWalletHook } from '../components/snet-wallet-connector/walletHook';
 import { supportedEthereumNetworks } from '../utils/ConverterConstants';
 
@@ -41,8 +42,9 @@ const GeneralLayout = ({ children }) => {
       <SnetModal open={openModal} handleClose={handleClose} heading="Unsupported Network" message={getNetworkName()} />
       <Menubar blockchains={entities} />
       <div className={classes.mainContainer}>
-        <div className={classes.mainContainerWrapper}>{children}</div>
+        {children}
       </div>
+      <SnetFooter />
     </>
   );
 };
