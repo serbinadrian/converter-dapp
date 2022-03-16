@@ -1,16 +1,19 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import WarningIcon from '@mui/icons-material/Warning';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import SuccessIcon from '@mui/icons-material/CheckCircleOutline';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import propTypes from 'prop-types';
 import CardActions from '@mui/material/CardActions';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { utcToLocalDateTime } from '../../utils/Date';
 import Transactions from './Transactions';
+import { conversionStatuses } from '../../utils/ConverterConstants';
+import SnetButton from '../snet-button';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -23,17 +26,39 @@ const ExpandMore = styled((props) => {
   })
 }));
 
-const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, status, transactions, conversionDirection }) => {
+const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, status, transactions, conversionDirection, handleResume }) => {
   const [expanded, setExpanded] = useState(false);
+  const dispatch = useDispatch();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const availableStatus = {
-    USER_INITIATED: 'USER_INITIATED',
-    SUCCESS: 'SUCCESS',
-    PROCESSING: 'PROCESSING'
+  const conversionStatus = (status, onContinue) => {
+    let component;
+    switch (status) {
+      case conversionStatuses.USER_INITIATED:
+        component = <SnetButton name="View" onClick={onContinue} variant="outlined" />;
+        break;
+
+      case conversionStatuses.PROCESSING:
+        component = <HourglassBottomIcon fontSize="small" color="primary" />;
+        break;
+
+      case conversionStatuses.SUCCESS:
+        component = <SuccessIcon fontSize="small" color="success" />;
+        break;
+
+      case conversionStatuses.WAITING_FOR_CLAIM:
+        component = <SnetButton name="Continue" onClick={onContinue} variant="outlined" />;
+        break;
+
+      default:
+        component = {};
+        break;
+    }
+
+    return component;
   };
 
   return (
@@ -64,10 +89,10 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
           </Typography>
         </Box>
         <Box display="flex" alignItems="center">
-          {status === availableStatus.USER_INITIATED ? <WarningIcon fontSize="small" color="warning" /> : null}
-          {status === availableStatus.SUCCESS ? <CheckCircleOutlineIcon fontSize="small" color="success" /> : null}
-          {status === availableStatus.PROCESSING ? <HourglassBottomIcon fontSize="small" color="primary" /> : null}
-          <Typography variant="caption">{status}</Typography>
+          {conversionStatus(status, handleResume)}
+          {status !== conversionStatuses.WAITING_FOR_CLAIM && status !== conversionStatuses.USER_INITIATED ? (
+            <Typography variant="caption">{status}</Typography>
+          ) : null}
         </Box>
         <CardActions disableSpacing>
           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
@@ -93,7 +118,8 @@ Rows.propTypes = {
   chainType: propTypes.string.isRequired,
   status: propTypes.string.isRequired,
   transactions: propTypes.arrayOf(propTypes.any).isRequired,
-  conversionDirection: propTypes.string.isRequired
+  conversionDirection: propTypes.string.isRequired,
+  handleResume: propTypes.func.isRequired
 };
 
 export default Rows;

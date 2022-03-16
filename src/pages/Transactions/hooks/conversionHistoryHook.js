@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from '../../../utils/Axios';
+import { convertFromCogs } from '../../../utils/bignumber';
 
 export const useConversionHistoryHook = (address) => {
   const [conversionHistory, setConversionHistory] = useState([]);
@@ -11,9 +12,23 @@ export const useConversionHistoryHook = (address) => {
     const fromDirection = entity.from_token.blockchain.symbol;
     const toDirection = entity.to_token.blockchain.symbol;
     const conversionDirection = `${fromDirection}_TO_${toDirection}`;
+    const conversionId = entity.conversion.id;
+
+    const allowedDecimals = entity.from_token.allowed_decimal ?? 8;
+
+    const depositAmount = convertFromCogs(entity.conversion.deposit_amount, allowedDecimals);
+    const receievingAmount = convertFromCogs(entity.conversion.claim_amount, allowedDecimals);
+    const conversionInfo = {
+      conversionId,
+      amount: entity.conversion.claim_amount,
+      depositAddress: entity.wallet_pair.deposit_address,
+      depositAmount,
+      pair: { from_token: entity.from_token, to_token: entity.to_token },
+      receievingAmount
+    };
 
     return {
-      id: entity.conversion.id,
+      id: conversionId,
       fromAddress: entity.wallet_pair.from_address,
       toAddress: entity.wallet_pair.to_address,
       status: entity.conversion.status,
@@ -25,7 +40,8 @@ export const useConversionHistoryHook = (address) => {
       toToken: entity.to_token.symbol,
       transactions: entity.transactions,
       chainType,
-      conversionDirection
+      conversionDirection,
+      conversionInfo
     };
   };
 
