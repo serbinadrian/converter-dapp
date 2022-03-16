@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -28,7 +27,6 @@ const ExpandMore = styled((props) => {
 
 const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, status, transactions, conversionDirection, handleResume }) => {
   const [expanded, setExpanded] = useState(false);
-  const dispatch = useDispatch();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
