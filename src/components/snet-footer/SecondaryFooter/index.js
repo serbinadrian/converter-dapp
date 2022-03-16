@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const SecondaryFooter = () => {
-  return <Typography>Copyright © {moment().format('YYYY')} SingularityNET All rights reserved.</Typography>;
+  return <Typography>Copyright © {dayjs().format('YYYY')} SingularityNET All rights reserved.</Typography>;
 };
 
 export default SecondaryFooter;
