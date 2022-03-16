@@ -31,9 +31,9 @@ const HelpLinks = () => {
           );
         })}
       </List>
-      <Typography variant="caption" marginTop={3} style={styles.viewAllLink}>
+      {/* <Typography variant="caption" marginTop={3} style={styles.viewAllLink}>
         View all help topics
-      </Typography>
+      </Typography> */}
     </>
   );
 };
