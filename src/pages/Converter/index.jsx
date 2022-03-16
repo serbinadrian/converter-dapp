@@ -30,12 +30,14 @@ const Converter = () => {
         </Grid>
       ) : (
         <Grid display="flex" alignItems="flex-start" container spacing={2}>
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} md={1} />
+          <Grid item xs={12} md={4}>
             <WelcomeBox />
           </Grid>
           <Grid item xs={12} md={7}>
             <ERC20TOADA onADATOETHConversion={onADATOETHConversion} />
           </Grid>
+          <Grid item xs={12} md={1} />
         </Grid>
       )}
     </GeneralLayout>

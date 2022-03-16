@@ -1,21 +1,46 @@
 import colorCodes from '../../assets/theme/colorCodes';
-import WelcomeImage from '../../assets/images/welcome.png';
 
 const styles = {
   welcome: {
-    lineHeight: '34px',
-    letterSpacing: '0.25px'
+    color: '#000',
+    fontSize: 32,
+    fontWeight: 600,
+    lineHeight: '48px',
+    letterSpacing: '-0.5px'
   },
   welcomeBox: {
-    boxShadow: '0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)',
-    padding: 4,
+    boxShadow: '0 1px 3px 0 rgba(0,0,0,0.14), 0 2px 3px -1px rgba(0,0,0,0.14)',
+    padding: '40px 31px 108px 32px',
     backgroundColor: colorCodes.white,
-    background: 'linear-gradient(180deg, #184FA7 0%, #061753 100%)',
-    borderRadius: '8px',
-    backgroundImage: WelcomeImage
+    background: 'linear-gradient(180deg, #E6EAFF 0.06%, #CAA7F9 100%);',
+    borderRadius: '8px'
+  },
+  welcomeIntro: {
+    marginTop: '16px',
+    marginBottom: '38px',
+    color: '#2A2A2A',
+    fontSize: 18,
+    fontWeight: 300,
+    lineHeight: '26px'
   },
   listItem: {
-    color: 'white'
+    padding: '4px 0',
+    margin: 0
+  },
+  listItemText: {
+    color: '#512DA8',
+    fontSize: '20px',
+    letterSpacing: 0.25,
+    lineHeight: '34px'
+  },
+  listDivider: {
+    background: '#fff'
+  },
+  viewAllLink: {
+    color: '#512DA8',
+    fontSize: 14,
+    fontWeight: 600,
+    letterSpacing: 0.17
   },
   padding: {
     padding: '2rem'
@@ -24,6 +49,9 @@ const styles = {
     backgroundColor: colorCodes.lightBlue,
     color: colorCodes.white,
     '&:hover': { backgroundColor: colorCodes.lightBlue, color: colorCodes.white }
+  },
+  list: {
+    backgroundColor: 'red'
   }
 };
 

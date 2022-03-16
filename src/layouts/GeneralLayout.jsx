@@ -1,4 +1,3 @@
-import Container from '@mui/material/Container';
 import propTypes from 'prop-types';
 import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -6,10 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Menubar from '../components/snet-navigation';
 import SnetModal from '../components/snet-modal';
 import { getAvailableBlockchains } from '../services/redux/slices/blockchain/blockchainActions';
+import { useStyles } from './styles';
+import SnetFooter from '../components/snet-footer';
 import { useWalletHook } from '../components/snet-wallet-connector/walletHook';
 import { supportedEthereumNetworks } from '../utils/ConverterConstants';
 
 const GeneralLayout = ({ children }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { entities } = useSelector((state) => state.blockchains);
   const { userSelecteNetworkId } = useWalletHook();
@@ -39,7 +41,8 @@ const GeneralLayout = ({ children }) => {
     <>
       <SnetModal open={openModal} handleClose={handleClose} heading="Unsupported Network" message={getNetworkName()} />
       <Menubar blockchains={entities} />
-      <Container sx={{ marginTop: 8 }}>{children}</Container>
+      <div className={classes.mainContainer}>{children}</div>
+      <SnetFooter />
     </>
   );
 };

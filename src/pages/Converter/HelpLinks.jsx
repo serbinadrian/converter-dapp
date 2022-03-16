@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import styles from './styles';
 import Paths from '../../router/paths';
@@ -16,27 +16,20 @@ const HelpLinks = () => {
   ];
 
   return (
-    <>
-      <List>
-        {links.map((link) => {
-          return (
-            <Fragment key={link.name}>
-              <ListItemText style={styles.listItem}>
-                <Link target="_blank" rel="noopener noreferrer" href={link.url} color="inherit" underline="none">
-                  {link.name}
-                </Link>
-              </ListItemText>
-              <Divider />
-            </Fragment>
-          );
-        })}
-      </List>
-      {
-        //  <Typography variant="caption" color="white.main" marginTop={3}>
-        //  View all help topics
-        //  </Typography> -->
-      }
-    </>
+    <List>
+      {links.map((link) => {
+        return (
+          <Fragment key={link.name}>
+            <ListItemText style={styles.listItem}>
+              <Link target="_blank" rel="noopener noreferrer" href={link.url} color="inherit" underline="none" style={styles.listItemText}>
+                {link.name}
+              </Link>
+            </ListItemText>
+            <Divider style={styles.listDivider} />
+          </Fragment>
+        );
+      })}
+    </List>
   );
 };
 
