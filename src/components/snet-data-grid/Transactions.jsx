@@ -10,6 +10,10 @@ const Transactions = ({ transaction, conversionDirection }) => {
       return `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${txnHash}`;
     }
 
+    if (conversionDirection === conversionDirections.ADA_TO_ETH && transaction.transaction_operation === txnOperations.TOKEN_MINTED) {
+      return `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${txnHash}`;
+    }
+
     return `${process.env.REACT_APP_CARDANOSCAN_TXN_BASE_URL}/${txnHash}`;
   };
 
