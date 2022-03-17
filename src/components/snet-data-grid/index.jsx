@@ -5,6 +5,7 @@ import { toLocalDateTime } from '../../utils/Date';
 import Columns from './Columns';
 import Rows from './Rows';
 import { setAdaConversionInfo, setConversionDirection, setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { setFromAddress, setToAddress } from '../../services/redux/slices/wallet/walletSlice';
 import { availableBlockchains, conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
 import paths from '../../router/paths';
 
@@ -14,6 +15,11 @@ const SnetDataGrid = ({ columns, rows }) => {
 
   const handleResume = (conversionInfo, conversionStatus) => {
     const activeStep = conversionStatus === conversionStatuses.WAITING_FOR_CLAIM ? conversionSteps.CLAIM_TOKENS : conversionSteps.BURN_TOKENS;
+
+    const { wallet } = conversionInfo;
+
+    dispatch(setFromAddress(wallet.from_address));
+    dispatch(setToAddress(wallet.to_address));
     dispatch(setAdaConversionInfo(conversionInfo));
     dispatch(setConversionDirection(availableBlockchains.CARDANO));
     dispatch(setActiveStep(activeStep));

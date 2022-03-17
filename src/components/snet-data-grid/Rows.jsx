@@ -11,7 +11,7 @@ import CardActions from '@mui/material/CardActions';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { utcToLocalDateTime } from '../../utils/Date';
 import Transactions from './Transactions';
-import { conversionStatuses } from '../../utils/ConverterConstants';
+import { conversionDirections, conversionStatuses } from '../../utils/ConverterConstants';
 import SnetButton from '../snet-button';
 
 const ExpandMore = styled((props) => {
@@ -52,7 +52,7 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
         break;
 
       default:
-        component = <HourglassBottomIcon fontSize="small" color="primary" />;
+        component = <WarningIcon fontSize="small" color="warning" />;
         break;
     }
 
