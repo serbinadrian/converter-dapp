@@ -69,7 +69,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM) {
       getBalanceFromWallet();
     }
-  }, [fromTokenPair, wallets]);
+  }, [fromTokenPair, wallets, fromAndToTokenValues]);
 
   const onClickAuthorize = async () => {
     try {
