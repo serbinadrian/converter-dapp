@@ -45,6 +45,11 @@ export const useWalletHook = () => {
     return networkId;
   };
 
+  const getWalletAddress = async () => {
+    const [walletAddress] = await web3.eth.getAccounts();
+    return web3.utils.toChecksumAddress(walletAddress);
+  };
+
   const isUserAtExpectedNetwork = async () => {
     const currentNetworkId = await detectNetwork();
     return Number(currentNetworkId) === Number(INFURA_NETWORK_ID);
@@ -139,7 +144,9 @@ export const useWalletHook = () => {
       { type: 'uint256', value: blockNumber }
     );
 
-    const hash = await web3.eth.personal.sign(message, address);
+    const walletAddress = await getWalletAddress();
+
+    const hash = await web3.eth.personal.sign(message, walletAddress);
     return hash;
   };
 
@@ -162,7 +169,7 @@ export const useWalletHook = () => {
   const balanceFromWallet = async (tokenContractAddress) => {
     try {
       const contractAddress = web3.utils.toChecksumAddress(tokenContractAddress);
-      const [walletAddress] = await web3.eth.getAccounts();
+      const walletAddress = await getWalletAddress();
       const contract = new web3.eth.Contract(ERC20TokenABI, contractAddress);
       const balanceInCogs = await contract.methods.balanceOf(walletAddress).call();
       const decimals = await contract.methods.decimals().call();
@@ -180,30 +187,30 @@ export const useWalletHook = () => {
     console.log('Spender Limit : ', limitInCogs);
     console.log('Token contract address', tokenContractAddress);
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
-    const estimateGasLimit = await contract.methods.approve(spenderAddress, limitInCogs).estimateGas({ from: address });
+    const walletAddress = await getWalletAddress();
+    const estimateGasLimit = await contract.methods.approve(spenderAddress, limitInCogs).estimateGas({ from: walletAddress });
     console.log('approveSpender estimateGasLimit', estimateGasLimit);
     const response = await contract.methods
       .approve(spenderAddress, limitInCogs)
-      .send({ from: address })
+      .send({ from: walletAddress })
       .on('transactionHash', (hash) => {
         console.log('approveSpender transactionHash', hash);
       })
-      .on('error', (error, receipt) => {
+      .on('error', (error) => {
         console.log('approveSpender error', error.toString());
-        console.log('approveSpender error receipt', receipt.toString());
       });
     return response;
   };
 
-  // const estimateGasFee = async (estimate) => {
-  //   const latestBlock = await web3.eth.getBlock('latest');
-  //   const blockGas = latestBlock.gasLimit;
-  //   return new BigNumber(blockGas).multipliedBy(estimate).toFixed();
-  // };
+  const estimateGasPrice = async (estimate) => {
+    const gasPrice = await web3.eth.getGasPrice();
+    return gasPrice;
+  };
 
   const checkAllowance = async (tokenContractAddress, spenderAddress) => {
+    const walletAddress = await getWalletAddress();
     const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
-    const allowanceInCogs = await contract.methods.allowance(address, spenderAddress).call();
+    const allowanceInCogs = await contract.methods.allowance(walletAddress, spenderAddress).call();
     const decimals = await contract.methods.decimals().call();
     return convertAsReadableAmount(allowanceInCogs, decimals);
   };
@@ -212,6 +219,7 @@ export const useWalletHook = () => {
     const amount = new BigNumber(amountForMint).toFixed();
     const { v, r, s } = splitSignature(signature);
     const hexifiedConsversionId = web3.utils.toHex(conversionId);
+    const walletAddress = await getWalletAddress();
 
     console.log('conversionIn amount', amount);
     console.log('conversionIn v', v);
@@ -222,12 +230,14 @@ export const useWalletHook = () => {
     console.log('conversion decimals', decimals);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
-    await contract.methods.conversionIn(address, amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
+    await contract.methods.conversionIn(walletAddress, amount, hexifiedConsversionId, v, r, s).estimateGas({ from: walletAddress });
+
+    const gasPrice = await estimateGasPrice();
 
     return new Promise((resolve, reject) => {
       contract.methods
-        .conversionIn(address, amount, hexifiedConsversionId, v, r, s)
-        .send({ from: address })
+        .conversionIn(walletAddress, amount, hexifiedConsversionId, v, r, s)
+        .send({ from: walletAddress, gasPrice })
         .on('transactionHash', (transactionHash) => {
           resolve(transactionHash);
         })
@@ -242,6 +252,7 @@ export const useWalletHook = () => {
     const amount = web3.utils.toNumber(convertToCogs(amountForBurn, decimals));
     const { v, r, s } = splitSignature(signature);
     const hexifiedConsversionId = web3.utils.toHex(conversionId);
+    const walletAddress = await getWalletAddress();
 
     console.log('Contract Address', contractAddress);
     console.log('Contract decimals', decimals);
@@ -251,12 +262,14 @@ export const useWalletHook = () => {
     console.log('Singature', signature);
 
     const contract = new web3.eth.Contract(TokenConversionManagerABI, contractAddress);
-    await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: address });
+    await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).estimateGas({ from: walletAddress });
+
+    const gasPrice = await estimateGasPrice();
 
     return new Promise((resolve, reject) => {
       contract.methods
         .conversionOut(amount, hexifiedConsversionId, v, r, s)
-        .send({ from: address })
+        .send({ from: walletAddress, gasPrice })
         .on('transactionHash', (transactionHash) => {
           resolve(transactionHash);
         })
@@ -280,6 +293,7 @@ export const useWalletHook = () => {
     convertToCogs,
     userSelecteNetworkId,
     generateSignatureForClaim,
-    conversionIn
+    conversionIn,
+    getWalletAddress
   };
 };

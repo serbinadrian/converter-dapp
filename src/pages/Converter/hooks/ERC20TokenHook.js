@@ -13,7 +13,7 @@ export const useERC20TokenHook = () => {
 
   const { tokens } = useSelector((state) => state.tokenPairs);
 
-  const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, address, signMessage, conversionOut, conversionIn, convertToCogs } =
+  const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, signMessage, conversionOut, conversionIn, convertToCogs, getWalletAddress } =
     useWalletHook();
 
   const resetTxnInfo = () => {
@@ -50,17 +50,6 @@ export const useERC20TokenHook = () => {
     }
   };
 
-  const convertAdaToEth = async (contractAddress, amount, conversionId, signature) => {
-    try {
-      setLoader({ isLoading: true, message: 'Please confirm transaction from your wallet...', title: 'Wallet Interaction' });
-      const transactionHash = await conversionIn(contractAddress, amount, conversionId, signature);
-      return `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${transactionHash}`;
-    } catch (error) {
-      console.log(JSON.stringify(error));
-      throw error;
-    }
-  };
-
   const disableButtons = () => {
     setAuthorizationRequired(false);
     setConversionEnabled(false);
@@ -72,7 +61,7 @@ export const useERC20TokenHook = () => {
       const [pair] = tokens.filter((token) => token.from_token.id === tokenPairId);
       const decimals = pair.from_token.allowed_decimal;
       const amountInCogs = convertToCogs(amount, decimals);
-      const toAddress = address;
+      const toAddress = await getWalletAddress();
       const conversionInfo = await getConversionId(pair.id, amountInCogs, fromAddress, toAddress);
       const depositAmount = convertFromCogs(conversionInfo.depositAmount, decimals);
       let conversionFees = 0;
@@ -95,7 +84,8 @@ export const useERC20TokenHook = () => {
       disableButtons();
       const [pair] = tokens.filter((token) => token.from_token.id === tokenPairId);
       const contractAddress = pair.contract_address;
-      const fromAddress = address;
+      const fromAddress = await getWalletAddress();
+      console.log(`Burning ${amount} ${pair.from_token.symbol} from ${fromAddress} to ${toAddress}`);
       const amountInCogs = convertToCogs(amount, pair.from_token.allowed_decimal);
       const { conversionId, signature } = await getConversionId(pair.id, amountInCogs, fromAddress, toAddress);
       const txnLink = await convertEthToAda(contractAddress, amount, conversionId, signature, pair.from_token.allowed_decimal);
@@ -137,12 +127,15 @@ export const useERC20TokenHook = () => {
       const [pair] = tokens.filter((token) => token.from_token.id === tokenPairId);
       const spenderAddress = pair.contract_address;
       const tokenContractAddress = pair.from_token.token_address;
+      console.log('Checking allowance for token contract address:', tokenContractAddress);
+      console.log('Checking allowance for spender address', spenderAddress);
       const allowanceAmount = await checkAllowance(tokenContractAddress, spenderAddress);
 
       setAuthorizationRequired(allowanceAmount < conversionAmount);
       setConversionEnabled(allowanceAmount >= conversionAmount);
     } catch (error) {
-      console.log(error);
+      console.log('Get Allowance Info Error', error);
+      throw error;
     }
   };
 
@@ -150,7 +143,8 @@ export const useERC20TokenHook = () => {
     try {
       return await balanceFromWallet(tokenContractAddress);
     } catch (error) {
-      console.log(error);
+      console.log('Fetch Wallet Balance error', error);
+      throw error;
     }
   };
 
