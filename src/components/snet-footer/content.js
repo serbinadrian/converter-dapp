@@ -1,11 +1,13 @@
 const PrimaryFooterLeft = [
   {
     label: 'Contact Us',
-    link: 'https://singularitynet.io/contact/'
+    link: 'https://singularitynet.io/contact/',
+    internalLink: false
   },
   {
     label: 'Privacy Policy',
-    link: 'https://public.singularitynet.io/privacy_policy.html'
+    link: 'https://public.singularitynet.io/privacy_policy.html',
+    internalLink: false
   }
 ];
 
