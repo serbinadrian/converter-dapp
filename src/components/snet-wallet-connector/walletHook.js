@@ -72,7 +72,6 @@ export const useWalletHook = () => {
 
       web3 = new Web3(provider);
       const [account] = await web3.eth.getAccounts();
-      await detectNetwork();
       const isExpectedNetwork = await isUserAtExpectedNetwork();
 
       if (!isExpectedNetwork) {
