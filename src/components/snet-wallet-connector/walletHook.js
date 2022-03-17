@@ -66,6 +66,7 @@ export const useWalletHook = () => {
 
       web3 = new Web3(provider);
       const [account] = await web3.eth.getAccounts();
+      web3.eth.defaultAccount = account;
       setWalletAddress(web3.utils.toChecksumAddress(account));
       await store.set(availableBlockchains.ETHEREUM, account);
       return web3;
@@ -142,8 +143,10 @@ export const useWalletHook = () => {
 
   const balanceFromWallet = async (tokenContractAddress) => {
     try {
-      const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
-      const balanceInCogs = await contract.methods.balanceOf(address).call();
+      const contractAddress = web3.utils.toChecksumAddress(tokenContractAddress);
+      const [walletAddress] = await web3.eth.getAccounts();
+      const contract = new web3.eth.Contract(ERC20TokenABI, contractAddress);
+      const balanceInCogs = await contract.methods.balanceOf(walletAddress).call();
       const decimals = await contract.methods.decimals().call();
       const symbol = await contract.methods.symbol().call();
       const balance = convertAsReadableAmount(balanceInCogs, decimals);

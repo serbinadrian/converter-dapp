@@ -15,11 +15,25 @@ export const conversionDirections = {
   ADA_TO_ETH: 'ADA_TO_ETH'
 };
 
+export const txnOperations = {
+  TOKEN_RECEIVED: 'TOKEN_RECEIVED',
+  TOKEN_BURNT: 'TOKEN_BURNT',
+  TOKEN_MINTED: 'TOKEN_MINTED'
+};
+
 export const conversionStatuses = {
   PROCESSING: 'PROCESSING',
+  SUCCESS: 'SUCCESS',
   USER_INITIATED: 'USER_INITIATED',
-  COMPLETE: 'WAITING_FOR_CLAIM',
+  WAITING_FOR_CLAIM: 'WAITING_FOR_CLAIM',
   IDLE: 'IDLE'
+};
+
+export const conversionStatusMessages = {
+  [conversionStatuses.PROCESSING]: 'Processing',
+  [conversionStatuses.USER_INITIATED]: 'User initiated',
+  [conversionStatuses.WAITING_FOR_CLAIM]: 'Claim tokens',
+  [conversionStatuses.IDLE]: 'Idle'
 };
 
 export const conversionDirection = {
