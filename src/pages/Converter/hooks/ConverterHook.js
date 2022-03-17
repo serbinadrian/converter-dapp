@@ -130,13 +130,14 @@ export const useConverterHook = () => {
     const blockchainListReversed = [...blockchains].reverse();
     const fromBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchainListReversed, tokenPairDirection.FROM);
     const toBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchains, tokenPairDirection.TO);
-    setFromBlockchains(fromBlockchainsWithTokenPairs);
-    setToBlockchains(toBlockchainsWithTokenPairs);
-    setFromSelectedBlockchain(fromBlockchainsWithTokenPairs[0]);
-    setToSelectedBlockchain(toBlockchainsWithTokenPairs[0]);
-    console.log('fromBlockchainsWithTokenPairs[0]', fromBlockchainsWithTokenPairs[0]);
-    setFromTokenPair(fromBlockchainsWithTokenPairs[0].tokenPairs[0]);
-    setToTokenPair(toBlockchainsWithTokenPairs[0].tokenPairs[0]);
+    if (fromBlockchainsWithTokenPairs.length > 0) {
+      setFromBlockchains(fromBlockchainsWithTokenPairs);
+      setToBlockchains(toBlockchainsWithTokenPairs);
+      setFromSelectedBlockchain(fromBlockchainsWithTokenPairs[0]);
+      setToSelectedBlockchain(toBlockchainsWithTokenPairs[0]);
+      setFromTokenPair(fromBlockchainsWithTokenPairs[0].tokenPairs[0]);
+      setToTokenPair(toBlockchainsWithTokenPairs[0].tokenPairs[0]);
+    }
   };
 
   const swapBlockchains = () => {
