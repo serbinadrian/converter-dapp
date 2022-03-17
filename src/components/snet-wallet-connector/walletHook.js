@@ -42,6 +42,12 @@ export const useWalletHook = () => {
   const detectNetwork = async () => {
     const networkId = await web3.eth.net.getId();
     setUserSelectedNetworkId(networkId);
+    return networkId;
+  };
+
+  const isUserAtExpectedNetwork = async () => {
+    const currentNetworkId = await detectNetwork();
+    return Number(currentNetworkId) === Number(INFURA_NETWORK_ID);
   };
 
   const subscribeProvider = async (provider) => {
@@ -66,6 +72,17 @@ export const useWalletHook = () => {
 
       web3 = new Web3(provider);
       const [account] = await web3.eth.getAccounts();
+      await detectNetwork();
+      const isExpectedNetwork = await isUserAtExpectedNetwork();
+
+      if (!isExpectedNetwork) {
+        const hexifiedChainId = web3.utils.toHex(INFURA_NETWORK_ID);
+        await web3.currentProvider.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: hexifiedChainId }]
+        });
+      }
+
       web3.eth.defaultAccount = account;
       setWalletAddress(web3.utils.toChecksumAddress(account));
       await store.set(availableBlockchains.ETHEREUM, account);
@@ -130,6 +147,8 @@ export const useWalletHook = () => {
   const disconnectEthereumWallet = () => {
     web3Modal.clearCachedProvider();
     setWalletAddress(null);
+    store.remove(availableBlockchains.ETHEREUM);
+    store.remove('walletconnect');
   };
 
   const convertToCogs = (amount, decimals) => {
