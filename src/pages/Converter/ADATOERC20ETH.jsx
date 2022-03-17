@@ -15,10 +15,12 @@ import { conversionClaim, getConversionStatus } from '../../utils/HttpRequests';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetLoader from '../../components/snet-loader';
 import Paths from '../../router/paths';
+import SnetSnackbar from '../../components/snet-snackbar';
 
 const ADATOERC20ETH = () => {
   const { generateSignatureForClaim, conversionIn } = useWalletHook();
   const [loader, setLoader] = useState({ isLoading: false, message: '', title: '' });
+  const [error, setError] = useState({ isError: false, message: '' });
   const [transactionHash, setTransactionHash] = useState('');
   const [transactionReceipt, setTransactionReceipt] = useState([]);
   const { conversionStepsForAdaToEth, activeStep, conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
@@ -77,7 +79,7 @@ const ADATOERC20ETH = () => {
       const response = await conversionClaim(conversionId, amount, signature, toAddress, fromAddress);
 
       updateLoaderStatus(true, 'Please confirm the transaction on your wallet...');
-      const contractAddress = conversion.pair.contract_address;
+      const contractAddress = response.contract_address;
       const txnHash = await claimTheTokens(contractAddress, conversionId, response.claim_amount, response.signature, decimals);
       setTransactionHash(txnHash);
 
@@ -91,7 +93,8 @@ const ADATOERC20ETH = () => {
       setTransactionReceipt(receipt);
       dispatch(setActiveStep(conversionSteps.SUMMARY));
     } catch (error) {
-      console.log(error);
+      const message = error.message || JSON.stringify(error);
+      setError({ isError: true, message });
     } finally {
       updateLoaderStatus(false);
     }
@@ -116,6 +119,7 @@ const ADATOERC20ETH = () => {
 
   return (
     <SnetPaper>
+      <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
       <SnetLoader dialogBody={loader.message} onDialogClose={() => {}} isDialogOpen={loader.isLoading} dialogTitle={loader.title} />
       <SnetAdaEthTitle title={formatConversionTitle()} />
       <Box sx={styles.padding}>

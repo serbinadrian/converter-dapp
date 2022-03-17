@@ -1,4 +1,4 @@
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ProgressIcon from '@mui/icons-material/HourglassBottom';
 import { Stack, Typography, Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -28,9 +28,9 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
   return (
     <>
       <Stack direction="column" alignItems="center" marginY={6} spacing={2} justifyContent="center">
-        <CheckCircleOutlineIcon color="success" fontSize="large" />
+        <ProgressIcon color="warning" fontSize="large" />
         <Typography variant="h3" color="grey">
-          Tokens conversion successfully completed.
+          Tokens conversion successfully initiated.
         </Typography>
       </Stack>
       <Typography variant="h5" fontWeight="bold">

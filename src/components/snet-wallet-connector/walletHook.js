@@ -213,10 +213,9 @@ export const useWalletHook = () => {
         .on('transactionHash', (transactionHash) => {
           resolve(transactionHash);
         })
-        .on('error', (error, receipt) => {
+        .on('error', (error) => {
           console.log('conversionIn error', error.toString());
-          console.log('conversionIn error receipt', receipt.toString());
-          reject(error.toString());
+          reject(error);
         });
     });
   };
@@ -245,8 +244,7 @@ export const useWalletHook = () => {
         })
         .on('error', (error, receipt) => {
           console.log('conversionOut error', error.toString());
-          console.log('conversionOut error receipt', receipt.toString());
-          reject(error.toString());
+          reject(error);
         });
     });
   };
