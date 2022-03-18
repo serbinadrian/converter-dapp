@@ -8,8 +8,10 @@ import { setAdaConversionInfo, setConversionDirection, setActiveStep } from '../
 import { setFromAddress, setToAddress } from '../../services/redux/slices/wallet/walletSlice';
 import { availableBlockchains, conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
 import paths from '../../router/paths';
+import { useStyles } from './styles';
 
 const SnetDataGrid = ({ columns, rows }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +29,7 @@ const SnetDataGrid = ({ columns, rows }) => {
   };
 
   return (
-    <>
+    <div className={classes.transactionHistoryTable}>
       <Columns columns={columns} />
       {rows.map((row) => {
         return (
@@ -46,7 +48,7 @@ const SnetDataGrid = ({ columns, rows }) => {
           />
         );
       })}
-    </>
+    </div>
   );
 };
 
