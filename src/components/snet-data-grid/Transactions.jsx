@@ -3,8 +3,10 @@ import propTypes from 'prop-types';
 import startsWith from 'lodash/startsWith';
 import { utcToLocalDateTime } from '../../utils/Date';
 import { conversionDirections, txnOperations } from '../../utils/ConverterConstants';
+import { useStyles } from './styles';
 
 const Transactions = ({ transaction, conversionDirection }) => {
+  const classes = useStyles();
   const txnHashLink = (txnHash) => {
     if (conversionDirection === conversionDirections.ETH_TO_ADA && transaction.transaction_operation === txnOperations.TOKEN_BURNT) {
       return `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${txnHash}`;
@@ -18,7 +20,7 @@ const Transactions = ({ transaction, conversionDirection }) => {
   };
 
   return (
-    <Box display="flex" justifyContent="space-between">
+    <div className={classes.expandedDataWrapper}>
       <Typography variant="caption" textAlign="left">
         {utcToLocalDateTime(transaction.updated_at)}
       </Typography>
@@ -36,7 +38,7 @@ const Transactions = ({ transaction, conversionDirection }) => {
           {transaction.transaction_hash}
         </Typography>
       </Link>
-    </Box>
+    </div>
   );
 };
 
