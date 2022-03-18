@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWalletHook } from '../../../components/snet-wallet-connector/walletHook';
 import { bigNumberSubtract, convertFromCogs, convertToValueFromPercentage } from '../../../utils/bignumber';
-import { generateConversionID } from '../../../utils/HttpRequests';
+import { generateConversionID, updateTransactionStatus } from '../../../utils/HttpRequests';
 
 export const useERC20TokenHook = () => {
   const [authorizationRequired, setAuthorizationRequired] = useState(false);
@@ -13,8 +13,7 @@ export const useERC20TokenHook = () => {
 
   const { tokens } = useSelector((state) => state.tokenPairs);
 
-  const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, signMessage, conversionOut, conversionIn, convertToCogs, getWalletAddress } =
-    useWalletHook();
+  const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, signMessage, conversionOut, convertToCogs, getWalletAddress } = useWalletHook();
 
   const resetTxnInfo = () => {
     setTxnInfo({ ...txnInfo, txnLink: null });
@@ -43,6 +42,7 @@ export const useERC20TokenHook = () => {
     try {
       setLoader({ isLoading: true, message: 'Please confirm transaction from your wallet...', title: 'Wallet Interaction' });
       const transactionHash = await conversionOut(contractAddress, amount, conversionId, signature, decimals);
+      await updateTransactionStatus(conversionId, transactionHash);
       return `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${transactionHash}`;
     } catch (error) {
       console.log(JSON.stringify(error));
