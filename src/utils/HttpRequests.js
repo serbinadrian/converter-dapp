@@ -60,3 +60,17 @@ export const conversionClaim = async (conversionId, amount, signature, toAddress
     throw error;
   }
 };
+
+export const updateTransactionStatus = async (conversionId, transactionHash) => {
+  try {
+    const payload = {
+      conversion_id: conversionId,
+      transaction_hash: transactionHash
+    };
+    const { data } = await axios.post('transaction', payload);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

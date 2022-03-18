@@ -11,7 +11,7 @@ import { setActiveStep, setConversionDirection, setConversionStatus } from '../.
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
 import { availableBlockchains, conversionSteps } from '../../utils/ConverterConstants';
-import { conversionClaim, getConversionStatus } from '../../utils/HttpRequests';
+import { conversionClaim, getConversionStatus, updateTransactionStatus } from '../../utils/HttpRequests';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetLoader from '../../components/snet-loader';
 import Paths from '../../router/paths';
@@ -82,6 +82,8 @@ const ADATOERC20ETH = () => {
       const contractAddress = response.contract_address;
       const txnHash = await claimTheTokens(contractAddress, conversionId, response.claim_amount, response.signature, decimals);
       setTransactionHash(txnHash);
+
+      await updateTransactionStatus(conversionId, txnHash);
 
       const receipt = generateReceipt(
         conversion.depositAmount,
