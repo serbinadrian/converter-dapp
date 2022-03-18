@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from '../../../utils/Axios';
-import { convertFromCogs } from '../../../utils/bignumber';
+import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
 
 export const useConversionHistoryHook = (address) => {
   const [conversionHistory, setConversionHistory] = useState([]);
@@ -16,13 +16,16 @@ export const useConversionHistoryHook = (address) => {
 
     const depositAmount = convertFromCogs(entity.conversion.deposit_amount, entity.from_token.allowed_decimal);
     const receievingAmount = convertFromCogs(entity.conversion.claim_amount, entity.to_token.allowed_decimal);
+    const conversionFees = bigNumberSubtract(depositAmount, receievingAmount);
     const conversionInfo = {
       conversionId,
       amount: entity.conversion.claim_amount,
       depositAddress: entity.wallet_pair.deposit_address,
       depositAmount,
+      receievingAmount,
+      conversionFees,
       pair: { from_token: entity.from_token, to_token: entity.to_token },
-      receievingAmount
+      wallet: entity.wallet_pair
     };
 
     return {

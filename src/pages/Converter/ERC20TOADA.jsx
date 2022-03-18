@@ -52,7 +52,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     burnERC20Tokens,
     txnInfo
   } = useERC20TokenHook();
-  const { toAddress, fromAddress } = wallet;
+  const { toAddress, fromAddress, wallets } = wallet;
 
   const getBalanceFromWallet = async () => {
     const balanceInfo = await fetchWalletBalance(fromTokenPair.token_address);
@@ -69,7 +69,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM) {
       getBalanceFromWallet();
     }
-  }, [fromTokenPair]);
+  }, [fromTokenPair, wallets, fromAndToTokenValues]);
 
   const onClickAuthorize = async () => {
     try {
