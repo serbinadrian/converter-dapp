@@ -234,18 +234,22 @@ export const useWalletHook = () => {
 
     const gasPrice = await estimateGasPrice();
 
-    return new Promise((resolve, reject) => {
-      contract.methods
-        .conversionIn(walletAddress, amount, hexifiedConsversionId, v, r, s)
-        .send({ from: walletAddress, gasPrice })
-        .on('transactionHash', (transactionHash) => {
-          resolve(transactionHash);
-        })
-        .on('error', (error) => {
-          console.log('conversionIn error', error.toString());
-          reject(error);
-        });
-    });
+    const transaction = await contract.methods.conversionIn(walletAddress, amount, hexifiedConsversionId, v, r, s).send({ from: walletAddress, gasPrice });
+
+    return transaction.transactionHash;
+
+    // return new Promise((resolve, reject) => {
+    //   contract.methods
+    //     .conversionIn(walletAddress, amount, hexifiedConsversionId, v, r, s)
+    //     .send({ from: walletAddress, gasPrice })
+    //     .on('transactionHash', (transactionHash) => {
+    //       resolve(transactionHash);
+    //     })
+    //     .on('error', (error) => {
+    //       console.log('conversionIn error', error.toString());
+    //       reject(error);
+    //     });
+    // });
   };
 
   const conversionOut = async (contractAddress, amountForBurn, conversionId, signature, decimals) => {
@@ -266,18 +270,22 @@ export const useWalletHook = () => {
 
     const gasPrice = await estimateGasPrice();
 
-    return new Promise((resolve, reject) => {
-      contract.methods
-        .conversionOut(amount, hexifiedConsversionId, v, r, s)
-        .send({ from: walletAddress, gasPrice })
-        .on('transactionHash', (transactionHash) => {
-          resolve(transactionHash);
-        })
-        .on('error', (error, receipt) => {
-          console.log('conversionOut error', error.toString());
-          reject(error);
-        });
-    });
+    const transaction = await contract.methods.conversionOut(amount, hexifiedConsversionId, v, r, s).send({ from: walletAddress, gasPrice });
+
+    return transaction.transactionHash;
+
+    // return new Promise((resolve, reject) => {
+    //   contract.methods
+    //     .conversionOut(amount, hexifiedConsversionId, v, r, s)
+    //     .send({ from: walletAddress, gasPrice })
+    //     .on('transactionHash', (transactionHash) => {
+    //       resolve(transactionHash);
+    //     })
+    //     .on('error', (error, receipt) => {
+    //       console.log('conversionOut error', error.toString());
+    //       reject(error);
+    //     });
+    // });
   };
 
   return {
