@@ -31,7 +31,7 @@ const SnetConversionStatus = ({ link, isDialogOpen, onDialogClose, title, amount
             </Typography>
           </Box>
           <Box display="flex" alignItems="center" justifyContent="space-evenly" padding={4}>
-            <SnetButton variant="text" onClick={openLink} name="View transaction history" />
+            <SnetButton variant="text" onClick={openLink} name="View Transaction" />
             <SnetButton onClick={onDialogClose} name="Finish" />
           </Box>
         </Box>
