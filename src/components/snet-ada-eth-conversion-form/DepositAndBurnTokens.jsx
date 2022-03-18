@@ -50,7 +50,7 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
           </Stack>
         ) : null}
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
-          <SnetButton name="Cancel" variant="outlined" onClick={onClickCancel} />
+          <SnetButton name="Close" variant="outlined" onClick={onClickCancel} />
           <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="Continue" onClick={onClickContinue} />
         </Stack>
       </Box>

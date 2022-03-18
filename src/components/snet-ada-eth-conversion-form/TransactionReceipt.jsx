@@ -53,7 +53,7 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
         })}
       </List>
       <Box display="flex" alignItems="center" justifyContent="space-evenly" padding={4}>
-        <SnetButton onClick={openLink} variant="text" name="View transaction history" />
+        <SnetButton onClick={openLink} variant="text" name="View Transaction" />
         <SnetButton name="Finish" onClick={onClickFinish} />
       </Box>
     </>
