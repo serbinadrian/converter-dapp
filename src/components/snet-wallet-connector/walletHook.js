@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js';
 import { splitSignature } from '@ethersproject/bytes';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import ERC20TokenABI from '../../contracts/erc20-abi/abi/SingularityNetToken.json';
-import TokenConversionManagerABI from '../../contracts/singularitynet-token-manager/abi/TokenConversionManager.json';
+import TokenConversionManagerABI from '../../contracts/singularitynet-token-manager/abi/TokenConversionManger.json';
 import { availableBlockchains } from '../../utils/ConverterConstants';
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
