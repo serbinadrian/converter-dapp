@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
 import { getConversionTransactionHistory } from '../../../utils/HttpRequests';
 
-export const useConversionHistoryHook = (address) => {
+const useConversionHistoryHook = (address) => {
   const [isLoading, setIsLoading] = useState(true);
   const [conversionHistory, setConversionHistory] = useState([]);
   const [pageSize] = useState(10);
