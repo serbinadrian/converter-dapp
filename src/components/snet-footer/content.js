@@ -24,7 +24,7 @@ const PrimaryFooterMain = [
   {
     title: 'Community',
     children: [
-      { label: 'Official Blog', link: 'http://blog.singularitynet.io/', internalLink: false },
+      { label: 'Official Blog', link: 'https://blog.singularitynet.io/', internalLink: false },
       { label: 'Documentation', link: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/overview', internalLink: false },
       { label: 'Forum', link: 'https://community.singularitynet.io/', internalLink: false },
       { label: 'Telegram', link: 'https://telegram.me/singularitynet', internalLink: false }
