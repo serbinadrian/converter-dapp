@@ -1,20 +1,19 @@
 import propTypes from 'prop-types';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { useStyles } from './styles';
 
 const Columns = ({ columns }) => {
+  const classes = useStyles();
   return (
-    <>
-      <Box display="flex" justifyContent="space-between" marginBottom={2}>
-        {columns.map((column) => {
-          return (
-            <Typography key={column} textTransform="uppercase" variant="caption" color="grey">
-              {column}
-            </Typography>
-          );
-        })}
-      </Box>
-      <Divider />
-    </>
+    <Box display="flex" justifyContent="space-between" marginBottom={2}>
+      {columns.map((column) => {
+        return (
+          <Typography key={column} className={classes.colName} textTransform="uppercase">
+            {column}
+          </Typography>
+        );
+      })}
+    </Box>
   );
 };
 

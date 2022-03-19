@@ -12,6 +12,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { utcToLocalDateTime } from '../../utils/Date';
 import Transactions from './Transactions';
 import { conversionStatuses, conversionDirections } from '../../utils/ConverterConstants';
+import { useStyles } from './styles';
 import SnetButton from '../snet-button';
 
 const ExpandMore = styled((props) => {
@@ -27,6 +28,7 @@ const ExpandMore = styled((props) => {
 
 const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, status, transactions, conversionDirection, handleResume }) => {
   const [expanded, setExpanded] = useState(false);
+  const classes = useStyles();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -62,7 +64,7 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
 
   return (
     <>
-      <Box display="flex" alignItems="center" justifyContent="space-between" paddingY={2}>
+      <Box display="flex" alignItems="center" justifyContent="space-between" paddingY={2} className={classes.transactionDataRow}>
         <Typography textTransform="uppercase" variant="caption" color="grey">
           {utcToLocalDateTime(date)}
         </Typography>
@@ -100,9 +102,11 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
         </CardActions>
       </Box>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        {transactions.map((transaction) => {
-          return <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />;
-        })}
+        <Box display="flex" justifyContent="space-between" className={classes.expandedData}>
+          {transactions.map((transaction) => {
+            return <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />;
+          })}
+        </Box>
       </Collapse>
     </>
   );

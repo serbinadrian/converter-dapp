@@ -11,8 +11,10 @@ import { setAdaConversionInfo, setConversionDirection, setActiveStep } from '../
 import { setFromAddress, setToAddress } from '../../services/redux/slices/wallet/walletSlice';
 import { availableBlockchains, conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
 import paths from '../../router/paths';
+import { useStyles } from './styles';
 
 const SnetDataGrid = ({ columns, rows, refreshTxnHistory, loading }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ const SnetDataGrid = ({ columns, rows, refreshTxnHistory, loading }) => {
   };
 
   return (
-    <>
+    <div className={classes.transactionHistoryTable}>
       <Box display="flex" justifyContent="flex-end" marginY={2}>
         <LoadingButton loading={loading} onClick={refreshTxnHistory} startIcon={<RefreshOutlined />} variant="text">
           Refresh Data
@@ -54,7 +56,7 @@ const SnetDataGrid = ({ columns, rows, refreshTxnHistory, loading }) => {
           />
         );
       })}
-    </>
+    </div>
   );
 };
 
