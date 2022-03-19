@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import axios from '../../../utils/Axios';
 import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
 
-export const useConversionHistoryHook = (address) => {
+const useConversionHistoryHook = (address) => {
   const [conversionHistory, setConversionHistory] = useState([]);
   const [pageSize] = useState(10);
   const [pageNumber] = useState(1);
 
   const formatSingleEntity = (entity) => {
-    const chainType = `${entity.from_token.symbol} - ${entity.to_token.symbol}`;
+    const chainType = `${entity.from_token.blockchain.symbol} - ${entity.to_token.blockchain.symbol}`;
     const fromDirection = entity.from_token.blockchain.symbol;
     const toDirection = entity.to_token.blockchain.symbol;
     const conversionDirection = `${fromDirection}_TO_${toDirection}`;
@@ -80,3 +80,5 @@ export const useConversionHistoryHook = (address) => {
     conversionHistory
   };
 };
+
+export default useConversionHistoryHook;
