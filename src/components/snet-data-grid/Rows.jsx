@@ -11,7 +11,7 @@ import CardActions from '@mui/material/CardActions';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { utcToLocalDateTime } from '../../utils/Date';
 import Transactions from './Transactions';
-import { conversionDirections, conversionStatuses } from '../../utils/ConverterConstants';
+import { conversionStatuses, conversionDirections } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 import SnetButton from '../snet-button';
 
@@ -38,6 +38,7 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
     let component;
     switch (status) {
       case conversionStatuses.USER_INITIATED:
+      case conversionDirection === conversionDirections.ADA_TO_ETH:
         component = <SnetButton name="View" onClick={onContinue} variant="outlined" />;
         break;
 

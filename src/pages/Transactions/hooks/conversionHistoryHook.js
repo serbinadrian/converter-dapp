@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import axios from '../../../utils/Axios';
 import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
+import { getConversionTransactionHistory } from '../../../utils/HttpRequests';
 
-const useConversionHistoryHook = (address) => {
+export const useConversionHistoryHook = (address) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [conversionHistory, setConversionHistory] = useState([]);
   const [pageSize] = useState(10);
   const [pageNumber] = useState(1);
@@ -57,17 +58,13 @@ const useConversionHistoryHook = (address) => {
   const getConversionHistory = async () => {
     if (address) {
       try {
-        const { data } = await axios.get('/conversion/history', {
-          params: {
-            page_number: pageNumber,
-            page_size: pageSize,
-            address
-          }
-        });
-
+        setIsLoading(true);
+        const data = await getConversionTransactionHistory(address, pageNumber, pageSize);
         formatConversionHistory(data.items);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -77,7 +74,9 @@ const useConversionHistoryHook = (address) => {
   }, [address]);
 
   return {
-    conversionHistory
+    conversionHistory,
+    getConversionHistory,
+    isLoading
   };
 };
 

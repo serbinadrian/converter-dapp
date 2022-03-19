@@ -74,3 +74,19 @@ export const updateTransactionStatus = async (conversionId, transactionHash) => 
     throw error;
   }
 };
+
+export const getConversionTransactionHistory = async (address, pageNumber, pageSize) => {
+  try {
+    const { data } = await axios.get('conversion/history', {
+      params: {
+        page_number: pageNumber,
+        page_size: pageSize,
+        address
+      }
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
