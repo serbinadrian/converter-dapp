@@ -110,8 +110,8 @@ const ADATOERC20ETH = () => {
 
   const formatConversionTitle = () => {
     const { pair } = conversion;
-    const from = `${pair.from_token.symbol} [${pair.from_token.blockchain.symbol}]`;
-    const to = `${pair.to_token.symbol} [${pair.to_token.blockchain.symbol}]`;
+    const from = `${pair.from_token.symbol} (on ${pair.from_token.blockchain.name})`;
+    const to = `${pair.to_token.symbol} (on ${pair.to_token.blockchain.name})`;
     return `Converting ${from} to ${to}`;
   };
 

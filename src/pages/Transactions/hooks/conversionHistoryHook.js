@@ -9,7 +9,7 @@ const useConversionHistoryHook = (address) => {
   const [pageNumber] = useState(1);
 
   const formatSingleEntity = (entity) => {
-    const chainType = `${entity.from_token.blockchain.symbol} - ${entity.to_token.blockchain.symbol}`;
+    const chainType = `${entity.from_token.blockchain.name} - ${entity.to_token.blockchain.name}`;
     const fromDirection = entity.from_token.blockchain.symbol;
     const toDirection = entity.to_token.blockchain.symbol;
     const conversionDirection = `${fromDirection}_TO_${toDirection}`;
