@@ -6,9 +6,23 @@ const cols = ['Date', 'Chain Type', 'From', 'To', 'Status', ''];
 
 const TxnHistoryTable = () => {
   const { address } = useWalletHook();
-  const { conversionHistory, getConversionHistory, isLoading } = useConversionHistoryHook(address);
+  const { onPageChange, pageNumber, conversionHistory, getConversionHistory, isLoading, onItemSelect, pageSizes, paginationSize, paginationInfo } =
+    useConversionHistoryHook(address);
 
-  return <SnetDataGrid loading={isLoading} refreshTxnHistory={getConversionHistory} columns={cols} rows={conversionHistory} />;
+  return (
+    <SnetDataGrid
+      pageSizes={pageSizes}
+      onItemSelect={onItemSelect}
+      loading={isLoading}
+      refreshTxnHistory={getConversionHistory}
+      columns={cols}
+      rows={conversionHistory}
+      paginationSize={paginationSize}
+      currentPage={pageNumber}
+      onPageChange={onPageChange}
+      paginationInfo={paginationInfo}
+    />
+  );
 };
 
 export default TxnHistoryTable;
