@@ -6,7 +6,7 @@ const ConversionCharges = ({ conversionFee, conversionSymbol }) => {
   return (
     <Box display="flex" alignItems="center" paddingY={2}>
       <InfoIcon fontSize="15px" color="secondary" />
-      <Typography marginLeft={1} color="grey" fontSize="15px">
+      <Typography marginLeft={1} color="grey" fontSize="14px">
         Conversion Charges: {conversionFee} {conversionSymbol}
       </Typography>
     </Box>
@@ -14,7 +14,7 @@ const ConversionCharges = ({ conversionFee, conversionSymbol }) => {
 };
 
 ConversionCharges.propTypes = {
-  conversionFee: propTypes.string.isRequired,
+  conversionFee: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
   conversionSymbol: propTypes.string.isRequired
 };
 

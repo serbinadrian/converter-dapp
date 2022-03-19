@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import upperCase from 'lodash/upperCase';
+import { isValidShelleyAddress } from 'cardano-crypto.js';
 import propTypes from 'prop-types';
 import { Divider, Box, Typography } from '@mui/material';
-import isNil from 'lodash/isNil';
+import { isEmpty, isNil } from 'lodash';
 import store from 'store';
 
 import WalletNotConnectedMenu from './WalletNotConnectedMenu';
@@ -13,20 +14,15 @@ import SnetBlockchainList from '../snet-blockchains-list';
 import { useWalletHook } from '../snet-wallet-connector/walletHook';
 import SnetSnackbar from '../snet-snackbar';
 import SnetButton from '../snet-button';
-import { setWallets } from '../../services/redux/slices/wallet/walletSlice';
-import { externalLinks } from '../../utils/ConverterConstants';
-
-const availableBlockchains = {
-  ETHEREUM: 'ETHEREUM',
-  CARDANO: 'CARDANO'
-};
+import { setWallets, removeFromAndToAddress } from '../../services/redux/slices/wallet/walletSlice';
+import { availableBlockchains, externalLinks } from '../../utils/ConverterConstants';
 
 const SnetNavigation = ({ blockchains }) => {
   const [enableAgreeButton, setEnableAgreeButton] = useState(false);
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
   const [cardanoAddress, setCardanoAddress] = useState(null);
   const [error, setError] = useState({ showError: false, message: '' });
-  const { address, openWallet, disconnectWallet } = useWalletHook();
+  const { address, disconnectEthereumWallet, connectEthereumWallet } = useWalletHook();
   const state = useSelector((state) => state);
   const { wallets } = state.wallet;
 
@@ -73,28 +69,52 @@ const SnetNavigation = ({ blockchains }) => {
   };
 
   const getWalletPairs = () => {
-    return [{ [availableBlockchains.CARDANO]: cardanoAddress }, { [availableBlockchains.ETHEREUM]: address }];
+    return {
+      [availableBlockchains.ETHEREUM]: address,
+      [availableBlockchains.CARDANO]: cardanoAddress
+    };
   };
 
-  const onSaveAddress = async (address) => {
-    setCardanoAddress(address);
-    await store.set(availableBlockchains.CARDANO, address);
+  const setWalletAddresses = () => {
+    dispatch(setWallets(getWalletPairs()));
+  };
+
+  useEffect(() => {
+    // Fetching wallet addresses from cache
+    if (!isNil(address) && !isNil(cardanoAddress)) {
+      setWalletAddresses();
+    }
+  }, [address, cardanoAddress]);
+
+  const onSaveAddress = async (cardanoWalletAddress) => {
+    // Saving Cardano address to cache
+
+    const isValidCardanoWalletAddress = isValidShelleyAddress(cardanoWalletAddress);
+
+    if (isValidCardanoWalletAddress) {
+      setCardanoAddress(cardanoWalletAddress);
+      await store.set(availableBlockchains.CARDANO, cardanoWalletAddress);
+    } else {
+      setError({ showError: true, message: 'Invalid Cardano wallet address' });
+    }
   };
 
   const onClickDisconnectWallet = (blockchain) => {
     const blockchainName = upperCase(blockchain);
     if (blockchainName === availableBlockchains.ETHEREUM) {
-      disconnectWallet();
+      disconnectEthereumWallet();
     }
     if (blockchainName === availableBlockchains.CARDANO) {
       setCardanoAddress(null);
       store.remove(availableBlockchains.CARDANO);
     }
+
+    dispatch(removeFromAndToAddress());
   };
 
   const getSignatureFromWallet = async () => {
     try {
-      dispatch(setWallets(getWalletPairs()));
+      setWalletAddresses();
       toggleWalletConnecting();
     } catch (e) {
       const message = e.message.toString() ?? e.toString();
@@ -120,7 +140,7 @@ const SnetNavigation = ({ blockchains }) => {
               isWalletAvailable={blockchain.is_extension_available}
               walletAddress={getWalletAddress(blockchain.name)}
               onSaveAddress={onSaveAddress}
-              openWallet={openWallet}
+              openWallet={connectEthereumWallet}
               disconnectWallet={() => onClickDisconnectWallet(blockchain.name)}
             />
           );
@@ -136,7 +156,7 @@ const SnetNavigation = ({ blockchains }) => {
           <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree" />
         </Box>
       </SnetDialog>
-      {wallets.length > 0 ? (
+      {!isEmpty(wallets) ? (
         <WalletConnectedMenu openConnectedWallets={openAvailableWalletOptions} />
       ) : (
         <WalletNotConnectedMenu onConnectWallets={openAvailableWalletOptions} />

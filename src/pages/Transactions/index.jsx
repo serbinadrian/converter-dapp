@@ -1,17 +1,18 @@
 import { Typography } from '@mui/material';
 import { lazy } from 'react';
-import SnetPaper from '../../components/snet-paper';
 import TxnHistoryTable from './TxnHistoryTable';
+import { useStyles } from './styles';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 
 const Transactions = () => {
+  const classes = useStyles();
   return (
     <GeneralLayout>
-      <SnetPaper>
-        <Typography marginBottom={2}>Transactions History</Typography>
+      <div className={classes.transactionHistoryContainer}>
+        <Typography>Transactions History</Typography>
         <TxnHistoryTable />
-      </SnetPaper>
+      </div>
     </GeneralLayout>
   );
 };

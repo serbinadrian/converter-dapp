@@ -1,24 +1,35 @@
 import { useState, useEffect } from 'react';
 import axios from '../../../utils/Axios';
+import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
 
 export const useConversionHistoryHook = (address) => {
-  const [rows] = useState([
-    { field: 'DATE', headerName: 'DATE', width: 120 },
-    { field: 'CHAIN TYPE', headerName: 'CHAIN TYPE', width: 150 },
-    { field: 'FROM', headerName: 'FROM', width: 150 },
-    { field: 'TO', headerName: 'TO', width: 150 },
-    { field: 'STATUS', headerName: 'STATUS', width: 150 },
-    { field: 'STATUSX', headerName: '', width: 150 }
-  ]);
   const [conversionHistory, setConversionHistory] = useState([]);
   const [pageSize] = useState(10);
   const [pageNumber] = useState(1);
 
   const formatSingleEntity = (entity) => {
-    const chainType = `${entity.from_token.name} - ${entity.to_token.name}`;
+    const chainType = `${entity.from_token.symbol} - ${entity.to_token.symbol}`;
+    const fromDirection = entity.from_token.blockchain.symbol;
+    const toDirection = entity.to_token.blockchain.symbol;
+    const conversionDirection = `${fromDirection}_TO_${toDirection}`;
+    const conversionId = entity.conversion.id;
+
+    const depositAmount = convertFromCogs(entity.conversion.deposit_amount, entity.from_token.allowed_decimal);
+    const receievingAmount = convertFromCogs(entity.conversion.claim_amount, entity.to_token.allowed_decimal);
+    const conversionFees = bigNumberSubtract(depositAmount, receievingAmount);
+    const conversionInfo = {
+      conversionId,
+      amount: entity.conversion.claim_amount,
+      depositAddress: entity.wallet_pair.deposit_address,
+      depositAmount,
+      receievingAmount,
+      conversionFees,
+      pair: { from_token: entity.from_token, to_token: entity.to_token },
+      wallet: entity.wallet_pair
+    };
 
     return {
-      id: entity.conversion.id,
+      id: conversionId,
       fromAddress: entity.wallet_pair.from_address,
       toAddress: entity.wallet_pair.to_address,
       status: entity.conversion.status,
@@ -26,12 +37,17 @@ export const useConversionHistoryHook = (address) => {
       claimAmount: entity.conversion.claim_amount,
       feeAmount: entity.conversion.fee_amount,
       lastUpdatedAt: entity.conversion.updated_at,
-      chainType
+      fromToken: entity.from_token.symbol,
+      toToken: entity.to_token.symbol,
+      transactions: entity.transactions,
+      chainType,
+      conversionDirection,
+      conversionInfo
     };
   };
 
-  const formatConversionHistory = (conversionHistory) => {
-    const formatted = conversionHistory.map((conversion) => {
+  const formatConversionHistory = (history) => {
+    const formatted = history.map((conversion) => {
       return formatSingleEntity(conversion);
     });
 
@@ -61,7 +77,6 @@ export const useConversionHistoryHook = (address) => {
   }, [address]);
 
   return {
-    conversionHistory,
-    rows
+    conversionHistory
   };
 };
