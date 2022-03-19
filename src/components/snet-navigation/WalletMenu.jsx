@@ -1,5 +1,6 @@
 import AppBar from '@mui/material/AppBar';
 import { useSelector } from 'react-redux';
+import { isEmpty, size } from 'lodash';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -9,8 +10,9 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import useMenubarStyles from './style';
 import Paths from '../../router/paths';
 import BridgeLogo from './BridgeLogo';
+import SnetButton from '../snet-button';
 
-const WalletConnectedMenu = ({ openConnectedWallets }) => {
+const WalletMenu = ({ openConnectedWallets }) => {
   const classes = useMenubarStyles();
   const state = useSelector((state) => state);
   const { wallets } = state.wallet;
@@ -31,26 +33,30 @@ const WalletConnectedMenu = ({ openConnectedWallets }) => {
             </Link>
           </Box>
         </Box>
-        <Box onClick={openConnectedWallets} className={classes.flex} sx={{ cursor: 'pointer' }}>
-          <IconButton>
-            <AccountBalanceWalletIcon />
-          </IconButton>
-          <Box sx={{ textAlign: 'left', marginLeft: 2 }}>
-            <Typography variant="body2" marginBottom={-1.5}>
-              Wallet Account
-            </Typography>
-            <Typography variant="caption" color="primary">
-              {wallets.length} Connected
-            </Typography>
+        {!isEmpty(wallets) ? (
+          <Box onClick={openConnectedWallets} className={classes.flex} sx={{ cursor: 'pointer' }}>
+            <IconButton>
+              <AccountBalanceWalletIcon />
+            </IconButton>
+            <Box sx={{ textAlign: 'left', marginLeft: 2 }}>
+              <Typography variant="body2" marginBottom={-1.5}>
+                Wallet Account
+              </Typography>
+              <Typography variant="caption" color="primary">
+                {size(wallets)} Connected
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        ) : (
+          <SnetButton name="Connect Wallets" onClick={openConnectedWallets} />
+        )}
       </Box>
     </AppBar>
   );
 };
 
-WalletConnectedMenu.propTypes = {
+WalletMenu.propTypes = {
   openConnectedWallets: propTypes.func.isRequired
 };
 
-export default WalletConnectedMenu;
+export default WalletMenu;
