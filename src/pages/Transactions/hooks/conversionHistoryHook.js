@@ -38,7 +38,7 @@ export const useConversionHistoryHook = (address) => {
       receivingAmount,
       claimAmount: entity.conversion.claim_amount,
       feeAmount: entity.conversion.fee_amount,
-      lastUpdatedAt: entity.conversion.updated_at,
+      lastUpdatedAt: entity.conversion.created_at,
       fromToken: entity.from_token.symbol,
       toToken: entity.to_token.symbol,
       transactions: entity.transactions,
