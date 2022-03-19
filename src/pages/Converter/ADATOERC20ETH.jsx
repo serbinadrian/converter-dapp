@@ -103,6 +103,7 @@ const ADATOERC20ETH = () => {
   };
 
   const continueLater = () => {
+    dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
     navigate(Paths.Transactions);
   };
 
