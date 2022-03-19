@@ -37,8 +37,7 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
   const conversionStatus = (status, onContinue) => {
     let component;
     switch (status) {
-      case conversionStatuses.USER_INITIATED:
-      case conversionDirection === conversionDirections.ADA_TO_ETH:
+      case conversionDirection === conversionDirections.ADA_TO_ETH && conversionStatuses.USER_INITIATED:
         component = <SnetButton name="View" onClick={onContinue} variant="outlined" />;
         break;
 
