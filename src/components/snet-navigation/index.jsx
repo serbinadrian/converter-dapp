@@ -4,11 +4,10 @@ import upperCase from 'lodash/upperCase';
 import { isValidShelleyAddress } from 'cardano-crypto.js';
 import propTypes from 'prop-types';
 import { Divider, Box, Typography } from '@mui/material';
-import { isEmpty, isNil } from 'lodash';
+import { isNil } from 'lodash';
 import store from 'store';
 
-import WalletNotConnectedMenu from './WalletNotConnectedMenu';
-import WalletConnectedMenu from './WalletConnectedMenu';
+import WalletMenu from './WalletMenu';
 import SnetDialog from '../snet-dialog';
 import SnetBlockchainList from '../snet-blockchains-list';
 import { useWalletHook } from '../snet-wallet-connector/walletHook';
@@ -18,13 +17,13 @@ import { setWallets, removeFromAndToAddress } from '../../services/redux/slices/
 import { availableBlockchains, externalLinks } from '../../utils/ConverterConstants';
 
 const SnetNavigation = ({ blockchains }) => {
+  const [isAgreed, setIsAgreed] = useState(true);
   const [enableAgreeButton, setEnableAgreeButton] = useState(false);
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
   const [cardanoAddress, setCardanoAddress] = useState(null);
   const [error, setError] = useState({ showError: false, message: '' });
   const { address, disconnectEthereumWallet, connectEthereumWallet } = useWalletHook();
   const state = useSelector((state) => state);
-  const { wallets } = state.wallet;
 
   const dispatch = useDispatch();
 
@@ -50,6 +49,7 @@ const SnetNavigation = ({ blockchains }) => {
   };
 
   const openAvailableWalletOptions = () => {
+    setIsAgreed(false);
     toggleWalletConnecting();
   };
 
@@ -81,7 +81,7 @@ const SnetNavigation = ({ blockchains }) => {
 
   useEffect(() => {
     // Fetching wallet addresses from cache
-    if (!isNil(address) && !isNil(cardanoAddress)) {
+    if (!isNil(address) && !isNil(cardanoAddress) && isAgreed) {
       setWalletAddresses();
     }
   }, [address, cardanoAddress]);
@@ -90,8 +90,9 @@ const SnetNavigation = ({ blockchains }) => {
     // Saving Cardano address to cache
 
     const isValidCardanoWalletAddress = isValidShelleyAddress(cardanoWalletAddress);
+    const cardanoAddressStartsWithExpectedPrefix = cardanoWalletAddress.startsWith(process.env.REACT_APP_CARDANO_ADDRESS_STARTS_WITH);
 
-    if (isValidCardanoWalletAddress) {
+    if (isValidCardanoWalletAddress && cardanoAddressStartsWithExpectedPrefix) {
       setCardanoAddress(cardanoWalletAddress);
       await store.set(availableBlockchains.CARDANO, cardanoWalletAddress);
     } else {
@@ -110,10 +111,12 @@ const SnetNavigation = ({ blockchains }) => {
     }
 
     dispatch(removeFromAndToAddress());
+    dispatch(setWallets({}));
   };
 
   const getSignatureFromWallet = async () => {
     try {
+      setIsAgreed(true);
       setWalletAddresses();
       toggleWalletConnecting();
     } catch (e) {
@@ -156,11 +159,7 @@ const SnetNavigation = ({ blockchains }) => {
           <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree" />
         </Box>
       </SnetDialog>
-      {!isEmpty(wallets) ? (
-        <WalletConnectedMenu openConnectedWallets={openAvailableWalletOptions} />
-      ) : (
-        <WalletNotConnectedMenu onConnectWallets={openAvailableWalletOptions} />
-      )}
+      <WalletMenu openConnectedWallets={openAvailableWalletOptions} />
     </>
   );
 };
