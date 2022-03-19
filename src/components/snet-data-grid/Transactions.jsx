@@ -21,7 +21,7 @@ const Transactions = ({ transaction, conversionDirection }) => {
   return (
     <div className={classes.expandedDataWrapper}>
       <Typography variant="caption" textAlign="left">
-        {utcToLocalDateTime(transaction.updated_at)}
+        {utcToLocalDateTime(transaction.created_at)}
       </Typography>
       <Typography variant="caption" textAlign="left">
         {transaction.transaction_operation}

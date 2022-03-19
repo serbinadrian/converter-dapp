@@ -26,7 +26,20 @@ const ExpandMore = styled((props) => {
   })
 }));
 
-const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, status, transactions, conversionDirection, handleResume }) => {
+const Rows = ({
+  date,
+  fromToken,
+  toToken,
+  depositAmount,
+  receivingAmount,
+  fromAddress,
+  toAddress,
+  chainType,
+  status,
+  transactions,
+  conversionDirection,
+  handleResume
+}) => {
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
@@ -37,8 +50,7 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
   const conversionStatus = (status, onContinue) => {
     let component;
     switch (status) {
-      case conversionStatuses.USER_INITIATED:
-      case conversionDirection === conversionDirections.ADA_TO_ETH:
+      case conversionDirection === conversionDirections.ADA_TO_ETH && conversionStatuses.USER_INITIATED:
         component = <SnetButton name="View" onClick={onContinue} variant="outlined" />;
         break;
 
@@ -75,7 +87,7 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
         </Box>
         <Box width="120px" overflow="hidden">
           <Typography textTransform="uppercase" variant="body2" color="grey">
-            {fromToken}
+            {depositAmount} {fromToken}
           </Typography>
           <Typography textOverflow="ellipsis" overflow="hidden" textTransform="uppercase" variant="caption" color="grey">
             {fromAddress}
@@ -83,7 +95,7 @@ const Rows = ({ date, fromToken, toToken, fromAddress, toAddress, chainType, sta
         </Box>
         <Box width="120px" overflow="hidden">
           <Typography textAlign="left" variant="body2" color="grey">
-            {toToken}
+            {receivingAmount} {toToken}
           </Typography>
           <Typography textAlign="left" textOverflow="ellipsis" overflow="hidden" variant="caption" color="grey">
             {toAddress}
@@ -122,7 +134,9 @@ Rows.propTypes = {
   status: propTypes.string.isRequired,
   transactions: propTypes.arrayOf(propTypes.any).isRequired,
   conversionDirection: propTypes.string.isRequired,
-  handleResume: propTypes.func.isRequired
+  handleResume: propTypes.func.isRequired,
+  depositAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
+  receivingAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired
 };
 
 export default Rows;
