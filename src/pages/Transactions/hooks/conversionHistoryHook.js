@@ -16,14 +16,14 @@ export const useConversionHistoryHook = (address) => {
     const conversionId = entity.conversion.id;
 
     const depositAmount = convertFromCogs(entity.conversion.deposit_amount, entity.from_token.allowed_decimal);
-    const receievingAmount = convertFromCogs(entity.conversion.claim_amount, entity.to_token.allowed_decimal);
-    const conversionFees = bigNumberSubtract(depositAmount, receievingAmount);
+    const receivingAmount = convertFromCogs(entity.conversion.claim_amount, entity.to_token.allowed_decimal);
+    const conversionFees = bigNumberSubtract(depositAmount, receivingAmount);
     const conversionInfo = {
       conversionId,
       amount: entity.conversion.claim_amount,
       depositAddress: entity.wallet_pair.deposit_address,
       depositAmount,
-      receievingAmount,
+      receivingAmount,
       conversionFees,
       pair: { from_token: entity.from_token, to_token: entity.to_token },
       wallet: entity.wallet_pair
@@ -34,10 +34,11 @@ export const useConversionHistoryHook = (address) => {
       fromAddress: entity.wallet_pair.from_address,
       toAddress: entity.wallet_pair.to_address,
       status: entity.conversion.status,
-      depositAmount: entity.conversion.deposit_amount,
+      depositAmount,
+      receivingAmount,
       claimAmount: entity.conversion.claim_amount,
       feeAmount: entity.conversion.fee_amount,
-      lastUpdatedAt: entity.conversion.updated_at,
+      lastUpdatedAt: entity.conversion.created_at,
       fromToken: entity.from_token.symbol,
       toToken: entity.to_token.symbol,
       transactions: entity.transactions,

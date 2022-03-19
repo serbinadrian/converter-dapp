@@ -31,6 +31,7 @@ const ADATOERC20ETH = () => {
 
   const handleCancel = () => {
     dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
+    dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
   };
 
   const checkConversionStatus = async () => {
@@ -87,7 +88,7 @@ const ADATOERC20ETH = () => {
 
       const receipt = generateReceipt(
         conversion.depositAmount,
-        conversion.receievingAmount,
+        conversion.receivingAmount,
         conversion.conversionFees,
         conversion.pair.from_token.symbol,
         conversion.pair.to_token.symbol
@@ -103,7 +104,7 @@ const ADATOERC20ETH = () => {
   };
 
   const continueLater = () => {
-    dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
+    handleCancel();
     navigate(Paths.Transactions);
   };
 

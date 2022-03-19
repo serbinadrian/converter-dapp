@@ -68,8 +68,8 @@ export const useERC20TokenHook = () => {
       if (!isEmpty(pair.conversion_fee)) {
         conversionFees = convertToValueFromPercentage(depositAmount, pair.conversion_fee.percentage_from_source);
       }
-      const receievingAmount = bigNumberSubtract(depositAmount, conversionFees);
-      return { ...conversionInfo, depositAmount, pair, receievingAmount, conversionFees };
+      const receivingAmount = bigNumberSubtract(depositAmount, conversionFees);
+      return { ...conversionInfo, depositAmount, pair, receivingAmount, conversionFees };
     } catch (error) {
       console.log(error);
       throw error;
