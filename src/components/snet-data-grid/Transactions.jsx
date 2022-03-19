@@ -1,6 +1,5 @@
 import { Typography, Box, Link } from '@mui/material';
 import propTypes from 'prop-types';
-import startsWith from 'lodash/startsWith';
 import { utcToLocalDateTime } from '../../utils/Date';
 import { conversionDirections, txnOperations } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';

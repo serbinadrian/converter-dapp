@@ -6,9 +6,9 @@ const cols = ['Date', 'Chain Type', 'From', 'To', 'Status', ''];
 
 const TxnHistoryTable = () => {
   const { address } = useWalletHook();
-  const { conversionHistory } = useConversionHistoryHook(address);
+  const { conversionHistory, getConversionHistory, isLoading } = useConversionHistoryHook(address);
 
-  return <SnetDataGrid columns={cols} rows={conversionHistory} />;
+  return <SnetDataGrid loading={isLoading} refreshTxnHistory={getConversionHistory} columns={cols} rows={conversionHistory} />;
 };
 
 export default TxnHistoryTable;
