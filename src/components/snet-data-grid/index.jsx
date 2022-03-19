@@ -1,5 +1,8 @@
 import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { RefreshOutlined } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toLocalDateTime } from '../../utils/Date';
 import Columns from './Columns';
@@ -9,7 +12,7 @@ import { setFromAddress, setToAddress } from '../../services/redux/slices/wallet
 import { availableBlockchains, conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
 import paths from '../../router/paths';
 
-const SnetDataGrid = ({ columns, rows }) => {
+const SnetDataGrid = ({ columns, rows, refreshTxnHistory, loading }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,6 +31,11 @@ const SnetDataGrid = ({ columns, rows }) => {
 
   return (
     <>
+      <Box display="flex" justifyContent="flex-end" marginY={2}>
+        <LoadingButton loading={loading} onClick={refreshTxnHistory} startIcon={<RefreshOutlined />} variant="text">
+          Refresh Data
+        </LoadingButton>
+      </Box>
       <Columns columns={columns} />
       {rows.map((row) => {
         return (
@@ -52,7 +60,9 @@ const SnetDataGrid = ({ columns, rows }) => {
 
 SnetDataGrid.propTypes = {
   columns: propTypes.arrayOf(propTypes.string).isRequired,
-  rows: propTypes.arrayOf(propTypes.string).isRequired
+  rows: propTypes.arrayOf(propTypes.string).isRequired,
+  refreshTxnHistory: propTypes.func.isRequired,
+  loading: propTypes.bool.isRequired
 };
 
 export default SnetDataGrid;
