@@ -53,6 +53,8 @@ const SnetDataGrid = ({ columns, rows, refreshTxnHistory, loading }) => {
             transactions={row.transactions}
             conversionDirection={row.conversionDirection}
             handleResume={() => handleResume(row.conversionInfo, row.status)}
+            depositAmount={row.depositAmount}
+            receivingAmount={row.receivingAmount}
           />
         );
       })}

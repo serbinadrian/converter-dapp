@@ -88,7 +88,7 @@ const ADATOERC20ETH = () => {
 
       const receipt = generateReceipt(
         conversion.depositAmount,
-        conversion.receievingAmount,
+        conversion.receivingAmount,
         conversion.conversionFees,
         conversion.pair.from_token.symbol,
         conversion.pair.to_token.symbol
