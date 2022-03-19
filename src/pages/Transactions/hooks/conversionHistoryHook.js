@@ -5,8 +5,19 @@ import { getConversionTransactionHistory } from '../../../utils/HttpRequests';
 export const useConversionHistoryHook = (address) => {
   const [isLoading, setIsLoading] = useState(true);
   const [conversionHistory, setConversionHistory] = useState([]);
-  const [pageSize] = useState(10);
-  const [pageNumber] = useState(1);
+  const [pageSizes] = useState([5, 10, 20, 50, 100]);
+  const [paginationSize, setPaginationSize] = useState(0);
+  const [pageSize, setPageSize] = useState(pageSizes[0]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [paginationInfo, setPaginationInfo] = useState('');
+
+  const onItemSelect = (value) => {
+    setPageSize(value);
+  };
+
+  const onPageChange = (value) => {
+    setPageNumber(value);
+  };
 
   const formatSingleEntity = (entity) => {
     const chainType = `${entity.from_token.blockchain.symbol} - ${entity.to_token.blockchain.symbol}`;
@@ -61,7 +72,11 @@ export const useConversionHistoryHook = (address) => {
       try {
         setIsLoading(true);
         const data = await getConversionTransactionHistory(address, pageNumber, pageSize);
-        formatConversionHistory(data.items);
+        const { meta, items } = data;
+        formatConversionHistory(items);
+        setPaginationSize(meta.page_count);
+        setPageNumber(meta.page_number);
+        setPaginationInfo(`Page ${meta.page_number} of ${meta.page_count}`);
       } catch (error) {
         console.log(error);
       } finally {
@@ -72,11 +87,16 @@ export const useConversionHistoryHook = (address) => {
 
   useEffect(() => {
     getConversionHistory();
-  }, [address]);
+  }, [address, pageSize, pageNumber]);
 
   return {
     conversionHistory,
     getConversionHistory,
-    isLoading
+    isLoading,
+    onItemSelect,
+    pageSizes,
+    paginationSize,
+    onPageChange,
+    paginationInfo
   };
 };
