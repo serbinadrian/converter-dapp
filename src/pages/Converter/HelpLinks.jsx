@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
-import { Link, Typography } from '@mui/material';
+import { Link } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import styles from './styles';
 import Paths from '../../router/paths';
