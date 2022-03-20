@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
-import { isNil, round } from 'lodash';
+import { isNil } from 'lodash';
 import store from 'store';
 import BigNumber from 'bignumber.js';
 import { splitSignature } from '@ethersproject/bytes';
@@ -163,7 +163,7 @@ export const useWalletHook = () => {
 
   const convertAsReadableAmount = (balanceInCogs, decimals) => {
     const rawbalance = new BigNumber(balanceInCogs).dividedBy(new BigNumber(10 ** decimals)).toFixed();
-    return round(rawbalance, decimals);
+    return rawbalance;
   };
 
   const balanceFromWallet = async (tokenContractAddress) => {
