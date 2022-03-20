@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 import { Stack } from '@mui/material';
 import { toUpper, isEmpty, isNil } from 'lodash';
 import SnetPaper from '../../components/snet-paper';
-import { useConverterHook } from './hooks/ConverterHook';
+import useConverterHook from './hooks/ConverterHook';
 import ConversionFormLoader from './ConversionFormLoader';
 import TokenPairs from './TokenPairs';
 import { useERC20TokenHook } from './hooks/ERC20TokenHook';

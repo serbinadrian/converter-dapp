@@ -1,7 +1,7 @@
 import { Typography, Box, Link } from '@mui/material';
 import propTypes from 'prop-types';
 import { utcToLocalDateTime } from '../../utils/Date';
-import { conversionDirections, txnOperations } from '../../utils/ConverterConstants';
+import { conversionDirections, txnOperations, txnOperationsLabels, conversionStatusMessages } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 
 const Transactions = ({ transaction, conversionDirection }) => {
@@ -24,10 +24,10 @@ const Transactions = ({ transaction, conversionDirection }) => {
         {utcToLocalDateTime(transaction.created_at)}
       </Typography>
       <Typography variant="caption" textAlign="left">
-        {transaction.transaction_operation}
+        {txnOperationsLabels[transaction.transaction_operation]}
       </Typography>
       <Typography variant="caption" textAlign="left">
-        {transaction.status}
+        {conversionStatusMessages[transaction.status]}
       </Typography>
       <Typography variant="caption" textAlign="left">
         {transaction.transaction_amount}
