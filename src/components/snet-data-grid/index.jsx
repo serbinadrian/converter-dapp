@@ -78,7 +78,8 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, columns, rows
 
 SnetDataGrid.propTypes = {
   columns: propTypes.arrayOf(propTypes.string).isRequired,
-  rows: propTypes.arrayOf(propTypes.string).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  rows: propTypes.arrayOf(propTypes.object).isRequired,
   refreshTxnHistory: propTypes.func.isRequired,
   loading: propTypes.bool.isRequired,
   onItemSelect: propTypes.func.isRequired,
