@@ -21,6 +21,12 @@ export const txnOperations = {
   TOKEN_MINTED: 'TOKEN_MINTED'
 };
 
+export const txnOperationNames = {
+  [txnOperations.TOKEN_RECEIVED]: 'Tokens Received',
+  [txnOperations.TOKEN_BURNT]: 'Tokens Burnt',
+  [txnOperations.TOKEN_MINTED]: 'Tokens Minted'
+};
+
 export const conversionStatuses = {
   PROCESSING: 'PROCESSING',
   SUCCESS: 'SUCCESS',
