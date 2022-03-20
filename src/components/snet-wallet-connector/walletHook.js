@@ -163,7 +163,7 @@ export const useWalletHook = () => {
 
   const convertAsReadableAmount = (balanceInCogs, decimals) => {
     const rawbalance = new BigNumber(balanceInCogs).dividedBy(new BigNumber(10 ** decimals)).toFixed();
-    return round(rawbalance, 2);
+    return round(rawbalance, decimals);
   };
 
   const balanceFromWallet = async (tokenContractAddress) => {
