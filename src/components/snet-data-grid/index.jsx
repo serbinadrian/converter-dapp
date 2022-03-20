@@ -1,8 +1,10 @@
 import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { RefreshOutlined } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toLocalDateTime } from '../../utils/Date';
 import Columns from './Columns';
@@ -12,8 +14,9 @@ import { setFromAddress, setToAddress } from '../../services/redux/slices/wallet
 import { availableBlockchains, conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
 import paths from '../../router/paths';
 import { useStyles } from './styles';
+import SnetPagination from './Pagination';
 
-const SnetDataGrid = ({ columns, rows, refreshTxnHistory, loading }) => {
+const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, columns, rows, refreshTxnHistory, loading, onItemSelect, pageSizes, paginationSize }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +36,9 @@ const SnetDataGrid = ({ columns, rows, refreshTxnHistory, loading }) => {
 
   return (
     <div className={classes.transactionHistoryTable}>
+      <Backdrop open={loading}>
+        <CircularProgress color="white" />
+      </Backdrop>
       <Box display="flex" justifyContent="flex-end" marginY={2}>
         <LoadingButton loading={loading} onClick={refreshTxnHistory} startIcon={<RefreshOutlined />} variant="text">
           Refresh Data
@@ -58,6 +64,14 @@ const SnetDataGrid = ({ columns, rows, refreshTxnHistory, loading }) => {
           />
         );
       })}
+      <SnetPagination
+        paginationInfo={paginationInfo}
+        onPageChange={onPageChange}
+        currentPage={currentPage}
+        paginationSize={paginationSize}
+        onItemSelect={onItemSelect}
+        pageSizes={pageSizes}
+      />
     </div>
   );
 };
@@ -67,7 +81,13 @@ SnetDataGrid.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   rows: propTypes.arrayOf(propTypes.object).isRequired,
   refreshTxnHistory: propTypes.func.isRequired,
-  loading: propTypes.bool.isRequired
+  loading: propTypes.bool.isRequired,
+  onItemSelect: propTypes.func.isRequired,
+  pageSizes: propTypes.arrayOf(propTypes.number).isRequired,
+  paginationSize: propTypes.number.isRequired,
+  currentPage: propTypes.number.isRequired,
+  onPageChange: propTypes.func.isRequired,
+  paginationInfo: propTypes.string.isRequired
 };
 
 export default SnetDataGrid;
