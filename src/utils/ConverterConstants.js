@@ -21,7 +21,7 @@ export const txnOperations = {
   TOKEN_MINTED: 'TOKEN_MINTED'
 };
 
-export const txnOperationNames = {
+export const txnOperationsLabels = {
   [txnOperations.TOKEN_RECEIVED]: 'Tokens Received',
   [txnOperations.TOKEN_BURNT]: 'Tokens Burnt',
   [txnOperations.TOKEN_MINTED]: 'Tokens Minted'
@@ -32,14 +32,19 @@ export const conversionStatuses = {
   SUCCESS: 'SUCCESS',
   USER_INITIATED: 'USER_INITIATED',
   WAITING_FOR_CLAIM: 'WAITING_FOR_CLAIM',
-  IDLE: 'IDLE'
+  IDLE: 'IDLE',
+  CLAIM_INITIATED: 'CLAIM_INITIATED',
+  WAITING_FOR_CONFIRMATION: 'WAITING_FOR_CONFIRMATION'
 };
 
 export const conversionStatusMessages = {
   [conversionStatuses.PROCESSING]: 'Processing',
-  [conversionStatuses.USER_INITIATED]: 'User initiated',
-  [conversionStatuses.WAITING_FOR_CLAIM]: 'Claim tokens',
-  [conversionStatuses.IDLE]: 'Idle'
+  [conversionStatuses.SUCCESS]: 'Success',
+  [conversionStatuses.USER_INITIATED]: 'Conversion Initiated',
+  [conversionStatuses.WAITING_FOR_CLAIM]: 'Ready for Claim',
+  [conversionStatuses.IDLE]: 'Idle',
+  [conversionStatuses.CLAIM_INITIATED]: 'Claim Initiated',
+  [conversionStatuses.WAITING_FOR_CONFIRMATION]: 'Awaiting Confirmation'
 };
 
 export const conversionDirection = {
