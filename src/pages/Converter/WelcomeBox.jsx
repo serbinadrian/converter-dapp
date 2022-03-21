@@ -8,7 +8,7 @@ const WelcomeBox = () => {
     <Box sx={{ ...styles.welcomeBox }}>
       <Typography sx={styles.welcome}>Bridge</Typography>
       <Typography color="white.main" sx={styles.welcomeIntro}>
-        SingularityNET Bridge allows users to transfer tokens from one chain to another. Follow the articles below to understand how to tranfer tokens.
+        SingularityNET Bridge allows users to transfer tokens from one chain to another. Follow the articles below to understand how to transfer tokens.
       </Typography>
       <WelcomeBoxLinks />
     </Box>
