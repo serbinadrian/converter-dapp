@@ -3,10 +3,10 @@ import { toLocalDateTime } from '../../utils/Date';
 import Columns from './Columns';
 import Rows from './Rows';
 
-const SnetDataGrid = ({ columns, rows }) => {
+const SnetDataGrid = ({ rows }) => {
   return (
     <>
-      <Columns columns={columns} />
+      <Columns />
       {rows.map((row) => {
         return (
           <Rows
@@ -26,7 +26,6 @@ const SnetDataGrid = ({ columns, rows }) => {
 };
 
 SnetDataGrid.propTypes = {
-  columns: propTypes.arrayOf(propTypes.string).isRequired,
   rows: propTypes.arrayOf(propTypes.string).isRequired
 };
 
