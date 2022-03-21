@@ -11,7 +11,7 @@ const SnetConversionStatus = ({ link, isDialogOpen, onDialogClose, title, amount
   const navigate = useNavigate();
 
   const openLink = () => {
-    useNavigate(paths.Transactions);
+    navigate(paths.Transactions);
   };
 
   return (

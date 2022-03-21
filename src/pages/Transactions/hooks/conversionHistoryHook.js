@@ -90,6 +90,7 @@ const useConversionHistoryHook = (address) => {
   }, [address, pageSize, pageNumber]);
 
   return {
+    pageNumber,
     conversionHistory,
     getConversionHistory,
     isLoading,
