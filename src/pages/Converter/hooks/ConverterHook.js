@@ -40,7 +40,9 @@ const useConverterHook = () => {
   };
 
   const updateWalletBalance = (balanceInfo) => {
-    if (fromAndToTokenValues.fromValue > balanceInfo.balance) {
+    console.log(`${fromAndToTokenValues.fromValue} ${' '} ${balanceInfo.balance} ${'- in updateWalletBalance'}`);
+    if (isValueGreaterThanProvided(fromAndToTokenValues.fromValue, balanceInfo.balance)) {
+      console.log(`${fromAndToTokenValues.fromValue} ${' '} ${balanceInfo.balance} ${'- in updateWalletBalance'}`);
       updateError(errorMessages.INSUFFICIENT_BALANCE_FROM);
     } /* else {
       console.log('Resetting error in updateWalletBalance');
@@ -92,6 +94,7 @@ const useConverterHook = () => {
     } else if (isValueGreaterThanProvided(value, pairMaxValue)) {
       updateError(`${errorMessages.MAXIMUM_TRANSACTION_AMOUNT + pairMaxValue} ${' '} ${pair.from_token.symbol}`);
     } else if (isValueGreaterThanProvided(value, walletBalance.balance) && blockchainName === availableBlockchains.ETHEREUM) {
+      console.log(`${value} ${' '} ${walletBalance.balance} ${'- in regular amount check'}`);
       updateError(errorMessages.INSUFFICIENT_BALANCE_FROM);
     } else {
       resetError();
