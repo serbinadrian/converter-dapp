@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import WarningIcon from '@mui/icons-material/Warning';
@@ -76,48 +77,75 @@ const Rows = ({
 
   return (
     <>
-      <Box display="flex" alignItems="center" justifyContent="space-between" paddingY={2} className={classes.transactionDataRow}>
-        <Typography textTransform="uppercase" variant="caption" color="grey">
-          {utcToLocalDateTime(date)}
-        </Typography>
-        <Box display="flex" alignItems="center">
-          <Typography textTransform="uppercase" variant="caption" color="grey">
+      <Grid container spacing={2} className={classes.transactionDataRow}>
+        <Grid item xs={6} md={2}>
+          <Typography textTransform="uppercase" align="left">
+            {utcToLocalDateTime(date)}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} md={2}>
+          <Typography textTransform="uppercase" align="left">
             {chainType}
           </Typography>
-        </Box>
-        <Box width="120px" overflow="hidden">
-          <Typography textTransform="uppercase" variant="body2" color="grey">
+        </Grid>
+        <Grid item xs={6} md={2} flexDirection="column" className={classes.alignRight}>
+          <Typography textTransform="uppercase">
             {depositAmount} {fromToken}
           </Typography>
           <Typography textOverflow="ellipsis" overflow="hidden" textTransform="uppercase" variant="caption" color="grey">
             {fromAddress}
           </Typography>
-        </Box>
-        <Box width="120px" overflow="hidden">
-          <Typography textAlign="left" variant="body2" color="grey">
+        </Grid>
+        <Grid item xs={6} md={2} flexDirection="column" className={classes.alignRight}>
+          <Typography textTransform="uppercase">
             {receivingAmount} {toToken}
           </Typography>
-          <Typography textAlign="left" textOverflow="ellipsis" overflow="hidden" variant="caption" color="grey">
+          <Typography textOverflow="ellipsis" overflow="hidden" variant="caption" color="grey">
             {toAddress}
           </Typography>
-        </Box>
-        <Box display="flex" alignItems="center">
+        </Grid>
+        <Grid item xs={6} md={2} align="center" className={classes.statusData}>
           {conversionStatus(status, handleResume)}
           {status !== conversionStatuses.WAITING_FOR_CLAIM && status !== conversionStatuses.USER_INITIATED ? (
             <Typography variant="caption">{status}</Typography>
           ) : null}
-        </Box>
-        <CardActions disableSpacing>
-          <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-            <ExpandMoreIcon />
-          </ExpandMore>
-        </CardActions>
-      </Box>
+        </Grid>
+        <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
+          <CardActions disableSpacing>
+            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+        </Grid>
+      </Grid>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box display="flex" justifyContent="space-between" className={classes.expandedData}>
-          {transactions.map((transaction) => {
-            return <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />;
-          })}
+          <div className={classes.expandedDataWrapper}>
+            <Grid container className={classes.expandedDataCol}>
+              <Grid item xs={6} md={2}>
+                <Typography>Date</Typography>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Typography>Process Status</Typography>
+              </Grid>
+              <Grid item xs={6} md={2}>
+                <Typography>Status</Typography>
+              </Grid>
+              <Grid item xs={6} md={2}>
+                <Typography>Transaction</Typography>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Typography>Detail</Typography>
+              </Grid>
+            </Grid>
+            {transactions.map((transaction) => {
+              return (
+                <Grid container className={classes.expandedDataRows}>
+                  <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />
+                </Grid>
+              );
+            })}
+          </div>
         </Box>
       </Collapse>
     </>
