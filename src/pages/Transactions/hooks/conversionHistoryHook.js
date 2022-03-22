@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
 import { getConversionTransactionHistory } from '../../../utils/HttpRequests';
 
-export const useConversionHistoryHook = (address) => {
+const useConversionHistoryHook = (address) => {
   const [isLoading, setIsLoading] = useState(true);
   const [conversionHistory, setConversionHistory] = useState([]);
   const [pageSizes] = useState([5, 10, 20, 50, 100]);
@@ -20,7 +20,7 @@ export const useConversionHistoryHook = (address) => {
   };
 
   const formatSingleEntity = (entity) => {
-    const chainType = `${entity.from_token.blockchain.symbol} - ${entity.to_token.blockchain.symbol}`;
+    const chainType = `${entity.from_token.blockchain.name} - ${entity.to_token.blockchain.name}`;
     const fromDirection = entity.from_token.blockchain.symbol;
     const toDirection = entity.to_token.blockchain.symbol;
     const conversionDirection = `${fromDirection}_TO_${toDirection}`;
@@ -90,6 +90,7 @@ export const useConversionHistoryHook = (address) => {
   }, [address, pageSize, pageNumber]);
 
   return {
+    pageNumber,
     conversionHistory,
     getConversionHistory,
     isLoading,
@@ -100,3 +101,5 @@ export const useConversionHistoryHook = (address) => {
     paginationInfo
   };
 };
+
+export default useConversionHistoryHook;
