@@ -190,23 +190,20 @@ export const useWalletHook = () => {
   };
 
   const approveSpender = async (tokenContractAddress, spenderAddress) => {
-    const limitInCogs = convertToCogs(100000000, 8);
-    console.log('Spender Limit : ', limitInCogs);
-    console.log('Token contract address', tokenContractAddress);
-    const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
-    const walletAddress = await getWalletAddress();
-    const estimateGasLimit = await contract.methods.approve(spenderAddress, limitInCogs).estimateGas({ from: walletAddress });
-    console.log('approveSpender estimateGasLimit', estimateGasLimit);
-    const response = await contract.methods
-      .approve(spenderAddress, limitInCogs)
-      .send({ from: walletAddress })
-      .on('transactionHash', (hash) => {
-        console.log('approveSpender transactionHash', hash);
-      })
-      .on('error', (error) => {
-        console.log('approveSpender error', error.toString());
-      });
-    return response;
+    try {
+      const limitInCogs = convertToCogs(100000000, 8);
+      console.log('Spender Limit : ', limitInCogs);
+      console.log('Token contract address', tokenContractAddress);
+      const contract = new web3.eth.Contract(ERC20TokenABI, tokenContractAddress);
+      const walletAddress = await getWalletAddress();
+      const estimateGasLimit = await contract.methods.approve(spenderAddress, limitInCogs).estimateGas({ from: walletAddress });
+      console.log('approveSpender estimateGasLimit', estimateGasLimit);
+      const response = await contract.methods.approve(spenderAddress, limitInCogs).send({ from: walletAddress });
+      return response;
+    } catch (error) {
+      console.log('Approve spender error: ', error);
+      throw formatContractExceptionMessage(error);
+    }
   };
 
   const estimateGasPrice = async (estimate) => {
