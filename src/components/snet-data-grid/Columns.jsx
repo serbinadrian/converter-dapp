@@ -27,7 +27,7 @@ const Columns = () => {
         </Typography>
       </Grid>
       <Grid item xs={6} md={2}>
-        <Typography textTransform="uppercase" align="left">
+        <Typography textTransform="uppercase" align="center">
           status
         </Typography>
       </Grid>

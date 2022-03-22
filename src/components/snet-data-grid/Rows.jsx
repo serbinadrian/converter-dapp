@@ -84,42 +84,44 @@ const Rows = ({
           </Typography>
         </Grid>
         <Grid item xs={6} md={2}>
-          <Typography textTransform="uppercase" variant="caption" color="grey">
+          <Typography textTransform="uppercase" align="left">
             {chainType}
           </Typography>
         </Grid>
-        <Grid item xs={6} md={2}>
-          <Typography textTransform="uppercase" variant="body2" color="grey">
+        <Grid item xs={6} md={2} flexDirection="column" className={classes.alignRight}>
+          <Typography textTransform="uppercase">
             {depositAmount} {fromToken}
           </Typography>
           <Typography textOverflow="ellipsis" overflow="hidden" textTransform="uppercase" variant="caption" color="grey">
             {fromAddress}
           </Typography>
         </Grid>
-        <Grid item xs={6} md={2}>
-          <Typography textAlign="left" variant="body2" color="grey">
+        <Grid item xs={6} md={2} flexDirection="column" className={classes.alignRight}>
+          <Typography textTransform="uppercase">
             {receivingAmount} {toToken}
           </Typography>
-          <Typography textAlign="left" textOverflow="ellipsis" overflow="hidden" variant="caption" color="grey">
+          <Typography textOverflow="ellipsis" overflow="hidden" variant="caption" color="grey">
             {toAddress}
           </Typography>
         </Grid>
-        <Grid item xs={6} md={2}>
+        <Grid item xs={6} md={2} align="center" className={classes.statusData}>
           {conversionStatus(status, handleResume)}
           {status !== conversionStatuses.WAITING_FOR_CLAIM && status !== conversionStatuses.USER_INITIATED ? (
             <Typography variant="caption">{status}</Typography>
           ) : null}
         </Grid>
-        <CardActions disableSpacing>
-          <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-            <ExpandMoreIcon />
-          </ExpandMore>
-        </CardActions>
+        <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
+          <CardActions disableSpacing>
+            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+        </Grid>
       </Grid>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box display="flex" justifyContent="space-between" className={classes.expandedData}>
           <div className={classes.expandedDataWrapper}>
-            <Grid container spacing={2} className={classes.expandedDataCol}>
+            <Grid container className={classes.expandedDataCol}>
               <Grid item xs={6} md={2}>
                 <Typography>Date</Typography>
               </Grid>
@@ -138,7 +140,7 @@ const Rows = ({
             </Grid>
             {transactions.map((transaction) => {
               return (
-                <Grid container spacing={2} className={classes.expandedDataRows}>
+                <Grid container className={classes.expandedDataRows}>
                   <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />
                 </Grid>
               );

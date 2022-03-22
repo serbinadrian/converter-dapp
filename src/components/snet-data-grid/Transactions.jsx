@@ -41,7 +41,7 @@ const Transactions = ({ transaction, conversionDirection }) => {
           {transaction.transaction_amount}
         </Typography>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={6} md={3} className={classes.detailsData}>
         <Link href={txnHashLink(transaction.transaction_hash)} underline="none" target="_blank" rel="noopener noreferrer">
           <Typography variant="caption" textAlign="left">
             {transaction.transaction_hash}
