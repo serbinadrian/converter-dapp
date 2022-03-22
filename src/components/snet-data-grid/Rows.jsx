@@ -118,9 +118,32 @@ const Rows = ({
       </Grid>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box display="flex" justifyContent="space-between" className={classes.expandedData}>
-          {transactions.map((transaction) => {
-            return <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />;
-          })}
+          <div className={classes.expandedDataWrapper}>
+            <Grid container spacing={2} className={classes.expandedDataCol}>
+              <Grid item xs={6} md={2}>
+                <Typography>Date</Typography>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Typography>Process Status</Typography>
+              </Grid>
+              <Grid item xs={6} md={2}>
+                <Typography>Status</Typography>
+              </Grid>
+              <Grid item xs={6} md={2}>
+                <Typography>Transaction</Typography>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Typography>Detail</Typography>
+              </Grid>
+            </Grid>
+            {transactions.map((transaction) => {
+              return (
+                <Grid container spacing={2} className={classes.expandedDataRows}>
+                  <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />
+                </Grid>
+              );
+            })}
+          </div>
         </Box>
       </Collapse>
     </>

@@ -45,11 +45,19 @@ export const useStyles = makeStyles({
   },
   expandedDataWrapper: {
     width: '100%',
-    padding: '7px 20px 7px 36px',
+    padding: '26px 20px 26px 36px',
     borderTop: '1px solid #f5f7f8',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff'
+  },
+  expandedDataCol: {
+    '& div p': {
+      color: '#9B9B9B',
+      fontSize: 14,
+      letterSpacing: 0.17
+    }
   }
 });
