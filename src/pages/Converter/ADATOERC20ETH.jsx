@@ -11,14 +11,16 @@ import { setActiveStep, setConversionDirection, setConversionStatus } from '../.
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
 import { availableBlockchains, conversionSteps } from '../../utils/ConverterConstants';
-import { conversionClaim, getConversionStatus } from '../../utils/HttpRequests';
+import { conversionClaim, getConversionStatus, updateTransactionStatus } from '../../utils/HttpRequests';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetLoader from '../../components/snet-loader';
 import Paths from '../../router/paths';
+import SnetSnackbar from '../../components/snet-snackbar';
 
 const ADATOERC20ETH = () => {
   const { generateSignatureForClaim, conversionIn } = useWalletHook();
   const [loader, setLoader] = useState({ isLoading: false, message: '', title: '' });
+  const [error, setError] = useState({ isError: false, message: '' });
   const [transactionHash, setTransactionHash] = useState('');
   const [transactionReceipt, setTransactionReceipt] = useState([]);
   const { conversionStepsForAdaToEth, activeStep, conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
@@ -29,6 +31,7 @@ const ADATOERC20ETH = () => {
 
   const handleCancel = () => {
     dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
+    dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
   };
 
   const checkConversionStatus = async () => {
@@ -77,13 +80,15 @@ const ADATOERC20ETH = () => {
       const response = await conversionClaim(conversionId, amount, signature, toAddress, fromAddress);
 
       updateLoaderStatus(true, 'Please confirm the transaction on your wallet...');
-      const contractAddress = conversion.pair.contract_address;
+      const contractAddress = response.contract_address;
       const txnHash = await claimTheTokens(contractAddress, conversionId, response.claim_amount, response.signature, decimals);
       setTransactionHash(txnHash);
 
+      await updateTransactionStatus(conversionId, txnHash);
+
       const receipt = generateReceipt(
         conversion.depositAmount,
-        conversion.receievingAmount,
+        conversion.receivingAmount,
         conversion.conversionFees,
         conversion.pair.from_token.symbol,
         conversion.pair.to_token.symbol
@@ -91,20 +96,22 @@ const ADATOERC20ETH = () => {
       setTransactionReceipt(receipt);
       dispatch(setActiveStep(conversionSteps.SUMMARY));
     } catch (error) {
-      console.log(error);
+      const message = error.message || JSON.stringify(error);
+      setError({ isError: true, message });
     } finally {
       updateLoaderStatus(false);
     }
   };
 
   const continueLater = () => {
+    handleCancel();
     navigate(Paths.Transactions);
   };
 
   const formatConversionTitle = () => {
     const { pair } = conversion;
-    const from = `${pair.from_token.symbol} [${pair.from_token.blockchain.symbol}]`;
-    const to = `${pair.to_token.symbol} [${pair.to_token.blockchain.symbol}]`;
+    const from = `${pair.from_token.symbol} (on ${pair.from_token.blockchain.name})`;
+    const to = `${pair.to_token.symbol} (on ${pair.to_token.blockchain.name})`;
     return `Converting ${from} to ${to}`;
   };
 
@@ -116,6 +123,7 @@ const ADATOERC20ETH = () => {
 
   return (
     <SnetPaper>
+      <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
       <SnetLoader dialogBody={loader.message} onDialogClose={() => {}} isDialogOpen={loader.isLoading} dialogTitle={loader.title} />
       <SnetAdaEthTitle title={formatConversionTitle()} />
       <Box sx={styles.padding}>

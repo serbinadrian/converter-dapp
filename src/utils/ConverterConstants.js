@@ -15,11 +15,36 @@ export const conversionDirections = {
   ADA_TO_ETH: 'ADA_TO_ETH'
 };
 
+export const txnOperations = {
+  TOKEN_RECEIVED: 'TOKEN_RECEIVED',
+  TOKEN_BURNT: 'TOKEN_BURNT',
+  TOKEN_MINTED: 'TOKEN_MINTED'
+};
+
+export const txnOperationsLabels = {
+  [txnOperations.TOKEN_RECEIVED]: 'Tokens Received',
+  [txnOperations.TOKEN_BURNT]: 'Tokens Burnt',
+  [txnOperations.TOKEN_MINTED]: 'Tokens Minted'
+};
+
 export const conversionStatuses = {
   PROCESSING: 'PROCESSING',
+  SUCCESS: 'SUCCESS',
   USER_INITIATED: 'USER_INITIATED',
-  COMPLETE: 'WAITING_FOR_CLAIM',
-  IDLE: 'IDLE'
+  WAITING_FOR_CLAIM: 'WAITING_FOR_CLAIM',
+  IDLE: 'IDLE',
+  CLAIM_INITIATED: 'CLAIM_INITIATED',
+  WAITING_FOR_CONFIRMATION: 'WAITING_FOR_CONFIRMATION'
+};
+
+export const conversionStatusMessages = {
+  [conversionStatuses.PROCESSING]: 'Processing',
+  [conversionStatuses.SUCCESS]: 'Success',
+  [conversionStatuses.USER_INITIATED]: 'Conversion Initiated',
+  [conversionStatuses.WAITING_FOR_CLAIM]: 'Ready for Claim',
+  [conversionStatuses.IDLE]: 'Idle',
+  [conversionStatuses.CLAIM_INITIATED]: 'Claim Initiated',
+  [conversionStatuses.WAITING_FOR_CONFIRMATION]: 'Awaiting Confirmation'
 };
 
 export const conversionDirection = {

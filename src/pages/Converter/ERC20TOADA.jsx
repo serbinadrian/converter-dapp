@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 import { Stack } from '@mui/material';
 import { toUpper, isEmpty, isNil } from 'lodash';
 import SnetPaper from '../../components/snet-paper';
-import { useConverterHook } from './hooks/ConverterHook';
+import useConverterHook from './hooks/ConverterHook';
 import ConversionFormLoader from './ConversionFormLoader';
 import TokenPairs from './TokenPairs';
 import { useERC20TokenHook } from './hooks/ERC20TokenHook';
@@ -52,7 +52,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     burnERC20Tokens,
     txnInfo
   } = useERC20TokenHook();
-  const { toAddress, fromAddress } = wallet;
+  const { toAddress, fromAddress, wallets } = wallet;
 
   const getBalanceFromWallet = async () => {
     const balanceInfo = await fetchWalletBalance(fromTokenPair.token_address);
@@ -69,7 +69,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM) {
       getBalanceFromWallet();
     }
-  }, [fromTokenPair]);
+  }, [fromTokenPair, wallets, fromAndToTokenValues]);
 
   const onClickAuthorize = async () => {
     try {
@@ -151,7 +151,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
         ) : null}
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
           {wallet.conversionDirection === conversionDirections.ADA_TO_ETH ? (
-            <ADATOETHButton conversionEnabled={!error.message.length} onClickConvert={getConversionIdForADATOETH} />
+            <ADATOETHButton conversionEnabled={!error.message.length && !isNil(fromAddress)} onClickConvert={getConversionIdForADATOETH} />
           ) : (
             <ETHTOADAButton
               conversionEnabled={conversionEnabled && !error.error}

@@ -1,14 +1,17 @@
 import { Box, Grid, Typography } from '@mui/material';
 import propTypes from 'prop-types';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { useNavigate } from 'react-router-dom';
 import ProgressIcon from '@mui/icons-material/HourglassBottom';
 import SnetDialog from '../snet-dialog';
 import ColorCodes from '../../assets/theme/colorCodes';
 import SnetButton from '../snet-button';
+import paths from '../../router/paths';
 
 const SnetConversionStatus = ({ link, isDialogOpen, onDialogClose, title, amount, tokenName }) => {
+  const navigate = useNavigate();
+
   const openLink = () => {
-    window.open(link, '_blank');
+    navigate(paths.Transactions);
   };
 
   return (
@@ -31,7 +34,7 @@ const SnetConversionStatus = ({ link, isDialogOpen, onDialogClose, title, amount
             </Typography>
           </Box>
           <Box display="flex" alignItems="center" justifyContent="space-evenly" padding={4}>
-            <SnetButton variant="text" onClick={openLink} name="View transaction history" />
+            <SnetButton variant="text" onClick={openLink} name="View Transaction" />
             <SnetButton onClick={onDialogClose} name="Finish" />
           </Box>
         </Box>

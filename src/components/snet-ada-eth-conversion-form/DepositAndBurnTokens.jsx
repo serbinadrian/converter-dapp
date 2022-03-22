@@ -11,7 +11,7 @@ import { setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairS
 const DepositAndBurnTokens = ({ onClickCancel }) => {
   const { conversion, activeStep } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
 
-  const isDepositReceived = conversion.status === conversionStatuses.COMPLETE;
+  const isDepositReceived = conversion.status === conversionStatuses.WAITING_FOR_CLAIM;
   const isWaitingForDeposit = activeStep === conversionSteps.DEPOSIT_TOKENS;
 
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
         <AdaToEthTokenAndValue
           fromTokenAmount={conversion.depositAmount}
           fromTokenSymbol={conversion.pair.from_token.symbol}
-          toTokenAmount={conversion.receievingAmount}
+          toTokenAmount={conversion.receivingAmount}
           toTokenSymbol={conversion.pair.to_token.symbol}
           conversionFee={conversion.conversionFees}
           conversionFeeTokenSymbol={conversion.pair.from_token.symbol}
@@ -50,7 +50,7 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
           </Stack>
         ) : null}
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
-          <SnetButton name="Cancel" variant="outlined" onClick={onClickCancel} />
+          <SnetButton name="Close" variant="outlined" onClick={onClickCancel} />
           <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="Continue" onClick={onClickContinue} />
         </Stack>
       </Box>

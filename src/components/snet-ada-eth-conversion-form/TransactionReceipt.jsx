@@ -1,4 +1,4 @@
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ProgressIcon from '@mui/icons-material/HourglassBottom';
 import { Stack, Typography, Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -21,16 +21,15 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
   };
 
   const openLink = () => {
-    const link = `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${txnHash}`;
-    window.open(link, '_blank');
+    navigate(Paths.Transactions);
   };
 
   return (
     <>
       <Stack direction="column" alignItems="center" marginY={6} spacing={2} justifyContent="center">
-        <CheckCircleOutlineIcon color="success" fontSize="large" />
+        <ProgressIcon color="warning" fontSize="large" />
         <Typography variant="h3" color="grey">
-          Tokens conversion successfully completed.
+          Tokens conversion successfully initiated.
         </Typography>
       </Stack>
       <Typography variant="h5" fontWeight="bold">
@@ -53,7 +52,7 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
         })}
       </List>
       <Box display="flex" alignItems="center" justifyContent="space-evenly" padding={4}>
-        <SnetButton onClick={openLink} variant="text" name="View transaction history" />
+        <SnetButton onClick={openLink} variant="text" name="View Transaction" />
         <SnetButton name="Finish" onClick={onClickFinish} />
       </Box>
     </>
