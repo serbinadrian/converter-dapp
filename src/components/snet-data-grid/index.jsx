@@ -39,10 +39,12 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, rows, refresh
       <Backdrop open={loading}>
         <CircularProgress color="white" />
       </Backdrop>
-      <Box display="flex" justifyContent="flex-end" marginY={2}>
-        <LoadingButton loading={loading} onClick={refreshTxnHistory} startIcon={<RefreshOutlined />} variant="text">
-          Refresh Data
-        </LoadingButton>
+      <Box className={classes.transactionHistoryHeader}>
+        <Box display="flex" justifyContent="flex-end" marginY={2} className={classes.refreshDataContainer}>
+          <LoadingButton loading={loading} onClick={refreshTxnHistory} startIcon={<RefreshOutlined />} variant="text">
+            Refresh Data
+          </LoadingButton>
+        </Box>
       </Box>
       <Columns />
       {rows.map((row) => {

@@ -2,6 +2,7 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
   columnsContainer: {
+    marginTop: 48,
     '& p': {
       color: '#9b9b9b',
       fontSize: 14,
@@ -9,7 +10,21 @@ export const useStyles = makeStyles({
       opacity: 0.53
     }
   },
-  transactionHistoryTable: { padding: '30px 22px' },
+  transactionHistoryTable: { padding: '0 16px' },
+  transactionHistoryHeader: {
+    borderBottom: '1px solid #f5f7f8'
+  },
+  refreshDataContainer: {
+    padding: '11px 0',
+    margin: 0,
+    '& button': {
+      color: '#4086FF',
+      fontSize: 14,
+      lineHeight: '16px',
+      textTransform: 'capitalize',
+      '& svg': { fontSize: 18 }
+    }
+  },
   colName: {
     opacity: 0.53,
     color: '#9B9B9B',
@@ -19,7 +34,8 @@ export const useStyles = makeStyles({
     lineHeight: '18px'
   },
   transactionDataRow: {
-    borderTop: '1px solid #f5f7f8'
+    borderTop: '1px solid #f5f7f8',
+    marginTop: 10
   },
   expandedData: {
     padding: 24,
