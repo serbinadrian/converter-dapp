@@ -167,7 +167,13 @@ export const useWalletHook = () => {
   };
 
   const formatContractExceptionMessage = (error) => {
-    const stringifiedError = error.message.substr(error.message.indexOf('{'));
+    const contractException = error.message.indexOf('{');
+
+    if (contractException < 0) {
+      return error.message;
+    }
+
+    const stringifiedError = error.message.substr(contractException);
     const { originalError } = JSON.parse(stringifiedError);
     const { message } = originalError;
     return message;
