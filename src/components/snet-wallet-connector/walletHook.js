@@ -167,10 +167,7 @@ export const useWalletHook = () => {
   };
 
   const formatContractExceptionMessage = (error) => {
-    const stringifiedError = error.message.substr(error.message.indexOf('{'));
-    const { originalError } = JSON.parse(stringifiedError);
-    const { message } = originalError;
-    return message;
+    return error.reason || error.code > 0 ? error.message : 'Please find more details by clicking transactions link.';
   };
 
   const balanceFromWallet = async (tokenContractAddress) => {
