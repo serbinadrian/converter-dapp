@@ -7,7 +7,13 @@ import SnetAdaEthTitle from '../../components/snet-ada-eth-conversion-form/SnetA
 import SnetPaper from '../../components/snet-paper';
 import styles from './styles';
 import DepositAndBurnTokens from '../../components/snet-ada-eth-conversion-form/DepositAndBurnTokens';
-import { setActiveStep, setConversionDirection, setConversionStatus } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import {
+  setActiveStep,
+  setConversionApiCallIntervalIds,
+  setConversionDirection,
+  setConversionStatus,
+  resetConversionApiCallIntervalIds
+} from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
 import { availableBlockchains, conversionSteps } from '../../utils/ConverterConstants';
@@ -24,6 +30,7 @@ const ADATOERC20ETH = () => {
   const [transactionHash, setTransactionHash] = useState('');
   const [transactionReceipt, setTransactionReceipt] = useState([]);
   const { conversionStepsForAdaToEth, activeStep, conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
+  const { conversionApiCallIntervalIds } = useSelector((state) => state.tokenPairs);
 
   const { fromAddress, toAddress } = useSelector((state) => state.wallet);
   const navigate = useNavigate();
@@ -34,19 +41,34 @@ const ADATOERC20ETH = () => {
     dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
   };
 
-  const checkConversionStatus = async () => {
-    setInterval(async () => {
+  const checkConversionStatus = () => {
+    const sixtySeconds = 60000;
+    const intervalId = setInterval(async () => {
       try {
         if (activeStep === conversionSteps.BURN_TOKENS) {
           const response = await getConversionStatus(conversion.conversionId);
-          console.log(response);
           dispatch(setConversionStatus(response.conversion.status));
         }
       } catch (error) {
         console.log(error);
       }
-    }, 60000);
+    }, sixtySeconds);
+
+    dispatch(setConversionApiCallIntervalIds(intervalId));
   };
+
+  const resetConversionApiCalls = () => {
+    if (conversionApiCallIntervalIds.length > 0) {
+      conversionApiCallIntervalIds.forEach((element) => {
+        clearInterval(element);
+      });
+      dispatch(resetConversionApiCallIntervalIds());
+    }
+  };
+
+  useEffect(() => {
+    resetConversionApiCalls();
+  }, []);
 
   const updateLoaderStatus = (isLoading, message = '', title = 'Awaiting Confirmation...') => {
     setLoader({ isLoading, message, title });

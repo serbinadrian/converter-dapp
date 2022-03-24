@@ -6,6 +6,7 @@ import { getAvailableTokenPairs } from './tokenPairActions';
 const tokenPairSlice = createSlice({
   name: 'tokenPairs',
   initialState: {
+    conversionApiCallIntervalIds: [],
     conversionOfAdaToEth: {
       conversionStepsForAdaToEth,
       activeStep: conversionSteps.DEPOSIT_TOKENS,
@@ -24,6 +25,12 @@ const tokenPairSlice = createSlice({
     loading: progress.PENDING
   },
   reducers: {
+    setConversionApiCallIntervalIds(state, action) {
+      state.conversionApiCallIntervalIds.push(action.payload);
+    },
+    resetConversionApiCallIntervalIds(state) {
+      state.conversionApiCallIntervalIds = [];
+    },
     setConversionDirection(state, action) {
       state.conversionDirection = action.payload;
     },
@@ -48,6 +55,13 @@ const tokenPairSlice = createSlice({
   }
 });
 
-export const { setConversionDirection, setActiveStep, setAdaConversionInfo, setConversionStatus } = tokenPairSlice.actions;
+export const {
+  setConversionDirection,
+  setActiveStep,
+  setAdaConversionInfo,
+  setConversionStatus,
+  setConversionApiCallIntervalIds,
+  resetConversionApiCallIntervalIds
+} = tokenPairSlice.actions;
 
 export default tokenPairSlice;
