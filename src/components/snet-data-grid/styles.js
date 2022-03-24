@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 export const useStyles = makeStyles({
   columnsContainer: {
     marginTop: 48,
+    '& > div': { paddingTop: 0 },
     '& p': {
       color: '#9b9b9b',
       fontSize: 14,
@@ -74,13 +75,11 @@ export const useStyles = makeStyles({
   },
   expandedDataWrapper: {
     width: '100%',
-    // padding: '26px 20px 26px 36px',
     borderTop: '1px solid #f5f7f8',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center'
-    // backgroundColor: '#fff'
   },
   expandedDataCol: {
     padding: '26px 20px 15px 60px',
@@ -94,7 +93,7 @@ export const useStyles = makeStyles({
   expandedDataRows: {
     padding: '7px 20px 7px 60px',
     background: '#fff',
-    marginTop: 3
+    marginTop: 2
   },
   detailsData: {
     '& a': {
@@ -107,5 +106,46 @@ export const useStyles = makeStyles({
   alignRight: {
     display: 'inline !important',
     textAlign: 'right'
+  },
+  // Pagination styles
+  paginationContainer: {
+    marginTop: 64,
+    '& nav': {
+      '& ul li': {
+        '&:first-of-type button': { marginRight: 14 },
+        '&:last-of-type button': { marginLeft: 14 },
+        '& button': {
+          minWidth: 24,
+          height: 24,
+          padding: 0,
+          margin: 0,
+          fontSize: 14,
+          '& svg': { fontSize: 22 }
+        }
+      }
+    }
+  },
+  pageCountSection: { paddingRight: 22 },
+  itemPerPageTxt: {
+    paddingRight: 15,
+    color: '#9B9B9B',
+    fontSize: 14,
+    lineHeight: '18px',
+    textAlign: 'right'
+  },
+  pageListformControl: {
+    width: 73,
+    marginRight: 12,
+    '& div': {
+      '& div': {
+        padding: '2px 13px',
+        fontSize: 16
+      },
+      '& svg': { fontSize: 22 }
+    },
+    '& fieldset': {
+      top: 0,
+      '& legend': { display: 'none' }
+    }
   }
 });
