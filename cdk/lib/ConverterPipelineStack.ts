@@ -33,6 +33,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
     const projectSource = codebuild.Source.gitHub({
       owner: githubOwner,
       repo: githubRepo,
+      branchOrRef: githubBranch,
       fetchSubmodules: true,
       webhook: true,
       webhookTriggersBatchBuild: false,

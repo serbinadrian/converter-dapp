@@ -17,7 +17,6 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
 
   const onClickFinish = () => {
     dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
-    navigate(Paths.Transactions);
   };
 
   const openLink = () => {
