@@ -93,7 +93,6 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
       await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
     } catch (error) {
       setToast(error.message || error.toString());
-      throw error;
     }
   };
 
