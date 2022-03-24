@@ -16,7 +16,7 @@ import paths from '../../router/paths';
 import { useStyles } from './styles';
 import SnetPagination from './Pagination';
 
-const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, columns, rows, refreshTxnHistory, loading, onItemSelect, pageSizes, paginationSize }) => {
+const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, rows, refreshTxnHistory, loading, onItemSelect, pageSizes, paginationSize }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,12 +39,14 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, columns, rows
       <Backdrop open={loading}>
         <CircularProgress color="white" />
       </Backdrop>
-      <Box display="flex" justifyContent="flex-end" marginY={2}>
-        <LoadingButton loading={loading} onClick={refreshTxnHistory} startIcon={<RefreshOutlined />} variant="text">
-          Refresh Data
-        </LoadingButton>
+      <Box className={classes.transactionHistoryHeader}>
+        <Box display="flex" justifyContent="flex-end" marginY={2} className={classes.refreshDataContainer}>
+          <LoadingButton loading={loading} onClick={refreshTxnHistory} startIcon={<RefreshOutlined />} variant="text">
+            Refresh Data
+          </LoadingButton>
+        </Box>
       </Box>
-      <Columns columns={columns} />
+      <Columns />
       {rows.map((row) => {
         return (
           <Rows
@@ -77,7 +79,6 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, columns, rows
 };
 
 SnetDataGrid.propTypes = {
-  columns: propTypes.arrayOf(propTypes.string).isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   rows: propTypes.arrayOf(propTypes.object).isRequired,
   refreshTxnHistory: propTypes.func.isRequired,

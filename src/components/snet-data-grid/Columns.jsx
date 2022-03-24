@@ -1,24 +1,43 @@
-import propTypes from 'prop-types';
-import { Box, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { Typography } from '@mui/material';
 import { useStyles } from './styles';
 
-const Columns = ({ columns }) => {
+const Columns = () => {
   const classes = useStyles();
   return (
-    <Box display="flex" justifyContent="space-between" marginBottom={2}>
-      {columns.map((column) => {
-        return (
-          <Typography key={column} className={classes.colName} textTransform="uppercase">
-            {column}
-          </Typography>
-        );
-      })}
-    </Box>
+    <Grid container spacing={2} className={classes.columnsContainer}>
+      <Grid item xs={6} md={2}>
+        <Typography textTransform="uppercase" align="left">
+          date
+        </Typography>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <Typography textTransform="uppercase" align="left">
+          chain type
+        </Typography>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <Typography textTransform="uppercase" align="right">
+          from
+        </Typography>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <Typography textTransform="uppercase" align="right">
+          to
+        </Typography>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <Typography textTransform="uppercase" align="center">
+          status
+        </Typography>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <Typography textTransform="uppercase" align="right">
+          &nbsp;
+        </Typography>
+      </Grid>
+    </Grid>
   );
-};
-
-Columns.propTypes = {
-  columns: propTypes.arrayOf(propTypes.string).isRequired
 };
 
 export default Columns;
