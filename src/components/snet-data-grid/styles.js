@@ -1,4 +1,5 @@
 import { makeStyles } from '@mui/styles';
+import { transactionStatus } from '../../pages/Transactions/transactionStatus';
 
 export const useStyles = makeStyles({
   columnsContainer: {
@@ -53,10 +54,25 @@ export const useStyles = makeStyles({
   statusData: {
     display: 'flex',
     justifyContent: 'center',
+    '& button': {
+      border: '3px solid #4086ff',
+      color: '#4086FF',
+      fontSize: 14,
+      fontWeight: 600,
+      padding: '8px 25px',
+      letterSpacing: 1.25,
+      lineHeight: '16px'
+    },
     '& svg': {
       marginRight: 4,
-      fontSize: 13
+      fontSize: 16
     }
+  },
+  statusValueContainer: {
+    [`& p[data-status-type="${transactionStatus.ACTION_REQUIRED}"]`]: { color: 'F18D5A' },
+    [`& p[data-status-type="${transactionStatus.PROCESSING}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${transactionStatus.FAILED}"]`]: { color: '#D0021B' },
+    [`& p[data-status-type="${transactionStatus.SUCCESS}"]`]: { color: '#00C48C' }
   },
   expandArrowContainer: {
     '& div': {
