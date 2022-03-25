@@ -9,6 +9,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import ERC20TokenABI from '../../contracts/erc20-abi/abi/SingularityNetToken.json';
 import TokenConversionManagerABI from '../../contracts/singularitynet-token-manager/abi/TokenConversionManager.json';
 import { availableBlockchains } from '../../utils/ConverterConstants';
+import paths from '../../router/paths';
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
 const INFURA_NETWORK_ID = process.env.REACT_APP_INFURA_NETWORK_ID;
@@ -167,7 +168,9 @@ export const useWalletHook = () => {
   };
 
   const formatContractExceptionMessage = (error) => {
-    return error.reason || error.code > 0 ? error.message : 'Please find more details by clicking transactions link.';
+    return error.reason || error.code > 0
+      ? error.message
+      : { messsage: 'Please find more details by clicking transactions link.', redirectTo: paths.Transactions };
   };
 
   const balanceFromWallet = async (tokenContractAddress) => {
