@@ -140,8 +140,8 @@ const Rows = ({
             </Grid>
             {transactions.map((transaction) => {
               return (
-                <Grid container className={classes.expandedDataRows}>
-                  <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />
+                <Grid key={transaction.id} container className={classes.expandedDataRows}>
+                  <Transactions transaction={transaction} conversionDirection={conversionDirection} />
                 </Grid>
               );
             })}
