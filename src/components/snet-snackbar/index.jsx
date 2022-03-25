@@ -16,7 +16,7 @@ const SnetSnackbar = ({ open, onClose, message }) => {
   };
 
   const hasRedirectLink = () => {
-    return !isNil(message) && !isNil(message.redirectTo);
+    return !isNil(message.redirectTo);
   };
 
   return (
