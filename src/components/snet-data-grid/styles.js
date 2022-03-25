@@ -1,5 +1,5 @@
 import { makeStyles } from '@mui/styles';
-import { transactionStatus } from '../../pages/Transactions/transactionStatus';
+import { transactionStatus } from '../../utils/ConverterConstants';
 
 export const useStyles = makeStyles({
   columnsContainer: {
