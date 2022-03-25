@@ -36,13 +36,13 @@ const SnetSnackbar = ({ open, onClose, message, redirectTo }) => {
 SnetSnackbar.propTypes = {
   open: propTypes.bool,
   onClose: propTypes.func.isRequired,
-  message: propTypes.oneOfType([propTypes.string, propTypes.object]),
+  message: propTypes.string,
   redirectTo: propTypes.string
 };
 
 SnetSnackbar.defaultProps = {
   open: false,
-  message: { message: '', redirectTo: '' },
+  message: '',
   redirectTo: null
 };
 
