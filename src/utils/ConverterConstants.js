@@ -36,7 +36,8 @@ export const conversionStatuses = {
   CLAIM_INITIATED: 'CLAIM_INITIATED',
   WAITING_FOR_CONFIRMATION: 'WAITING_FOR_CONFIRMATION',
   EXPIRED: 'EXPIRED',
-  ACTION_REQUIRED: 'ACTION_REQUIRED'
+  ACTION_REQUIRED: 'ACTION_REQUIRED',
+  FAILED: 'FAILED'
 };
 
 export const conversionStatusMessages = {
@@ -48,7 +49,8 @@ export const conversionStatusMessages = {
   [conversionStatuses.CLAIM_INITIATED]: 'Claim Initiated',
   [conversionStatuses.WAITING_FOR_CONFIRMATION]: 'Awaiting Confirmation',
   [conversionStatuses.EXPIRED]: 'Expired',
-  [conversionStatuses.ACTION_REQUIRED]: 'Action Required'
+  [conversionStatuses.ACTION_REQUIRED]: 'Action Required',
+  [conversionStatuses.FAILED]: 'Failed'
 };
 
 export const conversionDirection = {
