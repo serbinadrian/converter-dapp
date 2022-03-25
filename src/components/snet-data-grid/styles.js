@@ -64,6 +64,7 @@ export const useStyles = makeStyles({
     [`& p[data-status-type="${conversionStatuses.USER_INITIATED}"]`]: { color: '#2196F3' },
     [`& p[data-status-type="${conversionStatuses.WAITING_FOR_CLAIM}"]`]: { color: '#2196F3' },
     [`& p[data-status-type="${conversionStatuses.PROCESSING}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.CLAIM_INITIATED}"]`]: { color: '#2196F3' },
     [`& p[data-status-type="${conversionStatuses.FAILED}"]`]: { color: '#D0021B' },
     [`& p[data-status-type="${conversionStatuses.EXPIRED}"]`]: { color: '#D0021B' },
     [`& p[data-status-type="${conversionStatuses.SUCCESS}"]`]: { color: '#00C48C' }
