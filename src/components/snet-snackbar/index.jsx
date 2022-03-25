@@ -4,25 +4,21 @@ import propTypes from 'prop-types';
 import { Button } from '@mui/material';
 import { isNil } from 'lodash';
 
-const SnetSnackbar = ({ open, onClose, message }) => {
+const SnetSnackbar = ({ open, onClose, message, redirectTo }) => {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate(message.redirectTo);
+    navigate(redirectTo);
   };
 
   const formatMessage = () => {
     return isNil(message) ? '' : message.message || JSON.stringify(message);
   };
 
-  const hasRedirectLink = () => {
-    return !isNil(message.redirectTo);
-  };
-
   return (
     <Snackbar
       action={
-        hasRedirectLink ? (
+        redirectTo ? (
           <Button color="warning" size="small" onClick={handleRedirect}>
             View
           </Button>
@@ -40,12 +36,14 @@ const SnetSnackbar = ({ open, onClose, message }) => {
 SnetSnackbar.propTypes = {
   open: propTypes.bool,
   onClose: propTypes.func.isRequired,
-  message: propTypes.oneOfType([propTypes.string, propTypes.object])
+  message: propTypes.oneOfType([propTypes.string, propTypes.object]),
+  redirectTo: propTypes.string
 };
 
 SnetSnackbar.defaultProps = {
   open: false,
-  message: { message: '', redirectTo: '' }
+  message: { message: '', redirectTo: '' },
+  redirectTo: null
 };
 
 export default SnetSnackbar;
