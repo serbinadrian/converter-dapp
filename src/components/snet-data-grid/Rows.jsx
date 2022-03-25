@@ -55,6 +55,15 @@ const Rows = ({
         component = <SnetButton name="View" onClick={onContinue} variant="outlined" />;
         break;
 
+      case conversionDirection === conversionDirections.ETH_TO_ADA && conversionStatuses.USER_INITIATED:
+        component = (
+          <>
+            <WarningIcon fontSize="small" color="warning" />
+            <Typography variant="caption">FAILED</Typography>
+          </>
+        );
+        break;
+
       case conversionStatuses.PROCESSING:
         component = <HourglassBottomIcon fontSize="small" color="primary" />;
         break;
