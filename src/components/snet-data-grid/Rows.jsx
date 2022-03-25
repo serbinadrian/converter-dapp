@@ -59,7 +59,7 @@ const Rows = ({
         component = (
           <>
             <WarningIcon fontSize="small" color="warning" />
-            <Typography variant="caption">FAILED</Typography>
+            <Typography variant="caption">INITIATED</Typography>
           </>
         );
         break;
