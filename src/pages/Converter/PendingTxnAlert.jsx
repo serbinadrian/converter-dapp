@@ -29,7 +29,7 @@ const PendingTxnAlert = () => {
         <SnetAlert
           error={
             <Link underline="none" href="/transactions">
-              Previous transaction is pending. Go to Transaction page to see the details.
+              You have pending transactions. Please view the details on the transactions page.
             </Link>
           }
         />
