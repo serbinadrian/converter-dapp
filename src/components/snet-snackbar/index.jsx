@@ -12,13 +12,17 @@ const SnetSnackbar = ({ open, onClose, message }) => {
   };
 
   const formatMessage = () => {
-    return isNil(message) ? '' : message.message || message;
+    return isNil(message) ? '' : message.message || JSON.stringify(message);
+  };
+
+  const hasRedirectLink = () => {
+    return !isNil(message) && !isNil(message.redirectTo);
   };
 
   return (
     <Snackbar
       action={
-        !isNil(message) && !isNil(message.redirectTo) ? (
+        hasRedirectLink ? (
           <Button color="warning" size="small" onClick={handleRedirect}>
             View
           </Button>
@@ -36,7 +40,7 @@ const SnetSnackbar = ({ open, onClose, message }) => {
 SnetSnackbar.propTypes = {
   open: propTypes.bool,
   onClose: propTypes.func.isRequired,
-  message: propTypes.string
+  message: propTypes.object
 };
 
 SnetSnackbar.defaultProps = {
