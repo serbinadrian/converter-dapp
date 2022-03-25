@@ -103,3 +103,10 @@ export const errorMessages = {
   LIMIT_EXCEEDED_TO: 'Limit exceeded to',
   INVALID_AMOUNT: 'Invalid amount'
 };
+
+export const transactionStatus = {
+  ACTION_REQUIRED: 'ACTION_REQUIRED',
+  PROCESSING: 'PROCESSING',
+  FAILED: 'FAILED',
+  SUCCESS: 'SUCCESS'
+};

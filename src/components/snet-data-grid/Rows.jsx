@@ -114,16 +114,22 @@ const Rows = ({
           </Typography>
         </Grid>
         <Grid item xs={6} md={2} align="center" className={classes.statusData}>
-          {conversionStatus(status, handleResume)}
           {status !== conversionStatuses.WAITING_FOR_CLAIM && status !== conversionStatuses.USER_INITIATED ? (
-            <Typography variant="caption">{status}</Typography>
+            <div className={classes.statusValueContainer}>
+              <Typography data-status-type={status} className={classes.value}>
+                {status}
+              </Typography>
+            </div>
           ) : null}
         </Grid>
         <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
+          {conversionStatus(status, handleResume)}
           <CardActions disableSpacing>
-            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-              <ExpandMoreIcon />
-            </ExpandMore>
+            {transactions.length > 0 ? (
+              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+                <ExpandMoreIcon />
+              </ExpandMore>
+            ) : null}
           </CardActions>
         </Grid>
       </Grid>
