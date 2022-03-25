@@ -40,7 +40,7 @@ const SnetSnackbar = ({ open, onClose, message }) => {
 SnetSnackbar.propTypes = {
   open: propTypes.bool,
   onClose: propTypes.func.isRequired,
-  message: propTypes.object
+  message: propTypes.oneOfType([propTypes.string, propTypes.object])
 };
 
 SnetSnackbar.defaultProps = {
