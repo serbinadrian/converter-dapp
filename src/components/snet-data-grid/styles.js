@@ -54,15 +54,6 @@ export const useStyles = makeStyles({
   statusData: {
     display: 'flex',
     justifyContent: 'center',
-    '& button': {
-      border: '3px solid #4086ff',
-      color: '#4086FF',
-      fontSize: 14,
-      fontWeight: 600,
-      padding: '8px 25px',
-      letterSpacing: 1.25,
-      lineHeight: '16px'
-    },
     '& svg': {
       marginRight: 4,
       fontSize: 16
@@ -75,6 +66,16 @@ export const useStyles = makeStyles({
     [`& p[data-status-type="${transactionStatus.SUCCESS}"]`]: { color: '#00C48C' }
   },
   expandArrowContainer: {
+    '& > button': {
+      border: '3px solid #4086ff',
+      color: '#4086FF',
+      fontSize: 14,
+      fontWeight: 600,
+      padding: '8px 25px',
+      letterSpacing: 1.25,
+      lineHeight: '16px',
+      '&:hover': { borderWidth: 3 }
+    },
     '& div': {
       padding: 0,
       '& button': {

@@ -10,7 +10,7 @@ const styles = {
   },
   welcomeBox: {
     boxShadow: '0 1px 3px 0 rgba(0,0,0,0.14), 0 2px 3px -1px rgba(0,0,0,0.14)',
-    padding: '40px 31px 108px 32px',
+    padding: '40px 31px 90px 32px',
     backgroundColor: colorCodes.white,
     background: 'linear-gradient(180deg, #E6EAFF 0.06%, #CAA7F9 100%);',
     borderRadius: '8px'
