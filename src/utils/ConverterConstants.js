@@ -34,17 +34,21 @@ export const conversionStatuses = {
   WAITING_FOR_CLAIM: 'WAITING_FOR_CLAIM',
   IDLE: 'IDLE',
   CLAIM_INITIATED: 'CLAIM_INITIATED',
-  WAITING_FOR_CONFIRMATION: 'WAITING_FOR_CONFIRMATION'
+  WAITING_FOR_CONFIRMATION: 'WAITING_FOR_CONFIRMATION',
+  EXPIRED: 'EXPIRED',
+  ACTION_REQUIRED: 'ACTION_REQUIRED'
 };
 
 export const conversionStatusMessages = {
   [conversionStatuses.PROCESSING]: 'Processing',
   [conversionStatuses.SUCCESS]: 'Success',
-  [conversionStatuses.USER_INITIATED]: 'Conversion Initiated',
+  [conversionStatuses.USER_INITIATED]: 'Initiated',
   [conversionStatuses.WAITING_FOR_CLAIM]: 'Ready for Claim',
   [conversionStatuses.IDLE]: 'Idle',
   [conversionStatuses.CLAIM_INITIATED]: 'Claim Initiated',
-  [conversionStatuses.WAITING_FOR_CONFIRMATION]: 'Awaiting Confirmation'
+  [conversionStatuses.WAITING_FOR_CONFIRMATION]: 'Awaiting Confirmation',
+  [conversionStatuses.EXPIRED]: 'Expired',
+  [conversionStatuses.ACTION_REQUIRED]: 'Action Required'
 };
 
 export const conversionDirection = {
@@ -102,11 +106,4 @@ export const errorMessages = {
   MAXIMUM_TRANSACTION_AMOUNT: 'Maximum transaction amount is ',
   LIMIT_EXCEEDED_TO: 'Limit exceeded to',
   INVALID_AMOUNT: 'Invalid amount'
-};
-
-export const transactionStatus = {
-  ACTION_REQUIRED: 'ACTION_REQUIRED',
-  PROCESSING: 'PROCESSING',
-  FAILED: 'FAILED',
-  SUCCESS: 'SUCCESS'
 };

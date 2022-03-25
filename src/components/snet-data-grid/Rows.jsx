@@ -12,7 +12,7 @@ import CardActions from '@mui/material/CardActions';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { utcToLocalDateTime } from '../../utils/Date';
 import Transactions from './Transactions';
-import { conversionStatuses, conversionDirections } from '../../utils/ConverterConstants';
+import { conversionStatuses, conversionDirections, conversionStatusMessages } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 import SnetButton from '../snet-button';
 
@@ -55,16 +55,8 @@ const Rows = ({
         component = <SnetButton name="View" onClick={onContinue} variant="outlined" />;
         break;
 
-      case conversionDirection === conversionDirections.ETH_TO_ADA && conversionStatuses.USER_INITIATED:
-        component = (
-          <>
-            <WarningIcon fontSize="small" color="warning" />
-            <Typography variant="caption">INITIATED</Typography>
-          </>
-        );
-        break;
-
       case conversionStatuses.PROCESSING:
+      case conversionStatuses.USER_INITIATED:
         component = <HourglassBottomIcon fontSize="small" color="primary" />;
         break;
 
@@ -114,13 +106,11 @@ const Rows = ({
           </Typography>
         </Grid>
         <Grid item xs={6} md={2} align="center" className={classes.statusData}>
-          {status !== conversionStatuses.WAITING_FOR_CLAIM && status !== conversionStatuses.USER_INITIATED ? (
-            <div className={classes.statusValueContainer}>
-              <Typography data-status-type={status} className={classes.value}>
-                {status}
-              </Typography>
-            </div>
-          ) : null}
+          <div className={classes.statusValueContainer}>
+            <Typography data-status-type={status} className={classes.value}>
+              {conversionStatusMessages[status]}
+            </Typography>
+          </div>
         </Grid>
         <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
           {conversionStatus(status, handleResume)}
