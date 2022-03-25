@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -5,7 +6,7 @@ import { useWalletHook } from '../../../components/snet-wallet-connector/walletH
 import { bigNumberSubtract, convertFromCogs, convertToValueFromPercentage } from '../../../utils/bignumber';
 import { generateConversionID, updateTransactionStatus } from '../../../utils/HttpRequests';
 
-export const useERC20TokenHook = () => {
+const useERC20TokenHook = () => {
   const [authorizationRequired, setAuthorizationRequired] = useState(false);
   const [conversionEnabled, setConversionEnabled] = useState(false);
   const [loader, setLoader] = useState({ isLoading: false, message: '', title: '' });
@@ -127,12 +128,11 @@ export const useERC20TokenHook = () => {
       const [pair] = tokens.filter((token) => token.from_token.id === tokenPairId);
       const spenderAddress = pair.contract_address;
       const tokenContractAddress = pair.from_token.token_address;
-      console.log('Checking allowance for token contract address:', tokenContractAddress);
-      console.log('Checking allowance for spender address', spenderAddress);
       const allowanceAmount = await checkAllowance(tokenContractAddress, spenderAddress);
+      console.log('Allowance is ', allowanceAmount);
 
-      setAuthorizationRequired(allowanceAmount < conversionAmount);
-      setConversionEnabled(allowanceAmount >= conversionAmount);
+      setAuthorizationRequired(new BigNumber(allowanceAmount).lt(conversionAmount));
+      setConversionEnabled(new BigNumber(allowanceAmount).gte(conversionAmount));
     } catch (error) {
       console.log('Get Allowance Info Error', error);
       throw error;
@@ -161,3 +161,5 @@ export const useERC20TokenHook = () => {
     resetTxnInfo
   };
 };
+
+export default useERC20TokenHook;

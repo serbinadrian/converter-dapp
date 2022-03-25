@@ -7,7 +7,7 @@ import SnetPaper from '../../components/snet-paper';
 import useConverterHook from './hooks/ConverterHook';
 import ConversionFormLoader from './ConversionFormLoader';
 import TokenPairs from './TokenPairs';
-import { useERC20TokenHook } from './hooks/ERC20TokenHook';
+import useERC20TokenHook from './hooks/ERC20TokenHook';
 import { availableBlockchains, conversionDirections } from '../../utils/ConverterConstants';
 import SnetAlert from '../../components/snet-alert';
 import SnetLoader from '../../components/snet-loader';
