@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import Web3 from 'web3';
 import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
@@ -168,9 +169,16 @@ export const useWalletHook = () => {
   };
 
   const formatContractExceptionMessage = (error) => {
-    return error.reason || error.code > 0
-      ? error.message
-      : { message: 'Please find more details by clicking transactions link.', redirectTo: paths.Transactions };
+    console.log('*********');
+    console.log(error);
+    const baseError = String(error);
+    console.log(baseError);
+    const errorRows = baseError.split(/\r?\n/);
+    const compactedMessage = errorRows[0].replace('Error: ', '').substring(0, 80);
+    console.log('*********');
+    // eslint-disable-next-line prettier/prettier
+    const errorMessage = `Check the transaction tab for status of this transaction. Details: [${compactedMessage}]`;
+    return { message: errorMessage, completeError: baseError, redirectTo: paths.Transactions };
   };
 
   const balanceFromWallet = async (tokenContractAddress) => {
