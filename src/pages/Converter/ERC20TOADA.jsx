@@ -18,8 +18,9 @@ import SnetSnackbar from '../../components/snet-snackbar';
 
 const ERC20TOADA = ({ onADATOETHConversion }) => {
   const { blockchains, wallet } = useSelector((state) => state);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorRedirectTo, seterrorRedirectTo] = useState(null);
   const { conversionDirection } = useSelector((state) => state.wallet);
-  const [toast, setToast] = useState(null);
   const {
     fromBlockchains,
     toBlockchains,
@@ -75,8 +76,9 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const onClickAuthorize = async () => {
     try {
       await approveSpendLimit(fromTokenPair.id);
-    } catch (error) {
-      setToast(error.message || error.toString());
+    } catch (exception) {
+      setErrorMessage(exception?.message || String(exception));
+      seterrorRedirectTo(exception?.redirectTo || null);
     }
   };
 
@@ -84,21 +86,24 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     try {
       const conversionInfo = await mintERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, fromAddress);
       onADATOETHConversion(conversionInfo);
-    } catch (error) {
-      setToast(error.message || error.toString());
+    } catch (exception) {
+      setErrorMessage(exception?.message || String(exception));
+      seterrorRedirectTo(exception?.redirectTo || null);
     }
   };
 
   const onETHToADAConversion = async () => {
     try {
       await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
-    } catch (error) {
-      setToast(error || error.toString());
+    } catch (exception) {
+      setErrorMessage(exception?.message || String(exception));
+      seterrorRedirectTo(exception?.redirectTo || null);
     }
   };
 
-  const resetToast = () => {
-    setToast(null);
+  const resetErrorState = () => {
+    setErrorMessage(null);
+    seterrorRedirectTo(null);
   };
 
   if (blockchains.entities.length === 0) {
@@ -111,7 +116,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 
   return (
     <>
-      <SnetSnackbar open={!isNil(toast)} message={String(toast)} onClose={resetToast} redirectTo={toast?.redirectTo || null} />
+      <SnetSnackbar open={!isNil(errorMessage)} message={String(errorMessage)} onClose={resetErrorState} redirectTo={errorRedirectTo} />
       <SnetConversionStatus
         isDialogOpen={!isNil(txnInfo.txnLink)}
         title="Conversion Status"
