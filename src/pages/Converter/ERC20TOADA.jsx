@@ -18,6 +18,7 @@ import SnetSnackbar from '../../components/snet-snackbar';
 
 const ERC20TOADA = ({ onADATOETHConversion }) => {
   const { blockchains, wallet } = useSelector((state) => state);
+  const { conversionDirection } = useSelector((state) => state.wallet);
   const [toast, setToast] = useState(null);
   const {
     fromBlockchains,
@@ -63,13 +64,13 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM && Number(fromAndToTokenValues.fromValue) > 0) {
       getAllowanceInfo(fromTokenPair.id, fromAndToTokenValues.fromValue);
     }
-  }, [fromAndToTokenValues]);
+  }, [fromAndToTokenValues, conversionDirection]);
 
   useEffect(() => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM) {
       getBalanceFromWallet();
     }
-  }, [fromTokenPair, wallets, fromAndToTokenValues]);
+  }, [fromTokenPair, wallets, fromAndToTokenValues, conversionDirection]);
 
   const onClickAuthorize = async () => {
     try {
