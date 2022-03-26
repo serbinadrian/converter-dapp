@@ -169,14 +169,19 @@ export const useWalletHook = () => {
   };
 
   const formatContractExceptionMessage = (error) => {
-    console.log('*********');
     console.log(error);
-    const baseError = String(error);
-    console.log(baseError);
+    let compactedMessage = '';
+    let baseError = error;
+    if (!isNil(error.message)) {
+      console.log('Got JSON Error ', error.message);
+      baseError = error.message;
+    } else {
+      console.log('Got non JSON error ');
+      baseError = String(error);
+      console.log(baseError);
+    }
     const errorRows = baseError.split(/\r?\n/);
-    const compactedMessage = errorRows[0].replace('Error: ', '').substring(0, 80);
-    console.log('*********');
-    // eslint-disable-next-line prettier/prettier
+    compactedMessage = errorRows[0].replace('Error: ', '').substring(0, 80);
     const errorMessage = `Check the transaction tab for status of this transaction. Details: [${compactedMessage}]`;
     return { message: errorMessage, completeError: baseError, redirectTo: paths.Transactions };
   };
