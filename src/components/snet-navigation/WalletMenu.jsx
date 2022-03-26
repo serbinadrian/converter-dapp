@@ -1,8 +1,8 @@
 import AppBar from '@mui/material/AppBar';
 import { useSelector } from 'react-redux';
 import { isEmpty, size } from 'lodash';
-import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
+import { Link } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -23,12 +23,12 @@ const WalletMenu = ({ openConnectedWallets }) => {
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <BridgeLogo />
           <Box display="flex" marginLeft={12}>
-            <Link to={Paths.Converter}>
+            <Link href={Paths.Converter} underline="none">
               <Typography variant="body2" marginRight={6}>
                 Home
               </Typography>
             </Link>
-            <Link to={Paths.Transactions}>
+            <Link href={Paths.Transactions} underline="none">
               <Typography variant="body2">Transactions</Typography>
             </Link>
           </Box>
