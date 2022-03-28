@@ -13,5 +13,12 @@ export const useStyles = makeStyles({
       letterSpacing: 0,
       lineHeight: '50px'
     }
+  },
+  EmptyTransactionHistoryContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 100,
+    display: 'flex',
+    flexDirection: 'column'
   }
 });
