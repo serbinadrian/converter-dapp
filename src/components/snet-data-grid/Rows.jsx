@@ -12,7 +12,7 @@ import CardActions from '@mui/material/CardActions';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { utcToLocalDateTime } from '../../utils/Date';
 import Transactions from './Transactions';
-import { conversionStatuses, conversionDirections } from '../../utils/ConverterConstants';
+import { conversionStatuses, conversionDirections, conversionStatusMessages } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 import SnetButton from '../snet-button';
 
@@ -56,6 +56,7 @@ const Rows = ({
         break;
 
       case conversionStatuses.PROCESSING:
+      case conversionStatuses.USER_INITIATED:
         component = <HourglassBottomIcon fontSize="small" color="primary" />;
         break;
 
@@ -105,16 +106,20 @@ const Rows = ({
           </Typography>
         </Grid>
         <Grid item xs={6} md={2} align="center" className={classes.statusData}>
-          {conversionStatus(status, handleResume)}
-          {status !== conversionStatuses.WAITING_FOR_CLAIM && status !== conversionStatuses.USER_INITIATED ? (
-            <Typography variant="caption">{status}</Typography>
-          ) : null}
+          <div className={classes.statusValueContainer}>
+            <Typography data-status-type={status} className={classes.value}>
+              {conversionStatusMessages[status]}
+            </Typography>
+          </div>
         </Grid>
         <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
+          {conversionStatus(status, handleResume)}
           <CardActions disableSpacing>
-            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-              <ExpandMoreIcon />
-            </ExpandMore>
+            {transactions.length > 0 ? (
+              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+                <ExpandMoreIcon />
+              </ExpandMore>
+            ) : null}
           </CardActions>
         </Grid>
       </Grid>
@@ -140,8 +145,8 @@ const Rows = ({
             </Grid>
             {transactions.map((transaction) => {
               return (
-                <Grid container className={classes.expandedDataRows}>
-                  <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />
+                <Grid key={transaction.id} container className={classes.expandedDataRows}>
+                  <Transactions transaction={transaction} conversionDirection={conversionDirection} />
                 </Grid>
               );
             })}

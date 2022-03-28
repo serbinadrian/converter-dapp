@@ -5,7 +5,7 @@ import { getConversionTransactionHistory } from '../../../utils/HttpRequests';
 const useConversionHistoryHook = (address) => {
   const [isLoading, setIsLoading] = useState(true);
   const [conversionHistory, setConversionHistory] = useState([]);
-  const [pageSizes] = useState([5, 10, 20, 50, 100]);
+  const [pageSizes] = useState([5, 10, 20]);
   const [paginationSize, setPaginationSize] = useState(0);
   const [pageSize, setPageSize] = useState(pageSizes[0]);
   const [pageNumber, setPageNumber] = useState(1);

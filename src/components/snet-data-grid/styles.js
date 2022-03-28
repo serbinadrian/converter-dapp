@@ -1,8 +1,10 @@
 import { makeStyles } from '@mui/styles';
+import { conversionStatuses } from '../../utils/ConverterConstants';
 
 export const useStyles = makeStyles({
   columnsContainer: {
     marginTop: 48,
+    '& > div': { paddingTop: 0 },
     '& p': {
       color: '#9b9b9b',
       fontSize: 14,
@@ -54,10 +56,30 @@ export const useStyles = makeStyles({
     justifyContent: 'center',
     '& svg': {
       marginRight: 4,
-      fontSize: 13
+      fontSize: 16
     }
   },
+  statusValueContainer: {
+    [`& p[data-status-type="${conversionStatuses.ACTION_REQUIRED}"]`]: { color: 'F18D5A' },
+    [`& p[data-status-type="${conversionStatuses.USER_INITIATED}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.WAITING_FOR_CLAIM}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.PROCESSING}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.CLAIM_INITIATED}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.FAILED}"]`]: { color: '#D0021B' },
+    [`& p[data-status-type="${conversionStatuses.EXPIRED}"]`]: { color: '#D0021B' },
+    [`& p[data-status-type="${conversionStatuses.SUCCESS}"]`]: { color: '#00C48C' }
+  },
   expandArrowContainer: {
+    '& > button': {
+      border: '3px solid #4086ff',
+      color: '#4086FF',
+      fontSize: 14,
+      fontWeight: 600,
+      padding: '8px 25px',
+      letterSpacing: 1.25,
+      lineHeight: '16px',
+      '&:hover': { borderWidth: 3 }
+    },
     '& div': {
       padding: 0,
       '& button': {
@@ -74,13 +96,11 @@ export const useStyles = makeStyles({
   },
   expandedDataWrapper: {
     width: '100%',
-    // padding: '26px 20px 26px 36px',
     borderTop: '1px solid #f5f7f8',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center'
-    // backgroundColor: '#fff'
   },
   expandedDataCol: {
     padding: '26px 20px 15px 60px',
@@ -94,7 +114,7 @@ export const useStyles = makeStyles({
   expandedDataRows: {
     padding: '7px 20px 7px 60px',
     background: '#fff',
-    marginTop: 3
+    marginTop: 2
   },
   detailsData: {
     '& a': {
@@ -107,5 +127,46 @@ export const useStyles = makeStyles({
   alignRight: {
     display: 'inline !important',
     textAlign: 'right'
+  },
+  // Pagination styles
+  paginationContainer: {
+    marginTop: 64,
+    '& nav': {
+      '& ul li': {
+        '&:first-of-type button': { marginRight: 14 },
+        '&:last-of-type button': { marginLeft: 14 },
+        '& button': {
+          minWidth: 24,
+          height: 24,
+          padding: 0,
+          margin: 0,
+          fontSize: 14,
+          '& svg': { fontSize: 22 }
+        }
+      }
+    }
+  },
+  pageCountSection: { paddingRight: 22 },
+  itemPerPageTxt: {
+    paddingRight: 15,
+    color: '#9B9B9B',
+    fontSize: 14,
+    lineHeight: '18px',
+    textAlign: 'right'
+  },
+  pageListformControl: {
+    width: 73,
+    marginRight: 12,
+    '& div': {
+      '& div': {
+        padding: '2px 13px',
+        fontSize: 16
+      },
+      '& svg': { fontSize: 22 }
+    },
+    '& fieldset': {
+      top: 0,
+      '& legend': { display: 'none' }
+    }
   }
 });

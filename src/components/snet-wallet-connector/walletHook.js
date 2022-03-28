@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import Web3 from 'web3';
 import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
@@ -9,6 +10,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import ERC20TokenABI from '../../contracts/erc20-abi/abi/SingularityNetToken.json';
 import TokenConversionManagerABI from '../../contracts/singularitynet-token-manager/abi/TokenConversionManager.json';
 import { availableBlockchains } from '../../utils/ConverterConstants';
+import paths from '../../router/paths';
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY;
 const INFURA_NETWORK_ID = process.env.REACT_APP_INFURA_NETWORK_ID;
@@ -167,7 +169,21 @@ export const useWalletHook = () => {
   };
 
   const formatContractExceptionMessage = (error) => {
-    return error.reason || error.code > 0 ? error.message : 'Please find more details by clicking transactions link.';
+    console.log(error);
+    let compactedMessage = '';
+    let baseError = error;
+    if (!isNil(error.message)) {
+      console.log('Got JSON Error ', error.message);
+      baseError = error.message;
+    } else {
+      console.log('Got non JSON error ');
+      baseError = String(error);
+      console.log(baseError);
+    }
+    const errorRows = baseError.split(/\r?\n/);
+    compactedMessage = errorRows[0].replace('Error: ', '').substring(0, 80);
+    const errorMessage = `Check the transaction tab for status of this transaction. Details: [${compactedMessage}]`;
+    return { message: errorMessage, completeError: baseError, redirectTo: paths.Transactions };
   };
 
   const balanceFromWallet = async (tokenContractAddress) => {

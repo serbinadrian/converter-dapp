@@ -34,17 +34,23 @@ export const conversionStatuses = {
   WAITING_FOR_CLAIM: 'WAITING_FOR_CLAIM',
   IDLE: 'IDLE',
   CLAIM_INITIATED: 'CLAIM_INITIATED',
-  WAITING_FOR_CONFIRMATION: 'WAITING_FOR_CONFIRMATION'
+  WAITING_FOR_CONFIRMATION: 'WAITING_FOR_CONFIRMATION',
+  EXPIRED: 'EXPIRED',
+  ACTION_REQUIRED: 'ACTION_REQUIRED',
+  FAILED: 'FAILED'
 };
 
 export const conversionStatusMessages = {
   [conversionStatuses.PROCESSING]: 'Processing',
   [conversionStatuses.SUCCESS]: 'Success',
-  [conversionStatuses.USER_INITIATED]: 'Conversion Initiated',
+  [conversionStatuses.USER_INITIATED]: 'Initiated',
   [conversionStatuses.WAITING_FOR_CLAIM]: 'Ready for Claim',
   [conversionStatuses.IDLE]: 'Idle',
   [conversionStatuses.CLAIM_INITIATED]: 'Claim Initiated',
-  [conversionStatuses.WAITING_FOR_CONFIRMATION]: 'Awaiting Confirmation'
+  [conversionStatuses.WAITING_FOR_CONFIRMATION]: 'Awaiting Confirmation',
+  [conversionStatuses.EXPIRED]: 'Expired',
+  [conversionStatuses.ACTION_REQUIRED]: 'Action Required',
+  [conversionStatuses.FAILED]: 'Failed'
 };
 
 export const conversionDirection = {
@@ -95,7 +101,7 @@ export const errorMessages = {
   INVALID_TOKEN_PAIR: 'Invalid token pair',
   INVALID_TOKEN_PAIR_FROM: 'Invalid token pair from',
   INVALID_TOKEN_PAIR_TO: 'Invalid token pair to',
-  INSUFFICIENT_BALANCE_FROM: 'Insufficient wallet balance from',
+  INSUFFICIENT_BALANCE: 'Insufficient balance for conversion',
   INSUFFICIENT_BALANCE_TO: 'Insufficient wallet balance to',
   LIMIT_EXCEEDED_FROM: 'Limit exceeded from',
   MINIMUM_TRANSACTION_AMOUNT: 'Minimum transaction amount is ',

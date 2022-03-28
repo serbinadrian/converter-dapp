@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import snetBlackLogo from '../../assets/images/singnet_black_logo.svg';
+import snetBlackLogo from '../../assets/images/bridge_logo.svg';
 import useMenubarStyles from './style';
 import Paths from '../../router/paths';
 
@@ -16,7 +15,6 @@ const BridgeLogo = () => {
   return (
     <Box onClick={onClickLogo} className={`${classes.flex} ${classes.cursor}`}>
       <img src={snetBlackLogo} alt="SingNet Logo" className={classes.logo} />
-      <Typography variant="h5">Bridge</Typography>
     </Box>
   );
 };
