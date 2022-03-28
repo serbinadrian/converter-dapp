@@ -65,7 +65,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM && Number(fromAndToTokenValues.fromValue) > 0) {
       getAllowanceInfo(fromTokenPair.id, fromAndToTokenValues.fromValue);
     }
-  }, [fromAndToTokenValues, conversionDirection]);
+  }, [fromAndToTokenValues, conversionDirection, wallets]);
 
   useEffect(() => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM) {
