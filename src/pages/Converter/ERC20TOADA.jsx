@@ -21,6 +21,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorRedirectTo, seterrorRedirectTo] = useState(null);
   const { conversionDirection } = useSelector((state) => state.wallet);
+  const { blockchainStatus } = useSelector((state) => state.blockchains);
   const {
     fromBlockchains,
     toBlockchains,
@@ -50,7 +51,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     conversionEnabled,
     authorizationRequired,
     approveSpendLimit,
-    loader,
+    isLoading,
     burnERC20Tokens,
     txnInfo
   } = useERC20TokenHook();
@@ -65,7 +66,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM && Number(fromAndToTokenValues.fromValue) > 0) {
       getAllowanceInfo(fromTokenPair.id, fromAndToTokenValues.fromValue);
     }
-  }, [fromAndToTokenValues, conversionDirection]);
+  }, [fromAndToTokenValues, conversionDirection, wallets]);
 
   useEffect(() => {
     if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM) {
@@ -126,7 +127,9 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
         onDialogClose={resetTxnInfo}
       />
       <SnetPaper>
-        <SnetLoader dialogBody={loader.message} onDialogClose={() => {}} isDialogOpen={loader.isLoading} dialogTitle={loader.title} />
+        {blockchainStatus ? (
+          <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
+        ) : null}
         <TokenPairs
           fromBlockchains={fromBlockchains}
           fromSelectedBlockchain={fromSelectedBlockchain}

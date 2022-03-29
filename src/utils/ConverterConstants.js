@@ -109,3 +109,11 @@ export const errorMessages = {
   LIMIT_EXCEEDED_TO: 'Limit exceeded to',
   INVALID_AMOUNT: 'Invalid amount'
 };
+
+export const blockchainStatusLabels = {
+  ON_SIGNING_FROM_WALLET: { title: 'Wallet Interaction', message: 'Please sign from your wallet...' },
+  ON_CONFIRMING_TXN: { title: 'Wallet Interaction', message: 'Please confirm transaction from your wallet...' },
+  ON_TXN_HASH: { title: 'Transaction', message: 'Waiting for transaction to be mined...' },
+  ON_UPDATING_TXN_STATUS: { title: 'Transaction', message: 'Updating transaction status...' },
+  ON_APPROVING_SPEND_LIMIT: { title: 'Wallet Interaction', message: 'Approving spend limit...' }
+};

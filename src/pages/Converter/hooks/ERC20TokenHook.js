@@ -1,20 +1,24 @@
 import BigNumber from 'bignumber.js';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useWalletHook } from '../../../components/snet-wallet-connector/walletHook';
 import { bigNumberSubtract, convertFromCogs, convertToValueFromPercentage } from '../../../utils/bignumber';
 import { generateConversionID, updateTransactionStatus } from '../../../utils/HttpRequests';
+import { setBlockchainStatus } from '../../../services/redux/slices/blockchain/blockchainSlice';
+import { blockchainStatusLabels } from '../../../utils/ConverterConstants';
 
 const useERC20TokenHook = () => {
   const [authorizationRequired, setAuthorizationRequired] = useState(false);
   const [conversionEnabled, setConversionEnabled] = useState(false);
-  const [loader, setLoader] = useState({ isLoading: false, message: '', title: '' });
+  const [isLoading, setIsLoading] = useState(false);
   const [txnInfo, setTxnInfo] = useState({ txnLink: null, txnAmount: 0, tokenName: '', tokenSymbol: '' });
 
   const { tokens } = useSelector((state) => state.tokenPairs);
 
   const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, signMessage, conversionOut, convertToCogs, getWalletAddress } = useWalletHook();
+
+  const dispatch = useDispatch();
 
   const resetTxnInfo = () => {
     setTxnInfo({ ...txnInfo, txnLink: null });
@@ -22,7 +26,8 @@ const useERC20TokenHook = () => {
 
   const getConversionId = async (tokenpairId, amount, fromTokenAddress, toAddress) => {
     try {
-      setLoader({ isLoading: true, message: 'Please sign from your wallet...', title: 'Wallet Interaction' });
+      setIsLoading(true);
+      dispatch(setBlockchainStatus(blockchainStatusLabels.ON_SIGNING_FROM_WALLET));
       const blockNumber = await getLatestBlock();
       const personalSignature = await signMessage(tokenpairId, amount, fromTokenAddress, toAddress);
       const conversionResponse = await generateConversionID(tokenpairId, amount, personalSignature, blockNumber, fromTokenAddress, toAddress);
@@ -41,8 +46,9 @@ const useERC20TokenHook = () => {
 
   const convertEthToAda = async (contractAddress, amount, conversionId, signature, decimals) => {
     try {
-      setLoader({ isLoading: true, message: 'Please confirm transaction from your wallet...', title: 'Wallet Interaction' });
+      dispatch(setBlockchainStatus(blockchainStatusLabels.ON_CONFIRMING_TXN));
       const transactionHash = await conversionOut(contractAddress, amount, conversionId, signature, decimals);
+      dispatch(setBlockchainStatus(blockchainStatusLabels.ON_UPDATING_TXN_STATUS));
       await updateTransactionStatus(conversionId, transactionHash);
       return `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${transactionHash}`;
     } catch (error) {
@@ -76,7 +82,7 @@ const useERC20TokenHook = () => {
       throw error;
     } finally {
       setConversionEnabled(true);
-      setLoader({ isLoading: false, message: '', title: '' });
+      setIsLoading(false);
     }
   };
 
@@ -96,14 +102,15 @@ const useERC20TokenHook = () => {
       throw error;
     } finally {
       setConversionEnabled(true);
-      setLoader({ isLoading: false, message: '', title: '' });
+      setIsLoading(false);
     }
   };
 
   const approveSpendLimit = async (tokenPairId) => {
     try {
       disableButtons();
-      setLoader({ isLoading: true, message: 'Approving spend limit...', title: 'Approving' });
+      setIsLoading(true);
+      dispatch(setBlockchainStatus(blockchainStatusLabels.ON_APPROVING_SPEND_LIMIT));
       const [pair] = tokens.filter((token) => token.from_token.id === tokenPairId);
       const spenderAddress = pair.contract_address;
       const tokenContractAddress = pair.from_token.token_address;
@@ -119,7 +126,7 @@ const useERC20TokenHook = () => {
       setAuthorizationRequired(true);
       throw e;
     } finally {
-      setLoader({ isLoading: false, message: '', title: '' });
+      setIsLoading(false);
     }
   };
 
@@ -155,7 +162,7 @@ const useERC20TokenHook = () => {
     conversionEnabled,
     authorizationRequired,
     approveSpendLimit,
-    loader,
+    isLoading,
     burnERC20Tokens,
     txnInfo,
     resetTxnInfo
