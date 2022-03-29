@@ -1,8 +1,9 @@
-import propTypes from 'prop-types';
 import SnetDataGrid from '../../components/snet-data-grid';
+import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import useConversionHistoryHook from './hooks/conversionHistoryHook';
 
-const TxnHistoryTable = ({ address }) => {
+const TxnHistoryTable = () => {
+  const { address } = useWalletHook();
   const { onPageChange, pageNumber, conversionHistory, getConversionHistory, isLoading, onItemSelect, pageSizes, paginationSize, paginationInfo } =
     useConversionHistoryHook(address);
 
@@ -21,7 +22,4 @@ const TxnHistoryTable = ({ address }) => {
   );
 };
 
-TxnHistoryTable.propTypes = {
-  address: propTypes.any
-};
 export default TxnHistoryTable;
