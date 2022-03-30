@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
@@ -10,6 +10,7 @@ import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import propTypes from 'prop-types';
 import CardActions from '@mui/material/CardActions';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { utcToLocalDateTime } from '../../utils/Date';
 import Transactions from './Transactions';
 import { conversionStatuses, conversionDirections, conversionStatusMessages } from '../../utils/ConverterConstants';
@@ -76,6 +77,17 @@ const Rows = ({
     return component;
   };
 
+  const copyToClipboard = async (str) => {
+    await navigator.clipboard.writeText(str);
+  };
+
+  const addEllipsisInBetweenString = (str) => {
+    if (str.length) {
+      return `${str.substr(0, 4)}...${str.substr(str.length - 4)}`;
+    }
+    return str;
+  };
+
   return (
     <>
       <Grid container spacing={2} className={classes.transactionDataRow}>
@@ -93,17 +105,19 @@ const Rows = ({
           <Typography textTransform="uppercase">
             {depositAmount} {fromToken}
           </Typography>
-          <Typography textOverflow="ellipsis" overflow="hidden" textTransform="uppercase" variant="caption" color="grey">
-            {fromAddress}
-          </Typography>
+          <Button type="button" className={classes.fromToAddressContainer} onClick={() => copyToClipboard(fromAddress)}>
+            <Typography textTransform="lowercase">{addEllipsisInBetweenString(fromAddress)}</Typography>
+            <ContentCopyIcon />
+          </Button>
         </Grid>
         <Grid item xs={6} md={2} flexDirection="column" className={classes.alignRight}>
           <Typography textTransform="uppercase">
             {receivingAmount} {toToken}
           </Typography>
-          <Typography textOverflow="ellipsis" overflow="hidden" variant="caption" color="grey">
-            {toAddress}
-          </Typography>
+          <Button type="button" className={classes.fromToAddressContainer} onClick={() => copyToClipboard(toAddress)}>
+            <Typography textTransform="lowercase">{addEllipsisInBetweenString(toAddress)}</Typography>
+            <ContentCopyIcon />
+          </Button>
         </Grid>
         <Grid item xs={6} md={2} align="center" className={classes.statusData}>
           <div className={classes.statusValueContainer}>
