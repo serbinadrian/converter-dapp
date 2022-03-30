@@ -7,13 +7,7 @@ import SnetAdaEthTitle from '../../components/snet-ada-eth-conversion-form/SnetA
 import SnetPaper from '../../components/snet-paper';
 import styles from './styles';
 import DepositAndBurnTokens from '../../components/snet-ada-eth-conversion-form/DepositAndBurnTokens';
-import {
-  setActiveStep,
-  setConversionApiCallIntervalIds,
-  setConversionDirection,
-  setConversionStatus,
-  resetConversionApiCallIntervalIds
-} from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { setActiveStep, setConversionDirection, setConversionStatus } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
@@ -56,21 +50,10 @@ const ADATOERC20ETH = () => {
       }
     }, sixtySeconds);
 
-    dispatch(setConversionApiCallIntervalIds(intervalId));
+    return () => {
+      clearInterval(intervalId);
+    };
   };
-
-  const resetConversionApiCalls = () => {
-    if (conversionApiCallIntervalIds.length > 0) {
-      conversionApiCallIntervalIds.forEach((element) => {
-        clearInterval(element);
-      });
-      dispatch(resetConversionApiCallIntervalIds());
-    }
-  };
-
-  useEffect(() => {
-    resetConversionApiCalls();
-  }, []);
 
   const claimTheTokens = async (contractAddress, conversionId, amount, signature, decimals) => {
     try {
