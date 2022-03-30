@@ -104,7 +104,7 @@ const Rows = ({
           <Typography textTransform="uppercase">
             {depositAmount} {fromToken}
           </Typography>
-          <Button type="button" className={classes.fromToAddressContainer} onClick={(e) => copyToClipboard(fromAddress)}>
+          <Button type="button" className={classes.fromToAddressContainer} onClick={() => copyToClipboard(fromAddress)}>
             <Typography textTransform="lowercase">{addEllipsisInBetweenString(fromAddress)}</Typography>
             <ContentCopyIcon />
           </Button>
@@ -113,7 +113,7 @@ const Rows = ({
           <Typography textTransform="uppercase">
             {receivingAmount} {toToken}
           </Typography>
-          <Button type="button" className={classes.fromToAddressContainer} onClick={(e) => copyToClipboard(toAddress)}>
+          <Button type="button" className={classes.fromToAddressContainer} onClick={() => copyToClipboard(toAddress)}>
             <Typography textTransform="lowercase">{addEllipsisInBetweenString(toAddress)}</Typography>
             <ContentCopyIcon />
           </Button>
