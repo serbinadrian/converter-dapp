@@ -31,3 +31,7 @@ export const isValueLessThanEqualToProvided = (value, providedValue) => {
 export const convertToValueFromPercentage = (value, percentage) => {
   return new BigNumber(value).times(percentage).dividedBy(100).toString();
 };
+
+export const isDecimalPlacesExceeds = (value, decimals) => {
+  return new BigNumber(value).decimalPlaces() > decimals;
+};
