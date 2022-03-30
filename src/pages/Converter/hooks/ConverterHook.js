@@ -5,7 +5,13 @@ import BigNumber from 'bignumber.js';
 import { getAvailableTokenPairs } from '../../../services/redux/slices/tokenPairs/tokenPairActions';
 import { setConversionDirection, setFromAddress, setToAddress } from '../../../services/redux/slices/wallet/walletSlice';
 import { errorMessages, conversionDirections, availableBlockchains } from '../../../utils/ConverterConstants';
-import { convertFromCogs, isValueGreaterThanProvided, isValueLessThanProvided, isValueLessThanEqualToProvided } from '../../../utils/bignumber';
+import {
+  convertFromCogs,
+  isValueGreaterThanProvided,
+  isValueLessThanProvided,
+  isValueLessThanEqualToProvided,
+  isDecimalPlacesExceeds
+} from '../../../utils/bignumber';
 
 const tokenPairDirection = {
   FROM: 'from_token',
@@ -30,6 +36,10 @@ const useConverterHook = () => {
   const { wallets } = state.wallet;
 
   const dispatch = useDispatch();
+
+  const resetFromAndToValues = () => {
+    setFromAndToTokenPairs({ fromValue: 0, toValue: 0 });
+  };
 
   const resetError = () => {
     setError({ error: false, message: '' });
@@ -83,6 +93,8 @@ const useConverterHook = () => {
       updateError(`${errorMessages.MAXIMUM_TRANSACTION_AMOUNT + pairMaxValue} ${' '} ${pair.from_token.symbol}`);
     } else if (isValueGreaterThanProvided(value, walletBalance.balance) && blockchainName === availableBlockchains.ETHEREUM) {
       updateError(errorMessages.INSUFFICIENT_BALANCE);
+    } else if (isDecimalPlacesExceeds(value, pair.from_token.allowed_decimal)) {
+      updateError(errorMessages.DECIMAL_PLACES_EXCEEDED);
     } else {
       resetError();
     }
@@ -131,8 +143,8 @@ const useConverterHook = () => {
 
   const getAndSetBlockchainPairs = () => {
     const blockchainListReversed = [...blockchains].reverse();
-    const fromBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchainListReversed, tokenPairDirection.FROM);
-    const toBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchains, tokenPairDirection.TO);
+    const fromBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchains, tokenPairDirection.FROM);
+    const toBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchainListReversed, tokenPairDirection.TO);
     if (fromBlockchainsWithTokenPairs.length > 0) {
       setFromBlockchains(fromBlockchainsWithTokenPairs);
       setToBlockchains(toBlockchainsWithTokenPairs);
@@ -226,7 +238,8 @@ const useConverterHook = () => {
     onSelectingToToken,
     error,
     walletBalance,
-    updateWalletBalance
+    updateWalletBalance,
+    resetFromAndToValues
   };
 };
 

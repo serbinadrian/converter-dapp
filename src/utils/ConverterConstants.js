@@ -107,7 +107,8 @@ export const errorMessages = {
   MINIMUM_TRANSACTION_AMOUNT: 'Minimum transaction amount is ',
   MAXIMUM_TRANSACTION_AMOUNT: 'Maximum transaction amount is ',
   LIMIT_EXCEEDED_TO: 'Limit exceeded to',
-  INVALID_AMOUNT: 'Invalid amount'
+  INVALID_AMOUNT: 'Invalid amount',
+  DECIMAL_PLACES_EXCEEDED: 'Decimal places exceeded'
 };
 
 export const blockchainStatusLabels = {

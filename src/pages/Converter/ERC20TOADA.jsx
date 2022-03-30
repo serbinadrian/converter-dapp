@@ -41,7 +41,8 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     conversionCharge,
     error,
     updateWalletBalance,
-    walletBalance
+    walletBalance,
+    resetFromAndToValues
   } = useConverterHook();
   const {
     mintERC20Tokens,
@@ -96,6 +97,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const onETHToADAConversion = async () => {
     try {
       await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
+      resetFromAndToValues();
     } catch (exception) {
       setErrorMessage(exception?.message || String(exception));
       seterrorRedirectTo(exception?.redirectTo || null);
