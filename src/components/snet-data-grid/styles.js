@@ -3,8 +3,8 @@ import { transactionStatus } from '../../utils/ConverterConstants';
 
 export const useStyles = makeStyles({
   columnsContainer: {
-    marginTop: 48,
-    '& > div': { paddingTop: 0 },
+    margin: '48px 12px 7px',
+    '& > div': { padding: '0 !important' },
     '& p': {
       color: '#9b9b9b',
       fontSize: 14,
@@ -36,9 +36,10 @@ export const useStyles = makeStyles({
     lineHeight: '18px'
   },
   transactionDataRow: {
-    padding: '8px 17px 8px 15px',
+    width: '100%',
+    padding: '10px 32px 10px 28px',
     borderTop: '1px solid #f5f7f8',
-    marginTop: 10,
+    marginTop: 0,
     '& > div': {
       padding: `0 !important`,
       display: 'flex',
@@ -92,6 +93,10 @@ export const useStyles = makeStyles({
     [`& p[data-status-type="${transactionStatus.PROCESSING}"]`]: { color: '#2196F3' },
     [`& p[data-status-type="${transactionStatus.FAILED}"]`]: { color: '#D0021B' },
     [`& p[data-status-type="${transactionStatus.SUCCESS}"]`]: { color: '#00C48C' }
+  },
+  expandedRow: {
+    backgroundColor: '#FAFAFA',
+    boxShadow: '0 1px 2px 0 rgba(0,0,0,0.1)'
   },
   expandArrowContainer: {
     '& > button': {
