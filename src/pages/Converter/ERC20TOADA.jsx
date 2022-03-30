@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import { toUpper, isEmpty, isNil } from 'lodash';
 import SnetPaper from '../../components/snet-paper';
 import useConverterHook from './hooks/ConverterHook';
@@ -157,6 +158,12 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
         {error.error && error.message.length ? (
           <Stack marginTop={4}>
             <SnetAlert error={error.message} />
+          </Stack>
+        ) : null}
+        {wallet.conversionDirection === conversionDirections.ETH_TO_ADA ? (
+          <Stack direction="row" alignItems="center" spacing={1} marginTop={2}>
+            <InfoIcon fontSize="small" />
+            <Typography variant="h6">Allow SingularityNET Bridge to use ethereum tokens from your wallet</Typography>
           </Stack>
         ) : null}
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
