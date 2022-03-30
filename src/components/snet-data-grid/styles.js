@@ -51,6 +51,34 @@ export const useStyles = makeStyles({
       display: 'inherit'
     }
   },
+  fromToAddressContainer: {
+    padding: 0,
+    border: 'none',
+    margin: '0 0 0 auto',
+    display: 'flex',
+    alignItems: 'baseline',
+    justifyContent: 'flex-end',
+    background: 'transparent',
+    cursor: 'pointer',
+    '& p': {
+      color: '#9B9B9B',
+      fontSize: 11,
+      fontStyle: 'italic',
+      fontWeight: 300,
+      letterSpacing: -0.18,
+      lineHeight: '16px',
+      textAlign: 'right'
+    },
+    '& svg': {
+      marginLeft: 4,
+      color: '#9b9b9b',
+      fontSize: 10
+    },
+    '&:hover': {
+      '& p': { color: '#4086ff' },
+      '& svg': { color: '#4086ff' }
+    }
+  },
   statusData: {
     display: 'flex',
     justifyContent: 'center',
