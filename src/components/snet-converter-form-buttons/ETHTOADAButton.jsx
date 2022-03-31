@@ -2,12 +2,10 @@ import propTypes from 'prop-types';
 import SnetButton from '../snet-button';
 
 const ETHTOADAButton = ({ conversionEnabled, authorizationRequired, onClickConvert, onClickAuthorize }) => {
-  return (
-    <>
-      <SnetButton disabled={!conversionEnabled} name="Convert" onClick={onClickConvert} />
-      <SnetButton disabled={!authorizationRequired} name="Authorize" onClick={onClickAuthorize} />
-    </>
-  );
+  if (authorizationRequired) {
+    return <SnetButton disabled={!authorizationRequired} name="Authorize" onClick={onClickAuthorize} />;
+  }
+  return <SnetButton disabled={!conversionEnabled} name="Convert" onClick={onClickConvert} />;
 };
 
 ETHTOADAButton.propTypes = {

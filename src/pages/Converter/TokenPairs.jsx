@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import toUpper from 'lodash/toUpper';
+import { isEmpty } from 'lodash';
 import { Typography, Button } from '@mui/material';
 import SwapIcon from '@mui/icons-material/SwapVert';
 import IconButton from '@mui/material/IconButton';
@@ -32,7 +33,7 @@ const TokenPairs = ({
   conversionFee,
   conversionSymbol
 }) => {
-  const { fromAddress, toAddress } = useSelector((state) => state.wallet);
+  const { fromAddress, toAddress, wallets } = useSelector((state) => state.wallet);
 
   const onClickUseFullAmount = () => {
     onUseFullamount(walletBalance);
@@ -53,7 +54,7 @@ const TokenPairs = ({
         direction="FROM"
         id="from"
       />
-      {toUpper(fromSelectedBlockchain.name) === availableBlockchains.ETHEREUM ? (
+      {toUpper(fromSelectedBlockchain.name) === availableBlockchains.ETHEREUM && !isEmpty(wallets) ? (
         <Stack direction="row" alignItems="center" marginTop={1}>
           <Typography variant="caption">Balance: </Typography>
           <Typography variant="caption" marginX={1}>

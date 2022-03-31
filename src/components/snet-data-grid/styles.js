@@ -1,9 +1,11 @@
 import { makeStyles } from '@mui/styles';
-import { transactionStatus } from '../../utils/ConverterConstants';
+import { conversionStatuses } from '../../utils/ConverterConstants';
 
 export const useStyles = makeStyles({
   columnsContainer: {
-    margin: '48px 12px 7px',
+    width: '100%',
+    padding: '0 12px',
+    margin: '48px 0 7px',
     '& > div': { padding: '0 !important' },
     '& p': {
       color: '#9b9b9b',
@@ -37,9 +39,9 @@ export const useStyles = makeStyles({
   },
   transactionDataRow: {
     width: '100%',
-    padding: '10px 32px 10px 28px',
+    padding: '10px 16px 10px 8px',
     borderTop: '1px solid #f5f7f8',
-    marginTop: 0,
+    margin: 0,
     '& > div': {
       padding: `0 !important`,
       display: 'flex',
@@ -89,10 +91,14 @@ export const useStyles = makeStyles({
     }
   },
   statusValueContainer: {
-    [`& p[data-status-type="${transactionStatus.ACTION_REQUIRED}"]`]: { color: 'F18D5A' },
-    [`& p[data-status-type="${transactionStatus.PROCESSING}"]`]: { color: '#2196F3' },
-    [`& p[data-status-type="${transactionStatus.FAILED}"]`]: { color: '#D0021B' },
-    [`& p[data-status-type="${transactionStatus.SUCCESS}"]`]: { color: '#00C48C' }
+    [`& p[data-status-type="${conversionStatuses.ACTION_REQUIRED}"]`]: { color: 'F18D5A' },
+    [`& p[data-status-type="${conversionStatuses.USER_INITIATED}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.WAITING_FOR_CLAIM}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.PROCESSING}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.CLAIM_INITIATED}"]`]: { color: '#2196F3' },
+    [`& p[data-status-type="${conversionStatuses.FAILED}"]`]: { color: '#D0021B' },
+    [`& p[data-status-type="${conversionStatuses.EXPIRED}"]`]: { color: '#D0021B' },
+    [`& p[data-status-type="${conversionStatuses.SUCCESS}"]`]: { color: '#00C48C' }
   },
   expandedRow: {
     backgroundColor: '#FAFAFA',
@@ -197,5 +203,6 @@ export const useStyles = makeStyles({
       top: 0,
       '& legend': { display: 'none' }
     }
-  }
+  },
+  id: { cursor: 'default' }
 });

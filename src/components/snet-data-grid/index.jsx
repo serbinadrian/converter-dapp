@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -20,6 +21,15 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, rows, refresh
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshTxnHistory();
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const handleResume = (conversionInfo, conversionStatus) => {
     const activeStep = conversionStatus === conversionStatuses.WAITING_FOR_CLAIM ? conversionSteps.CLAIM_TOKENS : conversionSteps.BURN_TOKENS;
@@ -48,7 +58,6 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, rows, refresh
       </Box>
       <Columns />
       {rows.map((row) => {
-        console.log('###', row);
         return (
           <Rows
             key={row.id}

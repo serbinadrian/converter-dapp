@@ -90,3 +90,17 @@ export const getConversionTransactionHistory = async (address, pageNumber, pageS
     throw error;
   }
 };
+
+export const getPendingConversionCount = async (address) => {
+  try {
+    const { data } = await axios.get('conversion/count', {
+      params: {
+        address
+      }
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

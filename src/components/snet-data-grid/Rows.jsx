@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
@@ -13,7 +13,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { utcToLocalDateTime } from '../../utils/Date';
 import Transactions from './Transactions';
-import { conversionStatuses, conversionDirections } from '../../utils/ConverterConstants';
+import { conversionStatuses, conversionDirections, conversionStatusMessages } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 import SnetButton from '../snet-button';
 
@@ -58,6 +58,7 @@ const Rows = ({
         break;
 
       case conversionStatuses.PROCESSING:
+      case conversionStatuses.USER_INITIATED:
         component = <HourglassBottomIcon fontSize="small" color="primary" />;
         break;
 
@@ -88,13 +89,22 @@ const Rows = ({
     return str;
   };
 
+  const shrinkId = (str) => {
+    if (id.length) {
+      return `${str.substr(0, 5)}...`;
+    }
+    return str;
+  };
+
   return (
     <>
       <Grid container spacing={2} className={`${classes.transactionDataRow} ${expanded ? classes.expandedRow : ''}`}>
         <Grid item xs={6} md={2}>
-          <Typography overflow="hidden" textOverflow="ellipsis" align="left">
-            {id}
-          </Typography>
+          <Tooltip title={id}>
+            <Typography overflow="hidden" textOverflow="ellipsis" align="left" className={classes.id}>
+              {shrinkId(id)}
+            </Typography>
+          </Tooltip>
         </Grid>
         <Grid item xs={6} md={2}>
           <Typography textTransform="uppercase" align="left">
@@ -125,13 +135,11 @@ const Rows = ({
           </Button>
         </Grid>
         <Grid item xs={6} md={2} className={classes.statusData}>
-          {status !== conversionStatuses.WAITING_FOR_CLAIM && status !== conversionStatuses.USER_INITIATED ? (
-            <div className={classes.statusValueContainer}>
-              <Typography data-status-type={status} className={classes.value}>
-                {status}
-              </Typography>
-            </div>
-          ) : null}
+          <div className={classes.statusValueContainer}>
+            <Typography data-status-type={status} className={classes.value} align="center">
+              {conversionStatusMessages[status]}
+            </Typography>
+          </div>
         </Grid>
         <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
           {conversionStatus(status, handleResume)}
@@ -166,8 +174,8 @@ const Rows = ({
             </Grid>
             {transactions.map((transaction) => {
               return (
-                <Grid container className={classes.expandedDataRows}>
-                  <Transactions key={transaction.id} transaction={transaction} conversionDirection={conversionDirection} />
+                <Grid key={transaction.id} container className={classes.expandedDataRows}>
+                  <Transactions transaction={transaction} conversionDirection={conversionDirection} />
                 </Grid>
               );
             })}
