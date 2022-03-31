@@ -87,6 +87,14 @@ const useConversionHistoryHook = (address) => {
 
   useEffect(() => {
     getConversionHistory();
+
+    const interval = setInterval(() => {
+      getConversionHistory();
+    }, 60000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [address, pageSize, pageNumber]);
 
   return {
