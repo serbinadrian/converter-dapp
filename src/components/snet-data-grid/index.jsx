@@ -22,15 +22,6 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, rows, refresh
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refreshTxnHistory();
-    }, 10000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
   const handleResume = (conversionInfo, conversionStatus) => {
     const activeStep = conversionStatus === conversionStatuses.WAITING_FOR_CLAIM ? conversionSteps.CLAIM_TOKENS : conversionSteps.BURN_TOKENS;
 
