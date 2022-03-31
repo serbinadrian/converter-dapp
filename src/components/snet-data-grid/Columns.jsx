@@ -8,6 +8,11 @@ const Columns = () => {
     <Grid container spacing={2} className={classes.columnsContainer}>
       <Grid item xs={6} md={2}>
         <Typography textTransform="uppercase" align="left">
+          id
+        </Typography>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <Typography textTransform="uppercase" align="left">
           date
         </Typography>
       </Grid>
@@ -16,12 +21,12 @@ const Columns = () => {
           chain type
         </Typography>
       </Grid>
-      <Grid item xs={6} md={2}>
+      <Grid item xs={6} md={1}>
         <Typography textTransform="uppercase" align="right">
           from
         </Typography>
       </Grid>
-      <Grid item xs={6} md={2}>
+      <Grid item xs={6} md={1}>
         <Typography textTransform="uppercase" align="right">
           to
         </Typography>

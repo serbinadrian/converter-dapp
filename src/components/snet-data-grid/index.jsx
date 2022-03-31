@@ -61,6 +61,7 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, rows, refresh
         return (
           <Rows
             key={row.id}
+            id={row.id}
             date={toLocalDateTime(row.lastUpdatedAt)}
             fromToken={row.fromToken}
             chainType={row.chainType}

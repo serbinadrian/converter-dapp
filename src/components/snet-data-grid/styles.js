@@ -3,8 +3,10 @@ import { conversionStatuses } from '../../utils/ConverterConstants';
 
 export const useStyles = makeStyles({
   columnsContainer: {
-    marginTop: 48,
-    '& > div': { paddingTop: 0 },
+    width: '100%',
+    padding: '0 12px',
+    margin: '48px 0 7px',
+    '& > div': { padding: '0 !important' },
     '& p': {
       color: '#9b9b9b',
       fontSize: 14,
@@ -36,9 +38,10 @@ export const useStyles = makeStyles({
     lineHeight: '18px'
   },
   transactionDataRow: {
-    padding: '8px 17px 8px 15px',
+    width: '100%',
+    padding: '10px 16px 10px 8px',
     borderTop: '1px solid #f5f7f8',
-    marginTop: 10,
+    margin: 0,
     '& > div': {
       padding: `0 !important`,
       display: 'flex',
@@ -96,6 +99,10 @@ export const useStyles = makeStyles({
     [`& p[data-status-type="${conversionStatuses.FAILED}"]`]: { color: '#D0021B' },
     [`& p[data-status-type="${conversionStatuses.EXPIRED}"]`]: { color: '#D0021B' },
     [`& p[data-status-type="${conversionStatuses.SUCCESS}"]`]: { color: '#00C48C' }
+  },
+  expandedRow: {
+    backgroundColor: '#FAFAFA',
+    boxShadow: '0 1px 2px 0 rgba(0,0,0,0.1)'
   },
   expandArrowContainer: {
     '& > button': {
@@ -196,5 +203,6 @@ export const useStyles = makeStyles({
       top: 0,
       '& legend': { display: 'none' }
     }
-  }
+  },
+  id: { cursor: 'default' }
 });

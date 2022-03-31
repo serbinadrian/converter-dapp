@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
@@ -29,6 +29,7 @@ const ExpandMore = styled((props) => {
 }));
 
 const Rows = ({
+  id,
   date,
   fromToken,
   toToken,
@@ -88,9 +89,23 @@ const Rows = ({
     return str;
   };
 
+  const shrinkId = (str) => {
+    if (id.length) {
+      return `${str.substr(0, 5)}...`;
+    }
+    return str;
+  };
+
   return (
     <>
-      <Grid container spacing={2} className={classes.transactionDataRow}>
+      <Grid container spacing={2} className={`${classes.transactionDataRow} ${expanded ? classes.expandedRow : ''}`}>
+        <Grid item xs={6} md={2}>
+          <Tooltip title={id}>
+            <Typography overflow="hidden" textOverflow="ellipsis" align="left" className={classes.id}>
+              {shrinkId(id)}
+            </Typography>
+          </Tooltip>
+        </Grid>
         <Grid item xs={6} md={2}>
           <Typography textTransform="uppercase" align="left">
             {utcToLocalDateTime(date)}
@@ -101,8 +116,8 @@ const Rows = ({
             {chainType}
           </Typography>
         </Grid>
-        <Grid item xs={6} md={2} flexDirection="column" className={classes.alignRight}>
-          <Typography textTransform="uppercase">
+        <Grid item xs={6} md={1} flexDirection="column" className={classes.alignRight}>
+          <Typography textTransform="uppercase" align="right">
             {depositAmount} {fromToken}
           </Typography>
           <Button type="button" className={classes.fromToAddressContainer} onClick={() => copyToClipboard(fromAddress)}>
@@ -110,8 +125,8 @@ const Rows = ({
             <ContentCopyIcon />
           </Button>
         </Grid>
-        <Grid item xs={6} md={2} flexDirection="column" className={classes.alignRight}>
-          <Typography textTransform="uppercase">
+        <Grid item xs={6} md={1} flexDirection="column" className={classes.alignRight}>
+          <Typography textTransform="uppercase" align="right">
             {receivingAmount} {toToken}
           </Typography>
           <Button type="button" className={classes.fromToAddressContainer} onClick={() => copyToClipboard(toAddress)}>
@@ -119,9 +134,9 @@ const Rows = ({
             <ContentCopyIcon />
           </Button>
         </Grid>
-        <Grid item xs={6} md={2} align="center" className={classes.statusData}>
+        <Grid item xs={6} md={2} className={classes.statusData}>
           <div className={classes.statusValueContainer}>
-            <Typography data-status-type={status} className={classes.value}>
+            <Typography data-status-type={status} className={classes.value} align="center">
               {conversionStatusMessages[status]}
             </Typography>
           </div>
@@ -172,6 +187,7 @@ const Rows = ({
 };
 
 Rows.propTypes = {
+  id: propTypes.string.isRequired,
   date: propTypes.string.isRequired,
   fromToken: propTypes.string.isRequired,
   toToken: propTypes.string.isRequired,
