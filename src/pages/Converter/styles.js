@@ -1,6 +1,10 @@
 import colorCodes from '../../assets/theme/colorCodes';
 
 const styles = {
+  homePageContainer: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
   welcome: {
     color: '#000',
     fontSize: 32,
