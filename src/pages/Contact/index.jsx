@@ -30,6 +30,8 @@ const Contact = () => {
     type,
     message,
     showSuccessMessage,
+    emailError,
+    messageError,
     handleNameChange,
     handleEmailChange,
     handleAddressChange,
@@ -47,11 +49,27 @@ const Contact = () => {
           </Typography>
           <Stack direction="row" spacing={2}>
             <SnetContactInput id="name" value={name} onChange={handleNameChange} label="Your Name (Optional)" />
-            <SnetContactInput id="email" value={email} onChange={handleEmailChange} label="Email" />
+            <SnetContactInput
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              label="Email"
+              error={emailError}
+              helperText={emailError ? 'Please enter valid email' : ''}
+            />
           </Stack>
           <SnetContactInput id="address" value={address} onChange={handleAddressChange} label="Wallet Address (Optional)" />
           <SnetContactInput id="bug" fullWidth value={type} onChange={handleTypeChange} label="Bug" select options={options} />
-          <SnetContactInput id="message" fullWidth value={message} onChange={handleMessageChange} label="Your Message" multiline />
+          <SnetContactInput
+            id="message"
+            fullWidth
+            value={message}
+            onChange={handleMessageChange}
+            label="Your Message"
+            multiline
+            error={messageError}
+            helperText={messageError ? 'Please enter message' : ''}
+          />
           {showSuccessMessage ? (
             <Alert icon={false} severity="success" variant="outlined" className={classes.successMsg}>
               Support request successfully send.
