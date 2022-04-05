@@ -10,8 +10,7 @@ export const useStyles = makeStyles({
     '& p': {
       color: '#9b9b9b',
       fontSize: 14,
-      fontWeight: 600,
-      opacity: 0.53
+      fontWeight: 600
     }
   },
   transactionHistoryTable: { padding: '0 16px' },
@@ -143,13 +142,21 @@ export const useStyles = makeStyles({
     '& div p': {
       color: '#9B9B9B',
       fontSize: 14,
-      letterSpacing: 0.17
+      letterSpacing: 0.17,
+      lineHeight: '18px'
     }
   },
   expandedDataRows: {
     padding: '7px 20px 7px 60px',
     background: '#fff',
-    marginTop: 2
+    marginTop: 2,
+    '& div': {
+      '& span': {
+        color: '#666',
+        fontSize: 14,
+        lineHeight: '18px'
+      }
+    }
   },
   detailsData: {
     '& a': {

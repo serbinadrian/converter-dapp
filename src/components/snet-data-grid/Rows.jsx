@@ -84,14 +84,14 @@ const Rows = ({
 
   const addEllipsisInBetweenString = (str) => {
     if (str.length) {
-      return `${str.substr(0, 4)}...${str.substr(str.length - 4)}`;
+      return `${str.substr(0, 6)}...${str.substr(str.length - 6)}`;
     }
     return str;
   };
 
   const shrinkId = (str) => {
     if (id.length) {
-      return `${str.substr(0, 5)}...`;
+      return `${str.substr(0, 18)}...`;
     }
     return str;
   };
