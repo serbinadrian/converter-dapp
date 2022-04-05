@@ -27,7 +27,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const { blockchains, wallet } = useSelector((state) => state);
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorRedirectTo, seterrorRedirectTo] = useState(null);
-  const [opnePopup, setOpenPopup] = useState(false);
+  const [opnePopup, setOpenPopup] = useState(true);
   const { conversionDirection } = useSelector((state) => state.wallet);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
   const {
