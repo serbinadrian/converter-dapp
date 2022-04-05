@@ -45,6 +45,7 @@ const useERC20TokenHook = () => {
   };
 
   const convertEthToAda = async (contractAddress, amount, conversionId, signature, decimals) => {
+    console.log('CONVERSION ETH TO ADA');
     try {
       dispatch(setBlockchainStatus(blockchainStatusLabels.ON_CONFIRMING_TXN));
       const transactionHash = await conversionOut(contractAddress, amount, conversionId, signature, decimals);
