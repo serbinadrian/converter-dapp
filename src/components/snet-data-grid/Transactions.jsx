@@ -33,9 +33,11 @@ const Transactions = ({ transaction, conversionDirection }) => {
         </Typography>
       </Grid>
       <Grid item xs={6} md={2}>
-        <Typography variant="caption" textAlign="left">
-          {conversionStatusMessages[transaction.status]}
-        </Typography>
+        <div className={classes.statusValueContainer}>
+          <Typography data-status-type={transaction.status} textAlign="left">
+            {conversionStatusMessages[transaction.status]}
+          </Typography>
+        </div>
       </Grid>
       <Grid item xs={6} md={2}>
         <Typography variant="caption" textAlign="left">
