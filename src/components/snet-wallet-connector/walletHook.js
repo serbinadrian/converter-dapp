@@ -289,7 +289,6 @@ export const useWalletHook = () => {
   };
 
   const conversionOut = async (contractAddress, amountForBurn, conversionId, signature, decimals) => {
-    console.log('CONVERSIONOUT');
     try {
       const amount = web3.utils.toNumber(convertToCogs(amountForBurn, decimals));
       const { v, r, s } = splitSignature(signature);

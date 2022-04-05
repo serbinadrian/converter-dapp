@@ -103,14 +103,13 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   };
 
   const onETHToADAConversion = async () => {
-    setOpenPopup(true);
-    // try {
-    //   await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
-    //   resetFromAndToValues();
-    // } catch (exception) {
-    //   setErrorMessage(exception?.message || String(exception));
-    //   seterrorRedirectTo(exception?.redirectTo || null);
-    // }
+    try {
+      await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
+      resetFromAndToValues();
+    } catch (exception) {
+      setErrorMessage(exception?.message || String(exception));
+      seterrorRedirectTo(exception?.redirectTo || null);
+    }
   };
 
   const resetErrorState = () => {
@@ -127,11 +126,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   }
 
   const handlePopupClose = () => setOpenPopup(false);
-
   const openLink = () => navigate(Paths.Transactions);
-
-  console.log('$$$$', opnePopup);
-
   return (
     <>
       <SnetSnackbar open={!isNil(errorMessage)} message={String(errorMessage)} onClose={resetErrorState} redirectTo={errorRedirectTo} />
@@ -192,8 +187,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
             />
           )}
         </Stack>
-        {/* {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? ( */}
-        {opnePopup ? (
+        {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? (
           <Modal open={opnePopup} onClose={handlePopupClose} sx={styles.conersionModal}>
             <Box sx={styles.conersionBox}>
               <Box sx={styles.conersionModalHeader}>
