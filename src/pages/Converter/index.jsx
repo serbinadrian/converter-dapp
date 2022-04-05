@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { availableBlockchains } from '../../utils/ConverterConstants';
 import { setAdaConversionInfo, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import PendingTxnAlert from './PendingTxnAlert';
+import styles from './styles';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 const WelcomeBox = lazy(() => import('./WelcomeBox'));
@@ -31,7 +32,7 @@ const Converter = () => {
           </Grid>
         </Grid>
       ) : (
-        <Grid display="flex" alignItems="flex-start" container spacing={2}>
+        <Grid display="flex" alignItems="flex-start" container spacing={2} sx={styles.homePageContainer}>
           <Grid item xs={12} md={4}>
             <WelcomeBox />
           </Grid>

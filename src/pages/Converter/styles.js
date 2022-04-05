@@ -63,6 +63,10 @@ const styles = {
       }
     }
   },
+  homePageContainer: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
   welcome: {
     color: '#000',
     fontSize: 32,

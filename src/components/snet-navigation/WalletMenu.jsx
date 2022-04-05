@@ -18,11 +18,11 @@ const WalletMenu = ({ openConnectedWallets }) => {
   const { wallets } = state.wallet;
 
   return (
-    <AppBar position="static" color="white" sx={{ padding: 2 }}>
+    <AppBar position="static" color="white" sx={{ padding: 2 }} className={classes.header}>
       <Box className={classes.items}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <BridgeLogo />
-          <Box display="flex" marginLeft={12}>
+          <Box display="flex" marginLeft={12} className={classes.navigations}>
             <Link href={Paths.Converter} underline="none">
               <Typography variant="body2" marginRight={6}>
                 Home
