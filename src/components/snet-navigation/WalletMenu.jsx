@@ -29,7 +29,12 @@ const WalletMenu = ({ openConnectedWallets }) => {
               </Typography>
             </Link>
             <Link href={Paths.Transactions} underline="none">
-              <Typography variant="body2">Transactions</Typography>
+              <Typography variant="body2" marginRight={6}>
+                Transactions
+              </Typography>
+            </Link>
+            <Link href={Paths.Contact} underline="none">
+              <Typography variant="body2">Contact</Typography>
             </Link>
           </Box>
         </Box>

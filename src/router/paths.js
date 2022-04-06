@@ -7,7 +7,8 @@ const Paths = {
   ChoosingAssets: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/choosing-assets',
   InitiatingConversions: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/initiating-conversion',
   ViewingHistory: 'https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/viewing-history',
-  NotFound: '*'
+  NotFound: '*',
+  Contact: '/contact'
 };
 
 export default Paths;
