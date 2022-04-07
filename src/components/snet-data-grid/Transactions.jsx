@@ -1,9 +1,10 @@
-import { Typography, Box, Link } from '@mui/material';
+import { Typography, Link } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import propTypes from 'prop-types';
-import startsWith from 'lodash/startsWith';
 import { utcToLocalDateTime } from '../../utils/Date';
-import { conversionDirections, txnOperations } from '../../utils/ConverterConstants';
+import { conversionDirections, txnOperations, txnOperationsLabels, conversionStatusMessages } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
+import { convertFromCogs } from '../../utils/bignumber';
 
 const Transactions = ({ transaction, conversionDirection }) => {
   const classes = useStyles();
@@ -20,25 +21,37 @@ const Transactions = ({ transaction, conversionDirection }) => {
   };
 
   return (
-    <div className={classes.expandedDataWrapper}>
-      <Typography variant="caption" textAlign="left">
-        {utcToLocalDateTime(transaction.updated_at)}
-      </Typography>
-      <Typography variant="caption" textAlign="left">
-        {transaction.transaction_operation}
-      </Typography>
-      <Typography variant="caption" textAlign="left">
-        {transaction.status}
-      </Typography>
-      <Typography variant="caption" textAlign="left">
-        {transaction.transaction_amount}
-      </Typography>
-      <Link href={txnHashLink(transaction.transaction_hash)} underline="none" target="_blank" rel="noopener noreferrer">
+    <>
+      <Grid item xs={6} md={2}>
         <Typography variant="caption" textAlign="left">
-          {transaction.transaction_hash}
+          {utcToLocalDateTime(transaction.created_at)}
         </Typography>
-      </Link>
-    </div>
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <Typography variant="caption" textAlign="left">
+          {txnOperationsLabels[transaction.transaction_operation]}
+        </Typography>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <div className={classes.statusValueContainer}>
+          <Typography data-status-type={transaction.status} textAlign="left">
+            {conversionStatusMessages[transaction.status]}
+          </Typography>
+        </div>
+      </Grid>
+      <Grid item xs={6} md={2}>
+        <Typography variant="caption" textAlign="left">
+          {convertFromCogs(transaction.transaction_amount, transaction.token.allowed_decimal)} {transaction.token.symbol}
+        </Typography>
+      </Grid>
+      <Grid item xs={6} md={3} className={classes.detailsData}>
+        <Link href={txnHashLink(transaction.transaction_hash)} underline="none" target="_blank" rel="noopener noreferrer">
+          <Typography variant="caption" textAlign="left">
+            {transaction.transaction_hash}
+          </Typography>
+        </Link>
+      </Grid>
+    </>
   );
 };
 

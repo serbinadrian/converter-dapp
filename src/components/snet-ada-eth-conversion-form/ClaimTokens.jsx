@@ -15,7 +15,7 @@ const ClaimTokens = ({ onClickClaim, onClickContinueLater }) => {
       <AdaToEthTokenAndValue
         fromTokenAmount={conversion.depositAmount}
         fromTokenSymbol={conversion.pair.from_token.symbol}
-        toTokenAmount={conversion.receievingAmount}
+        toTokenAmount={conversion.receivingAmount}
         toTokenSymbol={conversion.pair.to_token.symbol}
         conversionFee={conversion.conversionFees}
         conversionFeeTokenSymbol={conversion.pair.from_token.symbol}

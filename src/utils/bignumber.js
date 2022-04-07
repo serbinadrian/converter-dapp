@@ -16,10 +16,22 @@ export const isValueGreaterThanProvided = (value, providedValue) => {
   return new BigNumber(value).gt(providedValue);
 };
 
+export const isValueGreaterThanEqualToProvided = (value, providedValue) => {
+  return new BigNumber(value).gte(providedValue);
+};
+
 export const isValueLessThanProvided = (value, providedValue) => {
   return new BigNumber(value).lt(providedValue);
 };
 
+export const isValueLessThanEqualToProvided = (value, providedValue) => {
+  return new BigNumber(value).lte(providedValue);
+};
+
 export const convertToValueFromPercentage = (value, percentage) => {
   return new BigNumber(value).times(percentage).dividedBy(100).toString();
+};
+
+export const isDecimalPlacesExceeds = (value, decimals) => {
+  return new BigNumber(value).decimalPlaces() > decimals;
 };

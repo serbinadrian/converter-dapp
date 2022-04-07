@@ -17,12 +17,10 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
 
   const onClickFinish = () => {
     dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
-    navigate(Paths.Transactions);
   };
 
   const openLink = () => {
-    const link = `${process.env.REACT_APP_ETHERSCAN_TXN_BASE_URL}/${txnHash}`;
-    window.open(link, '_blank');
+    navigate(Paths.Transactions);
   };
 
   return (

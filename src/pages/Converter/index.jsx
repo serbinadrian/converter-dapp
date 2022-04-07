@@ -1,8 +1,10 @@
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import { availableBlockchains } from '../../utils/ConverterConstants';
 import { setAdaConversionInfo, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import PendingTxnAlert from './PendingTxnAlert';
+import styles from './styles';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 const WelcomeBox = lazy(() => import('./WelcomeBox'));
@@ -22,6 +24,7 @@ const Converter = () => {
 
   return (
     <GeneralLayout>
+      <PendingTxnAlert />
       {conversionDirection === availableBlockchains.CARDANO ? (
         <Grid display="flex" justifyContent="center">
           <Grid item>
@@ -29,15 +32,13 @@ const Converter = () => {
           </Grid>
         </Grid>
       ) : (
-        <Grid display="flex" alignItems="flex-start" container spacing={2}>
-          <Grid item xs={12} md={1} />
+        <Grid display="flex" alignItems="flex-start" container spacing={2} sx={styles.homePageContainer}>
           <Grid item xs={12} md={4}>
             <WelcomeBox />
           </Grid>
           <Grid item xs={12} md={6}>
             <ERC20TOADA onADATOETHConversion={onADATOETHConversion} />
           </Grid>
-          <Grid item xs={12} md={1} />
         </Grid>
       )}
     </GeneralLayout>

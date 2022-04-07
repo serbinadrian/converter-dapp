@@ -5,14 +5,20 @@ import BigNumber from 'bignumber.js';
 import { getAvailableTokenPairs } from '../../../services/redux/slices/tokenPairs/tokenPairActions';
 import { setConversionDirection, setFromAddress, setToAddress } from '../../../services/redux/slices/wallet/walletSlice';
 import { errorMessages, conversionDirections, availableBlockchains } from '../../../utils/ConverterConstants';
-import { convertFromCogs, isValueGreaterThanProvided, isValueLessThanProvided } from '../../../utils/bignumber';
+import {
+  convertFromCogs,
+  isValueGreaterThanProvided,
+  isValueLessThanProvided,
+  isValueLessThanEqualToProvided,
+  isDecimalPlacesExceeds
+} from '../../../utils/bignumber';
 
 const tokenPairDirection = {
   FROM: 'from_token',
   TO: 'to_token'
 };
 
-export const useConverterHook = () => {
+const useConverterHook = () => {
   const [fromBlockchains, setFromBlockchains] = useState([]);
   const [toBlockchains, setToBlockchains] = useState([]);
   const [fromSelectedBlockchain, setFromSelectedBlockchain] = useState({});
@@ -31,6 +37,10 @@ export const useConverterHook = () => {
 
   const dispatch = useDispatch();
 
+  const resetFromAndToValues = () => {
+    setFromAndToTokenPairs({ fromValue: 0, toValue: 0 });
+  };
+
   const resetError = () => {
     setError({ error: false, message: '' });
   };
@@ -40,11 +50,13 @@ export const useConverterHook = () => {
   };
 
   const updateWalletBalance = (balanceInfo) => {
-    if (fromAndToTokenValues.fromValue > balanceInfo.balance) {
-      updateError(errorMessages.INSUFFICIENT_BALANCE_FROM);
-    } else {
+    if (isValueGreaterThanProvided(fromAndToTokenValues.fromValue, balanceInfo.balance)) {
+      console.log(`${fromAndToTokenValues.fromValue} ${' '} ${balanceInfo.balance} ${'- in updateWalletBalance'}`);
+      updateError(errorMessages.INSUFFICIENT_BALANCE);
+    } /* else {
+      console.log('Resetting error in updateWalletBalance');
       resetError();
-    }
+    } */
     setWalletBalance(balanceInfo);
   };
 
@@ -67,34 +79,37 @@ export const useConverterHook = () => {
     }
   };
 
+  const validateAmounts = (value) => {
+    const [pair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === fromTokenPair.id);
+    const blockchainName = toUpper(pair.from_token.blockchain.name);
+    const pairMinValue = convertFromCogs(pair.min_value, pair.from_token.allowed_decimal);
+    const pairMaxValue = convertFromCogs(pair.max_value, pair.from_token.allowed_decimal);
+
+    if (isValueLessThanEqualToProvided(value, 0) || String(value).trim() === '') {
+      updateError(errorMessages.INVALID_AMOUNT);
+    } else if (isValueLessThanProvided(value, pairMinValue)) {
+      updateError(`${errorMessages.MINIMUM_TRANSACTION_AMOUNT + pairMinValue} ${' '} ${pair.from_token.symbol}`);
+    } else if (isValueGreaterThanProvided(value, pairMaxValue)) {
+      updateError(`${errorMessages.MAXIMUM_TRANSACTION_AMOUNT + pairMaxValue} ${' '} ${pair.from_token.symbol}`);
+    } else if (isValueGreaterThanProvided(value, walletBalance.balance) && blockchainName === availableBlockchains.ETHEREUM) {
+      updateError(errorMessages.INSUFFICIENT_BALANCE);
+    } else if (isDecimalPlacesExceeds(value, pair.from_token.allowed_decimal)) {
+      updateError(errorMessages.DECIMAL_PLACES_EXCEEDED);
+    } else {
+      resetError();
+    }
+  };
+
   const onUseFullamount = (amount) => {
     const amountInString = amount.toString();
     setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: amountInString, toValue: amountInString });
+    validateAmounts(amount);
   };
 
   const handleFromInputChange = (event) => {
     const { value } = event.target;
-
     setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: value, toValue: value });
-
-    const [pair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === fromTokenPair.id);
-
-    const blockchainName = toUpper(pair.from_token.blockchain.name);
-
-    const pairMinValue = convertFromCogs(pair.min_value, pair.from_token.allowed_decimal);
-    const pairMaxValue = convertFromCogs(pair.max_value, pair.from_token.allowed_decimal);
-
-    if (value <= 0) {
-      updateError(errorMessages.INVALID_AMOUNT);
-    } else if (isValueLessThanProvided(value, pairMinValue)) {
-      updateError(errorMessages.MINIMUM_TRANSACTION_AMOUNT + pairMinValue + pair.from_token.symbol);
-    } else if (isValueGreaterThanProvided(value, pairMaxValue)) {
-      updateError(errorMessages.MAXIMUM_TRANSACTION_AMOUNT + pairMaxValue + pair.from_token.symbol);
-    } else if (value > walletBalance.balance && blockchainName === availableBlockchains.ETHEREUM) {
-      updateError(errorMessages.INSUFFICIENT_BALANCE_FROM);
-    } else {
-      resetError();
-    }
+    validateAmounts(value);
   };
 
   const handleToInputChange = (event) => {
@@ -128,8 +143,8 @@ export const useConverterHook = () => {
 
   const getAndSetBlockchainPairs = () => {
     const blockchainListReversed = [...blockchains].reverse();
-    const fromBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchainListReversed, tokenPairDirection.FROM);
-    const toBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchains, tokenPairDirection.TO);
+    const fromBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchains, tokenPairDirection.FROM);
+    const toBlockchainsWithTokenPairs = getTokenPairsForChainConversions(blockchainListReversed, tokenPairDirection.TO);
     if (fromBlockchainsWithTokenPairs.length > 0) {
       setFromBlockchains(fromBlockchainsWithTokenPairs);
       setToBlockchains(toBlockchainsWithTokenPairs);
@@ -140,7 +155,7 @@ export const useConverterHook = () => {
     }
   };
 
-  const swapBlockchains = () => {
+  const swapBlockchains = (value) => {
     setFromBlockchains(toBlockchains);
     setToBlockchains(fromBlockchains);
     setFromSelectedBlockchain(toBlockchains[0]);
@@ -149,6 +164,7 @@ export const useConverterHook = () => {
     setToTokenPair(fromBlockchains[0].tokenPairs[0]);
 
     updateConversionFees();
+    validateAmounts(value);
   };
 
   const handleFromBlockchainSelection = () => {
@@ -222,6 +238,9 @@ export const useConverterHook = () => {
     onSelectingToToken,
     error,
     walletBalance,
-    updateWalletBalance
+    updateWalletBalance,
+    resetFromAndToValues
   };
 };
+
+export default useConverterHook;

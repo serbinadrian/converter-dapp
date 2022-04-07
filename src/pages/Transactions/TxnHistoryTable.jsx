@@ -1,14 +1,36 @@
 import SnetDataGrid from '../../components/snet-data-grid';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
-import { useConversionHistoryHook } from './hooks/conversionHistoryHook';
-
-const cols = ['Date', 'Chain Type', 'From', 'To', 'Status', ''];
+import useConversionHistoryHook from './hooks/conversionHistoryHook';
 
 const TxnHistoryTable = () => {
   const { address } = useWalletHook();
-  const { conversionHistory } = useConversionHistoryHook(address);
+  const {
+    onPageChange,
+    pageNumber,
+    conversionHistory,
+    getConversionHistory,
+    isLoading,
+    onItemSelect,
+    pageSizes,
+    paginationSize,
+    paginationInfo,
+    totalNoOfTransaction
+  } = useConversionHistoryHook(address);
 
-  return <SnetDataGrid columns={cols} rows={conversionHistory} />;
+  return (
+    <SnetDataGrid
+      pageSizes={pageSizes}
+      onItemSelect={onItemSelect}
+      loading={isLoading}
+      refreshTxnHistory={getConversionHistory}
+      rows={conversionHistory}
+      paginationSize={paginationSize}
+      currentPage={pageNumber}
+      onPageChange={onPageChange}
+      paginationInfo={paginationInfo}
+      totalNoOfTransaction={totalNoOfTransaction}
+    />
+  );
 };
 
 export default TxnHistoryTable;

@@ -21,19 +21,36 @@ export const txnOperations = {
   TOKEN_MINTED: 'TOKEN_MINTED'
 };
 
+export const txnOperationsLabels = {
+  [txnOperations.TOKEN_RECEIVED]: 'Tokens Received',
+  [txnOperations.TOKEN_BURNT]: 'Tokens Burnt',
+  [txnOperations.TOKEN_MINTED]: 'Tokens Minted'
+};
+
 export const conversionStatuses = {
   PROCESSING: 'PROCESSING',
   SUCCESS: 'SUCCESS',
   USER_INITIATED: 'USER_INITIATED',
   WAITING_FOR_CLAIM: 'WAITING_FOR_CLAIM',
-  IDLE: 'IDLE'
+  IDLE: 'IDLE',
+  CLAIM_INITIATED: 'CLAIM_INITIATED',
+  WAITING_FOR_CONFIRMATION: 'WAITING_FOR_CONFIRMATION',
+  EXPIRED: 'EXPIRED',
+  ACTION_REQUIRED: 'ACTION_REQUIRED',
+  FAILED: 'FAILED'
 };
 
 export const conversionStatusMessages = {
   [conversionStatuses.PROCESSING]: 'Processing',
-  [conversionStatuses.USER_INITIATED]: 'User initiated',
-  [conversionStatuses.WAITING_FOR_CLAIM]: 'Claim tokens',
-  [conversionStatuses.IDLE]: 'Idle'
+  [conversionStatuses.SUCCESS]: 'Success',
+  [conversionStatuses.USER_INITIATED]: 'Initiated',
+  [conversionStatuses.WAITING_FOR_CLAIM]: 'Ready for Claim',
+  [conversionStatuses.IDLE]: 'Idle',
+  [conversionStatuses.CLAIM_INITIATED]: 'Claim Initiated',
+  [conversionStatuses.WAITING_FOR_CONFIRMATION]: 'Awaiting Confirmation',
+  [conversionStatuses.EXPIRED]: 'Expired',
+  [conversionStatuses.ACTION_REQUIRED]: 'Action Required',
+  [conversionStatuses.FAILED]: 'Failed'
 };
 
 export const conversionDirection = {
@@ -84,11 +101,20 @@ export const errorMessages = {
   INVALID_TOKEN_PAIR: 'Invalid token pair',
   INVALID_TOKEN_PAIR_FROM: 'Invalid token pair from',
   INVALID_TOKEN_PAIR_TO: 'Invalid token pair to',
-  INSUFFICIENT_BALANCE_FROM: 'Insufficient wallet balance from',
+  INSUFFICIENT_BALANCE: 'Insufficient balance for conversion',
   INSUFFICIENT_BALANCE_TO: 'Insufficient wallet balance to',
   LIMIT_EXCEEDED_FROM: 'Limit exceeded from',
   MINIMUM_TRANSACTION_AMOUNT: 'Minimum transaction amount is ',
   MAXIMUM_TRANSACTION_AMOUNT: 'Maximum transaction amount is ',
   LIMIT_EXCEEDED_TO: 'Limit exceeded to',
-  INVALID_AMOUNT: 'Invalid amount'
+  INVALID_AMOUNT: 'Invalid amount',
+  DECIMAL_PLACES_EXCEEDED: 'Decimal places exceeded'
+};
+
+export const blockchainStatusLabels = {
+  ON_SIGNING_FROM_WALLET: { title: 'Wallet Interaction', message: 'Please sign from your wallet...' },
+  ON_CONFIRMING_TXN: { title: 'Wallet Interaction', message: 'Please confirm transaction from your wallet...' },
+  ON_TXN_HASH: { title: 'Transaction', message: 'Waiting for transaction to be mined...' },
+  ON_UPDATING_TXN_STATUS: { title: 'Transaction', message: 'Updating transaction status...' },
+  ON_APPROVING_SPEND_LIMIT: { title: 'Wallet Interaction', message: 'Approving spend limit...' }
 };

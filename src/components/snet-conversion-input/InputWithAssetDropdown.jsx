@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import propTypes from 'prop-types';
@@ -5,8 +6,15 @@ import BlockchainDropdown from './BlockchainDropdown';
 import { styles } from './styles';
 
 const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, onInputChange, readOnly, id }) => {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [tokenPairs]);
+
   return (
     <TextField
+      inputRef={inputRef}
       id={id}
       disabled={readOnly}
       fullWidth
