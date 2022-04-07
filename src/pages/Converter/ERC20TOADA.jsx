@@ -28,6 +28,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const [opnePopup, setOpenPopup] = useState(true);
   const { conversionDirection } = useSelector((state) => state.wallet);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
+  const { conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
   const {
     fromBlockchains,
     toBlockchains,
@@ -123,6 +124,12 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     );
   }
 
+  const formatConversionTitle = () => {
+    const from = `${fromTokenPair.symbol} [${fromTokenPair.blockchain.name}]`;
+    const to = `${toTokenPair.symbol} [${toTokenPair.blockchain.name}]`;
+    return `Converting ${from} to ${to}`;
+  };
+
   const handlePopupClose = () => setOpenPopup(false);
   const openLink = () => navigate(Paths.Transactions);
   return (
@@ -186,7 +193,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
           )}
         </Stack>
         {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? (
-          <ETHTOADAConversionPopup title="Converting AGIX[ETH] to AGIX[ADA]" opnePopup={opnePopup} handlePopupClose={handlePopupClose} openLink={openLink} />
+          <ETHTOADAConversionPopup title={formatConversionTitle()} opnePopup handlePopupClose={handlePopupClose} openLink={openLink} />
         ) : null}
       </SnetPaper>
     </>
