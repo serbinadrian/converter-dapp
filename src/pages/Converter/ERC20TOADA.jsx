@@ -2,10 +2,9 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import propTypes from 'prop-types';
-import { Stack, Typography, Modal, Box } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { toUpper, isEmpty, isNil } from 'lodash';
-import CloseIcon from '@mui/icons-material/Close';
 import SnetPaper from '../../components/snet-paper';
 import useConverterHook from './hooks/ConverterHook';
 import ConversionFormLoader from './ConversionFormLoader';
@@ -18,9 +17,8 @@ import SnetConversionStatus from '../../components/snet-conversion-status';
 import ADATOETHButton from '../../components/snet-converter-form-buttons/ADATOETHButton';
 import ETHTOADAButton from '../../components/snet-converter-form-buttons/ETHTOADAButton';
 import SnetSnackbar from '../../components/snet-snackbar';
-import SnetButton from '../../components/snet-button';
 import Paths from '../../router/paths';
-import styles from './styles';
+import ETHTOADAConversionPopup from './ETHTOADAConversionPopup';
 
 const ERC20TOADA = ({ onADATOETHConversion }) => {
   const navigate = useNavigate();
@@ -188,29 +186,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
           )}
         </Stack>
         {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? (
-          <Modal open={opnePopup} onClose={handlePopupClose} sx={styles.conersionModal}>
-            <Box sx={styles.conersionBox}>
-              <Box sx={styles.conersionModalHeader}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Converting AGI [ETH] to AGIX [ADA]
-                </Typography>
-                <CloseIcon onClick={handlePopupClose} />
-              </Box>
-              <Box sx={styles.conersionModalBody}>
-                <div sx={styles.processingLoaderContainer}>
-                  <Typography>Processing: Awaiting Confimation 10/13</Typography>
-                </div>
-                <Typography>
-                  Your transaction is in progress and may take some time to complete. You can close this overlay and monitorthe status from
-                  &apos;Transactions&apos;.
-                </Typography>
-              </Box>
-              <Box sx={styles.conersionModalActions}>
-                <SnetButton name="view transaction history" onClick={openLink} variant="text" />
-                <SnetButton name="close" onClick={handlePopupClose} />
-              </Box>
-            </Box>
-          </Modal>
+          <ETHTOADAConversionPopup opnePopup={opnePopup} handlePopupClose={handlePopupClose} openLink={openLink} />
         ) : null}
       </SnetPaper>
     </>
