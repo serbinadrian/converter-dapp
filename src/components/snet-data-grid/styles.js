@@ -15,17 +15,28 @@ export const useStyles = makeStyles({
   },
   transactionHistoryTable: { padding: '0 16px' },
   transactionHistoryHeader: {
-    borderBottom: '1px solid #f5f7f8'
+    borderBottom: '1px solid #f5f7f8',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   refreshDataContainer: {
     padding: '11px 0',
-    margin: 0,
+    margin: '0 40px 0',
     '& button': {
       color: '#4086FF',
       fontSize: 14,
       lineHeight: '16px',
       textTransform: 'capitalize',
       '& svg': { fontSize: 18 }
+    }
+  },
+  totalRecordsContainer: {
+    '& p': {
+      color: '#999',
+      fontSize: 14,
+      fontWeight: 300,
+      lineHeight: '18px'
     }
   },
   colName: {
