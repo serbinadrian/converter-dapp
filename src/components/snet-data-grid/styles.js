@@ -90,6 +90,10 @@ export const useStyles = makeStyles({
     }
   },
   statusValueContainer: {
+    '& p': {
+      fontSize: 14,
+      lineHeight: '18px'
+    },
     [`& p[data-status-type="${conversionStatuses.ACTION_REQUIRED}"]`]: { color: 'F18D5A' },
     [`& p[data-status-type="${conversionStatuses.USER_INITIATED}"]`]: { color: '#2196F3' },
     [`& p[data-status-type="${conversionStatuses.WAITING_FOR_CLAIM}"]`]: { color: '#2196F3' },
@@ -150,12 +154,11 @@ export const useStyles = makeStyles({
     padding: '7px 20px 7px 60px',
     background: '#fff',
     marginTop: 2,
-    '& div': {
-      '& span': {
-        color: '#666',
-        fontSize: 14,
-        lineHeight: '18px'
-      }
+    '& span': {
+      color: '#666',
+      fontSize: 14,
+      lineHeight: '18px',
+      '& p': { fontWeight: 600 }
     }
   },
   detailsData: {
