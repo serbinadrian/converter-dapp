@@ -4,7 +4,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { RefreshOutlined } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toLocalDateTime } from '../../utils/Date';
 import Columns from './Columns';
@@ -16,7 +16,18 @@ import paths from '../../router/paths';
 import { useStyles } from './styles';
 import SnetPagination from './Pagination';
 
-const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, rows, refreshTxnHistory, loading, onItemSelect, pageSizes, paginationSize }) => {
+const SnetDataGrid = ({
+  paginationInfo,
+  onPageChange,
+  currentPage,
+  rows,
+  refreshTxnHistory,
+  loading,
+  onItemSelect,
+  pageSizes,
+  paginationSize,
+  totalNoOfTransaction
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,6 +55,9 @@ const SnetDataGrid = ({ paginationInfo, onPageChange, currentPage, rows, refresh
           <LoadingButton loading={loading} onClick={refreshTxnHistory} startIcon={<RefreshOutlined />} variant="text">
             Refresh Data
           </LoadingButton>
+        </Box>
+        <Box className={classes.totalRecordsContainer}>
+          <Typography>{totalNoOfTransaction} transactions</Typography>
         </Box>
       </Box>
       <Columns />
@@ -89,7 +103,8 @@ SnetDataGrid.propTypes = {
   paginationSize: propTypes.number.isRequired,
   currentPage: propTypes.number.isRequired,
   onPageChange: propTypes.func.isRequired,
-  paginationInfo: propTypes.string.isRequired
+  paginationInfo: propTypes.string.isRequired,
+  totalNoOfTransaction: propTypes.number.isRequired
 };
 
 export default SnetDataGrid;

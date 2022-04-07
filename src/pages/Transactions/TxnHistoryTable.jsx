@@ -4,8 +4,18 @@ import useConversionHistoryHook from './hooks/conversionHistoryHook';
 
 const TxnHistoryTable = () => {
   const { address } = useWalletHook();
-  const { onPageChange, pageNumber, conversionHistory, getConversionHistory, isLoading, onItemSelect, pageSizes, paginationSize, paginationInfo } =
-    useConversionHistoryHook(address);
+  const {
+    onPageChange,
+    pageNumber,
+    conversionHistory,
+    getConversionHistory,
+    isLoading,
+    onItemSelect,
+    pageSizes,
+    paginationSize,
+    paginationInfo,
+    totalNoOfTransaction
+  } = useConversionHistoryHook(address);
 
   return (
     <SnetDataGrid
@@ -18,6 +28,7 @@ const TxnHistoryTable = () => {
       currentPage={pageNumber}
       onPageChange={onPageChange}
       paginationInfo={paginationInfo}
+      totalNoOfTransaction={totalNoOfTransaction}
     />
   );
 };

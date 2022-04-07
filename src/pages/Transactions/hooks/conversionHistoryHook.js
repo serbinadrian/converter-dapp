@@ -10,6 +10,7 @@ const useConversionHistoryHook = (address) => {
   const [pageSize, setPageSize] = useState(pageSizes[0]);
   const [pageNumber, setPageNumber] = useState(1);
   const [paginationInfo, setPaginationInfo] = useState('');
+  const [totalNoOfTransaction, setTotalNoOfTransaction] = useState(0);
 
   const onItemSelect = (value) => {
     setPageSize(value);
@@ -76,6 +77,7 @@ const useConversionHistoryHook = (address) => {
         formatConversionHistory(items);
         setPaginationSize(meta.page_count);
         setPageNumber(meta.page_number);
+        setTotalNoOfTransaction(meta.total_records);
         setPaginationInfo(`Page ${meta.page_number} of ${meta.page_count}`);
       } catch (error) {
         console.log(error);
@@ -106,7 +108,8 @@ const useConversionHistoryHook = (address) => {
     pageSizes,
     paginationSize,
     onPageChange,
-    paginationInfo
+    paginationInfo,
+    totalNoOfTransaction
   };
 };
 
