@@ -4,13 +4,13 @@ import propTypes from 'prop-types';
 import SnetButton from '../../components/snet-button';
 import styles from './styles';
 
-const ETHTOADAConversionPopup = ({ opnePopup, handlePopupClose, openLink }) => {
+const ETHTOADAConversionPopup = ({ title, opnePopup, handlePopupClose, openLink }) => {
   return (
     <Modal open={opnePopup} onClose={handlePopupClose} sx={styles.conersionModal}>
       <Box sx={styles.conersionBox}>
         <Box sx={styles.conersionModalHeader}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Converting AGI [ETH] to AGIX [ADA]
+            {title}
           </Typography>
           <CloseIcon onClick={handlePopupClose} />
         </Box>
@@ -32,6 +32,7 @@ const ETHTOADAConversionPopup = ({ opnePopup, handlePopupClose, openLink }) => {
 };
 
 ETHTOADAConversionPopup.propTypes = {
+  title: propTypes.string.isRequired,
   opnePopup: propTypes.bool.isRequired,
   handlePopupClose: propTypes.func.isRequired,
   openLink: propTypes.func.isRequired

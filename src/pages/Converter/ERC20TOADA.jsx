@@ -130,7 +130,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
       <SnetSnackbar open={!isNil(errorMessage)} message={String(errorMessage)} onClose={resetErrorState} redirectTo={errorRedirectTo} />
       <SnetConversionStatus
         isDialogOpen={!isNil(txnInfo.txnLink)}
-        title="Conversion Status"
+        title="Converting AGI[ETH] to AGIX[ADA]"
         amount={txnInfo.txnAmount}
         tokenName={txnInfo.tokenSymbol}
         link={txnInfo.txnLink ?? ''}
@@ -186,7 +186,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
           )}
         </Stack>
         {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? (
-          <ETHTOADAConversionPopup opnePopup={opnePopup} handlePopupClose={handlePopupClose} openLink={openLink} />
+          <ETHTOADAConversionPopup title="Converting AGIX[ETH] to AGIX[ADA]" opnePopup={opnePopup} handlePopupClose={handlePopupClose} openLink={openLink} />
         ) : null}
       </SnetPaper>
     </>
