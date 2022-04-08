@@ -12,7 +12,7 @@ export const useStyles = makeStyles({
   },
   headerContainer: {
     height: 50,
-    borderBottom: '1px solid #f5f7f8',
+    borderBottom: `1px solid ${ColorCodes.border}`,
     alignItems: 'center',
     paddingLeft: 25,
     display: 'flex',
@@ -21,9 +21,9 @@ export const useStyles = makeStyles({
   successMsg: {
     fontSize: 14,
     height: 45,
-    border: '1px solid #00C48C',
+    border: `1px solid ${ColorCodes.successMsgBorder}`,
     borderRadius: 3,
-    backgroundColor: '#E7FFF8'
+    backgroundColor: ColorCodes.successMsgBg
   },
   submitBtn: {
     height: 36,

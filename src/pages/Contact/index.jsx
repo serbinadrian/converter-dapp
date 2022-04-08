@@ -3,6 +3,7 @@ import { Alert, Box, Button, Stack, Typography } from '@mui/material';
 import { useStyles } from './styles';
 import SnetContactInput from '../../components/snet-contact-input';
 import useContactSupportHook from './hooks/contactSupportHook';
+import ColorCodes from '../../assets/theme/colorCodes';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 const options = [
@@ -43,7 +44,7 @@ const Contact = () => {
       <Box display="flex" justifyContent="center" alignItems="center">
         <div className={classes.container}>
           <div className={classes.headerContainer}>
-            <Typography variant="h3" color="#212121">
+            <Typography variant="h3" color={ColorCodes.text}>
               Contact Support
             </Typography>
           </div>
