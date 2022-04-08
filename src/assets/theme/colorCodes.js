@@ -4,7 +4,12 @@ const ColorCodes = {
   black: '#0A0B09',
   gray: '#DBE3E7',
   white: '#FFFFFF',
-  lightGray: '#EEEEEE'
+  lightGray: '#EEEEEE',
+  border: '#f5f7f8',
+  successMsgBorder: '#00C48C',
+  successMsgBg: '#E7FFF8',
+  text: '#212121',
+  lightText: '#424242'
 };
 
 export default ColorCodes;
