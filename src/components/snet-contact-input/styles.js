@@ -2,9 +2,11 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
   field: {
-    fontSize: 12
+    fontSize: 16,
+    color: '#424242',
+    borderRadius: 4
   },
   fieldContainer: {
-    marginBottom: 30
+    paddingBottom: 30
   }
 });

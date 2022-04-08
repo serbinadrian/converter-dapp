@@ -1,9 +1,7 @@
 import { lazy, useState } from 'react';
-import { Alert, Box, Stack, Typography } from '@mui/material';
+import { Alert, Box, Button, Stack, Typography } from '@mui/material';
 import { useStyles } from './styles';
-import SnetPaper from '../../components/snet-paper';
 import SnetContactInput from '../../components/snet-contact-input';
-import SnetButton from '../../components/snet-button';
 import useContactSupportHook from './hooks/contactSupportHook';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
@@ -43,42 +41,48 @@ const Contact = () => {
   return (
     <GeneralLayout>
       <Box display="flex" justifyContent="center" alignItems="center">
-        <SnetPaper className={classes.container}>
-          <Typography variant="body1" borderBottom="1px solid #f5f7f8" marginBottom={4}>
-            Contact Support
-          </Typography>
-          <Stack direction="row" spacing={2}>
-            <SnetContactInput id="name" value={name} onChange={handleNameChange} label="Your Name (Optional)" />
+        <div className={classes.container}>
+          <div className={classes.headerContainer}>
+            <Typography variant="h3" color="#212121">
+              Contact Support
+            </Typography>
+          </div>
+          <Box marginX={3}>
+            <Stack direction="row" spacing={2}>
+              <SnetContactInput id="name" value={name} onChange={handleNameChange} label="Your Name (Optional)" />
+              <SnetContactInput
+                id="email"
+                value={email}
+                onChange={handleEmailChange}
+                label="Email"
+                error={emailError}
+                helperText={emailError ? 'Please enter valid email' : ''}
+              />
+            </Stack>
+            <SnetContactInput id="address" value={address} onChange={handleAddressChange} label="Wallet Address (Optional)" />
+            <SnetContactInput id="bug" fullWidth value={type} onChange={handleTypeChange} label="Bug" select options={options} />
             <SnetContactInput
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-              label="Email"
-              error={emailError}
-              helperText={emailError ? 'Please enter valid email' : ''}
+              id="message"
+              fullWidth
+              value={message}
+              onChange={handleMessageChange}
+              label="Your Message"
+              multiline
+              error={messageError}
+              helperText={messageError ? 'Please enter message' : ''}
             />
-          </Stack>
-          <SnetContactInput id="address" value={address} onChange={handleAddressChange} label="Wallet Address (Optional)" />
-          <SnetContactInput id="bug" fullWidth value={type} onChange={handleTypeChange} label="Bug" select options={options} />
-          <SnetContactInput
-            id="message"
-            fullWidth
-            value={message}
-            onChange={handleMessageChange}
-            label="Your Message"
-            multiline
-            error={messageError}
-            helperText={messageError ? 'Please enter message' : ''}
-          />
-          {showSuccessMessage ? (
-            <Alert icon={false} severity="success" variant="outlined" className={classes.successMsg}>
-              Support request successfully send.
-            </Alert>
-          ) : null}
-          <Stack alignItems="center" justifyContent="center" marginY={2}>
-            <SnetButton name="SUBMIT" onClick={handleSubmitClick} />
-          </Stack>
-        </SnetPaper>
+            {showSuccessMessage ? (
+              <Alert icon={false} severity="success" variant="outlined" className={classes.successMsg}>
+                Support request successfully send.
+              </Alert>
+            ) : null}
+            <Stack alignItems="center" justifyContent="center" marginY={2}>
+              <Button onClick={handleSubmitClick} color="primary" variant="contained" className={classes.submitBtn}>
+                SUBMIT
+              </Button>
+            </Stack>
+          </Box>
+        </div>
       </Box>
     </GeneralLayout>
   );
