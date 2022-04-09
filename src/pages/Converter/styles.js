@@ -5,6 +5,18 @@ const styles = {
     display: 'flex',
     justifyContent: 'center'
   },
+  pendingTxnAlertContainer: {
+    '& > div': {
+      display: 'flex',
+      justifyContent: 'center',
+      '& > div': {
+        '& div': {
+          display: 'flex',
+          alignItems: 'center'
+        }
+      }
+    }
+  },
   welcome: {
     color: '#000',
     fontSize: 32,

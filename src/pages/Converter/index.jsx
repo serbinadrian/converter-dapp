@@ -1,6 +1,6 @@
 import { lazy, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Grid from '@mui/material/Grid';
+import { Grid, Box } from '@mui/material';
 import { availableBlockchains } from '../../utils/ConverterConstants';
 import { setAdaConversionInfo, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import PendingTxnAlert from './PendingTxnAlert';
@@ -24,7 +24,9 @@ const Converter = () => {
 
   return (
     <GeneralLayout>
-      <PendingTxnAlert />
+      <Box sx={styles.pendingTxnAlertContainer}>
+        <PendingTxnAlert />
+      </Box>
       {conversionDirection === availableBlockchains.CARDANO ? (
         <Grid display="flex" justifyContent="center">
           <Grid item>
