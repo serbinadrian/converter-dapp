@@ -34,6 +34,13 @@ const SnetConversionOptions = ({
     handleSelectToken(token);
   };
 
+  const addEllipsisInBetweenString = (str) => {
+    if (str.length) {
+      return `${str.substr(0, 6)}...${str.substr(str.length - 6)}`;
+    }
+    return str;
+  };
+
   return (
     <>
       <Stack spacing={1} direction="row" alignItems="center" marginBottom={2} justifyContent="space-between" id={`conversion-direction-${id}`}>

@@ -29,7 +29,16 @@ const styles = {
     padding: '40px 31px 90px 32px',
     backgroundColor: colorCodes.white,
     background: 'linear-gradient(180deg, #E6EAFF 0.06%, #CAA7F9 100%);',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    '& ul > div': {
+      borderBottom: '1px solid rgba(255, 255, 255, .5)',
+      '& a': {
+        '&:hover': {
+          color: '#4F13E0',
+          fontWeight: 600
+        }
+      }
+    }
   },
   welcomeIntro: {
     marginTop: '16px',
@@ -49,14 +58,14 @@ const styles = {
     letterSpacing: 0.25,
     lineHeight: '34px'
   },
-  listDivider: {
-    background: '#fff'
-  },
   viewAllLink: {
+    marginTop: 24,
+    display: 'inline-block',
     color: '#512DA8',
     fontSize: 14,
     fontWeight: 600,
-    letterSpacing: 0.17
+    letterSpacing: 0.17,
+    lineHeight: '18px'
   },
   padding: {
     padding: '2rem'
