@@ -91,7 +91,8 @@ export class ConverterPipeLineStack extends cdk.Stack {
       sources: [deploy.Source.asset('../build')],
       destinationBucket: siteBucket,
       distribution: siteDistribution,
-      distributionPaths: ['/*']
+      distributionPaths: ['/*'],
+      prune: true,
     });
 
     // const zone = route53.HostedZone.fromLookup(this, 'baseZone', {
