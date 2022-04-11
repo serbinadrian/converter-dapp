@@ -83,6 +83,8 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     } catch (exception) {
       setErrorMessage(exception?.message || String(exception));
       seterrorRedirectTo(exception?.redirectTo || null);
+    } finally {
+      getAllowanceInfo(fromTokenPair.id, fromAndToTokenValues.fromValue);
     }
   };
 
