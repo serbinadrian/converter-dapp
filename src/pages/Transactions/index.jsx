@@ -33,7 +33,7 @@ const Transactions = () => {
           <div className={classes.EmptyTransactionHistoryContainer}>
             <Typography>Wallet not connected.</Typography>
             <Typography variant="body2" marginY={3}>
-              Please connect your wallet to view the transaction history.
+              Please connect both your wallets to view the transaction history
             </Typography>
             <SnetButton name="Connect Wallets" variant="outlined" onClick={toggleWalletConnecting} />
           </div>
