@@ -38,7 +38,7 @@ const Converter = () => {
           <Grid item xs={12} md={4}>
             <WelcomeBox />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={styles.converterBox}>
             <ERC20TOADA onADATOETHConversion={onADATOETHConversion} />
           </Grid>
         </Grid>

@@ -45,16 +45,16 @@ const SnetConversionOptions = ({
     <>
       <Stack spacing={1} direction="row" alignItems="center" marginBottom={2} justifyContent="space-between" id={`conversion-direction-${id}`}>
         <Stack spacing={1} direction="row" alignItems="center">
-          <Typography minWidth="60px" variant="h5">
-            {direction}
-          </Typography>
+          <Typography sx={styles.dropDownLabel}>{direction}</Typography>
           {blockchains ? (
             <BlockchainDropdown value={selectedBlockchain} handleSelect={onSelectBlockchain} tokens={blockchains} id="snet-conversion-input" />
           ) : null}
         </Stack>
         <Stack spacing={1} direction="row" alignItems="center" id={`wallet-address-${id}`}>
-          <WalletIcon color="grey" sx={styles.walletIconSize} />
-          <Typography sx={styles.walletNotSelected}>{walletAddress}</Typography>
+          <WalletIcon sx={styles.walletIcon} />
+          <Typography sx={styles.walletAddress}>
+            {walletAddress === null || walletAddress === undefined ? 'Wallet Not Selected' : addEllipsisInBetweenString(walletAddress)}
+          </Typography>
         </Stack>
       </Stack>
       <InputWithAssetDropdown
@@ -89,8 +89,8 @@ SnetConversionOptions.propTypes = {
 SnetConversionOptions.defaultProps = {
   blockchains: [],
   tokenPairs: [],
-  readOnly: false,
-  walletAddress: 'Wallet Not Selected'
+  readOnly: false
+  // walletAddress: (value) => (value === 'null' || value === 'undefined' ? 'Wallet Not Selected' : value)
 };
 
 export default SnetConversionOptions;

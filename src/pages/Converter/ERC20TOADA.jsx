@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, Box } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { toUpper, isEmpty, isNil } from 'lodash';
 import SnetPaper from '../../components/snet-paper';
@@ -16,6 +16,7 @@ import SnetConversionStatus from '../../components/snet-conversion-status';
 import ADATOETHButton from '../../components/snet-converter-form-buttons/ADATOETHButton';
 import ETHTOADAButton from '../../components/snet-converter-form-buttons/ETHTOADAButton';
 import SnetSnackbar from '../../components/snet-snackbar';
+import styles from './styles';
 
 const ERC20TOADA = ({ onADATOETHConversion }) => {
   const { blockchains, wallet } = useSelector((state) => state);
@@ -133,51 +134,55 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
         {blockchainStatus ? (
           <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
         ) : null}
-        <TokenPairs
-          fromBlockchains={fromBlockchains}
-          fromSelectedBlockchain={fromSelectedBlockchain}
-          toBlockchains={toBlockchains}
-          toSelectedBlockchain={toSelectedBlockchain}
-          handleFromBlockchainSelection={handleFromBlockchainSelection}
-          handleToBlockchainSelection={handleToBlockchainSelection}
-          onSwapBlockchain={() => swapBlockchains(fromAndToTokenValues.fromValue)}
-          fromTokenPair={fromTokenPair}
-          toTokenPair={toTokenPair}
-          onSelectingFromToken={onSelectingFromToken}
-          onSelectingToToken={onSelectingToToken}
-          onUseFullamount={onUseFullamount}
-          fromInputChange={handleFromInputChange}
-          toInputChange={handleToInputChange}
-          fromInputValue={fromAndToTokenValues.fromValue}
-          toInputValue={fromAndToTokenValues.toValue}
-          conversionFee={conversionCharge.amount}
-          conversionSymbol={conversionCharge.symbol}
-          walletBalance={walletBalance.balance}
-          walletTokenSymbol={walletBalance.symbol}
-        />
-        {error.error && error.message.length ? (
-          <Stack marginTop={4}>
-            <SnetAlert error={error.message} />
+        <Box style={styles.ethAdaConversionBox}>
+          <TokenPairs
+            fromBlockchains={fromBlockchains}
+            fromSelectedBlockchain={fromSelectedBlockchain}
+            toBlockchains={toBlockchains}
+            toSelectedBlockchain={toSelectedBlockchain}
+            handleFromBlockchainSelection={handleFromBlockchainSelection}
+            handleToBlockchainSelection={handleToBlockchainSelection}
+            onSwapBlockchain={() => swapBlockchains(fromAndToTokenValues.fromValue)}
+            fromTokenPair={fromTokenPair}
+            toTokenPair={toTokenPair}
+            onSelectingFromToken={onSelectingFromToken}
+            onSelectingToToken={onSelectingToToken}
+            onUseFullamount={onUseFullamount}
+            fromInputChange={handleFromInputChange}
+            toInputChange={handleToInputChange}
+            fromInputValue={fromAndToTokenValues.fromValue}
+            toInputValue={fromAndToTokenValues.toValue}
+            conversionFee={conversionCharge.amount}
+            conversionSymbol={conversionCharge.symbol}
+            walletBalance={walletBalance.balance}
+            walletTokenSymbol={walletBalance.symbol}
+          />
+        </Box>
+        <Box style={styles.alertAndBtnContainer}>
+          {wallet.conversionDirection === conversionDirections.ETH_TO_ADA ? (
+            <Stack direction="row" alignItems="center">
+              <InfoIcon style={styles.infoBoxIcon} />
+              <Typography style={styles.infoBoxMsg}>Allow SingularityNET Bridge to use ethereum tokens from your wallet</Typography>
+            </Stack>
+          ) : null}
+          {error.error && error.message.length ? (
+            <Stack marginTop={1}>
+              <SnetAlert error={error.message} />
+            </Stack>
+          ) : null}
+          <Stack direction="row" alignItems="center" justifyContent="center" marginTop={3}>
+            {wallet.conversionDirection === conversionDirections.ADA_TO_ETH ? (
+              <ADATOETHButton conversionEnabled={!error.message.length && !isNil(fromAddress)} onClickConvert={getConversionIdForADATOETH} />
+            ) : (
+              <ETHTOADAButton
+                conversionEnabled={conversionEnabled && !error.error}
+                authorizationRequired={authorizationRequired}
+                onClickConvert={onETHToADAConversion}
+                onClickAuthorize={onClickAuthorize}
+              />
+            )}
           </Stack>
-        ) : null}
-        {wallet.conversionDirection === conversionDirections.ETH_TO_ADA ? (
-          <Stack direction="row" alignItems="center" spacing={1} marginTop={2}>
-            <InfoIcon fontSize="small" />
-            <Typography variant="h6">Allow SingularityNET Bridge to use ethereum tokens from your wallet</Typography>
-          </Stack>
-        ) : null}
-        <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
-          {wallet.conversionDirection === conversionDirections.ADA_TO_ETH ? (
-            <ADATOETHButton conversionEnabled={!error.message.length && !isNil(fromAddress)} onClickConvert={getConversionIdForADATOETH} />
-          ) : (
-            <ETHTOADAButton
-              conversionEnabled={conversionEnabled && !error.error}
-              authorizationRequired={authorizationRequired}
-              onClickConvert={onETHToADAConversion}
-              onClickAuthorize={onClickAuthorize}
-            />
-          )}
-        </Stack>
+        </Box>
       </SnetPaper>
     </>
   );

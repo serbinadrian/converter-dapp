@@ -71,12 +71,31 @@ const styles = {
     padding: '2rem'
   },
   iconButton: {
+    padding: 0,
     backgroundColor: colorCodes.lightBlue,
     color: colorCodes.white,
+    '& svg': { fontSize: 48 },
     '&:hover': { backgroundColor: colorCodes.lightBlue, color: colorCodes.white }
   },
-  list: {
-    backgroundColor: 'red'
+  list: { backgroundColor: 'red' },
+  converterBox: { '& > div': { padding: 0 } },
+  ethAdaConversionBox: { padding: '52px 50px 0' },
+  alertAndBtnContainer: {
+    padding: '15px 50px 52px',
+    borderRadius: '0 0 8px 8px',
+    marginTop: 20,
+    backgroundColor: '#FAFAFA'
+  },
+  infoBoxIcon: {
+    marginRight: 4,
+    color: '#9b9b9b',
+    fontSize: 20
+  },
+  infoBoxMsg: {
+    color: '#212121',
+    fontSize: 14,
+    letterSpacing: -0.22,
+    lineHeight: '18px'
   }
 };
 
