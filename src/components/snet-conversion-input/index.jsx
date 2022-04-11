@@ -90,7 +90,6 @@ SnetConversionOptions.defaultProps = {
   blockchains: [],
   tokenPairs: [],
   readOnly: false
-  // walletAddress: (value) => (value === 'null' || value === 'undefined' ? 'Wallet Not Selected' : value)
 };
 
 export default SnetConversionOptions;
