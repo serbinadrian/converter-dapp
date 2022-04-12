@@ -1,26 +1,25 @@
-import { MenuItem, TextField } from '@mui/material';
+import { MenuItem, Stack, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useStyles } from './styles';
 
 const SnetContactInput = ({ id, value, onChange, label, select, multiline, options, helperText, error }) => {
   const classes = useStyles();
   return (
-    <div className={classes.fieldContainer}>
+    <Stack marginBottom={3} width="100%">
       <TextField
         id={id}
         fullWidth
         value={value}
         onChange={onChange}
-        size="small"
         label={label}
         select={select}
         multiline={multiline}
         rows={multiline ? 5 : 1}
         InputProps={{
           className: classes.field,
-          style: { fontSize: 16 }
+          style: { height: multiline ? 168 : 56 }
         }}
-        InputLabelProps={{ style: { fontSize: 16 } }}
+        InputLabelProps={{ className: classes.field }}
         helperText={helperText}
         error={error}
       >
@@ -30,7 +29,7 @@ const SnetContactInput = ({ id, value, onChange, label, select, multiline, optio
           </MenuItem>
         ))}
       </TextField>
-    </div>
+    </Stack>
   );
 };
 

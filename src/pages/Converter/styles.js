@@ -67,6 +67,18 @@ const styles = {
     display: 'flex',
     justifyContent: 'center'
   },
+  pendingTxnAlertContainer: {
+    '& > div': {
+      display: 'flex',
+      justifyContent: 'center',
+      '& > div': {
+        '& div': {
+          display: 'flex',
+          alignItems: 'center'
+        }
+      }
+    }
+  },
   welcome: {
     color: '#000',
     fontSize: 32,
@@ -79,7 +91,16 @@ const styles = {
     padding: '40px 31px 90px 32px',
     backgroundColor: colorCodes.white,
     background: 'linear-gradient(180deg, #E6EAFF 0.06%, #CAA7F9 100%);',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    '& ul > div': {
+      borderBottom: '1px solid rgba(255, 255, 255, .5)',
+      '& a': {
+        '&:hover': {
+          color: '#4F13E0',
+          fontWeight: 600
+        }
+      }
+    }
   },
   welcomeIntro: {
     marginTop: '16px',
@@ -99,25 +120,44 @@ const styles = {
     letterSpacing: 0.25,
     lineHeight: '34px'
   },
-  listDivider: {
-    background: '#fff'
-  },
   viewAllLink: {
+    marginTop: 24,
+    display: 'inline-block',
     color: '#512DA8',
     fontSize: 14,
     fontWeight: 600,
-    letterSpacing: 0.17
+    letterSpacing: 0.17,
+    lineHeight: '18px'
   },
   padding: {
     padding: '2rem'
   },
   iconButton: {
+    padding: 0,
     backgroundColor: colorCodes.lightBlue,
     color: colorCodes.white,
+    '& svg': { fontSize: 48 },
     '&:hover': { backgroundColor: colorCodes.lightBlue, color: colorCodes.white }
   },
-  list: {
-    backgroundColor: 'red'
+  list: { backgroundColor: 'red' },
+  converterBox: { '& > div': { padding: 0 } },
+  ethAdaConversionBox: { padding: '52px 50px 0' },
+  alertAndBtnContainer: {
+    padding: '15px 50px 52px',
+    borderRadius: '0 0 8px 8px',
+    marginTop: 20,
+    backgroundColor: '#FAFAFA'
+  },
+  infoBoxIcon: {
+    marginRight: 4,
+    color: '#9b9b9b',
+    fontSize: 20
+  },
+  infoBoxMsg: {
+    color: '#212121',
+    fontSize: 14,
+    letterSpacing: -0.22,
+    lineHeight: '18px'
   }
 };
 

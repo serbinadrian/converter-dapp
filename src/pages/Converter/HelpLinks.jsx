@@ -16,20 +16,25 @@ const HelpLinks = () => {
   ];
 
   return (
-    <List>
-      {links.map((link) => {
-        return (
-          <Fragment key={link.name}>
-            <ListItemText style={styles.listItem}>
-              <Link target="_blank" rel="noopener noreferrer" href={link.url} color="inherit" underline="none" style={styles.listItemText}>
-                {link.name}
-              </Link>
-            </ListItemText>
-            <Divider style={styles.listDivider} />
-          </Fragment>
-        );
-      })}
-    </List>
+    <>
+      <List>
+        {links.map((link) => {
+          return (
+            <Fragment key={link.name}>
+              <ListItemText style={styles.listItem}>
+                <Link target="_blank" rel="noopener noreferrer" href={link.url} color="inherit" underline="none" style={styles.listItemText}>
+                  {link.name}
+                </Link>
+              </ListItemText>
+              {/* <Divider style={styles.listDivider} /> */}
+            </Fragment>
+          );
+        })}
+      </List>
+      <a style={styles.viewAllLink} href={Paths.Gitbook} title="View all help topics" target="_blank" rel="noreferrer">
+        View all help topics
+      </a>
+    </>
   );
 };
 
