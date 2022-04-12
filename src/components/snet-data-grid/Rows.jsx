@@ -68,34 +68,6 @@ const Rows = ({
     return component;
   };
 
-  // const conversionStatus = (status, onContinue) => {
-  //   let component;
-  //   switch (status) {
-  //     case conversionDirection === conversionDirections.ADA_TO_ETH && conversionStatuses.USER_INITIATED:
-  //       component = <SnetButton name="View" onClick={onContinue} variant="outlined" />;
-  //       break;
-
-  //     case conversionStatuses.PROCESSING:
-  //     case conversionStatuses.USER_INITIATED:
-  //       component = <HourglassBottomIcon fontSize="small" color="primary" />;
-  //       break;
-
-  //     case conversionStatuses.SUCCESS:
-  //       component = <SuccessIcon fontSize="small" color="success" />;
-  //       break;
-
-  //     case conversionStatuses.WAITING_FOR_CLAIM:
-  //       component = <SnetButton name="Continue" onClick={onContinue} variant="outlined" />;
-  //       break;
-
-  //     default:
-  //       component = <WarningIcon fontSize="small" color="warning" />;
-  //       break;
-  //   }
-
-  //   return component;
-  // };
-
   const copyToClipboard = async (str) => {
     await navigator.clipboard.writeText(str);
   };
@@ -161,7 +133,6 @@ const Rows = ({
           </div>
         </Grid>
         <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
-          {/* {conversionStatus(status, handleResume)} */}
           {conversionDirection === conversionDirections.ADA_TO_ETH && conversionStatuses.USER_INITIATED ? (
             <SnetButton name="View" onClick={handleResume} variant="outlined" />
           ) : null}
