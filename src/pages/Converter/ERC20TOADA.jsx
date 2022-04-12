@@ -185,22 +185,22 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
             <Stack marginTop={1}>
               <SnetAlert error={error.message} />
             </Stack>
-        ) : null}
-        <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
-          {wallet.conversionDirection === conversionDirections.ADA_TO_ETH ? (
-            <ADATOETHButton conversionEnabled={!error.message.length && !isNil(fromAddress)} onClickConvert={getConversionIdForADATOETH} />
-          ) : (
-            <ETHTOADAButton
-              conversionEnabled={conversionEnabled && !error.error}
-              authorizationRequired={authorizationRequired}
-              onClickConvert={onETHToADAConversion}
-              onClickAuthorize={onClickAuthorize}
-            />
-          )}
-        </Stack>
-        {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? (
-          <ETHTOADAConversionPopup title={formatConversionTitle()} opnePopup handlePopupClose={handlePopupClose} openLink={openLink} />
-        ) : null}
+          ) : null}
+          <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
+            {wallet.conversionDirection === conversionDirections.ADA_TO_ETH ? (
+              <ADATOETHButton conversionEnabled={!error.message.length && !isNil(fromAddress)} onClickConvert={getConversionIdForADATOETH} />
+            ) : (
+              <ETHTOADAButton
+                conversionEnabled={conversionEnabled && !error.error}
+                authorizationRequired={authorizationRequired}
+                onClickConvert={onETHToADAConversion}
+                onClickAuthorize={onClickAuthorize}
+              />
+            )}
+          </Stack>
+          {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? (
+            <ETHTOADAConversionPopup title={formatConversionTitle()} opnePopup handlePopupClose={handlePopupClose} openLink={openLink} />
+          ) : null}
         </Box>
       </SnetPaper>
     </>
