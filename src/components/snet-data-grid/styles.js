@@ -101,6 +101,8 @@ export const useStyles = makeStyles({
     }
   },
   statusValueContainer: {
+    display: 'flex',
+    alignItems: 'center',
     '& p': {
       fontSize: 14,
       lineHeight: '18px'
