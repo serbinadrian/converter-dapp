@@ -1,13 +1,15 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import propTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import ProgressIcon from '@mui/icons-material/HourglassBottom';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import SnetDialog from '../snet-dialog';
 import ColorCodes from '../../assets/theme/colorCodes';
 import SnetButton from '../snet-button';
 import paths from '../../router/paths';
+import { useStyles } from './styles';
 
 const SnetConversionStatus = ({ link, isDialogOpen, onDialogClose, title, amount, tokenName }) => {
+  const classes = useStyles();
   const navigate = useNavigate();
 
   const openLink = () => {
@@ -15,30 +17,30 @@ const SnetConversionStatus = ({ link, isDialogOpen, onDialogClose, title, amount
   };
 
   return (
-    <SnetDialog isDialogOpen={isDialogOpen} onDialogClose={onDialogClose} title={title} showClosebutton>
-      <Grid item xs={12} padding={4}>
-        <Box paddingY={2} display="flex" alignItems="center">
-          <ProgressIcon color="warning" />
+    <SnetDialog isDialogOpen={isDialogOpen} onDialogClose={onDialogClose} title={title} showClosebutton className={classes.ethToAdaTransactionReceiptContainer}>
+      <div>
+        <Box display="flex" alignItems="center" className={classes.progressSection}>
+          <CheckCircleOutlineIcon />
           <Typography align="center" color="grey" variant="body2" marginLeft={2}>
             Tokens conversion successfully initiated.
           </Typography>
         </Box>
-        <Box minWidth={640}>
+        <Box minWidth={540} className={classes.transactionReceiptContent}>
           <Typography variant="body2" marginY={2}>
             Transaction Receipt
           </Typography>
-          <Box display="flex" alignItems="center" justifyContent="space-between" padding={4} sx={{ backgroundColor: `${ColorCodes.lightGray} !important` }}>
+          <Box className={classes.transactionDetails}>
             <Typography variant="body2">Tokens Converted</Typography>
             <Typography variant="body1">
               {amount} {tokenName}
             </Typography>
           </Box>
-          <Box display="flex" alignItems="center" justifyContent="space-evenly" padding={4}>
-            <SnetButton variant="text" onClick={openLink} name="View Transaction" />
+          <Box className={classes.transactionReceiptActions}>
+            <SnetButton variant="text" onClick={openLink} name="View Transaction history" />
             <SnetButton onClick={onDialogClose} name="Finish" />
           </Box>
         </Box>
-      </Grid>
+      </div>
     </SnetDialog>
   );
 };

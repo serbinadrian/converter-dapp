@@ -91,7 +91,7 @@ const Rows = ({
 
   const shrinkId = (str) => {
     if (id.length) {
-      return `${str.substr(0, 15)}...`;
+      return `${str.substr(0, 18)}...`;
     }
     return str;
   };
