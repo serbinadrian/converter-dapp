@@ -35,10 +35,10 @@ const Converter = () => {
         </Grid>
       ) : (
         <Grid display="flex" alignItems="flex-start" container spacing={2} sx={styles.homePageContainer}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={5}>
             <WelcomeBox />
           </Grid>
-          <Grid item xs={12} md={6} sx={styles.converterBox}>
+          <Grid item xs={12} md={7} sx={styles.converterBox}>
             <ERC20TOADA onADATOETHConversion={onADATOETHConversion} />
           </Grid>
         </Grid>

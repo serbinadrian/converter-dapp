@@ -39,17 +39,13 @@ const WalletMenu = ({ openConnectedWallets }) => {
           </Box>
         </Box>
         {!isEmpty(wallets) ? (
-          <Box onClick={openConnectedWallets} className={classes.flex} sx={{ cursor: 'pointer' }}>
+          <Box onClick={openConnectedWallets} className={classes.walletConnectionInfo}>
             <IconButton>
               <AccountBalanceWalletIcon />
             </IconButton>
-            <Box sx={{ textAlign: 'left', marginLeft: 2 }}>
-              <Typography variant="body2" marginBottom={-1.5}>
-                Wallet Account
-              </Typography>
-              <Typography variant="caption" color="primary">
-                {size(wallets)} Connected
-              </Typography>
+            <Box>
+              <Typography>Wallet Account</Typography>
+              <span>{size(wallets)} Connected</span>
             </Box>
           </Box>
         ) : (

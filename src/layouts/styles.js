@@ -8,7 +8,7 @@ export const useStyles = makeStyles({
     backgroundSize: 'cover'
   },
   wrapper: {
-    maxWidth: 1400,
+    maxWidth: 1063,
     margin: '0 auto'
   }
 });
