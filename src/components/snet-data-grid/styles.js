@@ -157,7 +157,8 @@ export const useStyles = makeStyles({
     '& div p': {
       color: '#9B9B9B',
       fontSize: 14,
-      letterSpacing: 0.17
+      letterSpacing: 0.17,
+      lineHeight: '18px'
     }
   },
   expandedDataRows: {
