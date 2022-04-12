@@ -116,5 +116,6 @@ export const blockchainStatusLabels = {
   ON_CONFIRMING_TXN: { title: 'Wallet Interaction', message: 'Please confirm transaction from your wallet...', showConversionProgressModal: false },
   ON_TXN_HASH: { title: 'Transaction', message: 'Waiting for transaction to be mined...', showConversionProgressModal: true },
   ON_UPDATING_TXN_STATUS: { title: 'Transaction', message: 'Updating transaction status...', showConversionProgressModal: false },
-  ON_APPROVING_SPEND_LIMIT: { title: 'Wallet Interaction', message: 'Approving spend limit...', showConversionProgressModal: false }
+  ON_APPROVING_SPEND_LIMIT: { title: 'Wallet Interaction', message: 'Approving spend limit...', showConversionProgressModal: false },
+  RESET_CONVERSION_LABEL: { title: '', message: '', showConversionProgressModal: false }
 };
