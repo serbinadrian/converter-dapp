@@ -29,7 +29,6 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const { blockchains, wallet } = useSelector((state) => state);
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorRedirectTo, seterrorRedirectTo] = useState(null);
-  const [opnePopup, setOpenPopup] = useState(true);
   const { conversionDirection } = useSelector((state) => state.wallet);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
   const { conversion } = useSelector(
@@ -70,6 +69,8 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     txnInfo,
   } = useERC20TokenHook();
   const { toAddress, fromAddress, wallets } = wallet;
+
+  const dispatch = useDispatch();
 
   const getBalanceFromWallet = async () => {
     const balanceInfo = await fetchWalletBalance(fromTokenPair.token_address);
@@ -149,12 +150,18 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   }
 
   const formatConversionTitle = () => {
-    const from = `${fromTokenPair.symbol} [${fromTokenPair.blockchain.name}]`;
-    const to = `${toTokenPair.symbol} [${toTokenPair.blockchain.name}]`;
-    return `Converting ${from} to ${to}`;
+    if (fromTokenPair) {
+      const from = `${fromTokenPair.symbol} [${fromTokenPair.blockchain.name}]`;
+      const to = `${toTokenPair.symbol} [${toTokenPair.blockchain.name}]`;
+      return `Converting ${from} to ${to}`;
+    }
+    return '';
   };
 
-  const handlePopupClose = () => setOpenPopup(false);
+  const handlePopupClose = () => {
+    dispatch(setBlockchainStatus(blockchainStatusLabels.RESET_CONVERSION_LABEL));
+  };
+
   const openLink = () => navigate(Paths.Transactions);
   return (
     <>

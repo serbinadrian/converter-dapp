@@ -16,7 +16,6 @@ const GeneralLayout = ({ children }) => {
   const { entities } = useSelector((state) => state.blockchains);
   const { userSelecteNetworkId } = useWalletHook();
   const [openModal, setOpenModal] = useState(false);
-  const handleClose = () => setOpenModal(false);
 
   useEffect(() => {
     if (!isNil(userSelecteNetworkId)) {
@@ -39,7 +38,7 @@ const GeneralLayout = ({ children }) => {
 
   return (
     <>
-      <SnetModal open={openModal} handleClose={handleClose} heading="Unsupported Network" message={getNetworkName()} />
+      <SnetModal open={openModal} heading="Unsupported Network" message={getNetworkName()} />
       <Menubar blockchains={entities} />
       <div className={classes.mainContainer}>
         <div className={classes.wrapper}>{children}</div>
