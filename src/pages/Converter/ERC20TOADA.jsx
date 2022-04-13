@@ -1,28 +1,25 @@
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import propTypes from "prop-types";
-import { Stack, Typography, Box } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import { toUpper, isEmpty, isNil } from "lodash";
-import SnetPaper from "../../components/snet-paper";
-import useConverterHook from "./hooks/ConverterHook";
-import ConversionFormLoader from "./ConversionFormLoader";
-import TokenPairs from "./TokenPairs";
-import useERC20TokenHook from "./hooks/ERC20TokenHook";
-import {
-  availableBlockchains,
-  conversionDirections,
-} from "../../utils/ConverterConstants";
-import SnetAlert from "../../components/snet-alert";
-import SnetLoader from "../../components/snet-loader";
-import SnetConversionStatus from "../../components/snet-conversion-status";
-import ADATOETHButton from "../../components/snet-converter-form-buttons/ADATOETHButton";
-import ETHTOADAButton from "../../components/snet-converter-form-buttons/ETHTOADAButton";
-import SnetSnackbar from "../../components/snet-snackbar";
-import Paths from "../../router/paths";
-import ETHTOADAConversionPopup from "./ETHTOADAConversionPopup";
-import styles from "./styles";
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import propTypes from 'prop-types';
+import { Stack, Typography, Box } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import { toUpper, isEmpty, isNil } from 'lodash';
+import SnetPaper from '../../components/snet-paper';
+import useConverterHook from './hooks/ConverterHook';
+import ConversionFormLoader from './ConversionFormLoader';
+import TokenPairs from './TokenPairs';
+import useERC20TokenHook from './hooks/ERC20TokenHook';
+import { availableBlockchains, conversionDirections } from '../../utils/ConverterConstants';
+import SnetAlert from '../../components/snet-alert';
+import SnetLoader from '../../components/snet-loader';
+import SnetConversionStatus from '../../components/snet-conversion-status';
+import ADATOETHButton from '../../components/snet-converter-form-buttons/ADATOETHButton';
+import ETHTOADAButton from '../../components/snet-converter-form-buttons/ETHTOADAButton';
+import SnetSnackbar from '../../components/snet-snackbar';
+import Paths from '../../router/paths';
+import ETHTOADAConversionPopup from './ETHTOADAConversionPopup';
+import styles from './styles';
 
 const ERC20TOADA = ({ onADATOETHConversion }) => {
   const navigate = useNavigate();
@@ -31,9 +28,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const [errorRedirectTo, seterrorRedirectTo] = useState(null);
   const { conversionDirection } = useSelector((state) => state.wallet);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
-  const { conversion } = useSelector(
-    (state) => state.tokenPairs.conversionOfAdaToEth
-  );
+  const { conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
   const {
     fromBlockchains,
     toBlockchains,
@@ -54,7 +49,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     error,
     updateWalletBalance,
     walletBalance,
-    resetFromAndToValues,
+    resetFromAndToValues
   } = useConverterHook();
   const {
     mintERC20Tokens,
@@ -66,7 +61,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     approveSpendLimit,
     isLoading,
     burnERC20Tokens,
-    txnInfo,
+    txnInfo
   } = useERC20TokenHook();
   const { toAddress, fromAddress, wallets } = wallet;
 
@@ -78,21 +73,13 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   };
 
   useEffect(() => {
-    if (
-      !isEmpty(fromTokenPair) &&
-      toUpper(fromTokenPair.blockchain.name) ===
-        availableBlockchains.ETHEREUM &&
-      Number(fromAndToTokenValues.fromValue) > 0
-    ) {
+    if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM && Number(fromAndToTokenValues.fromValue) > 0) {
       getAllowanceInfo(fromTokenPair.id, fromAndToTokenValues.fromValue);
     }
   }, [fromAndToTokenValues, conversionDirection, wallets]);
 
   useEffect(() => {
-    if (
-      !isEmpty(fromTokenPair) &&
-      toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM
-    ) {
+    if (!isEmpty(fromTokenPair) && toUpper(fromTokenPair.blockchain.name) === availableBlockchains.ETHEREUM) {
       getBalanceFromWallet();
     }
   }, [fromTokenPair, wallets, fromAndToTokenValues, conversionDirection]);
@@ -110,11 +97,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 
   const getConversionIdForADATOETH = async () => {
     try {
-      const conversionInfo = await mintERC20Tokens(
-        fromTokenPair.id,
-        fromAndToTokenValues.fromValue,
-        fromAddress
-      );
+      const conversionInfo = await mintERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, fromAddress);
       onADATOETHConversion(conversionInfo);
     } catch (exception) {
       setErrorMessage(exception?.message || String(exception));
@@ -124,11 +107,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 
   const onETHToADAConversion = async () => {
     try {
-      await burnERC20Tokens(
-        fromTokenPair.id,
-        fromAndToTokenValues.fromValue,
-        toAddress
-      );
+      await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
       resetFromAndToValues();
     } catch (exception) {
       setErrorMessage(exception?.message || String(exception));
@@ -165,28 +144,18 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const openLink = () => navigate(Paths.Transactions);
   return (
     <>
-      <SnetSnackbar
-        open={!isNil(errorMessage)}
-        message={String(errorMessage)}
-        onClose={resetErrorState}
-        redirectTo={errorRedirectTo}
-      />
+      <SnetSnackbar open={!isNil(errorMessage)} message={String(errorMessage)} onClose={resetErrorState} redirectTo={errorRedirectTo} />
       <SnetConversionStatus
         isDialogOpen={!isNil(txnInfo.txnLink)}
         title="Converting AGI[ETH] to AGIX[ADA]"
         amount={txnInfo.txnAmount}
         tokenName={txnInfo.tokenSymbol}
-        link={txnInfo.txnLink ?? ""}
+        link={txnInfo.txnLink ?? ''}
         onDialogClose={resetTxnInfo}
       />
       <SnetPaper>
         {blockchainStatus && !blockchainStatus?.showConversionProgressModal ? (
-          <SnetLoader
-            dialogBody={blockchainStatus.message}
-            onDialogClose={() => {}}
-            isDialogOpen={isLoading}
-            dialogTitle={blockchainStatus.title}
-          />
+          <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
         ) : null}
         <Box style={styles.ethAdaConversionBox}>
           <TokenPairs
@@ -196,9 +165,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
             toSelectedBlockchain={toSelectedBlockchain}
             handleFromBlockchainSelection={handleFromBlockchainSelection}
             handleToBlockchainSelection={handleToBlockchainSelection}
-            onSwapBlockchain={() =>
-              swapBlockchains(fromAndToTokenValues.fromValue)
-            }
+            onSwapBlockchain={() => swapBlockchains(fromAndToTokenValues.fromValue)}
             fromTokenPair={fromTokenPair}
             toTokenPair={toTokenPair}
             onSelectingFromToken={onSelectingFromToken}
@@ -218,10 +185,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
           {wallet.conversionDirection === conversionDirections.ETH_TO_ADA ? (
             <Stack direction="row" alignItems="center">
               <InfoIcon style={styles.infoBoxIcon} />
-              <Typography style={styles.infoBoxMsg}>
-                Allow SingularityNET Bridge to use ethereum tokens from your
-                wallet
-              </Typography>
+              <Typography style={styles.infoBoxMsg}>Allow SingularityNET Bridge to use ethereum tokens from your wallet</Typography>
             </Stack>
           ) : null}
           {error.error && error.message.length ? (
@@ -229,18 +193,9 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
               <SnetAlert error={error.message} />
             </Stack>
           ) : null}
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={2}
-            justifyContent="center"
-            padding={4}
-          >
+          <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" padding={4}>
             {wallet.conversionDirection === conversionDirections.ADA_TO_ETH ? (
-              <ADATOETHButton
-                conversionEnabled={!error.message.length && !isNil(fromAddress)}
-                onClickConvert={getConversionIdForADATOETH}
-              />
+              <ADATOETHButton conversionEnabled={!error.message.length && !isNil(fromAddress)} onClickConvert={getConversionIdForADATOETH} />
             ) : (
               <ETHTOADAButton
                 conversionEnabled={conversionEnabled && !error.error}
@@ -250,14 +205,8 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
               />
             )}
           </Stack>
-          {blockchainStatus !== null &&
-          blockchainStatus?.showConversionProgressModal ? (
-            <ETHTOADAConversionPopup
-              title={formatConversionTitle()}
-              opnePopup
-              handlePopupClose={handlePopupClose}
-              openLink={openLink}
-            />
+          {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? (
+            <ETHTOADAConversionPopup title={formatConversionTitle()} opnePopup handlePopupClose={handlePopupClose} openLink={openLink} />
           ) : null}
         </Box>
       </SnetPaper>
@@ -266,7 +215,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 };
 
 ERC20TOADA.propTypes = {
-  onADATOETHConversion: propTypes.func.isRequired,
+  onADATOETHConversion: propTypes.func.isRequired
 };
 
 export default ERC20TOADA;
