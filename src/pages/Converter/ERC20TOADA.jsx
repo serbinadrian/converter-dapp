@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import propTypes from 'prop-types';
@@ -10,7 +10,7 @@ import useConverterHook from './hooks/ConverterHook';
 import ConversionFormLoader from './ConversionFormLoader';
 import TokenPairs from './TokenPairs';
 import useERC20TokenHook from './hooks/ERC20TokenHook';
-import { availableBlockchains, conversionDirections } from '../../utils/ConverterConstants';
+import { availableBlockchains, blockchainStatusLabels, conversionDirections } from '../../utils/ConverterConstants';
 import SnetAlert from '../../components/snet-alert';
 import SnetLoader from '../../components/snet-loader';
 import SnetConversionStatus from '../../components/snet-conversion-status';
@@ -20,6 +20,7 @@ import SnetSnackbar from '../../components/snet-snackbar';
 import Paths from '../../router/paths';
 import ETHTOADAConversionPopup from './ETHTOADAConversionPopup';
 import styles from './styles';
+import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
 
 const ERC20TOADA = ({ onADATOETHConversion }) => {
   const navigate = useNavigate();
