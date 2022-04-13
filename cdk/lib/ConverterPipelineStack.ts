@@ -75,6 +75,20 @@ export class ConverterPipeLineStack extends cdk.Stack {
     const siteDistribution = new cloudfront.Distribution(this, `${environment}-converter-dapp-distribution`, {
       defaultRootObject: 'index.html',
       certificate: convertDappCertificate,
+      errorResponses: [
+        {
+          httpStatus: 403,
+          responseHttpStatus: 200,
+          responsePagePath: "/index.html",
+          ttl: cdk.Duration.seconds(10),
+        },
+        {
+          httpStatus: 404,
+          responseHttpStatus: 200,
+          responsePagePath: "/index.html",
+          ttl: cdk.Duration.seconds(10),
+        },
+      ],
       defaultBehavior: {
         origin: new origins.HttpOrigin(siteBucket.bucketWebsiteUrl),
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
