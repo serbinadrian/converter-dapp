@@ -24,7 +24,7 @@ const Transactions = () => {
 
   return (
     <GeneralLayout>
-      <SnetConnectWallet isDialogOpen={isWalletConnecting} onDialogClose={toggleWalletConnecting} blockchains={entities} />
+      {isWalletConnecting ? <SnetConnectWallet isDialogOpen={isWalletConnecting} onDialogClose={toggleWalletConnecting} blockchains={entities} /> : null}
       <div className={classes.transactionHistoryContainer}>
         <Typography>Transactions History</Typography>
         {!isEmpty(wallets) ? (
