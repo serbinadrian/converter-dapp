@@ -11,9 +11,11 @@ const PendingTxnAlert = () => {
   const fetchPendingTransactionCounts = async () => {
     try {
       const wallet = await getWalletAddress();
-      const { each } = await getPendingConversionCount(wallet);
-      const pendingTxnCount = (each.PROCESSING ?? 0) + (each.CLAIM_INITIATED ?? 0) + (each.USER_INITIATED ?? 0) + (each.WAITING_FOR_CLAIM ?? 0);
-      setPendingTxns(pendingTxnCount > 0);
+      if (wallet) {
+        const { each } = await getPendingConversionCount(wallet);
+        const pendingTxnCount = (each.PROCESSING ?? 0) + (each.CLAIM_INITIATED ?? 0) + (each.USER_INITIATED ?? 0) + (each.WAITING_FOR_CLAIM ?? 0);
+        setPendingTxns(pendingTxnCount > 0);
+      }
     } catch (error) {
       console.log('fetchPendingTransactionCounts', error);
     }
