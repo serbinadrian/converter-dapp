@@ -22,6 +22,8 @@ const githubBranch = <string>process.env.GITHUB_BRANCH;
 const S3_BUCKET_NAME = `${environment}-converter-dapp`;
 const CD_ROLE_ARN = <string>process.env.SINGULARITYNET_CD_ROLE_ARN;
 const CERTIFICATE_ARN = <string>process.env.CERTIFICATE_ARN;
+const CDN_DOMAIN_NAME = <string>process.env.CDN_DOMAIN_NAME;
+
 
 export class ConverterPipeLineStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: any) {
@@ -74,6 +76,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
 
     const siteDistribution = new cloudfront.Distribution(this, `${environment}-converter-dapp-distribution`, {
       defaultRootObject: 'index.html',
+      domainNames: [CDN_DOMAIN_NAME],
       certificate: convertDappCertificate,
       errorResponses: [
         {
