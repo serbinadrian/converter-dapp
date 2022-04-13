@@ -13,8 +13,10 @@ import SnetButton from '../snet-button';
 import { setWallets, removeFromAndToAddress } from '../../services/redux/slices/wallet/walletSlice';
 import { availableBlockchains, externalLinks } from '../../utils/ConverterConstants';
 import SnetSnackbar from '../snet-snackbar';
+import { useStyles } from './styles';
 
 const SnetConnectWallet = ({ isDialogOpen, onDialogClose, blockchains }) => {
+  const classes = useStyles();
   const [isAgreed, setIsAgreed] = useState(false);
   const [enableAgreeButton, setEnableAgreeButton] = useState(false);
   const [cardanoAddress, setCardanoAddress] = useState(null);
@@ -136,14 +138,13 @@ const SnetConnectWallet = ({ isDialogOpen, onDialogClose, blockchains }) => {
             />
           );
         })}
-        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
-        <Box display="flex" justifyContent="end" alignItems="center">
-          <Typography variant="caption" marginRight={1}>
-            By connecting to the wallets, you agree to our
-          </Typography>
-          <Typography onClick={openTermsAndConditions} variant="caption" color="primary" cursor="pointer" sx={{ cursor: 'pointer' }} marginRight={2}>
-            Terms & Conditions
-          </Typography>
+        <Box className={classes.agreeTermsContainer}>
+          <Box>
+            <Typography>By connecting to the wallets, you agree to our</Typography>
+            <Typography onClick={openTermsAndConditions} variant="caption">
+              Terms & Conditions
+            </Typography>
+          </Box>
           <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree" />
         </Box>
       </SnetDialog>
