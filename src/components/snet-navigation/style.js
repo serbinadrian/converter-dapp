@@ -1,26 +1,39 @@
 import { makeStyles } from '@mui/styles';
 
 const useMenubarStyles = makeStyles(() => ({
+  navigations: {
+    padding: 0,
+    margin: '0 0 0 83px',
+    display: 'flex',
+    '& li': {
+      paddingRight: 48,
+      listStyle: 'none',
+      '&:last-of-type': { paddingRight: 0 },
+      '&:hover': {
+        '& a': {
+          color: '#4F13E0',
+          fontWeight: 'bold'
+        }
+      },
+      '& a': {
+        color: '#9B9B9B',
+        fontSize: 16,
+        lineHeight: '20px'
+      }
+    }
+  },
+  active: {
+    '& a': {
+      color: '#4F13E0 !important',
+      fontWeight: 'bold'
+    }
+  },
   header: {
     padding: '9px 60px',
     boxShadow: '0 2px 3px 0 rgba(0,0,0,0.1)'
   },
-  navigations: {
-    marginLeft: 83,
-    '& a': {
-      color: '#9B9B9B',
-      fontSize: 16,
-      letterSpacing: 0,
-      lineHeight: '20px'
-    }
-  },
-  cursor: {
-    cursor: 'pointer'
-  },
-  logo: {
-    height: '40px',
-    marginRight: 8
-  },
+  cursor: { cursor: 'pointer' },
+  logo: { height: '40px' },
   flex: {
     display: 'flex',
     alignItems: 'center'
