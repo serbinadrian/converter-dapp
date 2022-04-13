@@ -29,7 +29,7 @@ const useMenubarStyles = makeStyles(() => ({
     }
   },
   header: {
-    padding: '9px 60px',
+    padding: '14px 60px',
     boxShadow: '0 2px 3px 0 rgba(0,0,0,0.1)'
   },
   cursor: { cursor: 'pointer' },
