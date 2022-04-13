@@ -12,10 +12,10 @@ const routes = () => {
   return (
     <Suspense fallback={<SnetLinearLoader />}>
       <Routes>
+        <Route exact path={paths.Converter} element={<Converter />} />
         <Route path={paths.Transactions} element={<Transactions />} />
-        <Route path={paths.Converter} element={<Converter />} />
-        <Route path={paths.NotFound} element={<NotFound />} />
         <Route path={paths.Contact} element={<Contact />} />
+        <Route path={paths.NotFound} element={<NotFound />} />
       </Routes>
     </Suspense>
   );

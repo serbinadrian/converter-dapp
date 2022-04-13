@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import SnetAlert from '../../components/snet-alert';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import { getPendingConversionCount } from '../../utils/HttpRequests';
+import styles from './styles';
 
 const PendingTxnAlert = () => {
   const [isPendingTxns, setPendingTxns] = useState(false);
@@ -26,17 +27,16 @@ const PendingTxnAlert = () => {
   }, [address]);
 
   return isPendingTxns ? (
-    <Grid container>
-      <Grid item xs={10} marginBottom={2}>
-        <SnetAlert
-          error={
-            <Link underline="none" href="/transactions">
-              You have pending transactions. Please view the details on the transactions page.
-            </Link>
-          }
-        />
-      </Grid>
-    </Grid>
+    <SnetAlert
+      error={
+        <p>
+          You have pending transactions. Please view the details on the transactions page
+          <Link underline="none" href="/transactions">
+            Click here
+          </Link>
+        </p>
+      }
+    />
   ) : null;
 };
 
