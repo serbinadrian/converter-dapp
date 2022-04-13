@@ -93,7 +93,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
         },
       ],
       defaultBehavior: {
-        origin: new origins.HttpOrigin(siteBucket.bucketWebsiteUrl.replace('http://', '')),
+        origin: new origins.HttpOrigin(siteBucket.bucketName+".s3-website-us-west-1.amazonaws.com"),
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
