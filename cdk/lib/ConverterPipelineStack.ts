@@ -11,6 +11,7 @@ import { Role } from '@aws-cdk/aws-iam';
 // dotenv Must be the first expression
 dotenv.config();
 
+const region = <string>process.env.CDK_REGION
 const environment = <string>process.env.CDK_ENVIRONMENT;
 const configBucket = <string>process.env.APP_CONFIGS_S3_BUCKET_NAME;
 const appConfigsFolder = <string>process.env.APP_CONFIGS_S3_FOLDER;
@@ -35,7 +36,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
       owner: githubOwner,
       repo: githubRepo,
       branchOrRef: githubBranch,
-      fetchSubmodules: true,
+      fetchSubmodules: false,
       webhook: true,
       webhookTriggersBatchBuild: false,
       webhookFilters: [
@@ -74,6 +75,8 @@ export class ConverterPipeLineStack extends cdk.Stack {
 
     const convertDappCertificate = acm.Certificate.fromCertificateArn(this, 'ConverterDappCertificate', CERTIFICATE_ARN);
 
+    const origin:any = new origins.HttpOrigin(siteBucket.bucketName+ ".s3-website-" + region + ".amazonaws.com")
+
     const siteDistribution = new cloudfront.Distribution(this, `${environment}-converter-dapp-distribution`, {
       defaultRootObject: 'index.html',
       domainNames: [CDN_DOMAIN_NAME],
@@ -93,7 +96,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
         },
       ],
       defaultBehavior: {
-        origin: new origins.HttpOrigin(siteBucket.bucketName+".s3-website-us-west-1.amazonaws.com"),
+        origin,
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
