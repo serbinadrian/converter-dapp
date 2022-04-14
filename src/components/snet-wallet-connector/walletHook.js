@@ -224,7 +224,7 @@ export const useWalletHook = () => {
       return response;
     } catch (error) {
       console.log('Approve spender error: ', error);
-      throw formatContractExceptionMessage(error);
+      throw error?.message ?? JSON.stringify(error);
     }
   };
 

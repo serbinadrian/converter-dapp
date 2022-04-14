@@ -37,6 +37,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
       repo: githubRepo,
       branchOrRef: githubBranch,
       fetchSubmodules: false,
+      cloneDepth: 25,
       webhook: true,
       webhookTriggersBatchBuild: false,
       webhookFilters: [codebuild.FilterGroup.inEventOf(codebuild.EventAction.PUSH).andBranchIs(githubBranch)]
