@@ -11,7 +11,6 @@ import { Role } from '@aws-cdk/aws-iam';
 // dotenv Must be the first expression
 dotenv.config();
 
-const region = <string>process.env.CDK_REGION;
 const environment = <string>process.env.CDK_ENVIRONMENT;
 const configBucket = <string>process.env.APP_CONFIGS_S3_BUCKET_NAME;
 const appConfigsFolder = <string>process.env.APP_CONFIGS_S3_FOLDER;
@@ -24,7 +23,6 @@ const S3_BUCKET_NAME = `${environment}-converter-dapp`;
 const CD_ROLE_ARN = <string>process.env.SINGULARITYNET_CD_ROLE_ARN;
 const CERTIFICATE_ARN = <string>process.env.CERTIFICATE_ARN;
 const CDN_DOMAIN_NAME = <string>process.env.CDN_DOMAIN_NAME;
-const S3_WEBSITE_DOMAIN = `${S3_BUCKET_NAME}.s3-website-${region}.amazonaws.com`;
 
 export class ConverterPipeLineStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: any) {
@@ -92,7 +90,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
         }
       ],
       defaultBehavior: {
-        origin: new origins.HttpOrigin(S3_WEBSITE_DOMAIN),
+        origin: new origins.S3Origin(siteBucket),
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
