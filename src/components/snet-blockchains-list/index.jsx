@@ -42,9 +42,16 @@ const BlockchainList = ({
     navigator.clipboard.writeText(address);
   };
 
+  const addEllipsisInBetweenString = (str) => {
+    if (str.length && blockchain === 'Cardano') {
+      return `${str.substr(0, 25)}...${str.substr(str.length - 25)}`;
+    }
+    return str;
+  };
+
   return (
     <Box sx={style.box} divider id="snet-blockchains-list-box-1">
-      <Grid spacing={2} container sx={style.grid} minWidth="0">
+      <Grid container sx={style.grid} minWidth="0">
         <Grid item sm={isWalletAddressAvailable() ? 6 : 4} sx={style.flex}>
           <Avatar alt={blockchain} src={blockchainLogo} />
           <ListItemText primary={blockchain} sx={style.blockchain} />
@@ -63,6 +70,7 @@ const BlockchainList = ({
         <Grid item sm={isWalletAddressAvailable() ? 6 : 4}>
           {isWalletAddressAvailable() ? (
             <WalletAddressInfo
+              addEllipsisInBetweenString={addEllipsisInBetweenString}
               onCopyAddress={() => onCopyAddress(walletAddress)}
               onDisconnect={() => {
                 if (!isWalletAvailable) {

@@ -1,7 +1,20 @@
 import ColorCodes from '../../assets/theme/colorCodes';
 
 const snetDialogStyles = {
-  dialogTitle: { m: 0, padding: '13px 22px !important', color: ColorCodes.blue, fontSize: '18px', fontWeight: '600', lineHeight: '24px' },
+  connectWalletPopup: {
+    '& .MuiDialog-paper': {
+      width: 800,
+      margin: 0
+    }
+  },
+  dialogTitle: {
+    m: 0,
+    padding: '16px 24px !important',
+    color: ColorCodes.blue,
+    fontSize: 18,
+    fontWeight: '600',
+    lineHeight: '24px'
+  },
   iconButton: {
     position: 'absolute',
     right: 8,
@@ -10,7 +23,7 @@ const snetDialogStyles = {
     '& svg': { fontSize: 24 }
   },
   dailogContent: {
-    padding: '32px 44px 40px 50px !important'
+    padding: '0 !important'
   }
 };
 

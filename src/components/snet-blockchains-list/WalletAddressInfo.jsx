@@ -8,7 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import propTypes from 'prop-types';
 import style from './style';
 
-const WalletAddressInfo = ({ onCopyAddress, walletAddress, isWalletAvailable, onEdit, onDisconnect }) => {
+const WalletAddressInfo = ({ addEllipsisInBetweenString, onCopyAddress, walletAddress, isWalletAvailable, onEdit, onDisconnect }) => {
   const [copyBtn, setCopyBtn] = useState('Copy');
 
   const onClickCopy = () => {
@@ -21,14 +21,14 @@ const WalletAddressInfo = ({ onCopyAddress, walletAddress, isWalletAvailable, on
 
   return (
     <>
-      <Stack direction="row" spacing={2} marginBottom={2} alignItems="center">
+      <Stack direction="row" alignItems="center">
         <WalletIcon sx={style.icon} color="grey" />
         <Typography variant="caption" color="text.primary" textOverflow="ellipsis" overflow="hidden">
-          {walletAddress}
+          {addEllipsisInBetweenString(walletAddress)}
         </Typography>
       </Stack>
-      <Stack direction="row" spacing={2}>
-        <Button variant="text" onClick={onClickCopy} startIcon={<CopyOrEditIcon />}>
+      <Stack direction="row" sx={style.btnsAfterConnectOrAdd}>
+        <Button padding="0" variant="text" onClick={onClickCopy} startIcon={<CopyOrEditIcon />}>
           {copyBtn}
         </Button>
         {!isWalletAvailable ? (
@@ -45,6 +45,7 @@ const WalletAddressInfo = ({ onCopyAddress, walletAddress, isWalletAvailable, on
 };
 
 WalletAddressInfo.propTypes = {
+  addEllipsisInBetweenString: propTypes.func.isRequired,
   walletAddress: propTypes.string.isRequired,
   isWalletAvailable: propTypes.bool.isRequired,
   onEdit: propTypes.func,
