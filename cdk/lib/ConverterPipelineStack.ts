@@ -7,6 +7,8 @@ import * as deploy from '@aws-cdk/aws-s3-deployment';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as origins from '@aws-cdk/aws-cloudfront-origins';
 import { Role } from '@aws-cdk/aws-iam';
+import { OriginAccessIdentity } from '@aws-cdk/aws-cloudfront';
+import { BlockPublicAccess } from '@aws-cdk/aws-s3';
 
 // dotenv Must be the first expression
 dotenv.config();
@@ -64,10 +66,15 @@ export class ConverterPipeLineStack extends cdk.Stack {
     const siteBucket = new s3.Bucket(this, `${environment}-converter-bucket`, {
       bucketName: S3_BUCKET_NAME,
       websiteIndexDocument: 'index.html',
-      websiteErrorDocument: 'index.html',
-      publicReadAccess: true,
+      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
+
+    const oia = new OriginAccessIdentity(this, `${environment}-converter-dapp`, {
+      comment: "Created by CDK"
+    });
+
+    siteBucket.grantRead(oia);
 
     const convertDappCertificate = acm.Certificate.fromCertificateArn(this, 'ConverterDappCertificate', CERTIFICATE_ARN);
 
@@ -90,7 +97,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
         }
       ],
       defaultBehavior: {
-        origin: new origins.S3Origin(siteBucket),
+        origin: new origins.S3Origin(siteBucket, { originAccessIdentity: oia }),
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
