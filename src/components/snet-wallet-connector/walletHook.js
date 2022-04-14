@@ -8,7 +8,7 @@ import store from 'store';
 import BigNumber from 'bignumber.js';
 import { splitSignature } from '@ethersproject/bytes';
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import TokenConversionManagerABI from '../../contracts/singularitynet-token-manager/abi/TokenConversionManager.json';
+import TokenConversionManagerABI from 'singularitynet-bridge/abi/TokenConversionManager.json';
 import ERC20TokenABI from '../../contracts/erc20-abi/abi/SingularityNetToken.json';
 import { availableBlockchains, blockchainStatusLabels } from '../../utils/ConverterConstants';
 import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
