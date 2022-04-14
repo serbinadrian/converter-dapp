@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import upperCase from 'lodash/upperCase';
 import { isValidShelleyAddress } from 'cardano-crypto.js';
 import propTypes from 'prop-types';
-import { Divider, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { isNil } from 'lodash';
 import store from 'store';
 import SnetDialog from '../snet-dialog';
@@ -13,8 +13,10 @@ import SnetButton from '../snet-button';
 import { setWallets, removeFromAndToAddress } from '../../services/redux/slices/wallet/walletSlice';
 import { availableBlockchains, externalLinks } from '../../utils/ConverterConstants';
 import SnetSnackbar from '../snet-snackbar';
+import { useStyles } from './styles';
 
 const SnetConnectWallet = ({ isDialogOpen, onDialogClose, blockchains }) => {
+  const classes = useStyles();
   const [isAgreed, setIsAgreed] = useState(false);
   const [enableAgreeButton, setEnableAgreeButton] = useState(false);
   const [cardanoAddress, setCardanoAddress] = useState(null);
@@ -121,29 +123,30 @@ const SnetConnectWallet = ({ isDialogOpen, onDialogClose, blockchains }) => {
     <>
       <SnetSnackbar open={error.showError} message={error.message} onClose={closeError} />
       <SnetDialog title="Connect Wallets" onDialogClose={onDialogClose} isDialogOpen={isDialogOpen}>
-        {blockchains.map((blockchain) => {
-          return (
-            <SnetBlockchainList
-              key={blockchain.id}
-              blockchain={blockchain.name}
-              blockchainLogo={blockchain.logo}
-              blockChainConnectInfo={blockchain.description}
-              isWalletAvailable={blockchain.is_extension_available}
-              walletAddress={getWalletAddress(blockchain.name)}
-              onSaveAddress={onSaveAddress}
-              openWallet={connectEthereumWallet}
-              disconnectWallet={() => onClickDisconnectWallet(blockchain.name)}
-            />
-          );
-        })}
-        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
-        <Box display="flex" justifyContent="end" alignItems="center">
-          <Typography variant="caption" marginRight={1}>
-            By connecting to the wallets, you agree to our
-          </Typography>
-          <Typography onClick={openTermsAndConditions} variant="caption" color="primary" cursor="pointer" sx={{ cursor: 'pointer' }} marginRight={2}>
-            Terms & Conditions
-          </Typography>
+        <Box className={classes.connectWalletContent}>
+          {blockchains.map((blockchain) => {
+            return (
+              <SnetBlockchainList
+                key={blockchain.id}
+                blockchain={blockchain.name}
+                blockchainLogo={blockchain.logo}
+                blockChainConnectInfo={blockchain.description}
+                isWalletAvailable={blockchain.is_extension_available}
+                walletAddress={getWalletAddress(blockchain.name)}
+                onSaveAddress={onSaveAddress}
+                openWallet={connectEthereumWallet}
+                disconnectWallet={() => onClickDisconnectWallet(blockchain.name)}
+              />
+            );
+          })}
+        </Box>
+        <Box className={classes.connectWalletActions}>
+          <Box>
+            <Typography>By connecting to the wallets, you agree to our</Typography>
+            <Typography onClick={openTermsAndConditions} variant="caption">
+              Terms & Conditions
+            </Typography>
+          </Box>
           <SnetButton onClick={getSignatureFromWallet} disabled={!enableAgreeButton} name="Agree" />
         </Box>
       </SnetDialog>

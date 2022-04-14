@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import propTypes from 'prop-types';
+import style from './style';
 
 const WalletAddressInput = ({ blockchain, onCancel, onSaveAddress }) => {
   const [address, setAddress] = useState('');
@@ -13,16 +14,8 @@ const WalletAddressInput = ({ blockchain, onCancel, onSaveAddress }) => {
 
   return (
     <>
-      <TextField
-        onChange={handleAddressChange}
-        value={address}
-        name={`${blockchain}-address`}
-        label={`${blockchain} address`}
-        color="primary"
-        fullWidth
-        focused
-      />
-      <Stack spacing={1} marginTop={2} direction="row">
+      <TextField onChange={handleAddressChange} value={address} name={`${blockchain}-address`} label={`${blockchain} address`} sx={style.textFieldForAddress} />
+      <Stack direction="row">
         <Button onClick={onCancel} variant="text" size="small">
           Cancel
         </Button>
