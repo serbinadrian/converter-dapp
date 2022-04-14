@@ -1,9 +1,10 @@
-import { lazy, useState } from 'react';
-import { Alert, Box, Button, Stack, Typography } from '@mui/material';
+import { lazy } from 'react';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useStyles } from './styles';
 import SnetContactInput from '../../components/snet-contact-input';
 import useContactSupportHook from './hooks/contactSupportHook';
 import ColorCodes from '../../assets/theme/colorCodes';
+import SnetAlert from '../../components/snet-alert';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 const options = [
@@ -72,11 +73,7 @@ const Contact = () => {
               error={messageError}
               helperText={messageError ? 'Please enter message' : ''}
             />
-            {showSuccessMessage ? (
-              <Alert icon={false} severity="success" variant="outlined" className={classes.successMsg}>
-                Support request successfully send.
-              </Alert>
-            ) : null}
+            {showSuccessMessage ? <SnetAlert error="Support request successfully send." type="success" /> : null}
             <Stack alignItems="center" justifyContent="center" marginY={2}>
               <Button onClick={handleSubmitClick} color="primary" variant="contained" className={classes.submitBtn}>
                 SUBMIT

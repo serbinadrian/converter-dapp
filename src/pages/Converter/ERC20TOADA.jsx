@@ -157,7 +157,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
         />
         {error.error && error.message.length ? (
           <Stack marginTop={4}>
-            <SnetAlert error={error.message} />
+            <SnetAlert error={error.message} type="error" />
           </Stack>
         ) : null}
         {wallet.conversionDirection === conversionDirections.ETH_TO_ADA ? (

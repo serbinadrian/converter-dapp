@@ -23,16 +23,15 @@ const PendingTxnAlert = () => {
     fetchPendingTransactionCounts();
   }, [address]);
 
+  const link = (
+    <Link underline="none" href="/transactions">
+      Transactions
+    </Link>
+  );
   return isPendingTxns ? (
     <Grid container>
       <Grid item xs={10} marginBottom={2}>
-        <SnetAlert
-          error={
-            <Link underline="none" href="/transactions">
-              You have pending transactions. Please view the details on the transactions page.
-            </Link>
-          }
-        />
+        <SnetAlert error={<span>You have pending transactions. Please view the details on the {link} page.</span>} type="info" />
       </Grid>
     </Grid>
   ) : null;
