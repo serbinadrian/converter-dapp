@@ -7,8 +7,8 @@ export const useStyles = makeStyles({
     backgroundColor: `${ColorCodes.successMsgBg} !important`
   },
   pandingMsg: {
-    border: `1px solid ${ColorCodes.pandingMsgBorder} !important`,
-    backgroundColor: `${ColorCodes.pandingMsgBg} !important`
+    border: `1px solid ${ColorCodes.pendingMsgBorder} !important`,
+    backgroundColor: `${ColorCodes.pendingMsgBg} !important`
   },
   alertBox: {
     borderRadius: 4,
