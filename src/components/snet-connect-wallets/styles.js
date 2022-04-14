@@ -1,8 +1,22 @@
 import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
-  agreeTermsContainer: {
-    padding: 32,
+  connectWalletContent: {
+    padding: '32px 16px',
+    '& > div': {
+      paddingBottom: 23,
+      borderBottom: '1px solid #D6D6D6',
+      marginBottom: 23,
+      '&:last-of-type': {
+        paddingBottom: 0,
+        border: 'none',
+        marginBottom: 0
+      },
+      '& > div': { alignItems: 'flex-start' }
+    }
+  },
+  connectWalletActions: {
+    padding: '18px 32px',
     display: 'flex',
     justifyContent: 'space-between',
     backgroundColor: '#eee',

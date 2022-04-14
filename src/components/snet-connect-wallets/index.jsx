@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import upperCase from 'lodash/upperCase';
 import { isValidShelleyAddress } from 'cardano-crypto.js';
 import propTypes from 'prop-types';
-import { Divider, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { isNil } from 'lodash';
 import store from 'store';
 import SnetDialog from '../snet-dialog';
@@ -123,22 +123,24 @@ const SnetConnectWallet = ({ isDialogOpen, onDialogClose, blockchains }) => {
     <>
       <SnetSnackbar open={error.showError} message={error.message} onClose={closeError} />
       <SnetDialog title="Connect Wallets" onDialogClose={onDialogClose} isDialogOpen={isDialogOpen}>
-        {blockchains.map((blockchain) => {
-          return (
-            <SnetBlockchainList
-              key={blockchain.id}
-              blockchain={blockchain.name}
-              blockchainLogo={blockchain.logo}
-              blockChainConnectInfo={blockchain.description}
-              isWalletAvailable={blockchain.is_extension_available}
-              walletAddress={getWalletAddress(blockchain.name)}
-              onSaveAddress={onSaveAddress}
-              openWallet={connectEthereumWallet}
-              disconnectWallet={() => onClickDisconnectWallet(blockchain.name)}
-            />
-          );
-        })}
-        <Box className={classes.agreeTermsContainer}>
+        <Box className={classes.connectWalletContent}>
+          {blockchains.map((blockchain) => {
+            return (
+              <SnetBlockchainList
+                key={blockchain.id}
+                blockchain={blockchain.name}
+                blockchainLogo={blockchain.logo}
+                blockChainConnectInfo={blockchain.description}
+                isWalletAvailable={blockchain.is_extension_available}
+                walletAddress={getWalletAddress(blockchain.name)}
+                onSaveAddress={onSaveAddress}
+                openWallet={connectEthereumWallet}
+                disconnectWallet={() => onClickDisconnectWallet(blockchain.name)}
+              />
+            );
+          })}
+        </Box>
+        <Box className={classes.connectWalletActions}>
           <Box>
             <Typography>By connecting to the wallets, you agree to our</Typography>
             <Typography onClick={openTermsAndConditions} variant="caption">
