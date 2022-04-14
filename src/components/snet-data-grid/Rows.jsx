@@ -133,7 +133,7 @@ const Rows = ({
           </div>
         </Grid>
         <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
-          {conversionDirection === conversionDirections.ADA_TO_ETH && conversionStatuses.USER_INITIATED ? (
+          {conversionDirection === conversionDirections.ADA_TO_ETH && status === conversionStatuses.USER_INITIATED ? (
             <SnetButton name="View" onClick={handleResume} variant="outlined" />
           ) : null}
           {status === conversionStatuses.WAITING_FOR_CLAIM ? <SnetButton name="Continue" onClick={handleResume} variant="outlined" /> : null}

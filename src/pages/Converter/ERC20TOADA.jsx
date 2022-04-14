@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import propTypes from 'prop-types';
@@ -10,7 +10,7 @@ import useConverterHook from './hooks/ConverterHook';
 import ConversionFormLoader from './ConversionFormLoader';
 import TokenPairs from './TokenPairs';
 import useERC20TokenHook from './hooks/ERC20TokenHook';
-import { availableBlockchains, blockchainStatusLabels, conversionDirections } from '../../utils/ConverterConstants';
+import { availableBlockchains, conversionDirections } from '../../utils/ConverterConstants';
 import SnetAlert from '../../components/snet-alert';
 import SnetLoader from '../../components/snet-loader';
 import SnetConversionStatus from '../../components/snet-conversion-status';
@@ -20,7 +20,6 @@ import SnetSnackbar from '../../components/snet-snackbar';
 import Paths from '../../router/paths';
 import ETHTOADAConversionPopup from './ETHTOADAConversionPopup';
 import styles from './styles';
-import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
 
 const ERC20TOADA = ({ onADATOETHConversion }) => {
   const navigate = useNavigate();
@@ -29,7 +28,6 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const [errorRedirectTo, seterrorRedirectTo] = useState(null);
   const { conversionDirection } = useSelector((state) => state.wallet);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
-  const { conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
   const {
     fromBlockchains,
     toBlockchains,
@@ -50,7 +48,8 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     error,
     updateWalletBalance,
     walletBalance,
-    resetFromAndToValues
+    resetFromAndToValues,
+    conversionIsComplete
   } = useConverterHook();
   const {
     mintERC20Tokens,
@@ -62,11 +61,10 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
     approveSpendLimit,
     isLoading,
     burnERC20Tokens,
-    txnInfo
+    txnInfo,
+    isConversionInProgress
   } = useERC20TokenHook();
   const { toAddress, fromAddress, wallets } = wallet;
-
-  const dispatch = useDispatch();
 
   const getBalanceFromWallet = async () => {
     const balanceInfo = await fetchWalletBalance(fromTokenPair.token_address);
@@ -139,23 +137,26 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   };
 
   const handlePopupClose = () => {
-    dispatch(setBlockchainStatus(blockchainStatusLabels.RESET_CONVERSION_LABEL));
+    conversionIsComplete();
   };
 
   const openLink = () => navigate(Paths.Transactions);
+
   return (
     <>
       <SnetSnackbar open={!isNil(errorMessage)} message={String(errorMessage)} onClose={resetErrorState} redirectTo={errorRedirectTo} />
-      <SnetConversionStatus
-        isDialogOpen={!isNil(txnInfo.txnLink)}
-        title="Converting AGI[ETH] to AGIX[ADA]"
-        amount={txnInfo.txnAmount}
-        tokenName={txnInfo.tokenSymbol}
-        link={txnInfo.txnLink ?? ''}
-        onDialogClose={resetTxnInfo}
-      />
+      {!isNil(txnInfo.txnLink) && !isConversionInProgress.status ? (
+        <SnetConversionStatus
+          isDialogOpen={txnInfo.txnLink}
+          title={formatConversionTitle()}
+          amount={txnInfo.txnAmount}
+          tokenName={txnInfo.tokenSymbol}
+          link={txnInfo.txnLink ?? ''}
+          onDialogClose={resetTxnInfo}
+        />
+      ) : null}
       <SnetPaper>
-        {blockchainStatus && !blockchainStatus?.showConversionProgressModal ? (
+        {blockchainStatus ? (
           <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
         ) : null}
         <Box style={styles.ethAdaConversionBox}>
@@ -206,8 +207,15 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
               />
             )}
           </Stack>
-          {blockchainStatus !== null && blockchainStatus?.showConversionProgressModal ? (
-            <ETHTOADAConversionPopup title={formatConversionTitle()} opnePopup handlePopupClose={handlePopupClose} openLink={openLink} />
+          {isConversionInProgress.status ? (
+            <ETHTOADAConversionPopup
+              blockConfiramtionsReceived={isConversionInProgress.blockConfiramtionsReceived}
+              blockConfiramtionsRequired={isConversionInProgress.blockConfiramtionsRequired}
+              title={formatConversionTitle()}
+              openPopup={isConversionInProgress.status}
+              handlePopupClose={handlePopupClose}
+              openLink={openLink}
+            />
           ) : null}
         </Box>
       </SnetPaper>

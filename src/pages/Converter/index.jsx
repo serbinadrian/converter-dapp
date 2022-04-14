@@ -1,5 +1,6 @@
-import { lazy, useEffect } from 'react';
+import { lazy } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import { Grid, Box } from '@mui/material';
 import { availableBlockchains } from '../../utils/ConverterConstants';
 import { setAdaConversionInfo, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
@@ -23,27 +24,32 @@ const Converter = () => {
   };
 
   return (
-    <GeneralLayout>
-      <Box sx={styles.pendingTxnAlertContainer}>
-        <PendingTxnAlert />
-      </Box>
-      {conversionDirection === availableBlockchains.CARDANO ? (
-        <Grid display="flex" justifyContent="center">
-          <Grid item>
-            <ADATOERC20ETH />
+    <>
+      <Helmet>
+        <title>SingularityNet Bridge</title>
+      </Helmet>
+      <GeneralLayout>
+        <Box sx={styles.pendingTxnAlertContainer}>
+          <PendingTxnAlert />
+        </Box>
+        {conversionDirection === availableBlockchains.CARDANO ? (
+          <Grid display="flex" justifyContent="center">
+            <Grid item>
+              <ADATOERC20ETH />
+            </Grid>
           </Grid>
-        </Grid>
-      ) : (
-        <Grid display="flex" alignItems="flex-start" container spacing={2} sx={styles.homePageContainer}>
-          <Grid item xs={12} md={5}>
-            <WelcomeBox />
+        ) : (
+          <Grid display="flex" alignItems="flex-start" container spacing={2} sx={styles.homePageContainer}>
+            <Grid item xs={12} md={5}>
+              <WelcomeBox />
+            </Grid>
+            <Grid item xs={12} md={7} sx={styles.converterBox}>
+              <ERC20TOADA onADATOETHConversion={onADATOETHConversion} />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={7} sx={styles.converterBox}>
-            <ERC20TOADA onADATOETHConversion={onADATOETHConversion} />
-          </Grid>
-        </Grid>
-      )}
-    </GeneralLayout>
+        )}
+      </GeneralLayout>
+    </>
   );
 };
 

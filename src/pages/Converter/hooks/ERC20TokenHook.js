@@ -1,20 +1,22 @@
 import BigNumber from 'bignumber.js';
-import { isEmpty } from 'lodash';
+import { isEmpty, toUpper } from 'lodash';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useWalletHook } from '../../../components/snet-wallet-connector/walletHook';
 import { bigNumberSubtract, convertFromCogs, convertToValueFromPercentage } from '../../../utils/bignumber';
-import { generateConversionID, updateTransactionStatus } from '../../../utils/HttpRequests';
+import { generateConversionID, getConversionStatus, updateTransactionStatus } from '../../../utils/HttpRequests';
 import { setBlockchainStatus } from '../../../services/redux/slices/blockchain/blockchainSlice';
-import { blockchainStatusLabels } from '../../../utils/ConverterConstants';
+import { availableBlockchains, blockchainStatusLabels, progress } from '../../../utils/ConverterConstants';
 
 const useERC20TokenHook = () => {
   const [authorizationRequired, setAuthorizationRequired] = useState(false);
   const [conversionEnabled, setConversionEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isConversionInProgress, setIsConversionInProgress] = useState({ status: false, blockConfiramtionsRequired: 0, blockConfiramtionsReceived: 0 });
   const [txnInfo, setTxnInfo] = useState({ txnLink: null, txnAmount: 0, tokenName: '', tokenSymbol: '' });
 
   const { tokens } = useSelector((state) => state.tokenPairs);
+  const { entities } = useSelector((state) => state.blockchains);
 
   const { balanceFromWallet, checkAllowance, approveSpender, getLatestBlock, signMessage, conversionOut, convertToCogs, getWalletAddress } = useWalletHook();
 
@@ -22,6 +24,32 @@ const useERC20TokenHook = () => {
 
   const resetTxnInfo = () => {
     setTxnInfo({ ...txnInfo, txnLink: null });
+  };
+
+  const getBlockConfirmationStatus = async (conversionId) => {
+    const [blockchain] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.ETHEREUM);
+    const blockConfiramtionsRequired = blockchain.block_confirmation;
+    setIsConversionInProgress({ ...isConversionInProgress, blockConfiramtionsRequired, status: true });
+
+    const sixtySeconds = 60000;
+    const intervalId = setInterval(async () => {
+      try {
+        const { conversion, transactions } = await getConversionStatus(conversionId);
+        const { status } = conversion;
+        if (status === progress.PROCESSING) {
+          const [transaction] = transactions;
+          const { confirmation } = transaction;
+          const isBlockConfirmationPending = Number(blockConfiramtionsRequired) >= Number(confirmation);
+          setIsConversionInProgress({ status: isBlockConfirmationPending, blockConfiramtionsReceived: confirmation, blockConfiramtionsRequired });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }, sixtySeconds);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   };
 
   const getConversionId = async (tokenpairId, amount, fromTokenAddress, toAddress) => {
@@ -96,6 +124,7 @@ const useERC20TokenHook = () => {
       const amountInCogs = convertToCogs(amount, pair.from_token.allowed_decimal);
       const { conversionId, signature } = await getConversionId(pair.id, amountInCogs, fromAddress, toAddress);
       const txnLink = await convertEthToAda(contractAddress, amount, conversionId, signature, pair.from_token.allowed_decimal);
+      getBlockConfirmationStatus(conversionId);
       setTxnInfo({ txnLink, txnAmount: amount, tokenName: pair.from_token.name, tokenSymbol: pair.from_token.symbol });
     } catch (error) {
       console.log('Error on burnERC20Tokens', error);
@@ -155,6 +184,8 @@ const useERC20TokenHook = () => {
     }
   };
 
+  const conversionIsComplete = () => setIsConversionInProgress({ ...isConversionInProgress, status: false });
+
   return {
     mintERC20Tokens,
     fetchWalletBalance,
@@ -165,7 +196,9 @@ const useERC20TokenHook = () => {
     isLoading,
     burnERC20Tokens,
     txnInfo,
-    resetTxnInfo
+    resetTxnInfo,
+    isConversionInProgress,
+    conversionIsComplete
   };
 };
 
