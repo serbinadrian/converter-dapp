@@ -4,9 +4,9 @@ import propTypes from 'prop-types';
 import SnetButton from '../../components/snet-button';
 import styles from './styles';
 
-const ETHTOADAConversionPopup = ({ title, opnePopup, handlePopupClose, openLink }) => {
+const ETHTOADAConversionPopup = ({ title, openPopup, handlePopupClose, openLink, blockConfiramtionsRequired, blockConfiramtionsReceived }) => {
   return (
-    <Modal open={opnePopup} onClose={handlePopupClose} sx={styles.conersionModal}>
+    <Modal open={openPopup} onClose={handlePopupClose} sx={styles.conersionModal}>
       <Box sx={styles.conersionBox}>
         <Box sx={styles.conersionModalHeader}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -16,10 +16,12 @@ const ETHTOADAConversionPopup = ({ title, opnePopup, handlePopupClose, openLink 
         </Box>
         <Box sx={styles.conersionModalBody}>
           <div sx={styles.processingLoaderContainer}>
-            <Typography>Processing: Awaiting Confimation 10/13</Typography>
+            <Typography>
+              Processing: Awaiting Confimation {blockConfiramtionsReceived}/{blockConfiramtionsRequired}
+            </Typography>
           </div>
           <Typography>
-            Your transaction is in progress and may take some time to complete. You can close this overlay and monitorthe status from &apos;Transactions&apos;.
+            Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from &apos;Transactions&apos;.
           </Typography>
         </Box>
         <Box sx={styles.conersionModalActions}>
@@ -33,9 +35,11 @@ const ETHTOADAConversionPopup = ({ title, opnePopup, handlePopupClose, openLink 
 
 ETHTOADAConversionPopup.propTypes = {
   title: propTypes.string.isRequired,
-  opnePopup: propTypes.bool.isRequired,
+  openPopup: propTypes.bool.isRequired,
   handlePopupClose: propTypes.func.isRequired,
-  openLink: propTypes.func.isRequired
+  openLink: propTypes.func.isRequired,
+  blockConfiramtionsRequired: propTypes.number.isRequired,
+  blockConfiramtionsReceived: propTypes.number.isRequired
 };
 
 export default ETHTOADAConversionPopup;

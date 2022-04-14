@@ -44,7 +44,7 @@ const SnetNavigation = ({ blockchains }) => {
 
   return (
     <>
-      <SnetConnectWallet isDialogOpen={isWalletConnecting} onDialogClose={toggleWalletConnecting} blockchains={blockchains} />
+      {isWalletConnecting ? <SnetConnectWallet isDialogOpen={isWalletConnecting} onDialogClose={toggleWalletConnecting} blockchains={blockchains} /> : null}
       <WalletMenu openConnectedWallets={toggleWalletConnecting} />
     </>
   );

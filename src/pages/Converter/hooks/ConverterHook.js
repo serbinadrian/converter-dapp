@@ -182,10 +182,10 @@ const useConverterHook = () => {
   }, []);
 
   useEffect(() => {
-    if (tokens.length > 0) {
+    if (tokens.length > 0 && blockchains.length > 0) {
       getAndSetBlockchainPairs();
     }
-  }, [tokens]);
+  }, [tokens, blockchains]);
 
   useEffect(() => {
     if (!isEmpty(fromTokenPair)) {

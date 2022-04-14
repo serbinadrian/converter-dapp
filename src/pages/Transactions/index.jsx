@@ -1,10 +1,10 @@
 import { Typography } from '@mui/material';
 import { lazy, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import TxnHistoryTable from './TxnHistoryTable';
 import { useStyles } from './styles';
-import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetButton from '../../components/snet-button';
 import SnetConnectWallet from '../../components/snet-connect-wallets';
 
@@ -23,23 +23,28 @@ const Transactions = () => {
   };
 
   return (
-    <GeneralLayout>
-      <SnetConnectWallet isDialogOpen={isWalletConnecting} onDialogClose={toggleWalletConnecting} blockchains={entities} />
-      <div className={classes.transactionHistoryContainer}>
-        <Typography>Transactions History</Typography>
-        {!isEmpty(wallets) ? (
-          <TxnHistoryTable />
-        ) : (
-          <div className={classes.EmptyTransactionHistoryContainer}>
-            <Typography>Wallet not connected.</Typography>
-            <Typography variant="body2" marginY={3}>
-              Please connect both your wallets to view the transaction history
-            </Typography>
-            <SnetButton name="Connect Wallets" variant="outlined" onClick={toggleWalletConnecting} />
-          </div>
-        )}
-      </div>
-    </GeneralLayout>
+    <>
+      <Helmet>
+        <title>SingularityNet Bridge | Transactions History</title>
+      </Helmet>
+      <GeneralLayout>
+        {isWalletConnecting ? <SnetConnectWallet isDialogOpen={isWalletConnecting} onDialogClose={toggleWalletConnecting} blockchains={entities} /> : null}
+        <div className={classes.transactionHistoryContainer}>
+          <Typography>Transactions History</Typography>
+          {!isEmpty(wallets) ? (
+            <TxnHistoryTable />
+          ) : (
+            <div className={classes.EmptyTransactionHistoryContainer}>
+              <Typography>Wallet not connected.</Typography>
+              <Typography variant="body2" marginY={3}>
+                Please connect both your wallets to view the transaction history
+              </Typography>
+              <SnetButton name="Connect Wallets" variant="outlined" onClick={toggleWalletConnecting} />
+            </div>
+          )}
+        </div>
+      </GeneralLayout>
+    </>
   );
 };
 

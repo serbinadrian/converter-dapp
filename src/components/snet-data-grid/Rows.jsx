@@ -50,15 +50,10 @@ const Rows = ({
     setExpanded(!expanded);
   };
 
-  const conversionStatus = (status, onContinue) => {
+  const transactionStatus = (status) => {
     let component;
     switch (status) {
-      case conversionDirection === conversionDirections.ADA_TO_ETH && conversionStatuses.USER_INITIATED:
-        component = <SnetButton name="View" onClick={onContinue} variant="outlined" />;
-        break;
-
-      case conversionStatuses.PROCESSING:
-      case conversionStatuses.USER_INITIATED:
+      case conversionStatuses.PROCESSING || conversionStatuses.USER_INITIATED:
         component = <HourglassBottomIcon fontSize="small" color="primary" />;
         break;
 
@@ -66,15 +61,10 @@ const Rows = ({
         component = <SuccessIcon fontSize="small" color="success" />;
         break;
 
-      case conversionStatuses.WAITING_FOR_CLAIM:
-        component = <SnetButton name="Continue" onClick={onContinue} variant="outlined" />;
-        break;
-
       default:
         component = <WarningIcon fontSize="small" color="warning" />;
         break;
     }
-
     return component;
   };
 
@@ -136,13 +126,17 @@ const Rows = ({
         </Grid>
         <Grid item xs={6} md={2} className={classes.statusData}>
           <div className={classes.statusValueContainer}>
+            {transactionStatus(status)}
             <Typography data-status-type={status} className={classes.value} align="center">
               {conversionStatusMessages[status]}
             </Typography>
           </div>
         </Grid>
         <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
-          {conversionStatus(status, handleResume)}
+          {conversionDirection === conversionDirections.ADA_TO_ETH && status === conversionStatuses.USER_INITIATED ? (
+            <SnetButton name="View" onClick={handleResume} variant="outlined" />
+          ) : null}
+          {status === conversionStatuses.WAITING_FOR_CLAIM ? <SnetButton name="Continue" onClick={handleResume} variant="outlined" /> : null}
           <CardActions disableSpacing>
             {transactions.length > 0 ? (
               <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
