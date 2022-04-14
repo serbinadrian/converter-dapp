@@ -1,4 +1,4 @@
-const progress = {
+export const progress = {
   IDLE: 'IDLE',
   PROCESSING: 'PROCESSING',
   COMPLETE: 'COMPLETE',
@@ -112,10 +112,10 @@ export const errorMessages = {
 };
 
 export const blockchainStatusLabels = {
-  ON_SIGNING_FROM_WALLET: { title: 'Wallet Interaction', message: 'Please sign from your wallet...', showConversionProgressModal: false },
-  ON_CONFIRMING_TXN: { title: 'Wallet Interaction', message: 'Please confirm transaction from your wallet...', showConversionProgressModal: false },
-  ON_TXN_HASH: { title: 'Transaction', message: 'Waiting for transaction to be mined...', showConversionProgressModal: true },
-  ON_UPDATING_TXN_STATUS: { title: 'Transaction', message: 'Updating transaction status...', showConversionProgressModal: false },
-  ON_APPROVING_SPEND_LIMIT: { title: 'Wallet Interaction', message: 'Approving spend limit...', showConversionProgressModal: false },
-  RESET_CONVERSION_LABEL: { title: '', message: '', showConversionProgressModal: false }
+  ON_SIGNING_FROM_WALLET: { title: 'Wallet Interaction', message: 'Please sign from your wallet...' },
+  ON_CONFIRMING_TXN: { title: 'Wallet Interaction', message: 'Please confirm transaction from your wallet...' },
+  ON_TXN_HASH: { title: 'Transaction', message: 'Waiting for transaction to be mined...' },
+  ON_UPDATING_TXN_STATUS: { title: 'Transaction', message: 'Updating transaction status...' },
+  ON_APPROVING_SPEND_LIMIT: { title: 'Wallet Interaction', message: 'Approving spend limit...' },
+  RESET_CONVERSION_LABEL: { title: '', message: '' }
 };
