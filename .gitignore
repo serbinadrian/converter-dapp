@@ -15,3 +15,6 @@ yarn-error.log*
 cdk/.env
 cdk/package-lock.json
 cdk/yarn.lock
+.env
+
+src/contracts/singularitynet-token-manager/abi

@@ -65,7 +65,7 @@ const TokenPairs = ({
           </Button>
         </Stack>
       ) : null}
-      <Stack direction="row" alignItems="center" justifyContent="center" padding={4}>
+      <Stack direction="row" alignItems="center" justifyContent="center" padding={4.5}>
         <IconButton sx={styles.iconButton} onClick={onSwapBlockchain} color="primary" size="large">
           <SwapIcon />
         </IconButton>

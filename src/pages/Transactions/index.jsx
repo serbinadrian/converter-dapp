@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import TxnHistoryTable from './TxnHistoryTable';
 import { useStyles } from './styles';
-import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetButton from '../../components/snet-button';
 import SnetConnectWallet from '../../components/snet-connect-wallets';
 

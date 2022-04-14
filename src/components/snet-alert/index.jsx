@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { useMemo } from 'react';
 import { useStyles } from './styles';
 
-const SnetAlert = ({ error, type }) => {
+const SnetAlert = ({ error, type = 'error' }) => {
   const classes = useStyles();
 
   const className = useMemo(() => {
@@ -12,14 +12,12 @@ const SnetAlert = ({ error, type }) => {
         return classes.successMsg;
       case 'info':
         return classes.pandingMsg;
-      case 'error':
-        return classes.errorMsg;
       default:
-        break;
+        return {};
     }
   });
   return (
-    <Alert icon={false} severity={type} variant="outlined" className={className}>
+    <Alert severity={type} variant="outlined" className={`${classes.alertBox} ${className}`}>
       {error}
     </Alert>
   );
@@ -27,7 +25,7 @@ const SnetAlert = ({ error, type }) => {
 
 SnetAlert.propTypes = {
   error: propTypes.string.isRequired,
-  type: propTypes.string.isRequired
+  type: propTypes.string
 };
 
 export default SnetAlert;

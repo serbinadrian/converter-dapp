@@ -101,6 +101,8 @@ export const useStyles = makeStyles({
     }
   },
   statusValueContainer: {
+    display: 'flex',
+    alignItems: 'center',
     '& p': {
       fontSize: 14,
       lineHeight: '18px'
@@ -157,7 +159,8 @@ export const useStyles = makeStyles({
     '& div p': {
       color: '#9B9B9B',
       fontSize: 14,
-      letterSpacing: 0.17
+      letterSpacing: 0.17,
+      lineHeight: '18px'
     }
   },
   expandedDataRows: {

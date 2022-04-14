@@ -31,7 +31,9 @@ const SnetDialog = ({ isDialogOpen, onDialogClose, title, children, showClosebut
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent dividers>{children}</DialogContent>
+      <DialogContent dividers sx={{ ...dialogueStyle.dailogContent }}>
+        {children}
+      </DialogContent>
     </BootstrapDialog>
   );
 };

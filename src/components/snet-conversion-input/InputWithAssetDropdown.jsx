@@ -14,6 +14,7 @@ const InputWithAssetDropdown = ({ tokenPairs, value, handleSelect, inputValue, o
 
   return (
     <TextField
+      sx={styles.amtDropdown}
       inputRef={inputRef}
       id={id}
       disabled={readOnly}
