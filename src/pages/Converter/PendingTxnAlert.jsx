@@ -26,6 +26,11 @@ const PendingTxnAlert = () => {
     fetchPendingTransactionCounts();
   }, [address]);
 
+  const link = (
+    <Link underline="none" href="/transactions">
+      Transactions
+    </Link>
+  );
   return isPendingTxns ? (
     <SnetAlert
       error={
@@ -36,6 +41,7 @@ const PendingTxnAlert = () => {
           </Link>
         </p>
       }
+      type="info"
     />
   ) : null;
 };

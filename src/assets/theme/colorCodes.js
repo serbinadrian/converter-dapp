@@ -7,7 +7,11 @@ const ColorCodes = {
   lightGray: '#EEEEEE',
   border: '#f5f7f8',
   successMsgBorder: '#00C48C',
+  pendingMsgBorder: '#4086FF',
+  errorMsgBorder: '#E67381',
   successMsgBg: '#E7FFF8',
+  pendingMsgBg: '#DEEAFF',
+  errorMsgBg: '#FDE5E8',
   text: '#212121',
   lightText: '#424242'
 };
