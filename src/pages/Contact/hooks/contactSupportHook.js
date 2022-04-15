@@ -71,18 +71,16 @@ const useContactSupportHook = () => {
     };
     try {
       const data = await submitFeedback(params);
-      if (data.status === 'success') {
-        setName('');
-        setEmail('');
-        setAddress('');
-        setType('Bug');
-        setMessage('');
-        setShowSuccessMessage(true);
+      setName('');
+      setEmail('');
+      setAddress('');
+      setType('Bug');
+      setMessage('');
+      setShowSuccessMessage(true);
 
-        setTimeout(() => {
-          setShowSuccessMessage(false);
-        }, 10000);
-      }
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 10000);
     } catch (error) {
       console.log(error);
     } finally {

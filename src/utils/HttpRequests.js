@@ -107,7 +107,7 @@ export const getPendingConversionCount = async (address) => {
 
 export const submitFeedback = async (params) => {
   try {
-    const data = await axios.post('https://huvfmeboq0.execute-api.us-east-1.amazonaws.com/rt-v2/user/message', params);
+    const data = await axios.post(`${process.env.REACT_APP_CONTACT_SUPPORT_BASE_URL}/user/message`, params);
     return data;
   } catch (error) {
     console.log(error);
