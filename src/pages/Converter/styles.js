@@ -1,7 +1,7 @@
 import colorCodes from '../../assets/theme/colorCodes';
 
 const styles = {
-  conersionModal: { position: 'relative' },
+  // conersionModal: { position: 'relative' },
   conersionBox: {
     width: 640,
     borderRadius: '4px 4px 0 0',
