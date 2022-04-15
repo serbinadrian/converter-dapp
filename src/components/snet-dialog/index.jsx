@@ -22,14 +22,7 @@ const SnetDialog = ({ isDialogOpen, onDialogClose, title, children, showClosebut
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <BootstrapDialog
-      sx={dialogueStyle.connectWalletPopup}
-      fullScreen={fullScreen}
-      maxWidth="xl"
-      onClose={onDialogClose}
-      aria-labelledby="snet-dialog-title"
-      open={isDialogOpen}
-    >
+    <BootstrapDialog fullScreen={fullScreen} maxWidth="xl" onClose={onDialogClose} aria-labelledby="snet-dialog-title" open={isDialogOpen}>
       <DialogTitle sx={{ ...dialogueStyle.dialogTitle, textAlign: onDialogClose ? 'left' : 'center' }}>
         {title}
         {showClosebutton ? (
