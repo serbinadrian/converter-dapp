@@ -61,7 +61,7 @@ const useContactSupportHook = () => {
     const params = {
       source: 'BRIDGE',
       name,
-      address: '',
+      address,
       email,
       phone_no: '',
       message_type: type,
