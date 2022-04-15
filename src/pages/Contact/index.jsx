@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
 import { useStyles } from './styles';
 import SnetContactInput from '../../components/snet-contact-input';
 import useContactSupportHook from './hooks/contactSupportHook';
@@ -25,6 +25,7 @@ const options = [
 const Contact = () => {
   const classes = useStyles();
   const {
+    isLoading,
     name,
     email,
     address,
@@ -47,6 +48,9 @@ const Contact = () => {
         <title>SingularityNet Bridge | Contact Us</title>
       </Helmet>
       <GeneralLayout>
+        <Backdrop className={classes.backdrop} open={isLoading}>
+          <CircularProgress color="white" />
+        </Backdrop>
         <Box display="flex" justifyContent="center" alignItems="center">
           <div className={classes.container}>
             <div className={classes.headerContainer}>

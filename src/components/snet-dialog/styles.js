@@ -1,12 +1,6 @@
 import ColorCodes from '../../assets/theme/colorCodes';
 
 const snetDialogStyles = {
-  connectWalletPopup: {
-    '& .MuiDialog-paper': {
-      width: 800,
-      margin: 0
-    }
-  },
   dialogTitle: {
     m: 0,
     padding: '16px 24px !important',

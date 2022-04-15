@@ -34,5 +34,8 @@ export const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20
+  },
+  backdrop: {
+    zIndex: 1
   }
 });

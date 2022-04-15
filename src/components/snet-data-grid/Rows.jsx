@@ -74,7 +74,7 @@ const Rows = ({
 
   const addEllipsisInBetweenString = (str) => {
     if (str.length) {
-      return `${str.substr(0, 6)}...${str.substr(str.length - 6)}`;
+      return `${str.substr(0, 4)}...${str.substr(str.length - 4)}`;
     }
     return str;
   };

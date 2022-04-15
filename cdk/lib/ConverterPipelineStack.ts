@@ -5,13 +5,11 @@ import * as cloudfront from '@aws-cdk/aws-cloudfront';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as deploy from '@aws-cdk/aws-s3-deployment';
 import * as codebuild from '@aws-cdk/aws-codebuild';
-import * as origins from '@aws-cdk/aws-cloudfront-origins';
 import { Role } from '@aws-cdk/aws-iam';
 
 // dotenv Must be the first expression
 dotenv.config();
 
-const region = <string>process.env.CDK_REGION;
 const environment = <string>process.env.CDK_ENVIRONMENT;
 const configBucket = <string>process.env.APP_CONFIGS_S3_BUCKET_NAME;
 const appConfigsFolder = <string>process.env.APP_CONFIGS_S3_FOLDER;
@@ -23,8 +21,6 @@ const githubBranch = <string>process.env.GITHUB_BRANCH;
 const S3_BUCKET_NAME = `${environment}-converter-dapp`;
 const CD_ROLE_ARN = <string>process.env.SINGULARITYNET_CD_ROLE_ARN;
 const CERTIFICATE_ARN = <string>process.env.CERTIFICATE_ARN;
-const CDN_DOMAIN_NAME = <string>process.env.CDN_DOMAIN_NAME;
-const S3_WEBSITE_DOMAIN = `${S3_BUCKET_NAME}.s3-website-${region}.amazonaws.com`;
 
 export class ConverterPipeLineStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: any) {
@@ -37,6 +33,7 @@ export class ConverterPipeLineStack extends cdk.Stack {
       repo: githubRepo,
       branchOrRef: githubBranch,
       fetchSubmodules: false,
+      cloneDepth: 25,
       webhook: true,
       webhookTriggersBatchBuild: false,
       webhookFilters: [codebuild.FilterGroup.inEventOf(codebuild.EventAction.PUSH).andBranchIs(githubBranch)]
@@ -72,32 +69,20 @@ export class ConverterPipeLineStack extends cdk.Stack {
 
     const convertDappCertificate = acm.Certificate.fromCertificateArn(this, 'ConverterDappCertificate', CERTIFICATE_ARN);
 
-    const siteDistribution = new cloudfront.Distribution(this, `${environment}-converter-dapp-distribution`, {
+    const siteDistribution = new cloudfront.CloudFrontWebDistribution(this, `${environment}-converter-dapp-distribution`, {
       defaultRootObject: 'index.html',
-      domainNames: [CDN_DOMAIN_NAME],
-      certificate: convertDappCertificate,
-      errorResponses: [
+      viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(convertDappCertificate),
+      originConfigs: [
         {
-          httpStatus: 403,
-          responseHttpStatus: 200,
-          responsePagePath: '/index.html',
-          ttl: cdk.Duration.minutes(10)
-        },
-        {
-          httpStatus: 404,
-          responseHttpStatus: 200,
-          responsePagePath: '/index.html',
-          ttl: cdk.Duration.minutes(10)
+          s3OriginSource: {
+            s3BucketSource: siteBucket
+          },
+          behaviors: [{ isDefaultBehavior: true }]
         }
       ],
-      defaultBehavior: {
-        origin: new origins.HttpOrigin(S3_WEBSITE_DOMAIN),
-        allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
-        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-        cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
-        responseHeadersPolicy: cloudfront.ResponseHeadersPolicy.SECURITY_HEADERS
-      }
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
     });
+
 
     new deploy.BucketDeployment(this, `${environment}-converter-dapp-deployment`, {
       sources: [deploy.Source.asset('../build')],

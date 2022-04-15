@@ -1,7 +1,6 @@
 import colorCodes from '../../assets/theme/colorCodes';
 
 const styles = {
-  conersionModal: { position: 'relative' },
   conersionBox: {
     width: 640,
     borderRadius: '4px 4px 0 0',
@@ -143,7 +142,7 @@ const styles = {
   converterBox: { '& > div': { padding: 0 } },
   ethAdaConversionBox: { padding: '52px 50px 0' },
   alertAndBtnContainer: {
-    padding: '15px 50px 52px',
+    padding: '15px 50px 0 52px',
     borderRadius: '0 0 8px 8px',
     marginTop: 20,
     backgroundColor: '#FAFAFA'
