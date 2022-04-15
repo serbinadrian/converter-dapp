@@ -8,8 +8,8 @@ import ListItem from '@mui/material/ListItem';
 import ColorCodes from '../../assets/theme/colorCodes';
 import SnetButton from '../snet-button';
 import Paths from '../../router/paths';
-import { setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
-import { availableBlockchains } from '../../utils/ConverterConstants';
+import { setActiveStep, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { availableBlockchains, conversionSteps } from '../../utils/ConverterConstants';
 
 const TransactionReceipt = ({ receiptLines, txnHash }) => {
   const navigate = useNavigate();
@@ -17,9 +17,11 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
 
   const onClickFinish = () => {
     dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
+    dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
   };
 
   const openLink = () => {
+    dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
     navigate(Paths.Transactions);
   };
 
