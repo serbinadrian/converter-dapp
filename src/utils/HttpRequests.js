@@ -104,3 +104,13 @@ export const getPendingConversionCount = async (address) => {
     throw error;
   }
 };
+
+export const submitFeedback = async (params) => {
+  try {
+    const data = await axios.post('https://huvfmeboq0.execute-api.us-east-1.amazonaws.com/rt-v2/user/message', params);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

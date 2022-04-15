@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { submitFeedback } from '../../../utils/HttpRequests';
 
 const useContactSupportHook = () => {
   const emailReg =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
@@ -45,28 +47,51 @@ const useContactSupportHook = () => {
     }
   };
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = async () => {
     if (!email.match(emailReg)) {
       setEmailError(true);
+      return;
     }
     if (!message) {
       setMessageError(true);
+      return;
     }
-    if (email.match(emailReg) && message) {
-      setName('');
-      setEmail('');
-      setAddress('');
-      setType('Bug');
-      setMessage('');
-      setShowSuccessMessage(true);
 
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 10000);
+    setIsLoading(true);
+    const params = {
+      source: 'BRIDGE',
+      name,
+      address: '',
+      email,
+      phone_no: '',
+      message_type: type,
+      subject: '',
+      message,
+      attachment_details: {}
+    };
+    try {
+      const data = await submitFeedback(params);
+      if (data.status === 'success') {
+        setName('');
+        setEmail('');
+        setAddress('');
+        setType('Bug');
+        setMessage('');
+        setShowSuccessMessage(true);
+
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+        }, 10000);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return {
+    isLoading,
     name,
     email,
     address,
