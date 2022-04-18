@@ -10,7 +10,6 @@ const ETHTOADAConversionPopup = ({ title, openPopup, handlePopupClose, openLink,
     <Modal open={openPopup} onClose={handlePopupClose} sx={styles.conersionModal}>
       <Box sx={styles.conersionBox}>
         <Box sx={styles.conersionModalHeader}>
-          <CircularProgress />
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {title}
           </Typography>
@@ -18,6 +17,9 @@ const ETHTOADAConversionPopup = ({ title, openPopup, handlePopupClose, openLink,
         </Box>
         <Box sx={styles.conersionModalBody}>
           <div sx={styles.processingLoaderContainer}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
+              <CircularProgress />
+            </Box>
             <Typography>
               Processing: Awaiting Confimation {blockConfiramtionsReceived}/{blockConfiramtionsRequired}
             </Typography>
