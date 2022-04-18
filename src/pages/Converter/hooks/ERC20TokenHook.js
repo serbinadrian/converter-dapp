@@ -30,17 +30,20 @@ const useERC20TokenHook = () => {
     const [blockchain] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.ETHEREUM);
     const blockConfiramtionsRequired = blockchain.block_confirmation;
     setIsConversionInProgress({ ...isConversionInProgress, blockConfiramtionsRequired, status: true });
+    let isBlockConfirmationPending = true;
 
     const sixtySeconds = 60000;
     const intervalId = setInterval(async () => {
       try {
-        const { conversion, transactions } = await getConversionStatus(conversionId);
-        const { status } = conversion;
-        if (status === progress.PROCESSING) {
-          const [transaction] = transactions;
-          const { confirmation } = transaction;
-          const isBlockConfirmationPending = Number(blockConfiramtionsRequired) >= Number(confirmation);
-          setIsConversionInProgress({ status: isBlockConfirmationPending, blockConfiramtionsReceived: confirmation, blockConfiramtionsRequired });
+        if (isBlockConfirmationPending) {
+          const { conversion, transactions } = await getConversionStatus(conversionId);
+          const { status } = conversion;
+          if (status === progress.PROCESSING) {
+            const [transaction] = transactions;
+            const { confirmation } = transaction;
+            isBlockConfirmationPending = Number(blockConfiramtionsRequired) > Number(confirmation);
+            setIsConversionInProgress({ status: isBlockConfirmationPending, blockConfiramtionsReceived: confirmation, blockConfiramtionsRequired });
+          }
         }
       } catch (error) {
         console.log(error);

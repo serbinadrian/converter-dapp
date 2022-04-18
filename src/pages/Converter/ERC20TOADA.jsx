@@ -25,6 +25,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const navigate = useNavigate();
   const { blockchains, wallet } = useSelector((state) => state);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showConfirmationBlockPopup, setConfirmationBlockPopup] = useState(false);
   const [errorRedirectTo, seterrorRedirectTo] = useState(null);
   const { conversionDirection } = useSelector((state) => state.wallet);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
@@ -106,6 +107,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 
   const onETHToADAConversion = async () => {
     try {
+      setConfirmationBlockPopup(true);
       await burnERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, toAddress);
       resetFromAndToValues();
     } catch (exception) {
@@ -137,7 +139,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   };
 
   const handlePopupClose = () => {
-    conversionIsComplete();
+    setConfirmationBlockPopup(false);
   };
 
   const openLink = () => navigate(Paths.Transactions);
@@ -212,7 +214,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
               blockConfiramtionsReceived={isConversionInProgress.blockConfiramtionsReceived}
               blockConfiramtionsRequired={isConversionInProgress.blockConfiramtionsRequired}
               title={formatConversionTitle()}
-              openPopup={isConversionInProgress.status}
+              openPopup={showConfirmationBlockPopup}
               handlePopupClose={handlePopupClose}
               openLink={openLink}
             />

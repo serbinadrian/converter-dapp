@@ -1,7 +1,7 @@
-import { Typography, Modal, Box } from '@mui/material';
+import { Typography, Modal, Box, CircularProgress } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+
 import propTypes from 'prop-types';
-import CircularProgress from '@mui/material/CircularProgress';
 import SnetButton from '../../components/snet-button';
 import styles from './styles';
 
