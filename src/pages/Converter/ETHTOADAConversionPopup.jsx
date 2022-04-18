@@ -1,6 +1,7 @@
 import { Typography, Modal, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import propTypes from 'prop-types';
+import CircularProgress from '@mui/material/CircularProgress';
 import SnetButton from '../../components/snet-button';
 import styles from './styles';
 
@@ -14,12 +15,13 @@ const ETHTOADAConversionPopup = ({ title, openPopup, handlePopupClose, openLink,
           </Typography>
           <CloseIcon onClick={handlePopupClose} />
         </Box>
-        <Box sx={styles.conersionModalBody}>
-          <div sx={styles.processingLoaderContainer}>
+        <Box sx={styles.conversionModalBody}>
+          <Box sx={styles.processingLoaderContainer}>
+            <CircularProgress />
             <Typography>
               Processing: Awaiting Confimation {blockConfiramtionsReceived}/{blockConfiramtionsRequired}
             </Typography>
-          </div>
+          </Box>
           <Typography>
             Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from &apos;Transactions&apos;.
           </Typography>
