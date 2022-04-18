@@ -41,7 +41,7 @@ const useERC20TokenHook = () => {
           if (status === progress.PROCESSING) {
             const [transaction] = transactions;
             const { confirmation } = transaction;
-            isBlockConfirmationPending = Number(blockConfiramtionsRequired) >= Number(confirmation);
+            isBlockConfirmationPending = Number(blockConfiramtionsRequired) > Number(confirmation);
             setIsConversionInProgress({ status: isBlockConfirmationPending, blockConfiramtionsReceived: confirmation, blockConfiramtionsRequired });
           }
         }

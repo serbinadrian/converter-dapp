@@ -1,5 +1,6 @@
-import { Typography, Modal, Box } from '@mui/material';
+import { Typography, Modal, Box, CircularProgress } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+
 import propTypes from 'prop-types';
 import SnetButton from '../../components/snet-button';
 import styles from './styles';
@@ -16,6 +17,9 @@ const ETHTOADAConversionPopup = ({ title, openPopup, handlePopupClose, openLink,
         </Box>
         <Box sx={styles.conersionModalBody}>
           <div sx={styles.processingLoaderContainer}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
+              <CircularProgress />
+            </Box>
             <Typography>
               Processing: Awaiting Confimation {blockConfiramtionsReceived}/{blockConfiramtionsRequired}
             </Typography>
