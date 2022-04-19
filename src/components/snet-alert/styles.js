@@ -25,7 +25,7 @@ export const useStyles = makeStyles({
       lineHeight: '18px'
     },
     '& a': {
-      paddingLeft: 10,
+      paddingLeft: 5,
       '&:hover': { textDecoration: 'underline' }
     }
   }
