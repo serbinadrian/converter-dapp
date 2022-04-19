@@ -33,6 +33,7 @@ const PendingTxnAlert = () => {
 
   return isPendingTxns && size(wallets) > 1 ? (
     <SnetAlert
+      iconPresence={false}
       error={
         <p>
           You have pending transactions. Please view the details on the transactions page

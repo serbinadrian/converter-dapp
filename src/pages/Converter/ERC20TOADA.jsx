@@ -186,10 +186,9 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
           />
         </Box>
         <Box style={styles.alertAndBtnContainer}>
-          {wallet.conversionDirection === conversionDirections.ETH_TO_ADA ? (
+          {wallet.conversionDirection === conversionDirections.ETH_TO_ADA && authorizationRequired ? (
             <Stack direction="row" alignItems="center">
-              <InfoIcon style={styles.infoBoxIcon} />
-              <Typography style={styles.infoBoxMsg}>Allow SingularityNET Bridge to use ethereum tokens from your wallet</Typography>
+              <SnetAlert iconPresence={false} error={<p>Allow SingularityNET Bridge to use ethereum tokens from your wallet</p>} type="info" />
             </Stack>
           ) : null}
           {error.error && error.message.length ? (
