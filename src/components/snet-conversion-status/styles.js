@@ -2,15 +2,15 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
   ethToAdaTransactionReceiptContainer: {
-    '& h2': {
-      background: 'red'
-    }
+    width: 640,
+    padding: '32px 44px 40px 50px'
   },
   progressSection: {
     paddingBottom: 32,
     display: 'flex',
     flexDirection: 'column',
     '& svg': {
+      marginBottom: 5,
       color: '#00C48C',
       fontSize: 48
     },

@@ -26,23 +26,27 @@ const styles = {
       fontSize: 24
     }
   },
-  conersionModalBody: {
-    '& div': {
-      paddingTop: `32px !important`,
-      '& > p': {
-        color: '#9B9B9B',
-        fontSize: 16,
-        fontWeight: 600,
-        lineHeight: '28px',
-        textAlign: 'center'
-      }
-    },
+  conversionModalBody: {
     '& > p': {
       padding: '32px 20px',
       color: '#212121',
       fontSize: 14,
       letterSpacing: 0.13,
       lineHeight: '18px'
+    }
+  },
+  processingLoaderContainer: {
+    paddingTop: `32px !important`,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > p': {
+      paddingTop: '10px',
+      color: '#9B9B9B',
+      fontSize: 16,
+      fontWeight: 600,
+      lineHeight: '28px',
+      textAlign: 'center'
     }
   },
   conersionModalActions: {

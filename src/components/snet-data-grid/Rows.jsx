@@ -53,7 +53,12 @@ const Rows = ({
   const transactionStatus = (status) => {
     let component;
     switch (status) {
-      case conversionStatuses.PROCESSING || conversionStatuses.USER_INITIATED:
+      case conversionStatuses.PROCESSING:
+      case conversionStatuses.USER_INITIATED:
+      case conversionStatuses.CLAIM_INITIATED:
+      case conversionStatuses.WAITING_FOR_CONFIRMATION:
+      case conversionStatuses.WAITING_FOR_CLAIM:
+      case conversionStatuses.IDLE:
         component = <HourglassBottomIcon fontSize="small" color="primary" />;
         break;
 

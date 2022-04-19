@@ -1,14 +1,8 @@
 import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
-  connectWalletPopup: {
-    backgroundColor: 'red',
-    '& .MuiDialog-paper': {
-      width: 800,
-      margin: 0
-    }
-  },
   connectWalletContent: {
+    width: 800,
     padding: '32px 16px',
     '& > div': {
       paddingBottom: 23,
