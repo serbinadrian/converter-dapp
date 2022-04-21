@@ -147,7 +147,7 @@ const ADATOERC20ETH = () => {
         {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
         {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
       </Box>
-      <Box style={styles.alertAndBtnWhnAmtDiffContainer}>
+      {/* <Box style={styles.alertAndBtnWhnAmtDiffContainer}>
         <SnetAlert
           iconPresence={false}
           error={<p>A more recent deposit was received or this transaction was expired. Please check transaction history for more details.</p>}
@@ -156,7 +156,7 @@ const ADATOERC20ETH = () => {
           <SnetButton name="close" variant="outlined" onClickCancel={handleCancel} />
           <SnetButton name="view transaction history" onClick={openLink} />
         </Box>
-      </Box>
+      </Box> */}
     </SnetPaper>
   );
 };

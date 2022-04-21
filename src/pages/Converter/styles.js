@@ -168,10 +168,9 @@ const styles = {
     alignItems: 'center'
   },
   btnContainer: {
-    '& > button': {
-      backgroundColor: 'red',
-      '&:first-of-type': { marginRight: '16px !important' }
-    }
+    width: 400,
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 };
 
