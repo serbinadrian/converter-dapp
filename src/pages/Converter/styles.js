@@ -161,6 +161,17 @@ const styles = {
     fontSize: 14,
     letterSpacing: -0.22,
     lineHeight: '18px'
+  },
+  alertAndBtnWhnAmtDiffContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  btnContainer: {
+    '& > button': {
+      backgroundColor: 'red',
+      '&:first-of-type': { marginRight: '16px !important' }
+    }
   }
 };
 
