@@ -8,7 +8,7 @@ const useContactSupportHook = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
-  const [type, setType] = useState('Bug');
+  const [type, setType] = useState('FeedBack');
   const [message, setMessage] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -74,7 +74,7 @@ const useContactSupportHook = () => {
       setName('');
       setEmail('');
       setAddress('');
-      setType('Bug');
+      setType('FeedBack');
       setMessage('');
       setShowSuccessMessage(true);
 
