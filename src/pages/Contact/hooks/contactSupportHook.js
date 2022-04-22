@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { contactSupportType } from '../../../utils/ConverterConstants';
 import { submitFeedback } from '../../../utils/HttpRequests';
 
 const useContactSupportHook = () => {
@@ -8,7 +9,7 @@ const useContactSupportHook = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
-  const [type, setType] = useState('FeedBack');
+  const [type, setType] = useState(contactSupportType.FEEDBACK);
   const [message, setMessage] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -74,7 +75,7 @@ const useContactSupportHook = () => {
       setName('');
       setEmail('');
       setAddress('');
-      setType('FeedBack');
+      setType(contactSupportType.FEEDBACK);
       setMessage('');
       setShowSuccessMessage(true);
 
