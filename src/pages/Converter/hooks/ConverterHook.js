@@ -10,7 +10,8 @@ import {
   isValueGreaterThanProvided,
   isValueLessThanProvided,
   isValueLessThanEqualToProvided,
-  isDecimalPlacesExceeds
+  isDecimalPlacesExceeds,
+  isValueGreaterThanEqualToProvided
 } from '../../../utils/bignumber';
 
 const tokenPairDirection = {
@@ -101,9 +102,16 @@ const useConverterHook = () => {
   };
 
   const onUseFullamount = (amount) => {
-    const amountInString = amount.toString();
+    const [pair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === fromTokenPair.id);
+    const pairMaxValue = convertFromCogs(pair.max_value, pair.from_token.allowed_decimal);
+    let fullAmoount = amount;
+    if (isValueGreaterThanEqualToProvided(amount, pairMaxValue)) {
+      fullAmoount = pairMaxValue;
+    }
+    const amountInString = fullAmoount.toString();
+
     setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: amountInString, toValue: amountInString });
-    validateAmounts(amount);
+    validateAmounts(fullAmoount);
   };
 
   const handleFromInputChange = (event) => {
