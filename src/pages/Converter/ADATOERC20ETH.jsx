@@ -17,8 +17,6 @@ import { useWalletHook } from '../../components/snet-wallet-connector/walletHook
 import SnetLoader from '../../components/snet-loader';
 import Paths from '../../router/paths';
 import SnetSnackbar from '../../components/snet-snackbar';
-import SnetAlert from '../../components/snet-alert';
-import SnetButton from '../../components/snet-button';
 
 const ADATOERC20ETH = () => {
   const { generateSignatureForClaim, conversionIn } = useWalletHook();
@@ -29,6 +27,10 @@ const ADATOERC20ETH = () => {
   const { conversionStepsForAdaToEth, activeStep, conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
   const { conversionApiCallIntervalIds } = useSelector((state) => state.tokenPairs);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
+
+  console.log('conversionStepsForAdaToEth', conversionStepsForAdaToEth);
+  console.log('activeStep', activeStep);
+  console.log('##conversion#', conversion);
 
   const { fromAddress, toAddress } = useSelector((state) => state.wallet);
   const navigate = useNavigate();
@@ -128,10 +130,6 @@ const ADATOERC20ETH = () => {
     }
   }, [activeStep]);
 
-  const openLink = () => {
-    navigate(Paths.Transactions);
-  };
-
   return (
     <SnetPaper>
       <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
@@ -147,16 +145,6 @@ const ADATOERC20ETH = () => {
         {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
         {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
       </Box>
-      {/* <Box style={styles.alertAndBtnWhnAmtDiffContainer}>
-        <SnetAlert
-          iconPresence={false}
-          error={<p>A more recent deposit was received or this transaction was expired. Please check transaction history for more details.</p>}
-        />
-        <Box style={styles.btnContainer}>
-          <SnetButton name="close" variant="outlined" onClickCancel={handleCancel} />
-          <SnetButton name="view transaction history" onClick={openLink} />
-        </Box>
-      </Box> */}
     </SnetPaper>
   );
 };

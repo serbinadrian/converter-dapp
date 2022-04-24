@@ -161,16 +161,6 @@ const styles = {
     fontSize: 14,
     letterSpacing: -0.22,
     lineHeight: '18px'
-  },
-  alertAndBtnWhnAmtDiffContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  btnContainer: {
-    width: 400,
-    display: 'flex',
-    justifyContent: 'space-between'
   }
 };
 
