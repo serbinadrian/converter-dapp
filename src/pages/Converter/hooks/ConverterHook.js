@@ -104,14 +104,14 @@ const useConverterHook = () => {
   const onUseFullamount = (amount) => {
     const [pair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === fromTokenPair.id);
     const pairMaxValue = convertFromCogs(pair.max_value, pair.from_token.allowed_decimal);
-    let fullAmoount = amount;
+    let fullAmount = amount;
     if (isValueGreaterThanEqualToProvided(amount, pairMaxValue)) {
-      fullAmoount = pairMaxValue;
+      fullAmount = pairMaxValue;
     }
-    const amountInString = fullAmoount.toString();
+    const amountInString = fullAmount.toString();
 
     setFromAndToTokenPairs({ ...fromAndToTokenValues, fromValue: amountInString, toValue: amountInString });
-    validateAmounts(fullAmoount);
+    validateAmounts(fullAmount);
   };
 
   const handleFromInputChange = (event) => {
