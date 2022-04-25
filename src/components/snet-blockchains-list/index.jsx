@@ -19,7 +19,8 @@ const BlockchainList = ({
   isWalletAvailable,
   walletAddress,
   disconnectWallet,
-  openWallet
+  openWallet,
+  cardanoAddress
 }) => {
   const [showInput, setShowInput] = useState(false);
 
@@ -83,7 +84,9 @@ const BlockchainList = ({
               isWalletAvailable={isWalletAvailable}
             />
           ) : null}
-          {showInput ? <WalletAddressInput onSaveAddress={saveAddress} blockchain={blockchain} onCancel={showOrHideInput} /> : null}
+          {showInput ? (
+            <WalletAddressInput cardanoAddress={cardanoAddress} onSaveAddress={saveAddress} blockchain={blockchain} onCancel={showOrHideInput} />
+          ) : null}
           {isNil(walletAddress) && !showInput ? (
             <Button
               onClick={() => {
@@ -111,7 +114,8 @@ BlockchainList.propTypes = {
   walletAddress: propTypes.string,
   onSaveAddress: propTypes.func,
   disconnectWallet: propTypes.func,
-  openWallet: propTypes.func
+  openWallet: propTypes.func,
+  cardanoAddress: propTypes.string
 };
 
 export default BlockchainList;
