@@ -1,13 +1,8 @@
-import { Divider, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import propTypes from 'prop-types';
 
 const SnetAdaEthTitle = ({ title }) => {
-  return (
-    <>
-      <Typography>{title}</Typography>
-      <Divider light sx={{ marginBottom: 2, marginTop: 2 }} />
-    </>
-  );
+  return <Typography>{title}</Typography>;
 };
 
 SnetAdaEthTitle.propTypes = {

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import SnetAdaEthSteps from '../../components/snet-ada-eth-conversion-form/SnetAdaEthSteps';
 import SnetAdaEthTitle from '../../components/snet-ada-eth-conversion-form/SnetAdaEthTitle';
-import SnetPaper from '../../components/snet-paper';
 import styles from './styles';
 import DepositAndBurnTokens from '../../components/snet-ada-eth-conversion-form/DepositAndBurnTokens';
 import { setActiveStep, setConversionDirection, setConversionStatus } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
@@ -127,13 +126,13 @@ const ADATOERC20ETH = () => {
   }, [activeStep]);
 
   return (
-    <SnetPaper>
+    <Box sx={styles.adaEthConvertSteperBox}>
       <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
       {blockchainStatus ? (
         <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
       ) : null}
       <SnetAdaEthTitle title={formatConversionTitle()} />
-      <Box sx={styles.padding}>
+      <Box sx={styles.adtEthContent}>
         <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
         {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.BURN_TOKENS ? (
           <DepositAndBurnTokens onClickCancel={handleCancel} />
@@ -141,7 +140,7 @@ const ADATOERC20ETH = () => {
         {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
         {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
       </Box>
-    </SnetPaper>
+    </Box>
   );
 };
 

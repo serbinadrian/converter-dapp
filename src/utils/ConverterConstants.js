@@ -81,7 +81,7 @@ export const conversionStepsForAdaToEth = [
     progress: progress.IDLE
   },
   {
-    label: 'Burn Tokens',
+    label: 'Convert Tokens',
     step: conversionSteps.BURN_TOKENS,
     progress: progress.IDLE
   },
