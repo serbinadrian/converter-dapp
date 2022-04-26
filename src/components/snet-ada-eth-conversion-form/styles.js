@@ -55,7 +55,7 @@ export const useStyles = makeStyles({
     }
   },
   inputBoxAndCopyBtnContainer: {
-    margin: '32px 0',
+    margin: '32px 0 0',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -83,15 +83,54 @@ export const useStyles = makeStyles({
     }
   },
   btnContainer: {
+    marginTop: 32,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     '& button': {
       padding: '10px 24px',
       fontSize: 14,
       fontWeight: 600,
       letterSpacing: 1.25,
-      lineHeight: '16px'
+      lineHeight: '16px',
+      '&:first-of-type': { marginRight: 32 }
+    }
+  },
+  successMsgIconContainer: {
+    margin: '32px 0',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& h3': {
+      color: '#9B9B9B',
+      fontSize: 16,
+      fontWeight: 600,
+      lineHeight: '28px'
+    }
+  },
+  receiptList: {
+    padding: 0,
+    marginTop: 16,
+    '& li': {
+      borderRadius: 4,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      backgroundColor: '#f8f8f8',
+      '& p': {
+        '&:first-of-type': {
+          color: '#666',
+          fontSize: 16,
+          lineHeight: '40px'
+        },
+        '& span': {
+          color: '#9B9B9B',
+          fontSize: 16,
+          fontWeight: 600,
+          letterSpacing: 0.67,
+          lineHeight: '40px'
+        }
+      }
     }
   }
 });

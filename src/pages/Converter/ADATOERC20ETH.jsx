@@ -135,7 +135,7 @@ const ADATOERC20ETH = () => {
       <Box sx={styles.adtEthContent}>
         <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
         {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.BURN_TOKENS ? (
-          <DepositAndBurnTokens onClickCancel={handleCancel} />
+          <DepositAndBurnTokens onClickContinueLater={continueLater} onClickCancel={handleCancel} />
         ) : null}
         {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
         {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}

@@ -9,7 +9,7 @@ import { conversionStatuses, conversionSteps } from '../../utils/ConverterConsta
 import { setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { useStyles } from './styles';
 
-const DepositAndBurnTokens = ({ onClickCancel }) => {
+const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
   const classes = useStyles();
   const { conversion, activeStep } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
   const [buttonName, setButtonName] = useState('Copy');
@@ -21,7 +21,7 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
 
   const onClickContinue = () => {
     if (isWaitingForDeposit) {
-      dispatch(setActiveStep(conversionSteps.BURN_TOKENS));
+      dispatch(setActiveStep(conversionSteps.CONVERT_TOKENS));
     } else if (isDepositReceived) {
       dispatch(setActiveStep(conversionSteps.CLAIM_TOKENS));
     }
@@ -34,9 +34,6 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
       setButtonName('Copy');
     }, 4000);
   };
-
-  console.log('conversion', conversion);
-  console.log('active step', activeStep);
 
   return (
     <>
@@ -83,8 +80,8 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
             </>
           ) : (
             <>
-              <SnetButton name="continue later" variant="outlined" />
-              <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="convert tokens" />
+              <SnetButton name="continue later" variant="outlined" onClick={onClickContinueLater} />
+              <SnetButton name="convert tokens" />
             </>
           )}
         </Box>
@@ -94,7 +91,8 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
 };
 
 DepositAndBurnTokens.propTypes = {
-  onClickCancel: propTypes.func.isRequired
+  onClickCancel: propTypes.func.isRequired,
+  onClickContinueLater: propTypes.func.isRequired
 };
 
 export default DepositAndBurnTokens;

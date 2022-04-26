@@ -5,6 +5,7 @@ export const useStyles = makeStyles({
     paddingTop: 12,
     display: 'flex',
     alignItems: 'center',
+    '& button': { padding: 0 },
     '& svg': {
       paddingRight: '4px',
       color: '#9b9b9b',
