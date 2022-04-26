@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { Typography, Box, Stack, CircularProgress } from '@mui/material';
 import propTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -47,7 +46,7 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
           conversionFee={conversion.conversionFees}
           conversionFeeTokenSymbol={conversion.pair.from_token.symbol}
         />
-        {conversion.status !== 'EXPIRED' ? (
+        {conversion.status !== conversionStatuses.EXPIRED ? (
           <>
             <Box marginY={6}>
               <SnetInputWithCopy value={conversion.depositAddress} label="Cardano Deposit Address" />
