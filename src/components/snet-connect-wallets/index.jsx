@@ -136,6 +136,7 @@ const SnetConnectWallet = ({ isDialogOpen, onDialogClose, blockchains }) => {
                 onSaveAddress={onSaveAddress}
                 openWallet={connectEthereumWallet}
                 disconnectWallet={() => onClickDisconnectWallet(blockchain.name)}
+                cardanoAddress={cardanoAddress}
               />
             );
           })}
