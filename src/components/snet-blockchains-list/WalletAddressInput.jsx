@@ -5,8 +5,8 @@ import Stack from '@mui/material/Stack';
 import propTypes from 'prop-types';
 import style from './style';
 
-const WalletAddressInput = ({ blockchain, onCancel, onSaveAddress }) => {
-  const [address, setAddress] = useState('');
+const WalletAddressInput = ({ blockchain, onCancel, onSaveAddress, cardanoAddress }) => {
+  const [address, setAddress] = useState(cardanoAddress);
 
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
@@ -30,7 +30,8 @@ const WalletAddressInput = ({ blockchain, onCancel, onSaveAddress }) => {
 WalletAddressInput.propTypes = {
   blockchain: propTypes.string.isRequired,
   onCancel: propTypes.func.isRequired,
-  onSaveAddress: propTypes.func.isRequired
+  onSaveAddress: propTypes.func.isRequired,
+  cardanoAddress: propTypes.string
 };
 
 export default WalletAddressInput;

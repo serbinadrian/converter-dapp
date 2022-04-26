@@ -119,3 +119,23 @@ export const blockchainStatusLabels = {
   ON_APPROVING_SPEND_LIMIT: { title: 'Wallet Interaction', message: 'Approving spend limit...' },
   RESET_CONVERSION_LABEL: { title: '', message: '' }
 };
+
+export const contactSupportType = {
+  BUG: 'Bug',
+  QUESTION: 'Question',
+  FEEDBACK: 'FeedBack'
+};
+export const ContactSupportTypeOptions = [
+  {
+    value: contactSupportType.BUG,
+    label: contactSupportType.BUG
+  },
+  {
+    value: contactSupportType.QUESTION,
+    label: contactSupportType.QUESTION
+  },
+  {
+    value: contactSupportType.FEEDBACK,
+    label: contactSupportType.FEEDBACK
+  }
+];
