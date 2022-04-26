@@ -16,6 +16,7 @@ import { useWalletHook } from '../../components/snet-wallet-connector/walletHook
 import SnetLoader from '../../components/snet-loader';
 import Paths from '../../router/paths';
 import SnetSnackbar from '../../components/snet-snackbar';
+import PendingTxnAlert from './PendingTxnAlert';
 
 const ADATOERC20ETH = () => {
   const { generateSignatureForClaim, conversionIn } = useWalletHook();
@@ -40,7 +41,7 @@ const ADATOERC20ETH = () => {
     const sixtySeconds = 60000;
     const intervalId = setInterval(async () => {
       try {
-        if (activeStep === conversionSteps.BURN_TOKENS) {
+        if (activeStep === conversionSteps.CONVERT_TOKENS) {
           const response = await getConversionStatus(conversion.conversionId);
           dispatch(setConversionStatus(response.conversion.status));
         }
@@ -120,27 +121,32 @@ const ADATOERC20ETH = () => {
   };
 
   useEffect(() => {
-    if (activeStep === conversionSteps.BURN_TOKENS) {
+    if (activeStep === conversionSteps.CONVERT_TOKENS) {
       checkConversionStatus();
     }
   }, [activeStep]);
 
   return (
-    <Box sx={styles.adaEthConvertSteperBox}>
-      <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
-      {blockchainStatus ? (
-        <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
-      ) : null}
-      <SnetAdaEthTitle title={formatConversionTitle()} />
-      <Box sx={styles.adtEthContent}>
-        <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
-        {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.BURN_TOKENS ? (
-          <DepositAndBurnTokens onClickContinueLater={continueLater} onClickCancel={handleCancel} />
-        ) : null}
-        {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
-        {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
+    <>
+      <Box sx={styles.pendingTxnAlertContainer}>
+        <PendingTxnAlert />
       </Box>
-    </Box>
+      <Box sx={styles.adaEthConvertSteperBox}>
+        <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
+        {blockchainStatus ? (
+          <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
+        ) : null}
+        <SnetAdaEthTitle title={formatConversionTitle()} />
+        <Box sx={styles.adtEthContent}>
+          <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
+          {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.CONVERT_TOKENS ? (
+            <DepositAndBurnTokens onClickContinueLater={continueLater} onClickCancel={handleCancel} />
+          ) : null}
+          {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
+          {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
+        </Box>
+      </Box>
+    </>
   );
 };
 

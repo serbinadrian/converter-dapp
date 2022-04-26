@@ -27,6 +27,10 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
     }
   };
 
+  const onClickConvertToken = () => {
+    dispatch(setActiveStep(conversionSteps.CONVERT_TOKENS));
+  };
+
   const onCopy = () => {
     navigator.clipboard.writeText(conversion.depositAddress);
     setButtonName('Copied');
@@ -81,7 +85,7 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
           ) : (
             <>
               <SnetButton name="continue later" variant="outlined" onClick={onClickContinueLater} />
-              <SnetButton name="convert tokens" />
+              <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="convert tokens" onClick={onClickConvertToken} />
             </>
           )}
         </Box>

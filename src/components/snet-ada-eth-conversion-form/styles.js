@@ -2,10 +2,14 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
   stepper: {
+    backdropColor: 'red',
     '& .MuiStepLabel-root': {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      '& .MuiStepLabel-iconContainer': {
+        '& .Mui-completed': { color: '#00C48C' }
+      },
       '& .MuiStepLabel-label': {
         color: '#9B9B9B',
         fontSize: 14,

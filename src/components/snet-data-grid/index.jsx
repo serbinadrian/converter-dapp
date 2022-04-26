@@ -33,7 +33,7 @@ const SnetDataGrid = ({
   const navigate = useNavigate();
 
   const handleResume = (conversionInfo, conversionStatus) => {
-    const activeStep = conversionStatus === conversionStatuses.WAITING_FOR_CLAIM ? conversionSteps.CLAIM_TOKENS : conversionSteps.BURN_TOKENS;
+    const activeStep = conversionStatus === conversionStatuses.WAITING_FOR_CLAIM ? conversionSteps.CLAIM_TOKENS : conversionSteps.CONVERT_TOKENS;
 
     const { wallet } = conversionInfo;
 
