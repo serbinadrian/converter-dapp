@@ -28,10 +28,6 @@ const ADATOERC20ETH = () => {
   const { conversionApiCallIntervalIds } = useSelector((state) => state.tokenPairs);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
 
-  console.log('conversionStepsForAdaToEth', conversionStepsForAdaToEth);
-  console.log('activeStep', activeStep);
-  console.log('##conversion#', conversion);
-
   const { fromAddress, toAddress } = useSelector((state) => state.wallet);
   const navigate = useNavigate();
   const dispatch = useDispatch();
