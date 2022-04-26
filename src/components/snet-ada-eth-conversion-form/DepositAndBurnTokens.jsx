@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Typography, FormControl, InputLabel, OutlinedInput, Box, Stack, CircularProgress } from '@mui/material';
 import propTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useSelector, useDispatch } from 'react-redux';
 import SnetButton from '../snet-button';
@@ -8,9 +9,12 @@ import AdaToEthTokenAndValue from './AdaToEthTokenAndValue';
 import { conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
 import { setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { useStyles } from './styles';
+import SnetAlert from '../snet-alert';
+import Paths from '../../router/paths';
 
 const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const { conversion, activeStep } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
   const [buttonName, setButtonName] = useState('Copy');
 
@@ -37,6 +41,10 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
     setTimeout(() => {
       setButtonName('Copy');
     }, 4000);
+  };
+
+  const openLink = () => {
+    navigate(Paths.Transactions);
   };
 
   return (
@@ -68,13 +76,26 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
             <SnetButton name={buttonName} onClick={onCopy} />
           </Box>
         ) : null}
-        {!isWaitingForDeposit ? (
+        {!isWaitingForDeposit && conversion.status !== conversionStatuses.EXPIRED ? (
           <Stack direction="column" alignItems="center" marginBottom={6} spacing={2} justifyContent="center">
             {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
             <Typography variant="h3" color="lightgrey">
               {isDepositReceived ? 'Deposit received successfully' : 'Waiting for the deposit to arrive'}
             </Typography>
           </Stack>
+        ) : null}
+        {conversion.status === conversionStatuses.EXPIRED ? (
+          <Box marginTop={2}>
+            <SnetAlert
+              iconPresence={false}
+              type="error"
+              error={<p>A more recent deposit was received or this transaction was expired. Please check transaction history for more details.</p>}
+            />
+            <Box className={classes.btnContainer}>
+              <SnetButton name="close" onClick={onClickCancel} variant="outlined" />
+              <SnetButton name="view transaction history" onClick={openLink} />
+            </Box>
+          </Box>
         ) : null}
         <Box className={classes.btnContainer}>
           {activeStep === 0 ? (
