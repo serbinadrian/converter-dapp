@@ -58,7 +58,7 @@ const Contact = () => {
                 />
               </Stack>
               <SnetContactInput id="address" value={address} onChange={handleAddressChange} label="Wallet Address (Optional)" />
-              <SnetContactInput id="bug" fullWidth value={type} onChange={handleTypeChange} label="Bug" select options={ContactSupportTypeOptions} />
+              <SnetContactInput id="bug" fullWidth value={type} onChange={handleTypeChange} label="Category" select options={ContactSupportTypeOptions} />
               <SnetContactInput
                 id="message"
                 fullWidth
