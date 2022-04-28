@@ -57,21 +57,6 @@ const WalletMenu = ({ openConnectedWallets }) => {
             <Link to={Paths.Contact}>Contact</Link>
           </li>
         </ul>
-        {/* <Box className={classes.walletConnectionContainer}>
-          {!isEmpty(wallets) ? (
-            <Box onClick={openConnectedWallets} className={classes.walletConnectionInfo}>
-              <IconButton>
-                <AccountBalanceWalletIcon />
-              </IconButton>
-              <Box>
-                <Typography>Wallet Account</Typography>
-                <span>{size(wallets)} Connected</span>
-              </Box>
-            </Box>
-          ) : (
-            <SnetButton name="Connect Wallets" onClick={openConnectedWallets} />
-          )}
-        </Box> */}
       </Box>
     </Box>
   );

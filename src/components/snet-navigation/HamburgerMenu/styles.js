@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 export const useStyles = makeStyles(() => ({
   hamburger: {
     padding: 10,
-    margin: '0 39px 0 23px',
+    margin: '0 39px 0 0',
     display: 'none',
     cursor: 'pointer',
     '& span': {
@@ -13,8 +13,8 @@ export const useStyles = makeStyles(() => ({
       backgroundColor: '#212121',
       marginBottom: 3
     },
-    '@media (max-width:1024px)': { display: 'block' },
-    '@media (max-width:768px)': { margin: '0 25px 0 0' }
+    '@media (max-width:960px)': { display: 'block' },
+    '@media (max-width:600px)': { margin: '0 15px 0 0' }
   },
   hamburgerNavContainer: {
     display: 'flex',
@@ -58,34 +58,6 @@ export const useStyles = makeStyles(() => ({
         fontSize: 20,
         lineHeight: '20px'
       }
-    }
-  },
-  walletConnectionInfo: {
-    marginTop: 50,
-    display: 'flex',
-    cursor: 'pointer',
-    '& svg': {
-      color: '#fff',
-      padding: 7,
-      border: '1px solid #CCC',
-      backgroundColor: '#9B9B9B',
-      fontSize: 20,
-      boxSizing: 'content-box',
-      borderRadius: 25
-    },
-    '& p': {
-      margin: '7px 0 -10px',
-      color: '#fff',
-      fontSize: 16,
-      fontWeight: 600,
-      lineHeight: '20px'
-    },
-    '& span': {
-      color: '#4086FF',
-      fontSize: 11,
-      fontWeight: 600,
-      lineHeight: '14px',
-      textTransform: 'uppercase'
     }
   }
 }));

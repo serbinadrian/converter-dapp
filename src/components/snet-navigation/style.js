@@ -21,7 +21,7 @@ const useMenubarStyles = makeStyles(() => ({
         lineHeight: '20px'
       }
     },
-    '@media(max-width: 1024px)': { display: 'none' }
+    '@media(max-width: 960px)': { display: 'none' }
   },
   active: {
     '& a': {
@@ -43,7 +43,10 @@ const useMenubarStyles = makeStyles(() => ({
   items: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    '& button': {
+      '@media(max-width: 600px)': { fontSize: 12 }
+    }
   },
   walletConnectionInfo: {
     display: 'flex',
@@ -62,7 +65,8 @@ const useMenubarStyles = makeStyles(() => ({
       color: 'rgba(33,33,33,0.87)',
       fontSize: 16,
       fontWeight: 600,
-      lineHeight: '20px'
+      lineHeight: '20px',
+      '@media(max-width: 600px)': { fontSize: 12 }
     },
     '& span': {
       color: '#4086FF',
