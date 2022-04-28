@@ -12,7 +12,7 @@ import { setActiveStep, setConversionDirection, setConversionStatus } from '../.
 import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
-import { availableBlockchains, conversionSteps, blockchainStatusLabels } from '../../utils/ConverterConstants';
+import { availableBlockchains, conversionSteps, blockchainStatusLabels, txnOperations } from '../../utils/ConverterConstants';
 import { conversionClaim, getConversionStatus, updateTransactionStatus } from '../../utils/HttpRequests';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetLoader from '../../components/snet-loader';
@@ -58,10 +58,10 @@ const ADATOERC20ETH = () => {
           if (activeStep === conversionSteps.BURN_TOKENS) {
             const { conversion: conversions, transactions } = await getConversionStatus(conversion.conversionId);
             dispatch(setConversionStatus(conversions.status));
-            const receivedTransaction = transactions.find((obj) => obj.transaction_operation === 'TOKEN_RECEIVED');
+            const receivedTransaction = transactions.find((obj) => obj.transaction_operation === txnOperations.TOKEN_RECEIVED);
             if (receivedTransaction) {
               const { confirmation: receiveConfirmation } = receivedTransaction;
-              const burntTransaction = transactions.find((obj) => obj.transaction_operation === 'TOKEN_BURNT');
+              const burntTransaction = transactions.find((obj) => obj.transaction_operation === txnOperations.TOKEN_BURNT);
               if (burntTransaction) {
                 const { confirmation: burntConfirmation } = burntTransaction;
                 if (burntTransaction) isBlockConfirmationPending = Number(blockConfiramtionsRequired) > Number(burntConfirmation);
