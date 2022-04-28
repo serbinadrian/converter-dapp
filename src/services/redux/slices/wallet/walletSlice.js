@@ -3,7 +3,14 @@ import { conversionDirections } from '../../../../utils/ConverterConstants';
 
 const walletSlice = createSlice({
   name: 'wallets',
-  initialState: { wallets: [], signature: '', fromAddress: null, toAddress: null, conversionDirection: conversionDirections.ETH_TO_ADA },
+  initialState: {
+    isWalletInitializing: true,
+    wallets: [],
+    signature: '',
+    fromAddress: null,
+    toAddress: null,
+    conversionDirection: conversionDirections.ETH_TO_ADA
+  },
   reducers: {
     setFromAddress: (state, action) => {
       state.fromAddress = action.payload;

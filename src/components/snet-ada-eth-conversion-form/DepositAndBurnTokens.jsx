@@ -12,7 +12,6 @@ import SnetAlert from '../snet-alert';
 import Paths from '../../router/paths';
 
 const DepositAndBurnTokens = ({ onClickCancel, isBurning, blockConfiramtionsReceived, blockConfiramtionsRequired }) => {
-
   const navigate = useNavigate();
   const { conversion, activeStep } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
 
@@ -70,7 +69,6 @@ const DepositAndBurnTokens = ({ onClickCancel, isBurning, blockConfiramtionsRece
                     Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from Transactions.
                   </Typography>
                 )}
-
               </Stack>
             ) : null}
             <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
