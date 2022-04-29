@@ -94,25 +94,29 @@ const Rows = ({
   return (
     <>
       <Grid container spacing={2} className={`${classes.transactionDataRow} ${expanded ? classes.expandedRow : ''}`}>
-        <Grid item xs={6} md={2}>
+        <Grid item xs={12} md={12} lg={2}>
           <Tooltip title={id}>
             <Typography overflow="hidden" textOverflow="ellipsis" align="left" className={classes.id}>
+              <span className={classes.responsiveColName}>id:</span>
               {shrinkId(id)}
             </Typography>
           </Tooltip>
         </Grid>
-        <Grid item xs={6} md={2}>
+        <Grid item xs={12} md={12} lg={2}>
           <Typography textTransform="uppercase" align="left">
+            <span className={classes.responsiveColName}>date:</span>
             {utcToLocalDateTime(date)}
           </Typography>
         </Grid>
-        <Grid item xs={6} md={2}>
+        <Grid item xs={12} md={12} lg={2}>
           <Typography textTransform="uppercase" align="left">
+            <span className={classes.responsiveColName}>chain type:</span>
             {chainType}
           </Typography>
         </Grid>
-        <Grid item xs={6} md={1} flexDirection="column" className={classes.alignRight}>
+        <Grid item xs={12} md={12} lg={1} flexDirection="column" className={classes.alignRight}>
           <Typography textTransform="uppercase" align="right">
+            <span className={classes.responsiveColName}>from:</span>
             {depositAmount} {fromToken}
           </Typography>
           <Button type="button" className={classes.fromToAddressContainer} onClick={() => copyToClipboard(fromAddress)}>
@@ -120,8 +124,9 @@ const Rows = ({
             <ContentCopyIcon />
           </Button>
         </Grid>
-        <Grid item xs={6} md={1} flexDirection="column" className={classes.alignRight}>
+        <Grid item xs={12} md={12} lg={1} flexDirection="column" className={classes.alignRight}>
           <Typography textTransform="uppercase" align="right">
+            <span className={classes.responsiveColName}>to:</span>
             {receivingAmount} {toToken}
           </Typography>
           <Button type="button" className={classes.fromToAddressContainer} onClick={() => copyToClipboard(toAddress)}>
@@ -129,15 +134,16 @@ const Rows = ({
             <ContentCopyIcon />
           </Button>
         </Grid>
-        <Grid item xs={6} md={2} className={classes.statusData}>
+        <Grid item xs={12} md={12} lg={2} className={classes.statusData}>
           <div className={classes.statusValueContainer}>
+            <span className={classes.responsiveColName}>status:</span>
             {transactionStatus(status)}
             <Typography data-status-type={status} className={classes.value} align="center">
               {conversionStatusMessages[status]}
             </Typography>
           </div>
         </Grid>
-        <Grid item xs={6} md={2} className={classes.expandArrowContainer} justifyContent="flex-end">
+        <Grid item xs={12} md={12} lg={2} className={classes.expandArrowContainer} justifyContent="flex-end">
           {conversionDirection === conversionDirections.ADA_TO_ETH && status === conversionStatuses.USER_INITIATED ? (
             <SnetButton name="View" onClick={handleResume} variant="outlined" />
           ) : null}
@@ -155,10 +161,10 @@ const Rows = ({
         <Box display="flex" justifyContent="space-between" className={classes.expandedData}>
           <div className={classes.expandedDataWrapper}>
             <Grid container className={classes.expandedDataCol}>
-              <Grid item xs={6} md={2}>
+              <Grid item xs={12} md={2}>
                 <Typography>Date</Typography>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <Typography>Process Status</Typography>
               </Grid>
               <Grid item xs={6} md={2}>

@@ -11,7 +11,8 @@ export const useStyles = makeStyles({
       color: '#9b9b9b',
       fontSize: 14,
       fontWeight: 600
-    }
+    },
+    '@media(max-width:1200px)': { display: 'none' }
   },
   transactionHistoryTable: { padding: '0 16px' },
   transactionHistoryHeader: {
@@ -55,13 +56,21 @@ export const useStyles = makeStyles({
     '& > div': {
       padding: `0 !important`,
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      '@media(max-width:1200px)': {
+        width: '100%',
+        marginTop: 20,
+        display: 'flex !important',
+        justifyContent: 'center'
+      }
     },
-    '& p': { fontSize: 14 },
-    '& span': {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      display: 'inherit'
+    '& p': {
+      display: 'flex',
+      fontSize: 14
+    },
+    '@media(max-width:1200px)': {
+      flexDirection: 'column',
+      alignItems: 'center'
     }
   },
   fromToAddressContainer: {
@@ -90,7 +99,8 @@ export const useStyles = makeStyles({
     '&:hover': {
       '& p': { color: '#4086ff' },
       '& svg': { color: '#4086ff' }
-    }
+    },
+    '@media(max-width:1200px)': { margin: 0 }
   },
   statusData: {
     display: 'flex',
@@ -161,12 +171,19 @@ export const useStyles = makeStyles({
       fontSize: 14,
       letterSpacing: 0.17,
       lineHeight: '18px'
-    }
+    },
+    '@media(max-width:900px)': { display: 'none' }
   },
   expandedDataRows: {
     padding: '7px 20px 7px 60px',
     background: '#fff',
     marginTop: 2,
+    '& > div': {
+      '@media(max-width:900px)': {
+        marginTop: 20,
+        display: 'flex'
+      }
+    },
     '& span': {
       color: '#666',
       fontSize: 14,
@@ -179,7 +196,11 @@ export const useStyles = makeStyles({
       textOverflow: 'ellipsis',
       overflow: 'hidden',
       display: 'inherit',
-      '& span': { color: '#4086FF' }
+      '& span': {
+        color: '#4086FF',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+      }
     }
   },
   alignRight: {
@@ -201,8 +222,10 @@ export const useStyles = makeStyles({
           fontSize: 14,
           '& svg': { fontSize: 22 }
         }
-      }
-    }
+      },
+      '@media(max-width:680px)': { marginBottom: 20 }
+    },
+    '@media(max-width:680px)': { flexDirection: 'column' }
   },
   pageCountSection: { paddingRight: 22 },
   itemPerPageTxt: {
@@ -227,5 +250,23 @@ export const useStyles = makeStyles({
       '& legend': { display: 'none' }
     }
   },
-  id: { cursor: 'default' }
+  id: { cursor: 'default' },
+  responsiveColName: {
+    paddingRight: 20,
+    display: 'none',
+    color: '#9b9b9b',
+    fontSize: 14,
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    '@media(max-width:1200px)': { display: 'block' }
+  },
+  responsiveExpandedColName: {
+    paddingRight: 15,
+    display: 'none',
+    color: '#212121',
+    fontSize: 14,
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    '@media(max-width:900px)': { display: 'block' }
+  }
 });
