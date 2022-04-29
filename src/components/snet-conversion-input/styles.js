@@ -24,7 +24,8 @@ const styles = {
     '& fieldset': {
       border: 'none',
       backgroundColor: 'rgba(204,180,225,0.1)'
-    }
+    },
+    '@media(max-width: 960px)': { width: 260 }
   },
   dropDownLabel: {
     color: '#212121',

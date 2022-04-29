@@ -144,7 +144,12 @@ const styles = {
   },
   list: { backgroundColor: 'red' },
   converterBox: { '& > div': { padding: 0 } },
-  ethAdaConversionBox: { padding: '52px 50px 0' },
+  ethAdaConversionBox: {
+    padding: '52px 50px 0',
+    '@media(max-width: 1200px)': {
+      padding: '26px 25px 0 !important'
+    }
+  },
   alertAndBtnContainer: {
     padding: '15px 50px 0 52px',
     borderRadius: '0 0 8px 8px',
