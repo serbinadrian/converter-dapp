@@ -35,10 +35,8 @@ const Transactions = () => {
             <TxnHistoryTable />
           ) : (
             <div className={classes.EmptyTransactionHistoryContainer}>
-              <Typography>Wallet not connected.</Typography>
-              <Typography variant="body2" marginY={3}>
-                Please connect both your wallets to view the transaction history
-              </Typography>
+              <span>Wallet not connected.</span>
+              <Typography>Please connect both your wallets to view the transaction history</Typography>
               <SnetButton name="Connect Wallets" variant="outlined" onClick={toggleWalletConnecting} />
             </div>
           )}
