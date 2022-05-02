@@ -19,7 +19,8 @@ const styles = {
     '& h2': {
       color: '#212121',
       fontSize: 20,
-      lineHeight: '50px'
+      lineHeight: '50px',
+      '@media(max-width:600px)': { fontSize: 16 }
     },
     '& svg': {
       cursor: 'pointer',
