@@ -11,7 +11,7 @@ import { setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairS
 import SnetAlert from '../snet-alert';
 import Paths from '../../router/paths';
 
-const DepositAndBurnTokens = ({ onClickCancel }) => {
+const DepositAndBurnTokens = ({ onClickCancel, isBurning, blockConfiramtionsReceived, blockConfiramtionsRequired }) => {
   const navigate = useNavigate();
   const { conversion, activeStep } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
 
@@ -54,9 +54,21 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
             {!isWaitingForDeposit ? (
               <Stack direction="column" alignItems="center" marginBottom={6} spacing={2} justifyContent="center">
                 {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
+                {!isDepositReceived && isBurning ? (
+                  <Typography variant="h3" color="lightgrey">
+                    Completed: Token Received
+                  </Typography>
+                ) : null}
                 <Typography variant="h3" color="lightgrey">
-                  {isDepositReceived ? 'Deposit received successfully' : 'Waiting for the deposit to arrive'}
+                  {isDepositReceived
+                    ? 'Deposit received successfully'
+                    : `Processing: ${isBurning ? 'Burning Tokens' : 'Receiving Confirmation'} ${blockConfiramtionsReceived}/${blockConfiramtionsRequired}`}
                 </Typography>
+                {isDepositReceived ? null : (
+                  <Typography variant="h3" color="lightgrey">
+                    Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from Transactions.
+                  </Typography>
+                )}
               </Stack>
             ) : null}
             <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
@@ -83,7 +95,10 @@ const DepositAndBurnTokens = ({ onClickCancel }) => {
 };
 
 DepositAndBurnTokens.propTypes = {
-  onClickCancel: propTypes.func.isRequired
+  onClickCancel: propTypes.func.isRequired,
+  isBurning: propTypes.bool.isRequired,
+  blockConfiramtionsReceived: propTypes.number.isRequired,
+  blockConfiramtionsRequired: propTypes.number.isRequired
 };
 
 export default DepositAndBurnTokens;

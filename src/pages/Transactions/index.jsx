@@ -15,7 +15,7 @@ const Transactions = () => {
 
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
   const state = useSelector((state) => state);
-  const { wallets } = state.wallet;
+  const { wallets, isWalletInitializing } = state.wallet;
   const { entities } = state.blockchains;
 
   const toggleWalletConnecting = () => {
@@ -31,15 +31,14 @@ const Transactions = () => {
         {isWalletConnecting ? <SnetConnectWallet isDialogOpen={isWalletConnecting} onDialogClose={toggleWalletConnecting} blockchains={entities} /> : null}
         <div className={classes.transactionHistoryContainer}>
           <Typography>Transactions History</Typography>
-          {!isEmpty(wallets) ? (
-            <TxnHistoryTable />
-          ) : (
+          {!isEmpty(wallets) ? <TxnHistoryTable /> : null}
+          {isEmpty(wallets) && !isWalletInitializing ? (
             <div className={classes.EmptyTransactionHistoryContainer}>
               <span>Wallet not connected.</span>
               <Typography>Please connect both your wallets to view the transaction history</Typography>
               <SnetButton name="Connect Wallets" variant="outlined" onClick={toggleWalletConnecting} />
             </div>
-          )}
+          ) : null}
         </div>
       </GeneralLayout>
     </>

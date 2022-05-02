@@ -6,7 +6,7 @@ import SnetContactInput from '../../components/snet-contact-input';
 import useContactSupportHook from './hooks/contactSupportHook';
 import ColorCodes from '../../assets/theme/colorCodes';
 import SnetAlert from '../../components/snet-alert';
-import { ContactSupportTypeOptions } from '../../utils/ConverterConstants';
+import { contactSupportType, ContactSupportTypeOptions } from '../../utils/ConverterConstants';
 
 const GeneralLayout = lazy(() => import('../../layouts/GeneralLayout'));
 const Contact = () => {
@@ -58,7 +58,15 @@ const Contact = () => {
                 />
               </Stack>
               <SnetContactInput id="address" value={address} onChange={handleAddressChange} label="Wallet Address (Optional)" />
-              <SnetContactInput id="bug" fullWidth value={type} onChange={handleTypeChange} label="Bug" select options={ContactSupportTypeOptions} />
+              <SnetContactInput
+                id="bug"
+                fullWidth
+                value={type}
+                onChange={handleTypeChange}
+                label={contactSupportType.CATEGORY}
+                select
+                options={ContactSupportTypeOptions}
+              />
               <SnetContactInput
                 id="message"
                 fullWidth

@@ -123,7 +123,8 @@ export const blockchainStatusLabels = {
 export const contactSupportType = {
   BUG: 'Bug',
   QUESTION: 'Question',
-  FEEDBACK: 'FeedBack'
+  FEEDBACK: 'FeedBack',
+  CATEGORY: 'Category'
 };
 export const ContactSupportTypeOptions = [
   {
