@@ -12,9 +12,9 @@ import { useStyles } from './styles';
 import SnetAlert from '../snet-alert';
 import Paths from '../../router/paths';
 
-const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
-  const classes = useStyles();
+const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, blockConfiramtionsReceived, blockConfiramtionsRequired }) => {
   const navigate = useNavigate();
+  const classes = useStyles();
   const { conversion, activeStep } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
   const [buttonName, setButtonName] = useState('Copy');
 
@@ -67,24 +67,41 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
           conversionFee={conversion.conversionFees}
           conversionFeeTokenSymbol={conversion.pair.from_token.symbol}
         />
-        {activeStep === 0 ? (
-          <Box className={classes.inputBoxAndCopyBtnContainer}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Cardano Deposit Address</InputLabel>
-              <OutlinedInput id="snet-input-with-copy" fullWidth type="text" value={conversion.depositAddress} label="Cardano Deposit Address" disabled />
-            </FormControl>
-            <SnetButton name={buttonName} onClick={onCopy} />
-          </Box>
-        ) : null}
-        {!isWaitingForDeposit && conversion.status !== conversionStatuses.EXPIRED ? (
-          <Stack direction="column" alignItems="center" marginBottom={6} spacing={2} justifyContent="center">
-            {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
-            <Typography variant="h3" color="lightgrey">
-              {isDepositReceived ? 'Deposit received successfully' : 'Waiting for the deposit to arrive'}
-            </Typography>
-          </Stack>
-        ) : null}
-        {conversion.status === conversionStatuses.EXPIRED ? (
+        {conversion.status !== conversionStatuses.EXPIRED ? (
+          <>
+            <Box className={classes.inputBoxAndCopyBtnContainer}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">Cardano Deposit Address</InputLabel>
+                <OutlinedInput id="snet-input-with-copy" fullWidth type="text" value={conversion.depositAddress} label="Cardano Deposit Address" disabled />
+              </FormControl>
+              <SnetButton name={buttonName} onClick={onCopy} />
+            </Box>
+            {!isWaitingForDeposit ? (
+              <Stack direction="column" alignItems="center" marginBottom={6} spacing={2} justifyContent="center">
+                {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
+                {!isDepositReceived && isBurning ? (
+                  <Typography variant="h3" color="lightgrey">
+                    Completed: Token Received
+                  </Typography>
+                ) : null}
+                <Typography variant="h3" color="lightgrey">
+                  {isDepositReceived
+                    ? 'Deposit received successfully'
+                    : `Processing: ${isBurning ? 'Burning Tokens' : 'Receiving Confirmation'} ${blockConfiramtionsReceived}/${blockConfiramtionsRequired}`}
+                </Typography>
+                {isDepositReceived ? null : (
+                  <Typography variant="h3" color="lightgrey">
+                    Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from Transactions.
+                  </Typography>
+                )}
+              </Stack>
+            ) : null}
+            <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
+              <SnetButton name="Close" variant="outlined" onClick={onClickCancel} />
+              <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="Continue" onClick={onClickContinue} />
+            </Stack>
+          </>
+        ) : (
           <Box marginTop={2}>
             <SnetAlert
               iconPresence={false}
@@ -96,7 +113,7 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
               <SnetButton name="view transaction history" onClick={openLink} />
             </Box>
           </Box>
-        ) : null}
+        )}
         <Box className={classes.btnContainer}>
           {activeStep === 0 ? (
             <>
@@ -117,7 +134,10 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater }) => {
 
 DepositAndBurnTokens.propTypes = {
   onClickCancel: propTypes.func.isRequired,
-  onClickContinueLater: propTypes.func.isRequired
+  onClickContinueLater: propTypes.func.isRequired,
+  isBurning: propTypes.bool.isRequired,
+  blockConfiramtionsReceived: propTypes.number.isRequired,
+  blockConfiramtionsRequired: propTypes.number.isRequired
 };
 
 export default DepositAndBurnTokens;
