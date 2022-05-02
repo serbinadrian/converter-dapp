@@ -8,7 +8,8 @@ const styles = {
     background: '#fff',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%,-50%)'
+    transform: 'translate(-50%,-50%)',
+    '@media(max-width:900px)': { width: '90%' }
   },
   conersionModalHeader: {
     borderBottom: '1px solid #F5F7F8',
