@@ -10,8 +10,10 @@ import SnetButton from '../snet-button';
 import Paths from '../../router/paths';
 import { setActiveStep, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { availableBlockchains, conversionSteps } from '../../utils/ConverterConstants';
+import { useStyles } from './styles';
 
 const TransactionReceipt = ({ receiptLines, txnHash }) => {
+  const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -26,37 +28,31 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
   };
 
   return (
-    <>
-      <Stack direction="column" alignItems="center" marginY={6} spacing={2} justifyContent="center">
+    <Box className={classes.adaEthTransactionReceipt}>
+      <Box className={classes.successMsgIconContainer}>
         <ProgressIcon color="warning" fontSize="large" />
         <Typography variant="h3" color="grey">
           Tokens conversion successfully initiated.
         </Typography>
-      </Stack>
+      </Box>
       <Typography variant="h5" fontWeight="bold">
         Transaction Receipt
       </Typography>
       <List>
         {receiptLines.map((line) => {
           return (
-            <ListItem key={line.id} sx={{ backgroundColor: ColorCodes.lightGray, padding: 2 }} divider color="grey" alignItems="flex-start">
-              <Box width="100%" display="flex" justifyContent="space-between">
-                <Typography variant="h5" color="grey">
-                  {line.label}
-                </Typography>
-                <Typography variant="h5" color="grey">
-                  {line.value}
-                </Typography>
-              </Box>
+            <ListItem key={line.id} className={classes.receiptList}>
+              <Typography>{line.label}</Typography>
+              <Typography>{line.value}</Typography>
             </ListItem>
           );
         })}
       </List>
-      <Box display="flex" alignItems="center" justifyContent="space-evenly" padding={4}>
-        <SnetButton onClick={openLink} variant="text" name="View Transaction" />
+      <Box className={classes.btnContainer}>
+        <SnetButton onClick={openLink} variant="text" name="View Transaction History" />
         <SnetButton name="Finish" onClick={onClickFinish} />
       </Box>
-    </>
+    </Box>
   );
 };
 

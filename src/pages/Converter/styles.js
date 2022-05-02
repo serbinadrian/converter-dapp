@@ -168,6 +168,26 @@ const styles = {
     fontSize: 14,
     letterSpacing: -0.22,
     lineHeight: '18px'
+  },
+  adaEthConvertSteperBox: {
+    width: 640,
+    borderRadius: '4px',
+    backgroundColor: '#FFF',
+    boxShadow: '0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)',
+    '& p': {
+      padding: '0 22px',
+      borderBottom: '1px solid #F5F7F8',
+      fontSize: 20,
+      lineHeight: '47px'
+    }
+  },
+  adtEthContent: {
+    padding: '38px 41px 40px',
+    '& h6': {
+      fontSize: 16,
+      letterSpacing: 0.15,
+      lineHeight: '24px'
+    }
   }
 };
 
