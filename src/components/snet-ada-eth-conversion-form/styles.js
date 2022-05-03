@@ -136,5 +136,27 @@ export const useStyles = makeStyles({
         }
       }
     }
+  },
+  processingStatus: {
+    marginTop: 32,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& span': {
+      border: 'none',
+      color: '#9B9B9B',
+      fontSize: 16,
+      fontWeight: 600,
+      lineHeight: '28px',
+      textAlign: 'center',
+      '& svg': { color: '#2086ff' }
+    },
+    '& p': {
+      border: 'none',
+      marginTop: 15,
+      color: '#212121',
+      fontSize: 16,
+      lineHeight: '20px'
+    }
   }
 });
