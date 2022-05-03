@@ -69,37 +69,31 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
         />
         {conversion.status !== conversionStatuses.EXPIRED ? (
           <>
-            <Box className={classes.inputBoxAndCopyBtnContainer}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Cardano Deposit Address</InputLabel>
-                <OutlinedInput id="snet-input-with-copy" fullWidth type="text" value={conversion.depositAddress} label="Cardano Deposit Address" disabled />
-              </FormControl>
-              <SnetButton name={buttonName} onClick={onCopy} />
-            </Box>
+            {activeStep === 0 ? (
+              <Box className={classes.inputBoxAndCopyBtnContainer}>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">Cardano Deposit Address</InputLabel>
+                  <OutlinedInput id="snet-input-with-copy" fullWidth type="text" value={conversion.depositAddress} label="Cardano Deposit Address" disabled />
+                </FormControl>
+                <SnetButton name={buttonName} onClick={onCopy} />
+              </Box>
+            ) : null}
             {!isWaitingForDeposit ? (
-              <Stack direction="column" alignItems="center" marginBottom={6} spacing={2} justifyContent="center">
+              <Box className={classes.processingStatus}>
                 {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
-                {!isDepositReceived && isBurning ? (
-                  <Typography variant="h3" color="lightgrey">
-                    Completed: Token Received
-                  </Typography>
-                ) : null}
-                <Typography variant="h3" color="lightgrey">
+                {!isDepositReceived && isBurning ? <span>Completed: Token Received</span> : null}
+                <span>
                   {isDepositReceived
                     ? 'Deposit received successfully'
                     : `Processing: ${isBurning ? 'Burning Tokens' : 'Receiving Confirmation'} ${blockConfiramtionsReceived}/${blockConfiramtionsRequired}`}
-                </Typography>
+                </span>
                 {isDepositReceived ? null : (
-                  <Typography variant="h3" color="lightgrey">
+                  <Typography>
                     Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from Transactions.
                   </Typography>
                 )}
-              </Stack>
+              </Box>
             ) : null}
-            <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
-              <SnetButton name="Close" variant="outlined" onClick={onClickCancel} />
-              <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="Continue" onClick={onClickContinue} />
-            </Stack>
           </>
         ) : (
           <Box marginTop={2}>

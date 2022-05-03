@@ -176,23 +176,17 @@ const ADATOERC20ETH = () => {
         <SnetAdaEthTitle title={formatConversionTitle()} />
         <Box sx={styles.padding}>
           <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
-          {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.BURN_TOKENS ? (
+          {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.CONVERT_TOKENS ? (
             <DepositAndBurnTokens
               onClickCancel={handleCancel}
+              onClickContinueLater={continueLater}
               isBurning={isConversionInProgress.isBurning}
               blockConfiramtionsReceived={isConversionInProgress.blockConfiramtionsReceived}
               blockConfiramtionsRequired={isConversionInProgress.blockConfiramtionsRequired}
             />
           ) : null}
-          <SnetAdaEthTitle title={formatConversionTitle()} />
-          <Box sx={styles.adtEthContent}>
-            <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
-            {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.CONVERT_TOKENS ? (
-              <DepositAndBurnTokens onClickContinueLater={continueLater} onClickCancel={handleCancel} />
-            ) : null}
-            {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
-            {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
-          </Box>
+          {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
+          {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
         </Box>
       </Box>
     </>
