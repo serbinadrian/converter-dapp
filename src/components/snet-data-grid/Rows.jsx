@@ -164,10 +164,10 @@ const Rows = ({
               <Grid item xs={12} md={2}>
                 <Typography>Date</Typography>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={2}>
                 <Typography>Process Status</Typography>
               </Grid>
-              <Grid item xs={6} md={2}>
+              <Grid item xs={6} md={3}>
                 <Typography>Status</Typography>
               </Grid>
               <Grid item xs={6} md={2}>

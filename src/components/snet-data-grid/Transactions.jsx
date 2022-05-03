@@ -28,13 +28,13 @@ const Transactions = ({ transaction, conversionDirection }) => {
           {utcToLocalDateTime(transaction.created_at)}
         </Typography>
       </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} md={2}>
         <span className={classes.responsiveExpandedColName}>Process Status:</span>
         <Typography variant="caption" textAlign="left">
           {txnOperationsLabels[transaction.transaction_operation]}
         </Typography>
       </Grid>
-      <Grid item xs={12} md={2}>
+      <Grid item xs={12} md={3}>
         <span className={classes.responsiveExpandedColName}>Status:</span>
         <div className={classes.statusValueContainer}>
           <Typography data-status-type={transaction.status} textAlign="left">

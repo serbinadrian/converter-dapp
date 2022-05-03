@@ -111,6 +111,7 @@ export const useStyles = makeStyles({
     }
   },
   statusValueContainer: {
+    height: '100%',
     display: 'flex',
     alignItems: 'center',
     '& p': {
@@ -164,7 +165,7 @@ export const useStyles = makeStyles({
     alignItems: 'center'
   },
   expandedDataCol: {
-    padding: '26px 20px 15px 60px',
+    padding: '26px 20px 15px 36px',
     backgroundColor: '#fff',
     '& div p': {
       color: '#9B9B9B',
@@ -175,7 +176,7 @@ export const useStyles = makeStyles({
     '@media(max-width:900px)': { display: 'none' }
   },
   expandedDataRows: {
-    padding: '7px 20px 7px 60px',
+    padding: '7px 20px 7px 36px',
     background: '#fff',
     marginTop: 2,
     '& > div': {
@@ -203,10 +204,7 @@ export const useStyles = makeStyles({
       }
     }
   },
-  alignRight: {
-    display: 'inline !important',
-    textAlign: 'right'
-  },
+  alignRight: { textAlign: 'right' },
   // Pagination styles
   paginationContainer: {
     marginTop: 64,
