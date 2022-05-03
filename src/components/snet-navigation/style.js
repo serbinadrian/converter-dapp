@@ -30,9 +30,9 @@ const useMenubarStyles = makeStyles(() => ({
     }
   },
   header: {
-    padding: '14px 60px',
+    padding: '9px 60px',
     boxShadow: '0 2px 3px 0 rgba(0,0,0,0.1)',
-    '@media(max-width: 1280px)': { padding: '14px 10px' }
+    '@media(max-width: 1280px)': { padding: '9px 10px' }
   },
   cursor: { cursor: 'pointer' },
   logo: { height: '40px' },
