@@ -83,8 +83,10 @@ export const useStyles = makeStyles({
       padding: '6px 44px',
       fontSize: 14,
       fontWeight: 600,
-      letterSpacing: 1.25
-    }
+      letterSpacing: 1.25,
+      '@media(max-width:680px)': { marginTop: 15 }
+    },
+    '@media(max-width:680px)': { flexDirection: 'column' }
   },
   btnContainer: {
     marginTop: 32,
@@ -113,28 +115,16 @@ export const useStyles = makeStyles({
     }
   },
   receiptList: {
-    padding: 0,
-    marginTop: 16,
-    '& li': {
-      borderRadius: 4,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      backgroundColor: '#f8f8f8',
-      '& p': {
-        '&:first-of-type': {
-          color: '#666',
-          fontSize: 16,
-          lineHeight: '40px'
-        },
-        '& span': {
-          color: '#9B9B9B',
-          fontSize: 16,
-          fontWeight: 600,
-          letterSpacing: 0.67,
-          lineHeight: '40px'
-        }
-      }
+    borderBottom: '1px solid #ebebeb',
+    padding: '10px 0',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#f8f8f8',
+    '& p': {
+      color: '#666',
+      fontSize: 16,
+      lineHeight: '40px'
     }
   },
   processingStatus: {

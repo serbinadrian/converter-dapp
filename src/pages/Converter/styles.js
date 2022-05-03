@@ -178,7 +178,12 @@ const styles = {
       padding: '0 22px',
       borderBottom: '1px solid #F5F7F8',
       fontSize: 20,
-      lineHeight: '47px'
+      lineHeight: '47px',
+      '@media(max-width:680px)': { fontSize: 16 }
+    },
+    '@media(max-width:900px)': {
+      width: '95%',
+      margin: '0 auto'
     }
   },
   adtEthContent: {
