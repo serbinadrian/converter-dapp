@@ -69,7 +69,7 @@ export const externalLinks = {
 
 export const conversionSteps = {
   DEPOSIT_TOKENS: 0,
-  BURN_TOKENS: 1,
+  CONVERT_TOKENS: 1,
   CLAIM_TOKENS: 2,
   SUMMARY: 3
 };
@@ -81,8 +81,8 @@ export const conversionStepsForAdaToEth = [
     progress: progress.IDLE
   },
   {
-    label: 'Burn Tokens',
-    step: conversionSteps.BURN_TOKENS,
+    label: 'Convert Tokens',
+    step: conversionSteps.CONVERT_TOKENS,
     progress: progress.IDLE
   },
   {

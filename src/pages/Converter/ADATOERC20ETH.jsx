@@ -55,7 +55,7 @@ const ADATOERC20ETH = () => {
     const intervalId = setInterval(async () => {
       try {
         if (isBlockConfirmationPending) {
-          if (activeStep === conversionSteps.BURN_TOKENS) {
+          if (activeStep === conversionSteps.CONVERT_TOKENS) {
             const { conversion: conversions, transactions } = await getConversionStatus(conversion.conversionId);
             dispatch(setConversionStatus(conversions.status));
             const receivedTransaction = transactions.find((obj) => obj.transaction_operation === txnOperations.TOKEN_RECEIVED);
