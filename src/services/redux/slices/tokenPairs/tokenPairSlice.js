@@ -39,7 +39,6 @@ const tokenPairSlice = createSlice({
     },
     setActiveStep(state, action) {
       state.conversionOfAdaToEth.activeStep = action.payload;
-      console.log('set active:', state, action);
     },
     setConversionStatus(state, action) {
       state.conversionOfAdaToEth.conversion.status = action.payload;
