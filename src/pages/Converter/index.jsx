@@ -29,6 +29,9 @@ const Converter = () => {
         <title>SingularityNet Bridge</title>
       </Helmet>
       <GeneralLayout>
+        <Box sx={styles.pendingTxnAlertContainer}>
+          <PendingTxnAlert />
+        </Box>
         {conversionDirection === availableBlockchains.CARDANO ? (
           <Grid display="flex" justifyContent="center">
             <Grid item>
@@ -37,9 +40,6 @@ const Converter = () => {
           </Grid>
         ) : (
           <Grid display="flex" alignItems="flex-start" container spacing={2} sx={styles.homePageContainer}>
-            <Grid item xs={12} md={12} sx={styles.pendingTxnAlertContainer}>
-              <PendingTxnAlert />
-            </Grid>
             <Grid item xs={12} md={5}>
               <WelcomeBox />
             </Grid>

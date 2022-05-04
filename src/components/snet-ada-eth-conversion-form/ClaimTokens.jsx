@@ -1,17 +1,15 @@
-import { Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import SnetButton from '../snet-button';
 import AdaToEthTokenAndValue from './AdaToEthTokenAndValue';
-import { useStyles } from './styles';
 
 const ClaimTokens = ({ onClickClaim, onClickContinueLater }) => {
-  const classes = useStyles();
   const { conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
 
   return (
     <>
-      <Typography variant="h6" marginY={4}>
+      <Typography variant="h6" marginY={6}>
         Tokens Conversion process is successfully competed. Now user can interact with Metamask and claim the amount.
       </Typography>
       <AdaToEthTokenAndValue
@@ -22,10 +20,10 @@ const ClaimTokens = ({ onClickClaim, onClickContinueLater }) => {
         conversionFee={conversion.conversionFees}
         conversionFeeTokenSymbol={conversion.pair.from_token.symbol}
       />
-      <Box className={classes.btnContainer}>
+      <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
         <SnetButton name="Continue Later" variant="outlined" onClick={onClickContinueLater} />
         <SnetButton name="Claim" onClick={onClickClaim} />
-      </Box>
+      </Stack>
     </>
   );
 };
