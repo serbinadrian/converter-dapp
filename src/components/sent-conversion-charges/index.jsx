@@ -1,18 +1,12 @@
-import { Box, Typography, Tooltip, IconButton } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import propTypes from 'prop-types';
-import { useStyles } from './styles';
 
 const ConversionCharges = ({ conversionFee, conversionSymbol }) => {
-  const classes = useStyles();
   return (
-    <Box className={classes.conversionChargesContainer}>
-      <Tooltip title="Amount charged by SingularityNET for conversion ">
-        <IconButton>
-          <InfoIcon />
-        </IconButton>
-      </Tooltip>
-      <Typography>
+    <Box display="flex" alignItems="center" paddingY={2}>
+      <InfoIcon fontSize="15px" color="secondary" />
+      <Typography marginLeft={1} color="grey" fontSize="14px">
         Conversion Charges: {conversionFee} {conversionSymbol}
       </Typography>
     </Box>
