@@ -5,7 +5,6 @@ import { Box } from '@mui/material';
 import { toUpper } from 'lodash';
 import SnetAdaEthSteps from '../../components/snet-ada-eth-conversion-form/SnetAdaEthSteps';
 import SnetAdaEthTitle from '../../components/snet-ada-eth-conversion-form/SnetAdaEthTitle';
-import SnetPaper from '../../components/snet-paper';
 import styles from './styles';
 import DepositAndBurnTokens from '../../components/snet-ada-eth-conversion-form/DepositAndBurnTokens';
 import { setActiveStep, setConversionDirection, setConversionStatus } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
@@ -18,6 +17,7 @@ import { useWalletHook } from '../../components/snet-wallet-connector/walletHook
 import SnetLoader from '../../components/snet-loader';
 import Paths from '../../router/paths';
 import SnetSnackbar from '../../components/snet-snackbar';
+import PendingTxnAlert from './PendingTxnAlert';
 
 const ADATOERC20ETH = () => {
   const { generateSignatureForClaim, conversionIn } = useWalletHook();
@@ -55,7 +55,7 @@ const ADATOERC20ETH = () => {
     const intervalId = setInterval(async () => {
       try {
         if (isBlockConfirmationPending) {
-          if (activeStep === conversionSteps.BURN_TOKENS) {
+          if (activeStep === conversionSteps.CONVERT_TOKENS) {
             const { conversion: conversions, transactions } = await getConversionStatus(conversion.conversionId);
             dispatch(setConversionStatus(conversions.status));
             const receivedTransaction = transactions.find((obj) => obj.transaction_operation === txnOperations.TOKEN_RECEIVED);
@@ -158,32 +158,38 @@ const ADATOERC20ETH = () => {
   };
 
   useEffect(() => {
-    if (activeStep === conversionSteps.BURN_TOKENS) {
+    if (activeStep === conversionSteps.CONVERT_TOKENS) {
       checkConversionStatus();
     }
   }, [activeStep]);
 
   return (
-    <SnetPaper>
-      <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
-      {blockchainStatus ? (
-        <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
-      ) : null}
-      <SnetAdaEthTitle title={formatConversionTitle()} />
-      <Box sx={styles.padding}>
-        <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
-        {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.BURN_TOKENS ? (
-          <DepositAndBurnTokens
-            onClickCancel={handleCancel}
-            isBurning={isConversionInProgress.isBurning}
-            blockConfiramtionsReceived={isConversionInProgress.blockConfiramtionsReceived}
-            blockConfiramtionsRequired={isConversionInProgress.blockConfiramtionsRequired}
-          />
-        ) : null}
-        {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
-        {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
+    <>
+      <Box sx={styles.pendingTxnAlertContainer}>
+        <PendingTxnAlert />
       </Box>
-    </SnetPaper>
+      <Box sx={styles.adaEthConvertSteperBox}>
+        <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
+        {blockchainStatus ? (
+          <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
+        ) : null}
+        <SnetAdaEthTitle title={formatConversionTitle()} />
+        <Box sx={styles.padding}>
+          <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
+          {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.CONVERT_TOKENS ? (
+            <DepositAndBurnTokens
+              onClickCancel={handleCancel}
+              onClickContinueLater={continueLater}
+              isBurning={isConversionInProgress.isBurning}
+              blockConfiramtionsReceived={isConversionInProgress.blockConfiramtionsReceived}
+              blockConfiramtionsRequired={isConversionInProgress.blockConfiramtionsRequired}
+            />
+          ) : null}
+          {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
+          {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
+        </Box>
+      </Box>
+    </>
   );
 };
 
