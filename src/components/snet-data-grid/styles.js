@@ -204,7 +204,10 @@ export const useStyles = makeStyles({
       }
     }
   },
-  alignRight: { textAlign: 'right' },
+  alignRight: {
+    alignItems: 'flex-end !important',
+    '@media(max-width: 1200px)': { alignItems: 'center !important' }
+  },
   // Pagination styles
   paginationContainer: {
     marginTop: 64,
