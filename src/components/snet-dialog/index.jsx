@@ -19,10 +19,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const SnetDialog = ({ isDialogOpen, onDialogClose, title, children, showClosebutton }) => {
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <BootstrapDialog fullScreen={fullScreen} maxWidth="xl" onClose={onDialogClose} aria-labelledby="snet-dialog-title" open={isDialogOpen}>
+    <BootstrapDialog maxWidth="xl" onClose={onDialogClose} aria-labelledby="snet-dialog-title" open={isDialogOpen}>
       <DialogTitle sx={{ ...dialogueStyle.dialogTitle, textAlign: onDialogClose ? 'left' : 'center' }}>
         {title}
         {showClosebutton ? (

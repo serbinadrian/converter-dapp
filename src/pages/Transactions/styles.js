@@ -20,6 +20,19 @@ export const useStyles = makeStyles({
     justifyContent: 'center',
     padding: 100,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    '& span': {
+      color: '#666',
+      fontSize: 20,
+      fontWeight: 200,
+      lineHeight: '28px'
+    },
+    '& p': {
+      marginBottom: 24,
+      color: '#9b9b9b',
+      fontSize: 14,
+      lineHeight: '28px',
+      textAlign: 'center'
+    }
   }
 });
