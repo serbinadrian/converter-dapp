@@ -3,7 +3,8 @@ import { makeStyles } from '@mui/styles';
 export const useStyles = makeStyles({
   ethToAdaTransactionReceiptContainer: {
     width: 640,
-    padding: '32px 44px 40px 50px'
+    padding: '32px 44px 40px 50px',
+    '@media(max-width:900px)': { width: '90%' }
   },
   progressSection: {
     paddingBottom: 32,

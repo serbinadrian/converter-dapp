@@ -161,7 +161,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
         {blockchainStatus ? (
           <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
         ) : null}
-        <Box style={styles.ethAdaConversionBox}>
+        <Box sx={styles.ethAdaConversionBox}>
           <TokenPairs
             fromBlockchains={fromBlockchains}
             fromSelectedBlockchain={fromSelectedBlockchain}

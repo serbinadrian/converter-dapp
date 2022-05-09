@@ -8,7 +8,8 @@ const styles = {
     background: '#fff',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%,-50%)'
+    transform: 'translate(-50%,-50%)',
+    '@media(max-width:900px)': { width: '90%' }
   },
   conersionModalHeader: {
     borderBottom: '1px solid #F5F7F8',
@@ -19,7 +20,8 @@ const styles = {
     '& h2': {
       color: '#212121',
       fontSize: 20,
-      lineHeight: '50px'
+      lineHeight: '50px',
+      '@media(max-width:600px)': { fontSize: 16 }
     },
     '& svg': {
       cursor: 'pointer',
@@ -144,7 +146,12 @@ const styles = {
   },
   list: { backgroundColor: 'red' },
   converterBox: { '& > div': { padding: 0 } },
-  ethAdaConversionBox: { padding: '52px 50px 0' },
+  ethAdaConversionBox: {
+    padding: '52px 50px 0',
+    '@media(max-width: 1200px)': {
+      padding: '26px 25px 0 !important'
+    }
+  },
   alertAndBtnContainer: {
     padding: '15px 50px 0 52px',
     borderRadius: '0 0 8px 8px',
@@ -171,7 +178,12 @@ const styles = {
       padding: '0 22px',
       borderBottom: '1px solid #F5F7F8',
       fontSize: 20,
-      lineHeight: '47px'
+      lineHeight: '47px',
+      '@media(max-width:680px)': { fontSize: 16 }
+    },
+    '@media(max-width:900px)': {
+      width: '95%',
+      margin: '0 auto'
     }
   },
   adtEthContent: {

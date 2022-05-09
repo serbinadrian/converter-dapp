@@ -3,10 +3,10 @@ import { makeStyles } from '@mui/styles';
 const useMenubarStyles = makeStyles(() => ({
   navigations: {
     padding: 0,
-    margin: '0 0 0 83px',
+    margin: '0 0 0 20%',
     display: 'flex',
     '& li': {
-      paddingRight: 48,
+      paddingRight: '24%',
       listStyle: 'none',
       '&:last-of-type': { paddingRight: 0 },
       '&:hover': {
@@ -20,7 +20,8 @@ const useMenubarStyles = makeStyles(() => ({
         fontSize: 16,
         lineHeight: '20px'
       }
-    }
+    },
+    '@media(max-width: 960px)': { display: 'none' }
   },
   active: {
     '& a': {
@@ -29,8 +30,9 @@ const useMenubarStyles = makeStyles(() => ({
     }
   },
   header: {
-    padding: '14px 60px',
-    boxShadow: '0 2px 3px 0 rgba(0,0,0,0.1)'
+    padding: '9px 60px',
+    boxShadow: '0 2px 3px 0 rgba(0,0,0,0.1)',
+    '@media(max-width: 1280px)': { padding: '9px 10px' }
   },
   cursor: { cursor: 'pointer' },
   logo: { height: '40px' },
@@ -41,7 +43,10 @@ const useMenubarStyles = makeStyles(() => ({
   items: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    '& button': {
+      '@media(max-width: 600px)': { fontSize: 12 }
+    }
   },
   walletConnectionInfo: {
     display: 'flex',
@@ -60,7 +65,8 @@ const useMenubarStyles = makeStyles(() => ({
       color: 'rgba(33,33,33,0.87)',
       fontSize: 16,
       fontWeight: 600,
-      lineHeight: '20px'
+      lineHeight: '20px',
+      '@media(max-width: 600px)': { fontSize: 12 }
     },
     '& span': {
       color: '#4086FF',
