@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { availableBlockchains, conversionStatuses, conversionSteps, conversionStepsForAdaToEth } from '../../../../utils/ConverterConstants';
-import { progress } from '../../utils';
+import { availableBlockchains, conversionStatuses, conversionSteps, conversionStepsForAdaToEth, progress } from '../../../../utils/ConverterConstants';
+// import { progress } from '../../utils';
 import { getAvailableTokenPairs } from './tokenPairActions';
 
 const tokenPairSlice = createSlice({
@@ -39,9 +39,14 @@ const tokenPairSlice = createSlice({
     },
     setActiveStep(state, action) {
       state.conversionOfAdaToEth.activeStep = action.payload;
+      state.conversionOfAdaToEth.conversionStepsForAdaToEth[action.payload - 1].progress = progress.COMPLETE;
+      state.conversionOfAdaToEth.conversionStepsForAdaToEth[action.payload].progress = progress.PROCESSING;
     },
     setConversionStatus(state, action) {
       state.conversionOfAdaToEth.conversion.status = action.payload;
+    },
+    setCurrentConversionStep: (state, action) => {
+      state.conversionOfAdaToEth.conversionStepsForAdaToEth[action.payload.activeStep].progress = action.payload.progress;
     }
   },
   extraReducers: (builder) => {

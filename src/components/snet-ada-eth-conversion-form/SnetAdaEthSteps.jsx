@@ -3,6 +3,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import { styled } from '@mui/material/styles';
 import propTypes from 'prop-types';
 import { conversionStatuses } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
@@ -15,11 +16,36 @@ const SnetAdaEthSteps = ({ steps, activeStep, isBurning }) => {
     return conversion.status === conversionStatuses.EXPIRED;
   };
 
+  const ColorlibStepIconRoot = styled('div')(() => ({
+    backgroundColor: '#F18D5A',
+    color: '#fff',
+    width: 28,
+    height: 28,
+    display: 'flex',
+    borderRadius: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& svg': { fontSize: 18 }
+  }));
+
   const waitingIcon = () => {
-    return <HourglassEmptyIcon />;
+    return (
+      <ColorlibStepIconRoot>
+        <HourglassEmptyIcon />
+      </ColorlibStepIconRoot>
+    );
   };
 
-  console.log('$$$$$$$$$', isBurning);
+  // const stepLabel = (labelProps, label) => {
+  //   if (!isBurning && activeStep === 1) {
+  //     <StepLabel StepIconComponent={waitingIcon}>{label}</StepLabel>;
+  //   } else {
+  //     <StepLabel {...labelProps}>{label}</StepLabel>;
+  //   }
+  //   // {activeStep === 1 && !isBurning ? <StepLabel StepIconComponent={waitingIcon}>{label}</StepLabel> : <StepLabel {...labelProps}>{label}</StepLabel>}
+  // };
+
+  console.log('$$$$$$$$$', isBurning, activeStep);
 
   return (
     <Stepper activeStep={activeStep} alternativeLabel className={classes.stepper}>
@@ -29,7 +55,9 @@ const SnetAdaEthSteps = ({ steps, activeStep, isBurning }) => {
           labelProps.error = true;
         }
         return (
-          <Step key={step}>{isBurning ? <StepLabel {...labelProps}>{label}</StepLabel> : <StepLabel StepIconComponent={waitingIcon}>{label}</StepLabel>}</Step>
+          <Step key={step}>
+            <StepLabel {...labelProps}>{label}</StepLabel>
+          </Step>
         );
       })}
     </Stepper>
