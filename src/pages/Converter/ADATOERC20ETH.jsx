@@ -175,7 +175,7 @@ const ADATOERC20ETH = () => {
         ) : null}
         <SnetAdaEthTitle title={formatConversionTitle()} />
         <Box sx={styles.padding}>
-          <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} isBurning={isConversionInProgress.isBurning} />
+          <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
           {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.CONVERT_TOKENS ? (
             <DepositAndBurnTokens
               onClickCancel={handleCancel}
