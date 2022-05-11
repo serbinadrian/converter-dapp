@@ -32,7 +32,7 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
   };
 
   const onClickConvertToken = () => {
-    dispatch(setActiveStep(conversionSteps.CONVERT_TOKENS));
+    dispatch(setActiveStep(conversionSteps.CLAIM_TOKENS));
   };
 
   const onCopy = () => {
@@ -70,29 +70,41 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
         {conversion.status !== conversionStatuses.EXPIRED ? (
           <>
             {activeStep === 0 ? (
-              <Box className={classes.inputBoxAndCopyBtnContainer}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">Cardano Deposit Address</InputLabel>
-                  <OutlinedInput id="snet-input-with-copy" fullWidth type="text" value={conversion.depositAddress} label="Cardano Deposit Address" disabled />
-                </FormControl>
-                <SnetButton name={buttonName} onClick={onCopy} />
-              </Box>
+              <>
+                <Box className={classes.inputBoxAndCopyBtnContainer}>
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">Cardano Deposit Address</InputLabel>
+                    <OutlinedInput id="snet-input-with-copy" fullWidth type="text" value={conversion.depositAddress} label="Cardano Deposit Address" disabled />
+                  </FormControl>
+                  <SnetButton name={buttonName} onClick={onCopy} />
+                </Box>
+                <Box className={classes.btnContainer}>
+                  <SnetButton name="cancel" variant="outlined" onClick={onClickCancel} />
+                  <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="i have transferred & ready to continue" onClick={onClickContinue} />
+                </Box>
+              </>
             ) : null}
             {!isWaitingForDeposit ? (
-              <Box className={classes.processingStatus}>
-                {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
-                {!isDepositReceived && isBurning ? <span>Completed: Token Received</span> : null}
-                <span>
-                  {isDepositReceived
-                    ? 'Deposit received successfully'
-                    : `Processing: ${isBurning ? 'Burning Tokens' : 'Receiving Confirmation'} ${blockConfiramtionsReceived}/${blockConfiramtionsRequired}`}
-                </span>
-                {isDepositReceived ? null : (
-                  <Typography>
-                    Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from Transactions.
-                  </Typography>
-                )}
-              </Box>
+              <>
+                <Box className={classes.processingStatus}>
+                  {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
+                  {!isDepositReceived && isBurning ? <span>Completed: Token Received</span> : null}
+                  <span>
+                    {isDepositReceived
+                      ? 'Deposit received successfully'
+                      : `Processing: ${isBurning ? 'Burning Tokens' : 'Receiving Confirmation'} ${blockConfiramtionsReceived}/${blockConfiramtionsRequired}`}
+                  </span>
+                  {isDepositReceived ? null : (
+                    <Typography>
+                      Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from Transactions.
+                    </Typography>
+                  )}
+                </Box>
+                <Box className={classes.btnContainer}>
+                  <SnetButton name="continue later" variant="outlined" onClick={onClickContinueLater} />
+                  <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="convert tokens" onClick={onClickConvertToken} />
+                </Box>
+              </>
             ) : null}
           </>
         ) : (
@@ -108,19 +120,6 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
             </Box>
           </Box>
         )}
-        <Box className={classes.btnContainer}>
-          {activeStep === 0 ? (
-            <>
-              <SnetButton name="cancel" variant="outlined" onClick={onClickCancel} />
-              <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="i have transferred & ready to continue" onClick={onClickContinue} />
-            </>
-          ) : (
-            <>
-              <SnetButton name="continue later" variant="outlined" onClick={onClickContinueLater} />
-              <SnetButton disabled={!isWaitingForDeposit && !isDepositReceived} name="convert tokens" onClick={onClickConvertToken} />
-            </>
-          )}
-        </Box>
       </Box>
     </>
   );

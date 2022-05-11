@@ -103,6 +103,7 @@ export const useStyles = makeStyles({
     '@media(max-width:1200px)': { margin: 0 }
   },
   statusData: {
+    paddingTop: 2,
     display: 'flex',
     justifyContent: 'center',
     '& svg': {
