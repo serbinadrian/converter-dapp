@@ -91,6 +91,20 @@ export const getConversionTransactionHistory = async (address, pageNumber, pageS
   }
 };
 
+export const getTransactionData = async (conversionId) => {
+  try {
+    const { data } = await axios.get('transaction', {
+      params: {
+        conversion_id: conversionId
+      }
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const getPendingConversionCount = async (address) => {
   try {
     const { data } = await axios.get('conversion/count', {

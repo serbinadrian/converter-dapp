@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
-import { getConversionTransactionHistory } from '../../../utils/HttpRequests';
+import { getConversionTransactionHistory, getTransactionData } from '../../../utils/HttpRequests';
 
 const useConversionHistoryHook = (address) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +53,6 @@ const useConversionHistoryHook = (address) => {
       lastUpdatedAt: entity.conversion.created_at,
       fromToken: entity.from_token.symbol,
       toToken: entity.to_token.symbol,
-      transactions: entity.transactions,
       chainType,
       conversionDirection,
       conversionInfo
@@ -68,6 +67,12 @@ const useConversionHistoryHook = (address) => {
     setConversionHistory(formatted);
   };
 
+  const formatTransactionHistory = (transaction, index) => {
+    const formatted = [...conversionHistory];
+    formatted[index] = { ...formatted[index], transactions: transaction };
+    setConversionHistory(formatted);
+  };
+
   const getConversionHistory = async () => {
     if (address) {
       try {
@@ -79,6 +84,20 @@ const useConversionHistoryHook = (address) => {
         setPageNumber(meta.page_number);
         setTotalNoOfTransaction(meta.total_records);
         setPaginationInfo(`Page ${meta.page_number} of ${meta.page_count}`);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const getTransactionHistory = async (conversionId, index) => {
+    if (conversionId) {
+      try {
+        setIsLoading(true);
+        const data = await getTransactionData(conversionId);
+        formatTransactionHistory(data, index);
       } catch (error) {
         console.log(error);
       } finally {
@@ -103,6 +122,7 @@ const useConversionHistoryHook = (address) => {
     pageNumber,
     conversionHistory,
     getConversionHistory,
+    getTransactionHistory,
     isLoading,
     onItemSelect,
     pageSizes,

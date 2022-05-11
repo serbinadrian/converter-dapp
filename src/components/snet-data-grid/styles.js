@@ -164,6 +164,13 @@ export const useStyles = makeStyles({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  noTransactionWrapper: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   expandedDataCol: {
     padding: '26px 20px 15px 36px',
     backgroundColor: '#fff',
