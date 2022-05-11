@@ -26,7 +26,8 @@ const SnetDataGrid = ({
   onItemSelect,
   pageSizes,
   paginationSize,
-  totalNoOfTransaction
+  totalNoOfTransaction,
+  getTransactionHistory
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -61,11 +62,12 @@ const SnetDataGrid = ({
         </Box>
       </Box>
       <Columns />
-      {rows.map((row) => {
+      {rows.map((row, index) => {
         return (
           <Rows
             key={row.id}
             id={row.id}
+            index={index}
             date={toLocalDateTime(row.lastUpdatedAt)}
             fromToken={row.fromToken}
             chainType={row.chainType}
@@ -73,6 +75,7 @@ const SnetDataGrid = ({
             toAddress={row.toAddress}
             toToken={row.toToken}
             status={row.status}
+            getTransactionHistory={getTransactionHistory}
             transactions={row.transactions}
             conversionDirection={row.conversionDirection}
             handleResume={() => handleResume(row.conversionInfo, row.status)}
@@ -103,6 +106,7 @@ SnetDataGrid.propTypes = {
   paginationSize: propTypes.number.isRequired,
   currentPage: propTypes.number.isRequired,
   onPageChange: propTypes.func.isRequired,
+  getTransactionHistory: propTypes.func.isRequired,
   paginationInfo: propTypes.string.isRequired,
   totalNoOfTransaction: propTypes.number.isRequired
 };

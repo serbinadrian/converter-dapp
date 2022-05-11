@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Typography, Button, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -30,6 +30,7 @@ const ExpandMore = styled((props) => {
 
 const Rows = ({
   id,
+  index,
   date,
   fromToken,
   toToken,
@@ -41,13 +42,20 @@ const Rows = ({
   status,
   transactions,
   conversionDirection,
-  handleResume
+  handleResume,
+  getTransactionHistory
 }) => {
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
+  useEffect(() => {
+    if (transactions) setExpanded(true);
+    else setExpanded(false);
+  }, [transactions]);
+
   const handleExpandClick = () => {
-    setExpanded(!expanded);
+    if (!expanded) getTransactionHistory(id, index);
+    else setExpanded((expanded) => !expanded);
   };
 
   const transactionStatus = (status) => {
@@ -149,42 +157,47 @@ const Rows = ({
           ) : null}
           {status === conversionStatuses.WAITING_FOR_CLAIM ? <SnetButton name="Continue" onClick={handleResume} variant="outlined" /> : null}
           <CardActions disableSpacing>
-            {transactions.length > 0 ? (
-              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-                <ExpandMoreIcon />
-              </ExpandMore>
-            ) : null}
+            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              <ExpandMoreIcon />
+            </ExpandMore>
           </CardActions>
         </Grid>
       </Grid>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box display="flex" justifyContent="space-between" className={classes.expandedData}>
-          <div className={classes.expandedDataWrapper}>
-            <Grid container className={classes.expandedDataCol}>
-              <Grid item xs={12} md={2}>
-                <Typography>Date</Typography>
-              </Grid>
-              <Grid item xs={12} md={2}>
-                <Typography>Process Status</Typography>
-              </Grid>
-              <Grid item xs={6} md={3}>
-                <Typography>Status</Typography>
-              </Grid>
-              <Grid item xs={6} md={2}>
-                <Typography>Transaction</Typography>
-              </Grid>
-              <Grid item xs={6} md={3}>
-                <Typography>Detail</Typography>
-              </Grid>
-            </Grid>
-            {transactions.map((transaction) => {
-              return (
-                <Grid key={transaction.id} container className={classes.expandedDataRows}>
-                  <Transactions transaction={transaction} conversionDirection={conversionDirection} />
+          {transactions && transactions.length ? (
+            <div className={classes.expandedDataWrapper}>
+              <Grid container className={classes.expandedDataCol}>
+                <Grid item xs={12} md={2}>
+                  <Typography>Date</Typography>
                 </Grid>
-              );
-            })}
-          </div>
+                <Grid item xs={12} md={2}>
+                  <Typography>Process Status</Typography>
+                </Grid>
+                <Grid item xs={6} md={3}>
+                  <Typography>Status</Typography>
+                </Grid>
+                <Grid item xs={6} md={2}>
+                  <Typography>Transaction</Typography>
+                </Grid>
+                <Grid item xs={6} md={3}>
+                  <Typography>Detail</Typography>
+                </Grid>
+              </Grid>
+              {transactions.map((transaction) => {
+                return (
+                  <Grid key={transaction.id} container className={classes.expandedDataRows}>
+                    <Transactions transaction={transaction} conversionDirection={conversionDirection} />
+                  </Grid>
+                );
+              })}
+            </div>
+          ) : null}
+          {transactions && !transactions.length ? (
+            <div className={classes.noTransactionWrapper}>
+              <Typography>No Transaction History found</Typography>
+            </div>
+          ) : null}
         </Box>
       </Collapse>
     </>
@@ -193,6 +206,7 @@ const Rows = ({
 
 Rows.propTypes = {
   id: propTypes.string.isRequired,
+  index: propTypes.number.isRequired,
   date: propTypes.string.isRequired,
   fromToken: propTypes.string.isRequired,
   toToken: propTypes.string.isRequired,
@@ -203,6 +217,7 @@ Rows.propTypes = {
   transactions: propTypes.arrayOf(propTypes.any).isRequired,
   conversionDirection: propTypes.string.isRequired,
   handleResume: propTypes.func.isRequired,
+  getTransactionHistory: propTypes.func.isRequired,
   depositAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
   receivingAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired
 };
