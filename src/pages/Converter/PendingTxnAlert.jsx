@@ -1,12 +1,12 @@
 import { Link } from '@mui/material';
 import { isEmpty, size } from 'lodash';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useSelector } from 'react-redux';
 import SnetAlert from '../../components/snet-alert';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import { getPendingConversionCount } from '../../utils/HttpRequests';
 
-const PendingTxnAlert = () => {
+const PendingTxnAlert = forwardRef((props, ref) => {
   const [isPendingTxns, setPendingTxns] = useState(false);
   const { getWalletAddress } = useWalletHook();
   const state = useSelector((state) => state);
@@ -24,6 +24,10 @@ const PendingTxnAlert = () => {
       console.log('fetchPendingTransactionCounts', error);
     }
   };
+
+  useImperativeHandle(ref, () => ({
+    fetchPendingTransactionCounts
+  }));
 
   useEffect(() => {
     if (size(wallets) > 1) {
@@ -45,6 +49,6 @@ const PendingTxnAlert = () => {
       type="info"
     />
   ) : null;
-};
+});
 
 export default PendingTxnAlert;
