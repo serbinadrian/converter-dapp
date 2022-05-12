@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { Grid, Box } from '@mui/material';
@@ -15,12 +15,17 @@ const ERC20TOADA = lazy(() => import('./ERC20TOADA'));
 const Converter = () => {
   const { tokenPairs } = useSelector((state) => state);
   const { conversionDirection } = tokenPairs;
+  const pendingTxn = useRef();
 
   const dispatch = useDispatch();
 
   const onADATOETHConversion = (conversionInfo) => {
     dispatch(setAdaConversionInfo(conversionInfo));
     dispatch(setConversionDirection(availableBlockchains.CARDANO));
+  };
+
+  const callPendingTxnAlert = () => {
+    pendingTxn.current.fetchPendingTransactionCounts();
   };
 
   return (
@@ -38,13 +43,13 @@ const Converter = () => {
         ) : (
           <Grid display="flex" alignItems="flex-start" container spacing={2} sx={styles.homePageContainer}>
             <Grid item xs={12} md={12} sx={styles.pendingTxnAlertContainer}>
-              <PendingTxnAlert />
+              <PendingTxnAlert ref={pendingTxn} />
             </Grid>
             <Grid item xs={12} md={5}>
               <WelcomeBox />
             </Grid>
             <Grid item xs={12} md={7} sx={styles.converterBox}>
-              <ERC20TOADA onADATOETHConversion={onADATOETHConversion} />
+              <ERC20TOADA callPendingTxnAlert={callPendingTxnAlert} onADATOETHConversion={onADATOETHConversion} />
             </Grid>
           </Grid>
         )}

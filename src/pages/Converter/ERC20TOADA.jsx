@@ -21,7 +21,7 @@ import Paths from '../../router/paths';
 import ETHTOADAConversionPopup from './ETHTOADAConversionPopup';
 import styles from './styles';
 
-const ERC20TOADA = ({ onADATOETHConversion }) => {
+const ERC20TOADA = ({ onADATOETHConversion, callPendingTxnAlert }) => {
   const navigate = useNavigate();
   const { blockchains, wallet } = useSelector((state) => state);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -139,6 +139,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   };
 
   const handlePopupClose = () => {
+    callPendingTxnAlert();
     setConfirmationBlockPopup(false);
   };
 
@@ -225,7 +226,8 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 };
 
 ERC20TOADA.propTypes = {
-  onADATOETHConversion: propTypes.func.isRequired
+  onADATOETHConversion: propTypes.func.isRequired,
+  callPendingTxnAlert: propTypes.func.isRequired
 };
 
 export default ERC20TOADA;

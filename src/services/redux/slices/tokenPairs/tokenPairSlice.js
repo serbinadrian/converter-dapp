@@ -39,8 +39,6 @@ const tokenPairSlice = createSlice({
     },
     setActiveStep(state, action) {
       state.conversionOfAdaToEth.activeStep = action.payload;
-      state.conversionOfAdaToEth.conversionStepsForAdaToEth[action.payload - 1].progress = progress.COMPLETE;
-      state.conversionOfAdaToEth.conversionStepsForAdaToEth[action.payload].progress = progress.PROCESSING;
     },
     setConversionStatus(state, action) {
       state.conversionOfAdaToEth.conversion.status = action.payload;
@@ -66,7 +64,8 @@ export const {
   setAdaConversionInfo,
   setConversionStatus,
   setConversionApiCallIntervalIds,
-  resetConversionApiCallIntervalIds
+  resetConversionApiCallIntervalIds,
+  setCurrentConversionStep
 } = tokenPairSlice.actions;
 
 export default tokenPairSlice;

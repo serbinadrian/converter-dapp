@@ -7,11 +7,11 @@ import SnetAdaEthSteps from '../../components/snet-ada-eth-conversion-form/SnetA
 import SnetAdaEthTitle from '../../components/snet-ada-eth-conversion-form/SnetAdaEthTitle';
 import styles from './styles';
 import DepositAndBurnTokens from '../../components/snet-ada-eth-conversion-form/DepositAndBurnTokens';
-import { setActiveStep, setConversionDirection, setConversionStatus } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { setActiveStep, setConversionDirection, setConversionStatus, setCurrentConversionStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
-import { availableBlockchains, conversionSteps, blockchainStatusLabels, txnOperations } from '../../utils/ConverterConstants';
+import { availableBlockchains, conversionSteps, blockchainStatusLabels, txnOperations, progress } from '../../utils/ConverterConstants';
 import { conversionClaim, getConversionStatus, updateTransactionStatus } from '../../utils/HttpRequests';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetLoader from '../../components/snet-loader';
@@ -136,6 +136,8 @@ const ADATOERC20ETH = () => {
         conversion.pair.to_token.symbol
       );
       setTransactionReceipt(receipt);
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CLAIM_TOKENS, progress: progress.COMPLETE }));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.SUMMARY, progress: progress.COMPLETE }));
       dispatch(setActiveStep(conversionSteps.SUMMARY));
     } catch (error) {
       const message = error.message || JSON.stringify(error);

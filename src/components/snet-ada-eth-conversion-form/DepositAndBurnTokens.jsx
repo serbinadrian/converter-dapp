@@ -6,8 +6,8 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useSelector, useDispatch } from 'react-redux';
 import SnetButton from '../snet-button';
 import AdaToEthTokenAndValue from './AdaToEthTokenAndValue';
-import { conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
-import { setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { conversionStatuses, conversionSteps, progress } from '../../utils/ConverterConstants';
+import { setActiveStep, setCurrentConversionStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { useStyles } from './styles';
 import SnetAlert from '../snet-alert';
 import Paths from '../../router/paths';
@@ -26,8 +26,11 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
   const onClickContinue = () => {
     if (isWaitingForDeposit) {
       dispatch(setActiveStep(conversionSteps.CONVERT_TOKENS));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.DEPOSIT_TOKENS, progress: progress.COMPLETE }));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CONVERT_TOKENS, progress: progress.PROCESSING }));
     } else if (isDepositReceived) {
       dispatch(setActiveStep(conversionSteps.CLAIM_TOKENS));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CONVERT_TOKENS, progress: progress.COMPLETE }));
     }
   };
 
