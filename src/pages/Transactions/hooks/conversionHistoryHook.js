@@ -24,7 +24,7 @@ const useConversionHistoryHook = (address) => {
     setPageNumber(value);
   };
 
-  const formatSingleEntity = (entity, etheriumRequired, cardinoRequired) => {
+  const formatSingleEntity = (entity, ethereumRequired, cardanoRequired) => {
     const chainType = `${entity.from_token.blockchain.name} - ${entity.to_token.blockchain.name}`;
     const fromDirection = entity.from_token.blockchain.symbol;
     const toDirection = entity.to_token.blockchain.symbol;
@@ -34,7 +34,7 @@ const useConversionHistoryHook = (address) => {
     const depositAmount = convertFromCogs(entity.conversion.deposit_amount, entity.from_token.allowed_decimal);
     const receivingAmount = convertFromCogs(entity.conversion.claim_amount, entity.to_token.allowed_decimal);
     const conversionFees = bigNumberSubtract(depositAmount, receivingAmount);
-    const confirmationRequired = conversionDirection === conversionDirections.ETH_TO_ADA ? etheriumRequired : cardinoRequired;
+    const confirmationRequired = conversionDirection === conversionDirections.ETH_TO_ADA ? ethereumRequired : cardanoRequired;
     const conversionInfo = {
       conversionId,
       amount: entity.conversion.claim_amount,
@@ -66,12 +66,12 @@ const useConversionHistoryHook = (address) => {
   };
 
   const formatConversionHistory = (history) => {
-    const [etheriumConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.ETHEREUM);
-    const [cardinoConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.CARDANO);
-    const etheriumRequired = etheriumConfiramtions?.block_confirmation;
-    const cardinoRequired = cardinoConfiramtions?.block_confirmation;
+    const [ethereumConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.ETHEREUM);
+    const [cardanoConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.CARDANO);
+    const ethereumRequired = ethereumConfiramtions?.block_confirmation;
+    const cardanoRequired = cardanoConfiramtions?.block_confirmation;
     const formatted = history.map((conversion) => {
-      return formatSingleEntity(conversion, etheriumRequired, cardinoRequired);
+      return formatSingleEntity(conversion, ethereumRequired, cardanoRequired);
     });
 
     setConversionHistory(formatted);
