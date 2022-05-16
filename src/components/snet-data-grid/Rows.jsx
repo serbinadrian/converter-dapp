@@ -43,7 +43,8 @@ const Rows = ({
   transactions,
   conversionDirection,
   handleResume,
-  getTransactionHistory
+  getTransactionHistory,
+  confirmationRequired
 }) => {
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
@@ -187,7 +188,7 @@ const Rows = ({
               {transactions.map((transaction) => {
                 return (
                   <Grid key={transaction.id} container className={classes.expandedDataRows}>
-                    <Transactions transaction={transaction} conversionDirection={conversionDirection} />
+                    <Transactions confirmationRequired={confirmationRequired} transaction={transaction} conversionDirection={conversionDirection} />
                   </Grid>
                 );
               })}
@@ -214,12 +215,13 @@ Rows.propTypes = {
   toAddress: propTypes.string.isRequired,
   chainType: propTypes.string.isRequired,
   status: propTypes.string.isRequired,
-  transactions: propTypes.arrayOf(propTypes.any).isRequired,
+  transactions: propTypes.arrayOf(propTypes.any),
   conversionDirection: propTypes.string.isRequired,
   handleResume: propTypes.func.isRequired,
   getTransactionHistory: propTypes.func.isRequired,
   depositAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
-  receivingAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired
+  receivingAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
+  confirmationRequired: propTypes.number.isRequired
 };
 
 export default Rows;

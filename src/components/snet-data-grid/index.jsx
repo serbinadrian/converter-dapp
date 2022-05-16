@@ -81,6 +81,7 @@ const SnetDataGrid = ({
             handleResume={() => handleResume(row.conversionInfo, row.status)}
             depositAmount={row.depositAmount}
             receivingAmount={row.receivingAmount}
+            confirmationRequired={row.confirmationRequired}
           />
         );
       })}
