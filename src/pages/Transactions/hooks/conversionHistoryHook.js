@@ -1,5 +1,8 @@
+import { toUpper } from 'lodash';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
+import { availableBlockchains, conversionDirections } from '../../../utils/ConverterConstants';
 import { getConversionTransactionHistory, getTransactionData } from '../../../utils/HttpRequests';
 
 const useConversionHistoryHook = (address) => {
@@ -11,6 +14,7 @@ const useConversionHistoryHook = (address) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [paginationInfo, setPaginationInfo] = useState('');
   const [totalNoOfTransaction, setTotalNoOfTransaction] = useState(0);
+  const { entities } = useSelector((state) => state.blockchains);
 
   const onItemSelect = (value) => {
     setPageSize(value);
@@ -20,7 +24,7 @@ const useConversionHistoryHook = (address) => {
     setPageNumber(value);
   };
 
-  const formatSingleEntity = (entity) => {
+  const formatSingleEntity = (entity, ethereumRequired, cardanoRequired) => {
     const chainType = `${entity.from_token.blockchain.name} - ${entity.to_token.blockchain.name}`;
     const fromDirection = entity.from_token.blockchain.symbol;
     const toDirection = entity.to_token.blockchain.symbol;
@@ -30,6 +34,7 @@ const useConversionHistoryHook = (address) => {
     const depositAmount = convertFromCogs(entity.conversion.deposit_amount, entity.from_token.allowed_decimal);
     const receivingAmount = convertFromCogs(entity.conversion.claim_amount, entity.to_token.allowed_decimal);
     const conversionFees = bigNumberSubtract(depositAmount, receivingAmount);
+    const confirmationRequired = conversionDirection === conversionDirections.ETH_TO_ADA ? ethereumRequired : cardanoRequired;
     const conversionInfo = {
       conversionId,
       amount: entity.conversion.claim_amount,
@@ -55,13 +60,18 @@ const useConversionHistoryHook = (address) => {
       toToken: entity.to_token.symbol,
       chainType,
       conversionDirection,
-      conversionInfo
+      conversionInfo,
+      confirmationRequired
     };
   };
 
   const formatConversionHistory = (history) => {
+    const [ethereumConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.ETHEREUM);
+    const [cardanoConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.CARDANO);
+    const ethereumRequired = ethereumConfiramtions?.block_confirmation;
+    const cardanoRequired = cardanoConfiramtions?.block_confirmation;
     const formatted = history.map((conversion) => {
-      return formatSingleEntity(conversion);
+      return formatSingleEntity(conversion, ethereumRequired, cardanoRequired);
     });
 
     setConversionHistory(formatted);
