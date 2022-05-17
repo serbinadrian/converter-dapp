@@ -7,7 +7,13 @@ import SnetAdaEthSteps from '../../components/snet-ada-eth-conversion-form/SnetA
 import SnetAdaEthTitle from '../../components/snet-ada-eth-conversion-form/SnetAdaEthTitle';
 import styles from './styles';
 import DepositAndBurnTokens from '../../components/snet-ada-eth-conversion-form/DepositAndBurnTokens';
-import { setActiveStep, setConversionDirection, setConversionStatus, setCurrentConversionStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import {
+  resetConversionStepsForAdaToEth,
+  setActiveStep,
+  setConversionDirection,
+  setConversionStatus,
+  setCurrentConversionStep
+} from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
@@ -43,6 +49,7 @@ const ADATOERC20ETH = () => {
   const handleCancel = () => {
     dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
     dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
+    dispatch(resetConversionStepsForAdaToEth());
   };
 
   const checkConversionStatus = () => {
