@@ -27,7 +27,9 @@ const SnetDataGrid = ({
   pageSizes,
   paginationSize,
   totalNoOfTransaction,
-  getTransactionHistory
+  getTransactionHistory,
+  expanded,
+  setExpandedValue
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -67,7 +69,6 @@ const SnetDataGrid = ({
           <Rows
             key={row.id}
             id={row.id}
-            index={index}
             date={toLocalDateTime(row.lastUpdatedAt)}
             fromToken={row.fromToken}
             chainType={row.chainType}
@@ -82,6 +83,8 @@ const SnetDataGrid = ({
             depositAmount={row.depositAmount}
             receivingAmount={row.receivingAmount}
             confirmationRequired={row.confirmationRequired}
+            expanded={expanded[row.id]}
+            setExpandedValue={setExpandedValue}
           />
         );
       })}
@@ -109,7 +112,9 @@ SnetDataGrid.propTypes = {
   onPageChange: propTypes.func.isRequired,
   getTransactionHistory: propTypes.func.isRequired,
   paginationInfo: propTypes.string.isRequired,
-  totalNoOfTransaction: propTypes.number.isRequired
+  totalNoOfTransaction: propTypes.number.isRequired,
+  expanded: propTypes.object.isRequired,
+  setExpandedValue: propTypes.func.isRequired
 };
 
 export default SnetDataGrid;
