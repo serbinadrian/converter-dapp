@@ -30,7 +30,6 @@ const ExpandMore = styled((props) => {
 
 const Rows = ({
   id,
-  index,
   date,
   fromToken,
   toToken,
@@ -44,19 +43,15 @@ const Rows = ({
   conversionDirection,
   handleResume,
   getTransactionHistory,
-  confirmationRequired
+  confirmationRequired,
+  expanded,
+  setExpandedValue
 }) => {
-  const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
-  useEffect(() => {
-    if (transactions) setExpanded(true);
-    else setExpanded(false);
-  }, [transactions]);
-
   const handleExpandClick = () => {
-    if (!expanded) getTransactionHistory(id, index);
-    else setExpanded((expanded) => !expanded);
+    if (!expanded) getTransactionHistory(id);
+    setExpandedValue(id, !expanded);
   };
 
   const transactionStatus = (status) => {
@@ -207,7 +202,6 @@ const Rows = ({
 
 Rows.propTypes = {
   id: propTypes.string.isRequired,
-  index: propTypes.number.isRequired,
   date: propTypes.string.isRequired,
   fromToken: propTypes.string.isRequired,
   toToken: propTypes.string.isRequired,
@@ -221,7 +215,9 @@ Rows.propTypes = {
   getTransactionHistory: propTypes.func.isRequired,
   depositAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
   receivingAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
-  confirmationRequired: propTypes.number.isRequired
+  confirmationRequired: propTypes.number,
+  expanded: propTypes.bool,
+  setExpandedValue: propTypes.func.isRequired
 };
 
 export default Rows;

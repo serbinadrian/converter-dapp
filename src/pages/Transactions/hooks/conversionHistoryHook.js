@@ -15,6 +15,7 @@ const useConversionHistoryHook = (address) => {
   const [paginationInfo, setPaginationInfo] = useState('');
   const [totalNoOfTransaction, setTotalNoOfTransaction] = useState(0);
   const { entities } = useSelector((state) => state.blockchains);
+  const [expanded, setExpanded] = useState({});
 
   const onItemSelect = (value) => {
     setPageSize(value);
@@ -22,6 +23,16 @@ const useConversionHistoryHook = (address) => {
 
   const onPageChange = (value) => {
     setPageNumber(value);
+  };
+
+  const setExpandedValue = (id, value) => {
+    const expandedData = { ...expanded };
+    if (value) {
+      expandedData[id] = value;
+    } else {
+      delete expandedData[id];
+    }
+    setExpanded(expandedData);
   };
 
   const formatSingleEntity = (entity, ethereumRequired, cardanoRequired) => {
@@ -65,21 +76,40 @@ const useConversionHistoryHook = (address) => {
     };
   };
 
-  const formatConversionHistory = (history) => {
+  const formatConversionHistory = async (history) => {
     const [ethereumConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.ETHEREUM);
     const [cardanoConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.CARDANO);
     const ethereumRequired = ethereumConfiramtions?.block_confirmation;
     const cardanoRequired = cardanoConfiramtions?.block_confirmation;
-    const formatted = history.map((conversion) => {
+    let conversionIds = [];
+    let formatted = history.map((conversion) => {
+      conversionIds = [...conversionIds, conversion.conversion.id];
       return formatSingleEntity(conversion, ethereumRequired, cardanoRequired);
     });
-
+    try {
+      const conversionIdsTnx = Object.keys(expanded).filter((obj) => conversionIds.indexOf(obj) !== -1);
+      const response = await Promise.all(conversionIdsTnx.map((conversionId) => getTransactionData(conversionId)));
+      response.forEach((element, index) => {
+        formatted = formatted.map((data) => {
+          if (data.id === conversionIdsTnx[index]) {
+            data.transactions = element;
+          }
+          return data;
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
     setConversionHistory(formatted);
   };
 
-  const formatTransactionHistory = (transaction, index) => {
-    const formatted = [...conversionHistory];
-    formatted[index] = { ...formatted[index], transactions: transaction };
+  const formatTransactionHistory = (transaction, conversionId) => {
+    const formatted = conversionHistory.map((data) => {
+      if (data.id === conversionId) {
+        data.transactions = transaction;
+      }
+      return data;
+    });
     setConversionHistory(formatted);
   };
 
@@ -102,12 +132,12 @@ const useConversionHistoryHook = (address) => {
     }
   };
 
-  const getTransactionHistory = async (conversionId, index) => {
+  const getTransactionHistory = async (conversionId) => {
     if (conversionId) {
       try {
         setIsLoading(true);
         const data = await getTransactionData(conversionId);
-        formatTransactionHistory(data, index);
+        formatTransactionHistory(data, conversionId);
       } catch (error) {
         console.log(error);
       } finally {
@@ -118,7 +148,9 @@ const useConversionHistoryHook = (address) => {
 
   useEffect(() => {
     getConversionHistory();
+  }, [address, pageSize, pageNumber]);
 
+  useEffect(() => {
     const interval = setInterval(() => {
       getConversionHistory();
     }, 60000);
@@ -126,7 +158,7 @@ const useConversionHistoryHook = (address) => {
     return () => {
       clearInterval(interval);
     };
-  }, [address, pageSize, pageNumber]);
+  }, [address, pageSize, pageNumber, expanded]);
 
   return {
     pageNumber,
@@ -139,7 +171,9 @@ const useConversionHistoryHook = (address) => {
     paginationSize,
     onPageChange,
     paginationInfo,
-    totalNoOfTransaction
+    totalNoOfTransaction,
+    expanded,
+    setExpandedValue
   };
 };
 
