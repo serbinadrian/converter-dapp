@@ -54,10 +54,10 @@ const useConverterHook = () => {
     if (isValueGreaterThanProvided(fromAndToTokenValues.fromValue, balanceInfo.balance)) {
       console.log(`${fromAndToTokenValues.fromValue} ${' '} ${balanceInfo.balance} ${'- in updateWalletBalance'}`);
       updateError(errorMessages.INSUFFICIENT_BALANCE);
-    } /* else {
+    } else {
       console.log('Resetting error in updateWalletBalance');
       resetError();
-    } */
+    }
     setWalletBalance(balanceInfo);
   };
 
