@@ -17,7 +17,7 @@ import {
 import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
-import { availableBlockchains, conversionSteps, blockchainStatusLabels, txnOperations, progress } from '../../utils/ConverterConstants';
+import { availableBlockchains, conversionSteps, blockchainStatusLabels, txnOperations, progress, conversionStatuses } from '../../utils/ConverterConstants';
 import { conversionClaim, getConversionStatus, updateTransactionStatus } from '../../utils/HttpRequests';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetLoader from '../../components/snet-loader';
@@ -86,6 +86,9 @@ const ADATOERC20ETH = () => {
                   blockConfiramtionsRequired
                 });
               }
+            }
+            if (conversions.status === conversionStatuses.EXPIRED) {
+              isBlockConfirmationPending = false;
             }
           }
         }
