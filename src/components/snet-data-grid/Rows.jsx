@@ -30,7 +30,6 @@ const ExpandMore = styled((props) => {
 
 const Rows = ({
   id,
-  index,
   date,
   fromToken,
   toToken,
@@ -43,19 +42,16 @@ const Rows = ({
   transactions,
   conversionDirection,
   handleResume,
-  getTransactionHistory
+  getTransactionHistory,
+  confirmationRequired,
+  expanded,
+  setExpandedValue
 }) => {
-  const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
-  useEffect(() => {
-    if (transactions) setExpanded(true);
-    else setExpanded(false);
-  }, [transactions]);
-
   const handleExpandClick = () => {
-    if (!expanded) getTransactionHistory(id, index);
-    else setExpanded((expanded) => !expanded);
+    if (!expanded) getTransactionHistory(id);
+    setExpandedValue(id, !expanded);
   };
 
   const transactionStatus = (status) => {
@@ -187,7 +183,7 @@ const Rows = ({
               {transactions.map((transaction) => {
                 return (
                   <Grid key={transaction.id} container className={classes.expandedDataRows}>
-                    <Transactions transaction={transaction} conversionDirection={conversionDirection} />
+                    <Transactions confirmationRequired={confirmationRequired} transaction={transaction} conversionDirection={conversionDirection} />
                   </Grid>
                 );
               })}
@@ -206,7 +202,6 @@ const Rows = ({
 
 Rows.propTypes = {
   id: propTypes.string.isRequired,
-  index: propTypes.number.isRequired,
   date: propTypes.string.isRequired,
   fromToken: propTypes.string.isRequired,
   toToken: propTypes.string.isRequired,
@@ -214,12 +209,15 @@ Rows.propTypes = {
   toAddress: propTypes.string.isRequired,
   chainType: propTypes.string.isRequired,
   status: propTypes.string.isRequired,
-  transactions: propTypes.arrayOf(propTypes.any).isRequired,
+  transactions: propTypes.arrayOf(propTypes.any),
   conversionDirection: propTypes.string.isRequired,
   handleResume: propTypes.func.isRequired,
   getTransactionHistory: propTypes.func.isRequired,
   depositAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
-  receivingAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired
+  receivingAmount: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
+  confirmationRequired: propTypes.number,
+  expanded: propTypes.bool,
+  setExpandedValue: propTypes.func.isRequired
 };
 
 export default Rows;

@@ -6,7 +6,7 @@ import { conversionDirections, txnOperations, txnOperationsLabels, conversionSta
 import { useStyles } from './styles';
 import { convertFromCogs } from '../../utils/bignumber';
 
-const Transactions = ({ transaction, conversionDirection }) => {
+const Transactions = ({ transaction, conversionDirection, confirmationRequired }) => {
   const classes = useStyles();
   const txnHashLink = (txnHash) => {
     if (conversionDirection === conversionDirections.ETH_TO_ADA && transaction.transaction_operation === txnOperations.TOKEN_BURNT) {
@@ -38,7 +38,9 @@ const Transactions = ({ transaction, conversionDirection }) => {
         <span className={classes.responsiveExpandedColName}>Status:</span>
         <div className={classes.statusValueContainer}>
           <Typography data-status-type={transaction.status} textAlign="left">
-            {conversionStatusMessages[transaction.status]}
+            {Number(confirmationRequired) > Number(transaction.confirmation)
+              ? `${conversionStatusMessages[transaction.status]} : ${transaction.confirmation} / ${confirmationRequired}`
+              : conversionStatusMessages[transaction.status]}
           </Typography>
         </div>
       </Grid>
@@ -62,7 +64,8 @@ const Transactions = ({ transaction, conversionDirection }) => {
 
 Transactions.propTypes = {
   transaction: propTypes.object.isRequired,
-  conversionDirection: propTypes.string.isRequired
+  conversionDirection: propTypes.string.isRequired,
+  confirmationRequired: propTypes.number.isRequired
 };
 
 export default Transactions;

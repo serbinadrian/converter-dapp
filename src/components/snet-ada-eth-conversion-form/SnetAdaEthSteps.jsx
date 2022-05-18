@@ -2,10 +2,13 @@ import { useSelector } from 'react-redux';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import { styled } from '@mui/material/styles';
+// import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+// import { styled } from '@mui/material/styles';
+import ProgressIcon from '@mui/icons-material/HourglassEmpty';
+import DoneIcon from '@mui/icons-material/Done';
+import ErrorIcon from '@mui/icons-material/Error';
 import propTypes from 'prop-types';
-import { conversionStatuses } from '../../utils/ConverterConstants';
+import { conversionStatuses, progress } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 
 const SnetAdaEthSteps = ({ steps, activeStep }) => {
@@ -19,43 +22,80 @@ const SnetAdaEthSteps = ({ steps, activeStep }) => {
     return null;
   };
 
-  const ColorlibStepIconRoot = styled('div')(() => ({
-    backgroundColor: '#F18D5A',
-    color: '#fff',
-    width: 28,
-    height: 28,
-    display: 'flex',
-    borderRadius: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '& svg': { fontSize: '18px !important' }
-  }));
+  // const ColorlibStepIconRoot = styled('div')(() => ({
+  //   backgroundColor: '#F18D5A',
+  //   color: '#fff',
+  //   width: 28,
+  //   height: 28,
+  //   display: 'flex',
+  //   borderRadius: '50%',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   '& svg': { fontSize: '18px !important' }
+  // }));
+  const stepperProgressIcon = (progressStatus) => {
+    let icon;
 
-  const waitingIcon = () => {
-    return (
-      <ColorlibStepIconRoot>
-        <HourglassEmptyIcon />
-      </ColorlibStepIconRoot>
-    );
+    switch (progressStatus) {
+      case progress.COMPLETE:
+        icon = <DoneIcon />;
+        break;
+
+      case progress.ERROR:
+        icon = <ErrorIcon />;
+        break;
+
+      case progress.PROCESSING:
+        icon = <ProgressIcon />;
+        break;
+
+      default:
+        icon = false;
+        break;
+    }
+
+    return icon;
   };
+
+  // const ColorlibStepIconRoot = styled('div')(() => ({
+  //   backgroundColor: '#F18D5A',
+  //   color: '#fff',
+  //   width: 28,
+  //   height: 28,
+  //   display: 'flex',
+  //   borderRadius: '50%',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   '& svg': { fontSize: 18 }
+  // }));
+
+  // const waitingIcon = () => {
+  //   return (
+  //     <ColorlibStepIconRoot>
+  //       <HourglassEmptyIcon />
+  //     </ColorlibStepIconRoot>
+  //   );
+  // };
 
   return (
     <Stepper activeStep={activeStep} alternativeLabel className={classes.stepper}>
       {steps.map(({ step, label, progress }) => {
-        if (progress === 'PROCESSING') {
-          return (
-            <Step key={step}>
-              <StepLabel StepIconComponent={waitingIcon}>{label}</StepLabel>
-            </Step>
-          );
-        }
+        // if (progress === 'PROCESSING') {
+        //   return (
+        //     <Step key={step}>
+        //       <StepLabel StepIconComponent={waitingIcon}>{label}</StepLabel>
+        //     </Step>
+        //   );
+        // }
         const labelProps = {};
         if (isStepFailed(step)) {
           labelProps.error = true;
         }
         return (
-          <Step key={step}>
-            <StepLabel {...labelProps}>{label}</StepLabel>
+          <Step ste key={step}>
+            <StepLabel icon={stepperProgressIcon(progress)} {...labelProps}>
+              {label}
+            </StepLabel>
           </Step>
         );
       })}
