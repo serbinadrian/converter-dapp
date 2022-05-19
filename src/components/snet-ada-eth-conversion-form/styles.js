@@ -2,13 +2,35 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
   stepper: {
-    backdropColor: 'red',
     '& .MuiStepLabel-root': {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       '& .MuiStepLabel-iconContainer': {
-        '& .Mui-completed': { color: '#00C48C' }
+        [`& svg[data-testid="DoneIcon"]`]: {
+          boxSizing: 'content-box',
+          padding: 5,
+          borderRadius: 50,
+          backgroundColor: '#00C48C',
+          color: '#fff',
+          fontSize: 18
+        },
+        [`& svg[data-testid="HourglassEmptyIcon"]`]: {
+          boxSizing: 'content-box',
+          padding: 5,
+          borderRadius: 50,
+          backgroundColor: '#F18D5A',
+          color: '#fff',
+          fontSize: 18
+        },
+        [`& svg[data-testid="ErrorIcon"]`]: {
+          boxSizing: 'content-box',
+          padding: 5,
+          borderRadius: 50,
+          backgroundColor: '#EF5265',
+          color: '#fff',
+          fontSize: 18
+        }
       },
       '& .MuiStepLabel-label': {
         color: '#9B9B9B',
