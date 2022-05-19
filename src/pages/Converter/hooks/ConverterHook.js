@@ -170,8 +170,8 @@ const useConverterHook = () => {
     setToSelectedBlockchain(fromBlockchains[0]);
     const [fromPair] = tokens.filter((token) => token[tokenPairDirection.FROM].id === fromTokenPair.id);
     const [toPair] = tokens.filter((token) => token[tokenPairDirection.TO].id === toTokenPair.id);
-    setFromTokenPair(fromPair.from_token);
-    setToTokenPair(toPair.to_token);
+    setFromTokenPair(toPair.to_token);
+    setToTokenPair(fromPair.from_token);
     updateConversionFees();
     validateAmounts(value);
   };
