@@ -90,7 +90,7 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
             {!isWaitingForDeposit ? (
               <>
                 <Box className={classes.processingStatus}>
-                  {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
+                  {isDepositReceived ? <CheckCircleOutlineIcon className={classes.checkCircleIcon} /> : <CircularProgress />}
                   {!isDepositReceived && isBurning ? <span>Completed: Token Received</span> : null}
                   <span>
                     {isDepositReceived
