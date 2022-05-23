@@ -2,7 +2,7 @@ import { Typography, Link } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import propTypes from 'prop-types';
 import { utcToLocalDateTime } from '../../utils/Date';
-import { conversionDirections, txnOperations, txnOperationsLabels, conversionStatusMessages } from '../../utils/ConverterConstants';
+import { conversionDirections, txnOperations, txnOperationsLabels, conversionStatusMessages, conversionStatuses } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 import { convertFromCogs } from '../../utils/bignumber';
 
@@ -38,7 +38,7 @@ const Transactions = ({ transaction, conversionDirection, confirmationRequired }
         <span className={classes.responsiveExpandedColName}>Status:</span>
         <div className={classes.statusValueContainer}>
           <Typography data-status-type={transaction.status} textAlign="left">
-            {Number(confirmationRequired) > Number(transaction.confirmation)
+            {Number(confirmationRequired) > Number(transaction.confirmation) && transaction.status !== conversionStatuses.SUCCESS
               ? `${conversionStatusMessages[transaction.status]} : ${transaction.confirmation} / ${confirmationRequired}`
               : conversionStatusMessages[transaction.status]}
           </Typography>
