@@ -170,5 +170,9 @@ export const useStyles = makeStyles({
       fontSize: 16,
       lineHeight: '20px'
     }
+  },
+  checkCircleIcon: {
+    color: '#00C48C',
+    fontSize: 48
   }
 });

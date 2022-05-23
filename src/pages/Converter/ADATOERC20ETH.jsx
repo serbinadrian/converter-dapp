@@ -152,6 +152,7 @@ const ADATOERC20ETH = () => {
     } catch (error) {
       const message = error.message || JSON.stringify(error);
       setError({ isError: true, message });
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CLAIM_TOKENS, progress: progress.PROCESSING }));
     } finally {
       setLoading(false);
     }

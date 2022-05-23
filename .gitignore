@@ -18,3 +18,4 @@ cdk/yarn.lock
 .env
 
 src/contracts/singularitynet-token-manager/abi
+newrelic_agent.log

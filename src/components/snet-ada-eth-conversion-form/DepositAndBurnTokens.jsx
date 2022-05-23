@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Typography, FormControl, InputLabel, OutlinedInput, Box, Stack, CircularProgress } from '@mui/material';
 import propTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -26,13 +26,18 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
   const onClickContinue = () => {
     if (isWaitingForDeposit) {
       dispatch(setActiveStep(conversionSteps.CONVERT_TOKENS));
-      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.DEPOSIT_TOKENS, progress: progress.COMPLETE }));
-      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CONVERT_TOKENS, progress: progress.PROCESSING }));
     } else if (isDepositReceived) {
       dispatch(setActiveStep(conversionSteps.CLAIM_TOKENS));
       dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CONVERT_TOKENS, progress: progress.COMPLETE }));
     }
   };
+
+  useEffect(() => {
+    if (isDepositReceived) {
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.DEPOSIT_TOKENS, progress: progress.COMPLETE }));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CONVERT_TOKENS, progress: progress.COMPLETE }));
+    }
+  }, [isDepositReceived]);
 
   const onClickConvertToken = () => {
     dispatch(setActiveStep(conversionSteps.CLAIM_TOKENS));
@@ -90,7 +95,7 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
             {!isWaitingForDeposit ? (
               <>
                 <Box className={classes.processingStatus}>
-                  {isDepositReceived ? <CheckCircleOutlineIcon color="success" fontSize="large" /> : <CircularProgress />}
+                  {isDepositReceived ? <CheckCircleOutlineIcon className={classes.checkCircleIcon} /> : <CircularProgress />}
                   {!isDepositReceived && isBurning ? <span>Completed: Token Received</span> : null}
                   <span>
                     {isDepositReceived
