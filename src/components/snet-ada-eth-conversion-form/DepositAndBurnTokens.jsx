@@ -26,6 +26,8 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
   const onClickContinue = () => {
     if (isWaitingForDeposit) {
       dispatch(setActiveStep(conversionSteps.CONVERT_TOKENS));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.DEPOSIT_TOKENS, progress: progress.COMPLETE }));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CONVERT_TOKENS, progress: progress.PROCESSING }));
     } else if (isDepositReceived) {
       dispatch(setActiveStep(conversionSteps.CLAIM_TOKENS));
       dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CONVERT_TOKENS, progress: progress.COMPLETE }));
