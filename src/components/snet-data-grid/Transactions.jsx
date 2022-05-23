@@ -38,7 +38,7 @@ const Transactions = ({ transaction, conversionDirection, confirmationRequired }
         <span className={classes.responsiveExpandedColName}>Status:</span>
         <div className={classes.statusValueContainer}>
           <Typography data-status-type={transaction.status} textAlign="left">
-            {Number(confirmationRequired) > Number(transaction.confirmation) && transaction.status !== conversionStatuses.SUCCESS
+            {transaction.status === conversionStatuses.WAITING_FOR_CONFIRMATION
               ? `${conversionStatusMessages[transaction.status]} : ${transaction.confirmation} / ${confirmationRequired}`
               : conversionStatusMessages[transaction.status]}
           </Typography>
