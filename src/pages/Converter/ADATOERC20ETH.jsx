@@ -71,7 +71,7 @@ const ADATOERC20ETH = () => {
               const burntTransaction = transactions.find((obj) => obj.transaction_operation === txnOperations.TOKEN_BURNT);
               if (burntTransaction) {
                 const { confirmation: burntConfirmation } = burntTransaction;
-                if (burntTransaction) isBlockConfirmationPending = Number(blockConfiramtionsRequired) > Number(burntConfirmation);
+                if (burntTransaction) isBlockConfirmationPending = Number(blockConfiramtionsRequired) >= Number(burntConfirmation);
                 setIsConversionInProgress({
                   ...isConversionInProgress,
                   status: isBlockConfirmationPending,
