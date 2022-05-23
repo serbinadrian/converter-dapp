@@ -8,7 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import ColorCodes from '../../assets/theme/colorCodes';
 import SnetButton from '../snet-button';
 import Paths from '../../router/paths';
-import { setActiveStep, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { resetConversionStepsForAdaToEth, setActiveStep, setConversionDirection } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { availableBlockchains, conversionSteps } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 
@@ -19,6 +19,7 @@ const TransactionReceipt = ({ receiptLines, txnHash }) => {
 
   const onClickFinish = () => {
     dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
+    dispatch(resetConversionStepsForAdaToEth());
     dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
   };
 
