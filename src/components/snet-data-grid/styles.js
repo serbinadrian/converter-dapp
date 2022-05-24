@@ -11,7 +11,8 @@ export const useStyles = makeStyles({
       color: '#9b9b9b',
       fontSize: 14,
       fontWeight: 600
-    }
+    },
+    '@media(max-width:1200px)': { display: 'none' }
   },
   transactionHistoryTable: { padding: '0 16px' },
   transactionHistoryHeader: {
@@ -55,13 +56,21 @@ export const useStyles = makeStyles({
     '& > div': {
       padding: `0 !important`,
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      '@media(max-width:1200px)': {
+        width: '100%',
+        marginTop: 20,
+        display: 'flex !important',
+        justifyContent: 'center'
+      }
     },
-    '& p': { fontSize: 14 },
-    '& span': {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      display: 'inherit'
+    '& p': {
+      display: 'flex',
+      fontSize: 14
+    },
+    '@media(max-width:1200px)': {
+      flexDirection: 'column',
+      alignItems: 'center'
     }
   },
   fromToAddressContainer: {
@@ -90,9 +99,11 @@ export const useStyles = makeStyles({
     '&:hover': {
       '& p': { color: '#4086ff' },
       '& svg': { color: '#4086ff' }
-    }
+    },
+    '@media(max-width:1200px)': { margin: 0 }
   },
   statusData: {
+    paddingTop: 2,
     display: 'flex',
     justifyContent: 'center',
     '& svg': {
@@ -101,6 +112,7 @@ export const useStyles = makeStyles({
     }
   },
   statusValueContainer: {
+    height: '100%',
     display: 'flex',
     alignItems: 'center',
     '& p': {
@@ -153,20 +165,34 @@ export const useStyles = makeStyles({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  noTransactionWrapper: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   expandedDataCol: {
-    padding: '26px 20px 15px 60px',
+    padding: '26px 20px 15px 36px',
     backgroundColor: '#fff',
     '& div p': {
       color: '#9B9B9B',
       fontSize: 14,
       letterSpacing: 0.17,
       lineHeight: '18px'
-    }
+    },
+    '@media(max-width:900px)': { display: 'none' }
   },
   expandedDataRows: {
-    padding: '7px 20px 7px 60px',
+    padding: '7px 20px 7px 36px',
     background: '#fff',
     marginTop: 2,
+    '& > div': {
+      '@media(max-width:900px)': {
+        marginTop: 20,
+        display: 'flex'
+      }
+    },
     '& span': {
       color: '#666',
       fontSize: 14,
@@ -179,12 +205,16 @@ export const useStyles = makeStyles({
       textOverflow: 'ellipsis',
       overflow: 'hidden',
       display: 'inherit',
-      '& span': { color: '#4086FF' }
+      '& span': {
+        color: '#4086FF',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+      }
     }
   },
   alignRight: {
-    display: 'inline !important',
-    textAlign: 'right'
+    alignItems: 'flex-end !important',
+    '@media(max-width: 1200px)': { alignItems: 'center !important' }
   },
   // Pagination styles
   paginationContainer: {
@@ -201,8 +231,10 @@ export const useStyles = makeStyles({
           fontSize: 14,
           '& svg': { fontSize: 22 }
         }
-      }
-    }
+      },
+      '@media(max-width:680px)': { marginBottom: 20 }
+    },
+    '@media(max-width:680px)': { flexDirection: 'column' }
   },
   pageCountSection: { paddingRight: 22 },
   itemPerPageTxt: {
@@ -227,5 +259,23 @@ export const useStyles = makeStyles({
       '& legend': { display: 'none' }
     }
   },
-  id: { cursor: 'default' }
+  id: { cursor: 'default' },
+  responsiveColName: {
+    paddingRight: 20,
+    display: 'none',
+    color: '#9b9b9b',
+    fontSize: 14,
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    '@media(max-width:1200px)': { display: 'block' }
+  },
+  responsiveExpandedColName: {
+    paddingRight: 15,
+    display: 'none',
+    color: '#212121',
+    fontSize: 14,
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    '@media(max-width:900px)': { display: 'block' }
+  }
 });

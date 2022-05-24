@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { toLocalDateTime } from '../../utils/Date';
 import Columns from './Columns';
 import Rows from './Rows';
-import { setAdaConversionInfo, setConversionDirection, setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { setAdaConversionInfo, setConversionDirection, setActiveStep, setCurrentConversionStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { setFromAddress, setToAddress } from '../../services/redux/slices/wallet/walletSlice';
-import { availableBlockchains, conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
+import { availableBlockchains, conversionStatuses, conversionSteps, progress } from '../../utils/ConverterConstants';
 import paths from '../../router/paths';
 import { useStyles } from './styles';
 import SnetPagination from './Pagination';
@@ -26,14 +26,30 @@ const SnetDataGrid = ({
   onItemSelect,
   pageSizes,
   paginationSize,
-  totalNoOfTransaction
+  totalNoOfTransaction,
+  getTransactionHistory,
+  expanded,
+  setExpandedValue
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleResume = (conversionInfo, conversionStatus) => {
-    const activeStep = conversionStatus === conversionStatuses.WAITING_FOR_CLAIM ? conversionSteps.CLAIM_TOKENS : conversionSteps.BURN_TOKENS;
+    let activeStep;
+    switch (conversionStatus) {
+      case conversionStatuses.WAITING_FOR_CLAIM:
+        activeStep = conversionSteps.CLAIM_TOKENS;
+        break;
+
+      case conversionStatuses.USER_INITIATED:
+        activeStep = conversionSteps.DEPOSIT_TOKENS;
+        break;
+
+      default:
+        activeStep = conversionSteps.CONVERT_TOKENS;
+        break;
+    }
 
     const { wallet } = conversionInfo;
 
@@ -42,6 +58,11 @@ const SnetDataGrid = ({
     dispatch(setAdaConversionInfo(conversionInfo));
     dispatch(setConversionDirection(availableBlockchains.CARDANO));
     dispatch(setActiveStep(activeStep));
+
+    for (let index = 0; index <= Number(activeStep); index++) {
+      dispatch(setCurrentConversionStep({ activeStep: index, progress: progress.COMPLETE }));
+    }
+
     navigate(paths.Converter);
   };
 
@@ -61,7 +82,7 @@ const SnetDataGrid = ({
         </Box>
       </Box>
       <Columns />
-      {rows.map((row) => {
+      {rows.map((row, index) => {
         return (
           <Rows
             key={row.id}
@@ -73,11 +94,15 @@ const SnetDataGrid = ({
             toAddress={row.toAddress}
             toToken={row.toToken}
             status={row.status}
+            getTransactionHistory={getTransactionHistory}
             transactions={row.transactions}
             conversionDirection={row.conversionDirection}
             handleResume={() => handleResume(row.conversionInfo, row.status)}
             depositAmount={row.depositAmount}
             receivingAmount={row.receivingAmount}
+            confirmationRequired={row.confirmationRequired}
+            expanded={expanded[row.id]}
+            setExpandedValue={setExpandedValue}
           />
         );
       })}
@@ -103,8 +128,11 @@ SnetDataGrid.propTypes = {
   paginationSize: propTypes.number.isRequired,
   currentPage: propTypes.number.isRequired,
   onPageChange: propTypes.func.isRequired,
+  getTransactionHistory: propTypes.func.isRequired,
   paginationInfo: propTypes.string.isRequired,
-  totalNoOfTransaction: propTypes.number.isRequired
+  totalNoOfTransaction: propTypes.number.isRequired,
+  expanded: propTypes.object.isRequired,
+  setExpandedValue: propTypes.func.isRequired
 };
 
 export default SnetDataGrid;

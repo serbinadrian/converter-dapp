@@ -8,7 +8,8 @@ const styles = {
     background: '#fff',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%,-50%)'
+    transform: 'translate(-50%,-50%)',
+    '@media(max-width:900px)': { width: '90%' }
   },
   conersionModalHeader: {
     borderBottom: '1px solid #F5F7F8',
@@ -19,30 +20,35 @@ const styles = {
     '& h2': {
       color: '#212121',
       fontSize: 20,
-      lineHeight: '50px'
+      lineHeight: '50px',
+      '@media(max-width:600px)': { fontSize: 16 }
     },
     '& svg': {
       cursor: 'pointer',
       fontSize: 24
     }
   },
-  conersionModalBody: {
-    '& div': {
-      paddingTop: `32px !important`,
-      '& > p': {
-        color: '#9B9B9B',
-        fontSize: 16,
-        fontWeight: 600,
-        lineHeight: '28px',
-        textAlign: 'center'
-      }
-    },
+  conversionModalBody: {
     '& > p': {
       padding: '32px 20px',
       color: '#212121',
       fontSize: 14,
       letterSpacing: 0.13,
       lineHeight: '18px'
+    }
+  },
+  processingLoaderContainer: {
+    paddingTop: `32px !important`,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > p': {
+      paddingTop: '10px',
+      color: '#9B9B9B',
+      fontSize: 16,
+      fontWeight: 600,
+      lineHeight: '28px',
+      textAlign: 'center'
     }
   },
   conersionModalActions: {
@@ -140,7 +146,12 @@ const styles = {
   },
   list: { backgroundColor: 'red' },
   converterBox: { '& > div': { padding: 0 } },
-  ethAdaConversionBox: { padding: '52px 50px 0' },
+  ethAdaConversionBox: {
+    padding: '52px 50px 0',
+    '@media(max-width: 1200px)': {
+      padding: '26px 25px 0 !important'
+    }
+  },
   alertAndBtnContainer: {
     padding: '15px 50px 0 52px',
     borderRadius: '0 0 8px 8px',
@@ -157,6 +168,31 @@ const styles = {
     fontSize: 14,
     letterSpacing: -0.22,
     lineHeight: '18px'
+  },
+  adaEthConvertSteperBox: {
+    width: 640,
+    borderRadius: '4px',
+    backgroundColor: '#FFF',
+    boxShadow: '0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.2)',
+    '& p': {
+      padding: '0 22px',
+      borderBottom: '1px solid #F5F7F8',
+      fontSize: 20,
+      lineHeight: '47px',
+      '@media(max-width:680px)': { fontSize: 16 }
+    },
+    '@media(max-width:900px)': {
+      width: '95%',
+      margin: '0 auto'
+    }
+  },
+  adtEthContent: {
+    padding: '38px 41px 40px',
+    '& h6': {
+      fontSize: 16,
+      letterSpacing: 0.15,
+      lineHeight: '24px'
+    }
   }
 };
 

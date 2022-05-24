@@ -2,11 +2,11 @@ import { Typography, Link } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import propTypes from 'prop-types';
 import { utcToLocalDateTime } from '../../utils/Date';
-import { conversionDirections, txnOperations, txnOperationsLabels, conversionStatusMessages } from '../../utils/ConverterConstants';
+import { conversionDirections, txnOperations, txnOperationsLabels, conversionStatusMessages, conversionStatuses } from '../../utils/ConverterConstants';
 import { useStyles } from './styles';
 import { convertFromCogs } from '../../utils/bignumber';
 
-const Transactions = ({ transaction, conversionDirection }) => {
+const Transactions = ({ transaction, conversionDirection, confirmationRequired }) => {
   const classes = useStyles();
   const txnHashLink = (txnHash) => {
     if (conversionDirection === conversionDirections.ETH_TO_ADA && transaction.transaction_operation === txnOperations.TOKEN_BURNT) {
@@ -22,29 +22,36 @@ const Transactions = ({ transaction, conversionDirection }) => {
 
   return (
     <>
-      <Grid item xs={6} md={2}>
+      <Grid item xs={12} md={2}>
+        <span className={classes.responsiveExpandedColName}>Date:</span>
         <Typography variant="caption" textAlign="left">
           {utcToLocalDateTime(transaction.created_at)}
         </Typography>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={12} md={2}>
+        <span className={classes.responsiveExpandedColName}>Process Status:</span>
         <Typography variant="caption" textAlign="left">
           {txnOperationsLabels[transaction.transaction_operation]}
         </Typography>
       </Grid>
-      <Grid item xs={6} md={2}>
+      <Grid item xs={12} md={3}>
+        <span className={classes.responsiveExpandedColName}>Status:</span>
         <div className={classes.statusValueContainer}>
           <Typography data-status-type={transaction.status} textAlign="left">
-            {conversionStatusMessages[transaction.status]}
+            {transaction.status === conversionStatuses.WAITING_FOR_CONFIRMATION
+              ? `${conversionStatusMessages[transaction.status]} : ${transaction.confirmation} / ${confirmationRequired}`
+              : conversionStatusMessages[transaction.status]}
           </Typography>
         </div>
       </Grid>
-      <Grid item xs={6} md={2}>
+      <Grid item xs={12} md={2}>
+        <span className={classes.responsiveExpandedColName}>Transaction:</span>
         <Typography variant="caption" textAlign="left">
           {convertFromCogs(transaction.transaction_amount, transaction.token.allowed_decimal)} {transaction.token.symbol}
         </Typography>
       </Grid>
-      <Grid item xs={6} md={3} className={classes.detailsData}>
+      <Grid item xs={12} md={3} className={classes.detailsData}>
+        <span className={classes.responsiveExpandedColName}>Detail:</span>
         <Link href={txnHashLink(transaction.transaction_hash)} underline="none" target="_blank" rel="noopener noreferrer">
           <Typography variant="caption" textAlign="left">
             {transaction.transaction_hash}
@@ -57,7 +64,8 @@ const Transactions = ({ transaction, conversionDirection }) => {
 
 Transactions.propTypes = {
   transaction: propTypes.object.isRequired,
-  conversionDirection: propTypes.string.isRequired
+  conversionDirection: propTypes.string.isRequired,
+  confirmationRequired: propTypes.number.isRequired
 };
 
 export default Transactions;

@@ -9,6 +9,7 @@ export const useStyles = makeStyles({
   },
   wrapper: {
     maxWidth: 1063,
-    margin: '0 auto'
+    margin: '0 auto',
+    '@media(max-width: 1200px)': { padding: '0 20px' }
   }
 });

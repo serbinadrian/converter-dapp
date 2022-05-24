@@ -18,6 +18,7 @@ export const useStyles = makeStyles({
     border: `1.5px solid ${ColorCodes.errorMsgBorder}`,
     backgroundColor: ColorCodes.errorMsgBg,
     '& p': {
+      border: 'none',
       margin: 0,
       color: '#000',
       fontSize: 14,
@@ -25,7 +26,7 @@ export const useStyles = makeStyles({
       lineHeight: '18px'
     },
     '& a': {
-      paddingLeft: 10,
+      paddingLeft: 5,
       '&:hover': { textDecoration: 'underline' }
     }
   }

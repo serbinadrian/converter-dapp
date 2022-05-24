@@ -15,15 +15,13 @@ const ETHTOADAConversionPopup = ({ title, openPopup, handlePopupClose, openLink,
           </Typography>
           <CloseIcon onClick={handlePopupClose} />
         </Box>
-        <Box sx={styles.conersionModalBody}>
-          <div sx={styles.processingLoaderContainer}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
-              <CircularProgress />
-            </Box>
+        <Box sx={styles.conversionModalBody}>
+          <Box sx={styles.processingLoaderContainer}>
+            <CircularProgress />
             <Typography>
               Processing: Awaiting Confimation {blockConfiramtionsReceived}/{blockConfiramtionsRequired}
             </Typography>
-          </div>
+          </Box>
           <Typography>
             Your transaction is in progress and may take some time to complete. You can close this overlay and monitor the status from &apos;Transactions&apos;.
           </Typography>

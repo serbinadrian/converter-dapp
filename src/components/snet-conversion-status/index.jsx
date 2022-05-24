@@ -17,8 +17,8 @@ const SnetConversionStatus = ({ link, isDialogOpen, onDialogClose, title, amount
   };
 
   return (
-    <SnetDialog isDialogOpen={isDialogOpen} onDialogClose={onDialogClose} title={title} showClosebutton className={classes.ethToAdaTransactionReceiptContainer}>
-      <div>
+    <SnetDialog isDialogOpen={isDialogOpen} onDialogClose={onDialogClose} title={title} showClosebutton>
+      <div className={classes.ethToAdaTransactionReceiptContainer}>
         <Box display="flex" alignItems="center" className={classes.progressSection}>
           <CheckCircleOutlineIcon />
           <Typography align="center" color="grey" variant="body2" marginLeft={2}>

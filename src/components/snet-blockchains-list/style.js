@@ -39,7 +39,8 @@ const style = {
       padding: '14px',
       fontSize: 14
     },
-    '& filedset': { borderColor: '#828282' }
+    '& filedset': { borderColor: '#828282' },
+    '@media(max-width: 600px)': { marginTop: '15px' }
   }
 };
 

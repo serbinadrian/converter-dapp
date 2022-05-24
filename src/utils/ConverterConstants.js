@@ -69,7 +69,7 @@ export const externalLinks = {
 
 export const conversionSteps = {
   DEPOSIT_TOKENS: 0,
-  BURN_TOKENS: 1,
+  CONVERT_TOKENS: 1,
   CLAIM_TOKENS: 2,
   SUMMARY: 3
 };
@@ -81,8 +81,8 @@ export const conversionStepsForAdaToEth = [
     progress: progress.IDLE
   },
   {
-    label: 'Burn Tokens',
-    step: conversionSteps.BURN_TOKENS,
+    label: 'Convert Tokens',
+    step: conversionSteps.CONVERT_TOKENS,
     progress: progress.IDLE
   },
   {
@@ -119,3 +119,24 @@ export const blockchainStatusLabels = {
   ON_APPROVING_SPEND_LIMIT: { title: 'Wallet Interaction', message: 'Approving spend limit...' },
   RESET_CONVERSION_LABEL: { title: '', message: '' }
 };
+
+export const contactSupportType = {
+  BUG: 'Bug',
+  QUESTION: 'Question',
+  FEEDBACK: 'FeedBack',
+  CATEGORY: 'Category'
+};
+export const ContactSupportTypeOptions = [
+  {
+    value: contactSupportType.BUG,
+    label: contactSupportType.BUG
+  },
+  {
+    value: contactSupportType.QUESTION,
+    label: contactSupportType.QUESTION
+  },
+  {
+    value: contactSupportType.FEEDBACK,
+    label: contactSupportType.FEEDBACK
+  }
+];

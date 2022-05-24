@@ -2,21 +2,28 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { toUpper } from 'lodash';
 import SnetAdaEthSteps from '../../components/snet-ada-eth-conversion-form/SnetAdaEthSteps';
 import SnetAdaEthTitle from '../../components/snet-ada-eth-conversion-form/SnetAdaEthTitle';
-import SnetPaper from '../../components/snet-paper';
 import styles from './styles';
 import DepositAndBurnTokens from '../../components/snet-ada-eth-conversion-form/DepositAndBurnTokens';
-import { setActiveStep, setConversionDirection, setConversionStatus } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import {
+  resetConversionStepsForAdaToEth,
+  setActiveStep,
+  setConversionDirection,
+  setConversionStatus,
+  setCurrentConversionStep
+} from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { setBlockchainStatus } from '../../services/redux/slices/blockchain/blockchainSlice';
 import ClaimTokens from '../../components/snet-ada-eth-conversion-form/ClaimTokens';
 import TransactionReceipt from '../../components/snet-ada-eth-conversion-form/TransactionReceipt';
-import { availableBlockchains, conversionSteps, blockchainStatusLabels } from '../../utils/ConverterConstants';
+import { availableBlockchains, conversionSteps, blockchainStatusLabels, txnOperations, progress, conversionStatuses } from '../../utils/ConverterConstants';
 import { conversionClaim, getConversionStatus, updateTransactionStatus } from '../../utils/HttpRequests';
 import { useWalletHook } from '../../components/snet-wallet-connector/walletHook';
 import SnetLoader from '../../components/snet-loader';
 import Paths from '../../router/paths';
 import SnetSnackbar from '../../components/snet-snackbar';
+import PendingTxnAlert from './PendingTxnAlert';
 
 const ADATOERC20ETH = () => {
   const { generateSignatureForClaim, conversionIn } = useWalletHook();
@@ -27,6 +34,13 @@ const ADATOERC20ETH = () => {
   const { conversionStepsForAdaToEth, activeStep, conversion } = useSelector((state) => state.tokenPairs.conversionOfAdaToEth);
   const { conversionApiCallIntervalIds } = useSelector((state) => state.tokenPairs);
   const { blockchainStatus } = useSelector((state) => state.blockchains);
+  const [isConversionInProgress, setIsConversionInProgress] = useState({
+    status: false,
+    blockConfiramtionsRequired: 0,
+    blockConfiramtionsReceived: 0,
+    isBurning: false
+  });
+  const { entities } = useSelector((state) => state.blockchains);
 
   const { fromAddress, toAddress } = useSelector((state) => state.wallet);
   const navigate = useNavigate();
@@ -35,15 +49,48 @@ const ADATOERC20ETH = () => {
   const handleCancel = () => {
     dispatch(setConversionDirection(availableBlockchains.ETHEREUM));
     dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
+    dispatch(resetConversionStepsForAdaToEth());
   };
 
   const checkConversionStatus = () => {
+    const [blockchain] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.CARDANO);
+    const blockConfiramtionsRequired = blockchain.block_confirmation;
+    setIsConversionInProgress({ ...isConversionInProgress, blockConfiramtionsRequired, status: true });
+    let isBlockConfirmationPending = true;
+
     const sixtySeconds = 60000;
     const intervalId = setInterval(async () => {
       try {
-        if (activeStep === conversionSteps.BURN_TOKENS) {
-          const response = await getConversionStatus(conversion.conversionId);
-          dispatch(setConversionStatus(response.conversion.status));
+        if (isBlockConfirmationPending) {
+          if (activeStep === conversionSteps.CONVERT_TOKENS) {
+            const { conversion: conversions, transactions } = await getConversionStatus(conversion.conversionId);
+            dispatch(setConversionStatus(conversions.status));
+            const receivedTransaction = transactions.find((obj) => obj.transaction_operation === txnOperations.TOKEN_RECEIVED);
+            if (receivedTransaction) {
+              const { confirmation: receiveConfirmation } = receivedTransaction;
+              const burntTransaction = transactions.find((obj) => obj.transaction_operation === txnOperations.TOKEN_BURNT);
+              if (burntTransaction) {
+                const { confirmation: burntConfirmation } = burntTransaction;
+                if (burntTransaction) isBlockConfirmationPending = Number(blockConfiramtionsRequired) >= Number(burntConfirmation);
+                setIsConversionInProgress({
+                  ...isConversionInProgress,
+                  status: isBlockConfirmationPending,
+                  isBurning: true,
+                  blockConfiramtionsReceived: burntConfirmation,
+                  blockConfiramtionsRequired
+                });
+              } else {
+                setIsConversionInProgress({
+                  ...isConversionInProgress,
+                  blockConfiramtionsReceived: receiveConfirmation,
+                  blockConfiramtionsRequired
+                });
+              }
+            }
+            if (conversions.status === conversionStatuses.EXPIRED) {
+              isBlockConfirmationPending = false;
+            }
+          }
         }
       } catch (error) {
         console.log(error);
@@ -99,10 +146,13 @@ const ADATOERC20ETH = () => {
         conversion.pair.to_token.symbol
       );
       setTransactionReceipt(receipt);
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CLAIM_TOKENS, progress: progress.COMPLETE }));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.SUMMARY, progress: progress.COMPLETE }));
       dispatch(setActiveStep(conversionSteps.SUMMARY));
     } catch (error) {
       const message = error.message || JSON.stringify(error);
       setError({ isError: true, message });
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CLAIM_TOKENS, progress: progress.PROCESSING }));
     } finally {
       setLoading(false);
     }
@@ -121,27 +171,38 @@ const ADATOERC20ETH = () => {
   };
 
   useEffect(() => {
-    if (activeStep === conversionSteps.BURN_TOKENS) {
+    if (activeStep === conversionSteps.CONVERT_TOKENS) {
       checkConversionStatus();
     }
   }, [activeStep]);
 
   return (
-    <SnetPaper>
-      <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
-      {blockchainStatus ? (
-        <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
-      ) : null}
-      <SnetAdaEthTitle title={formatConversionTitle()} />
-      <Box sx={styles.padding}>
-        <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
-        {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.BURN_TOKENS ? (
-          <DepositAndBurnTokens onClickCancel={handleCancel} />
-        ) : null}
-        {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
-        {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
+    <>
+      <Box sx={styles.pendingTxnAlertContainer}>
+        <PendingTxnAlert />
       </Box>
-    </SnetPaper>
+      <Box sx={styles.adaEthConvertSteperBox}>
+        <SnetSnackbar open={error.isError} message={error.message} onClose={() => {}} />
+        {blockchainStatus ? (
+          <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
+        ) : null}
+        <SnetAdaEthTitle title={formatConversionTitle()} />
+        <Box sx={styles.padding}>
+          <SnetAdaEthSteps activeStep={activeStep} steps={conversionStepsForAdaToEth} />
+          {activeStep === conversionSteps.DEPOSIT_TOKENS || activeStep === conversionSteps.CONVERT_TOKENS ? (
+            <DepositAndBurnTokens
+              onClickCancel={handleCancel}
+              onClickContinueLater={continueLater}
+              isBurning={isConversionInProgress.isBurning}
+              blockConfiramtionsReceived={isConversionInProgress.blockConfiramtionsReceived}
+              blockConfiramtionsRequired={isConversionInProgress.blockConfiramtionsRequired}
+            />
+          ) : null}
+          {activeStep === conversionSteps.CLAIM_TOKENS ? <ClaimTokens onClickContinueLater={continueLater} onClickClaim={getSignatureForClaim} /> : null}
+          {activeStep === conversionSteps.SUMMARY ? <TransactionReceipt txnHash={transactionHash} receiptLines={transactionReceipt} /> : null}
+        </Box>
+      </Box>
+    </>
   );
 };
 

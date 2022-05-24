@@ -11,6 +11,7 @@ import useMenubarStyles from './style';
 import Paths from '../../router/paths';
 import BridgeLogo from './BridgeLogo';
 import SnetButton from '../snet-button';
+import HamburgerMenu from './HamburgerMenu';
 
 const WalletMenu = ({ openConnectedWallets }) => {
   const classes = useMenubarStyles();
@@ -25,7 +26,8 @@ const WalletMenu = ({ openConnectedWallets }) => {
     <AppBar position="static" color="white" sx={{ padding: 2 }} className={classes.header}>
       <Box className={classes.items}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <BridgeLogo />
+          <HamburgerMenu />
+          <BridgeLogo openConnectedWallets={openConnectedWallets} />
           <ul className={classes.navigations}>
             <li className={splitLocation[1] === '' ? classes.active : ''}>
               <Link to={Paths.Converter}>Home</Link>

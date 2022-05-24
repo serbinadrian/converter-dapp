@@ -14,7 +14,10 @@ const TxnHistoryTable = () => {
     pageSizes,
     paginationSize,
     paginationInfo,
-    totalNoOfTransaction
+    totalNoOfTransaction,
+    getTransactionHistory,
+    expanded,
+    setExpandedValue
   } = useConversionHistoryHook(address);
 
   return (
@@ -22,6 +25,7 @@ const TxnHistoryTable = () => {
       pageSizes={pageSizes}
       onItemSelect={onItemSelect}
       loading={isLoading}
+      getTransactionHistory={getTransactionHistory}
       refreshTxnHistory={getConversionHistory}
       rows={conversionHistory}
       paginationSize={paginationSize}
@@ -29,6 +33,8 @@ const TxnHistoryTable = () => {
       onPageChange={onPageChange}
       paginationInfo={paginationInfo}
       totalNoOfTransaction={totalNoOfTransaction}
+      expanded={expanded}
+      setExpandedValue={setExpandedValue}
     />
   );
 };

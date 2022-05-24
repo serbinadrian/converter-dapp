@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import propTypes from 'prop-types';
@@ -10,7 +10,7 @@ import useConverterHook from './hooks/ConverterHook';
 import ConversionFormLoader from './ConversionFormLoader';
 import TokenPairs from './TokenPairs';
 import useERC20TokenHook from './hooks/ERC20TokenHook';
-import { availableBlockchains, conversionDirections } from '../../utils/ConverterConstants';
+import { availableBlockchains, conversionDirections, conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
 import SnetAlert from '../../components/snet-alert';
 import SnetLoader from '../../components/snet-loader';
 import SnetConversionStatus from '../../components/snet-conversion-status';
@@ -20,9 +20,11 @@ import SnetSnackbar from '../../components/snet-snackbar';
 import Paths from '../../router/paths';
 import ETHTOADAConversionPopup from './ETHTOADAConversionPopup';
 import styles from './styles';
+import { resetConversionStepsForAdaToEth, setActiveStep, setConversionStatus } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 
-const ERC20TOADA = ({ onADATOETHConversion }) => {
+const ERC20TOADA = ({ onADATOETHConversion, callPendingTxnAlert }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { blockchains, wallet } = useSelector((state) => state);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showConfirmationBlockPopup, setConfirmationBlockPopup] = useState(false);
@@ -98,6 +100,11 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   const getConversionIdForADATOETH = async () => {
     try {
       const conversionInfo = await mintERC20Tokens(fromTokenPair.id, fromAndToTokenValues.fromValue, fromAddress);
+
+      dispatch(setActiveStep(conversionSteps.DEPOSIT_TOKENS));
+      dispatch(resetConversionStepsForAdaToEth());
+      dispatch(setConversionStatus(conversionStatuses.IDLE));
+
       onADATOETHConversion(conversionInfo);
     } catch (exception) {
       setErrorMessage(exception?.message || String(exception));
@@ -139,6 +146,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
   };
 
   const handlePopupClose = () => {
+    callPendingTxnAlert();
     setConfirmationBlockPopup(false);
   };
 
@@ -161,7 +169,7 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
         {blockchainStatus ? (
           <SnetLoader dialogBody={blockchainStatus.message} onDialogClose={() => {}} isDialogOpen={isLoading} dialogTitle={blockchainStatus.title} />
         ) : null}
-        <Box style={styles.ethAdaConversionBox}>
+        <Box sx={styles.ethAdaConversionBox}>
           <TokenPairs
             fromBlockchains={fromBlockchains}
             fromSelectedBlockchain={fromSelectedBlockchain}
@@ -186,10 +194,9 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
           />
         </Box>
         <Box style={styles.alertAndBtnContainer}>
-          {wallet.conversionDirection === conversionDirections.ETH_TO_ADA ? (
+          {wallet.conversionDirection === conversionDirections.ETH_TO_ADA && authorizationRequired ? (
             <Stack direction="row" alignItems="center">
-              <InfoIcon style={styles.infoBoxIcon} />
-              <Typography style={styles.infoBoxMsg}>Allow SingularityNET Bridge to use ethereum tokens from your wallet</Typography>
+              <SnetAlert iconPresence={false} error={<p>Allow SingularityNET Bridge to use ethereum tokens from your wallet</p>} type="info" />
             </Stack>
           ) : null}
           {error.error && error.message.length ? (
@@ -226,7 +233,8 @@ const ERC20TOADA = ({ onADATOETHConversion }) => {
 };
 
 ERC20TOADA.propTypes = {
-  onADATOETHConversion: propTypes.func.isRequired
+  onADATOETHConversion: propTypes.func.isRequired,
+  callPendingTxnAlert: propTypes.func.isRequired
 };
 
 export default ERC20TOADA;

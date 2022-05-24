@@ -1,14 +1,8 @@
 import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
-  connectWalletPopup: {
-    backgroundColor: 'red',
-    '& .MuiDialog-paper': {
-      width: 800,
-      margin: 0
-    }
-  },
   connectWalletContent: {
+    width: 800,
     padding: '32px 16px',
     '& > div': {
       paddingBottom: 23,
@@ -19,8 +13,20 @@ export const useStyles = makeStyles({
         border: 'none',
         marginBottom: 0
       },
-      '& > div': { alignItems: 'flex-start' }
-    }
+      '& > div': {
+        alignItems: 'flex-start',
+        '& > div': {
+          '&:first-of-type': {
+            '@media(max-width: 600px)': { marginBottom: '15px' }
+          }
+        },
+        '@media(max-width: 600px)': {
+          flexDirection: 'column',
+          alignItems: 'center'
+        }
+      }
+    },
+    '@media(max-width: 800px)': { width: '100%' }
   },
   connectWalletActions: {
     padding: '18px 32px',
@@ -45,6 +51,10 @@ export const useStyles = makeStyles({
         letterSpacing: -0.14,
         lineHeight: '16px'
       }
-    }
+    },
+    '& button': {
+      '@media(max-width: 600px)': { marginTop: 15 }
+    },
+    '@media(max-width: 600px)': { flexDirection: 'column' }
   }
 });

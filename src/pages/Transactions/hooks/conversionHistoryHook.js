@@ -1,6 +1,9 @@
+import { toUpper } from 'lodash';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { bigNumberSubtract, convertFromCogs } from '../../../utils/bignumber';
-import { getConversionTransactionHistory } from '../../../utils/HttpRequests';
+import { availableBlockchains, conversionDirections } from '../../../utils/ConverterConstants';
+import { getConversionTransactionHistory, getTransactionData } from '../../../utils/HttpRequests';
 
 const useConversionHistoryHook = (address) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,6 +14,8 @@ const useConversionHistoryHook = (address) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [paginationInfo, setPaginationInfo] = useState('');
   const [totalNoOfTransaction, setTotalNoOfTransaction] = useState(0);
+  const { entities } = useSelector((state) => state.blockchains);
+  const [expanded, setExpanded] = useState({});
 
   const onItemSelect = (value) => {
     setPageSize(value);
@@ -20,7 +25,17 @@ const useConversionHistoryHook = (address) => {
     setPageNumber(value);
   };
 
-  const formatSingleEntity = (entity) => {
+  const setExpandedValue = (id, value) => {
+    const expandedData = { ...expanded };
+    if (value) {
+      expandedData[id] = value;
+    } else {
+      delete expandedData[id];
+    }
+    setExpanded(expandedData);
+  };
+
+  const formatSingleEntity = (entity, ethereumRequired, cardanoRequired) => {
     const chainType = `${entity.from_token.blockchain.name} - ${entity.to_token.blockchain.name}`;
     const fromDirection = entity.from_token.blockchain.symbol;
     const toDirection = entity.to_token.blockchain.symbol;
@@ -30,6 +45,7 @@ const useConversionHistoryHook = (address) => {
     const depositAmount = convertFromCogs(entity.conversion.deposit_amount, entity.from_token.allowed_decimal);
     const receivingAmount = convertFromCogs(entity.conversion.claim_amount, entity.to_token.allowed_decimal);
     const conversionFees = bigNumberSubtract(depositAmount, receivingAmount);
+    const confirmationRequired = conversionDirection === conversionDirections.ETH_TO_ADA ? ethereumRequired : cardanoRequired;
     const conversionInfo = {
       conversionId,
       amount: entity.conversion.claim_amount,
@@ -53,18 +69,47 @@ const useConversionHistoryHook = (address) => {
       lastUpdatedAt: entity.conversion.created_at,
       fromToken: entity.from_token.symbol,
       toToken: entity.to_token.symbol,
-      transactions: entity.transactions,
       chainType,
       conversionDirection,
-      conversionInfo
+      conversionInfo,
+      confirmationRequired
     };
   };
 
-  const formatConversionHistory = (history) => {
-    const formatted = history.map((conversion) => {
-      return formatSingleEntity(conversion);
+  const formatConversionHistory = async (history) => {
+    const [ethereumConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.ETHEREUM);
+    const [cardanoConfiramtions] = entities.filter((entity) => toUpper(entity.name) === availableBlockchains.CARDANO);
+    const ethereumRequired = ethereumConfiramtions?.block_confirmation;
+    const cardanoRequired = cardanoConfiramtions?.block_confirmation;
+    let conversionIds = [];
+    let formatted = history.map((conversion) => {
+      conversionIds = [...conversionIds, conversion.conversion.id];
+      return formatSingleEntity(conversion, ethereumRequired, cardanoRequired);
     });
+    try {
+      const conversionIdsTnx = Object.keys(expanded).filter((obj) => conversionIds.indexOf(obj) !== -1);
+      const response = await Promise.all(conversionIdsTnx.map((conversionId) => getTransactionData(conversionId)));
+      response.forEach((element, index) => {
+        formatted = formatted.map((data) => {
+          if (data.id === conversionIdsTnx[index]) {
+            data.transactions = element;
+          }
+          return data;
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setConversionHistory(formatted);
+  };
 
+  const formatTransactionHistory = (transaction, conversionId) => {
+    const formatted = conversionHistory.map((data) => {
+      if (data.id === conversionId) {
+        data.transactions = transaction;
+      }
+      return data;
+    });
     setConversionHistory(formatted);
   };
 
@@ -87,9 +132,25 @@ const useConversionHistoryHook = (address) => {
     }
   };
 
+  const getTransactionHistory = async (conversionId) => {
+    if (conversionId) {
+      try {
+        setIsLoading(true);
+        const data = await getTransactionData(conversionId);
+        formatTransactionHistory(data, conversionId);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
   useEffect(() => {
     getConversionHistory();
+  }, [address, pageSize, pageNumber]);
 
+  useEffect(() => {
     const interval = setInterval(() => {
       getConversionHistory();
     }, 60000);
@@ -97,19 +158,22 @@ const useConversionHistoryHook = (address) => {
     return () => {
       clearInterval(interval);
     };
-  }, [address, pageSize, pageNumber]);
+  }, [address, pageSize, pageNumber, expanded]);
 
   return {
     pageNumber,
     conversionHistory,
     getConversionHistory,
+    getTransactionHistory,
     isLoading,
     onItemSelect,
     pageSizes,
     paginationSize,
     onPageChange,
     paginationInfo,
-    totalNoOfTransaction
+    totalNoOfTransaction,
+    expanded,
+    setExpandedValue
   };
 };
 
