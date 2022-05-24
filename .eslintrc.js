@@ -24,6 +24,8 @@ module.exports = {
     'import/no-unresolved': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',
+    'for-direction': 'off',
+    'no-plusplus': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/function-component-definition': [
       2,

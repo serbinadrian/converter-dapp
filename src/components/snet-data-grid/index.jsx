@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { toLocalDateTime } from '../../utils/Date';
 import Columns from './Columns';
 import Rows from './Rows';
-import { setAdaConversionInfo, setConversionDirection, setActiveStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
+import { setAdaConversionInfo, setConversionDirection, setActiveStep, setCurrentConversionStep } from '../../services/redux/slices/tokenPairs/tokenPairSlice';
 import { setFromAddress, setToAddress } from '../../services/redux/slices/wallet/walletSlice';
-import { availableBlockchains, conversionStatuses, conversionSteps } from '../../utils/ConverterConstants';
+import { availableBlockchains, conversionStatuses, conversionSteps, progress } from '../../utils/ConverterConstants';
 import paths from '../../router/paths';
 import { useStyles } from './styles';
 import SnetPagination from './Pagination';
@@ -58,6 +58,11 @@ const SnetDataGrid = ({
     dispatch(setAdaConversionInfo(conversionInfo));
     dispatch(setConversionDirection(availableBlockchains.CARDANO));
     dispatch(setActiveStep(activeStep));
+
+    for (let index = 0; index <= Number(activeStep); index++) {
+      dispatch(setCurrentConversionStep({ activeStep: index, progress: progress.COMPLETE }));
+    }
+
     navigate(paths.Converter);
   };
 
