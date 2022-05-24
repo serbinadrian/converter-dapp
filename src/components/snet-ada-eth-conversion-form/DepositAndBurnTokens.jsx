@@ -57,6 +57,15 @@ const DepositAndBurnTokens = ({ onClickCancel, onClickContinueLater, isBurning, 
     navigate(Paths.Transactions);
   };
 
+  useEffect(() => {
+    if (conversion.status === conversionStatuses.EXPIRED) {
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.DEPOSIT_TOKENS, progress: progress.ERROR }));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CONVERT_TOKENS, progress: progress.ERROR }));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.CLAIM_TOKENS, progress: progress.ERROR }));
+      dispatch(setCurrentConversionStep({ activeStep: conversionSteps.SUMMARY, progress: progress.ERROR }));
+    }
+  }, [conversion]);
+
   return (
     <>
       {activeStep === 0 ? (
