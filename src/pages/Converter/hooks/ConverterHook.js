@@ -141,7 +141,6 @@ const useConverterHook = () => {
   const handleToInputChange = (event) => {
     const { value } = event.target;
     setFromAndToTokenPairs({ ...fromAndToTokenValues, toValue: value, fromValue: value });
-    setFromToValueUpdated(true);
   };
 
   const onSelectingFromToken = (selectedToken) => {
