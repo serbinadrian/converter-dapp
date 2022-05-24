@@ -31,6 +31,7 @@ const useConverterHook = () => {
 
   const [conversionCharge, setConversionCharge] = useState({ symbol: '', amount: 0 });
   const [error, setError] = useState({ error: false, message: 'ERROR' });
+  const [isFromToValueUpdated, setFromToValueUpdated] = useState(false);
   const state = useSelector((state) => state);
   const blockchains = state.blockchains.entities;
   const { tokens } = state.tokenPairs;
@@ -140,6 +141,7 @@ const useConverterHook = () => {
   const handleToInputChange = (event) => {
     const { value } = event.target;
     setFromAndToTokenPairs({ ...fromAndToTokenValues, toValue: value, fromValue: value });
+    setFromToValueUpdated(true);
   };
 
   const onSelectingFromToken = (selectedToken) => {
