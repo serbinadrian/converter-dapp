@@ -1,3 +1,0 @@
-# staking-contracts
-
-STAKING Contracts
