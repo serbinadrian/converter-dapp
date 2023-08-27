@@ -7,7 +7,7 @@ import Converter from "../pages/Converter";
 import NotFound from "../pages/NotFound";
 import Transactions from "../pages/Transactions";
 
-const ApplicationRouter = (): JSX.Element => {
+const ApplicationRouter = (): React.ReactElement => {
     return (
         <React.Fragment>
             <BrowserRouter>

@@ -1,6 +1,6 @@
 import React from "react"
 
-const UnderConstruction = (): JSX.Element => {
+const UnderConstruction = (): React.ReactElement => {
     return (
         <React.Fragment>
             Under Construction

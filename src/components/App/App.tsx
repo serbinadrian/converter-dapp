@@ -1,9 +1,11 @@
 import React, { Suspense } from "react";
+import { LinearProgress } from "@mui/material";
 import UnderConstruction from "../UnderConstruction/UnderConstruction";
 import useGATracker from "../../hooks/GATracker/GATracker";
 import ApplicationRouter from "../../router";
+import "./style.css";
 
-const App = (): JSX.Element => {
+const App = (): React.ReactElement => {
     const tracker = useGATracker();
     tracker.setup();
 
@@ -17,7 +19,7 @@ const App = (): JSX.Element => {
 
     return (
         <React.Fragment>
-            <Suspense fallback={null}>
+            <Suspense fallback={<LinearProgress />}>
                 <ApplicationRouter />
             </Suspense>
         </React.Fragment>

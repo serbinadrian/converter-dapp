@@ -1,6 +1,6 @@
 import React from "react"
 
-const Transactions = (): JSX.Element => {
+const Transactions = (): React.ReactElement => {
     return (
         <React.Fragment>
             <h1>Transactions</h1>

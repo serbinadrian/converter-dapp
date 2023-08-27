@@ -1,9 +1,13 @@
-import React from "react"
+import React from "react";
+import GeneralLayout from "../../layouts/GeneralLayout";
+import SnetConverterForm from "../../components/SnetConverterForm";
 
-const Converter = (): JSX.Element => {
+const Converter = (): React.ReactElement => {
     return (
         <React.Fragment>
-            <h1>Converter</h1>
+            <GeneralLayout>
+                <SnetConverterForm />
+            </GeneralLayout>
         </React.Fragment>
     )
 }
