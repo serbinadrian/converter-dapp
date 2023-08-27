@@ -1,0 +1,26 @@
+.navigation-bar {
+    height: var(--navbar-height);
+    background-color: var(--navbar-background-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    font-size: var(--navbar-font-size);
+}
+
+.nav-element {
+    height: 100%;
+    line-height: var(--navbar-height) !important;
+    display: block !important;
+    margin-right: 50px !important;
+    text-decoration: none !important;
+}
+
+.nav-element:last-child {
+    margin-right: auto !important;
+}
+
+.nav-element.active {
+    color: purple;
+}

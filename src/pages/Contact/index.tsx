@@ -1,11 +1,14 @@
-import React from "react"
+import React from "react";
+import GeneralLayout from "../../layouts/GeneralLayout";
 
 const Contact = (): React.ReactElement => {
     return (
         <React.Fragment>
-            <h1>Contact</h1>
+            <GeneralLayout>
+                <h1>Contact</h1>
+            </GeneralLayout>
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default Contact;

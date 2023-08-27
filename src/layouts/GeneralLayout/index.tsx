@@ -10,7 +10,7 @@ const GeneralLayout = ({ children }: Props): React.ReactElement => {
 
     return (
         <React.Fragment>
-            <header>
+            <header className="navigation-bar">
                 <SnetNavigation />
             </header>
             <main>{children}</main>

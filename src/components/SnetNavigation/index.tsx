@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { paths } from "../../utils/constants/constants";
 import SnetWalletsButton from "../SnetWalletsButton";
 import SnetConnectWallets from "../SnetConnectWallets";
 import SnetModal from "../SnetModal";
 import "./style.css";
+import SnetLogo from "./SnetLogo";
+import SnetNavigationLinks from "./SnetNavigationLinks";
 
 const SnetNavigation = (): React.ReactElement => {
 
@@ -15,9 +16,8 @@ const SnetNavigation = (): React.ReactElement => {
     
     return (
         <React.Fragment>
-            <a href={paths.CONVERTER}>Converter</a>
-            <a href={paths.TRANSACTIONS}>Transactions</a>
-            <a href={paths.CONTACT}>Contact us</a>
+            <SnetLogo />
+            <SnetNavigationLinks />
             <div onClick={() => setIsWalletModalOpen(true)}>
                 <SnetWalletsButton />
             </div>
