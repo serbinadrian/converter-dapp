@@ -2,10 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import { paths } from "../utils/constants/constants";
 import { BrowserRouter } from "react-router-dom";
 import React from "react";
-import Contact from "../pages/Contact";
-import Converter from "../pages/Converter";
-import NotFound from "../pages/NotFound";
-import Transactions from "../pages/Transactions";
+
+const Converter = React.lazy(() => import('../pages/Converter'));
+const Transactions = React.lazy(() => import('../pages/Transactions'));
+const Contact = React.lazy(() => import('../pages/Contact'));
+const NotFound = React.lazy(() => import('../pages/NotFound'));
 
 const ApplicationRouter = (): React.ReactElement => {
     return (
