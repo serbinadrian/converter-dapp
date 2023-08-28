@@ -11,3 +11,9 @@ export const enum paths {
     INITIATING_CONVERSIONS = "https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/initiating-conversion",
     VIEWING_HISTORY = "https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/viewing-history",
 }
+
+export const enum windowSizes {
+    SMALL = 450,
+    MIDDLE = 950,
+    REGULAR = 1280,
+}

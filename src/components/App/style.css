@@ -11,12 +11,8 @@
     --container-padding: 0 50px;
 }
 
-@font-face {
-    font-family: "Muli";
-    src: url("../../assets//fonts/Muli-Regular.ttf");
-}
-
 * {
+    transition: .3s;
     margin: 0;
     padding: 0;
 }
@@ -30,4 +26,15 @@ html, body, #root {
     font-family: "Muli";
     font-weight: 500;
     overflow: hidden;
+}
+
+@font-face {
+    font-family: "Muli";
+    src: url("../../assets//fonts/Muli-Regular.ttf");
+}
+
+@media (max-width: 950px) {
+    :root {
+        --container-padding: 0 30px;
+    }
 }

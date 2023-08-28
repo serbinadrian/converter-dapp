@@ -40,3 +40,27 @@
 .nav-element img {
     height: 60%;
 }
+
+.aside-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 450px;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.aside-menu .nav-element {
+    display: block;
+    margin: 0 !important;
+    margin-bottom: 30px !important;
+    order: 2;
+}
+
+.aside-menu .wallets-button-container {
+    display: block;
+    order: 1;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--default-color);
+}
