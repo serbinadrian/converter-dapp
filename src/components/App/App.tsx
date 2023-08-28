@@ -1,8 +1,10 @@
 import React, { Suspense } from "react";
+import { Provider } from "react-redux";
 import { LinearProgress } from "@mui/material";
 import UnderConstruction from "../UnderConstruction/UnderConstruction";
 import useGATracker from "../../hooks/GATracker/GATracker";
 import ApplicationRouter from "../../router";
+import store from "../../store/index";
 import "./style.css";
 
 const App = (): React.ReactElement => {
@@ -17,10 +19,14 @@ const App = (): React.ReactElement => {
         return <UnderConstruction />;
     }
 
+    console.log('store', store);
+
     return (
         <React.Fragment>
             <Suspense fallback={<LinearProgress />}>
-                <ApplicationRouter />
+                <Provider store={store}>
+                    <ApplicationRouter />
+                </Provider>
             </Suspense>
         </React.Fragment>
     );
