@@ -19,8 +19,6 @@ const App = (): React.ReactElement => {
         return <UnderConstruction />;
     }
 
-    console.log('store', store);
-
     return (
         <React.Fragment>
             <Suspense fallback={<LinearProgress />}>

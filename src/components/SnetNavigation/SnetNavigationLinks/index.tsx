@@ -4,6 +4,7 @@ import { paths } from "../../../utils/constants/constants";
 import { Link } from "@mui/material";
 
 interface NavigationLink {
+    key: string;
     path: string;
     label: string;
 }
@@ -17,14 +18,17 @@ const SnetNavigationLinks = (): React.ReactElement => {
 
     const linksMeta: NavigationLink[] = [
         {
+            key: "converter",
             path: paths.CONVERTER,
             label: "Converter",
         },
         {
+            key: "transactions",
             path: paths.TRANSACTIONS,
             label: "Transactions",
         },
         {
+            key: "contact",
             path: paths.CONTACT,
             label: "Contact",
         },
@@ -50,7 +54,7 @@ const SnetNavigationLinks = (): React.ReactElement => {
     return (
         <React.Fragment>
             {linksMeta.map((link: NavigationLink) => (
-                <NavigationLinkElement link={link} />
+                <NavigationLinkElement link={link} key={link.key}/>
             ))}
         </React.Fragment>
     );

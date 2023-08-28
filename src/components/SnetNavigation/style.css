@@ -7,20 +7,36 @@
     right: 0;
     display: flex;
     font-size: var(--navbar-font-size);
+    padding: var(--container-padding);
+    box-shadow: var(--default-shadow);
 }
 
 .nav-element {
     height: 100%;
-    line-height: var(--navbar-height) !important;
-    display: block !important;
+    align-items: center;
+    display: flex !important;
     margin-right: 50px !important;
     text-decoration: none !important;
+    color: var(--default-color) !important;
+    font-weight: 500 !important;
+    transition: .3s !important;
 }
 
-.nav-element:last-child {
+.nav-element:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    color: var(--secondary-accent-color) !important;
+}
+
+.nav-element:last-of-type {
     margin-right: auto !important;
 }
 
 .nav-element.active {
-    color: purple;
+    color: var(--secondary-accent-color) !important;
+    font-weight: 600 !important;
+}
+
+.nav-element img {
+    height: 60%;
 }

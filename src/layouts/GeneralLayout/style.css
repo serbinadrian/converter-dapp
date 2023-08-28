@@ -2,6 +2,7 @@ main {
     width: 100%;
     height: 100%;
     overflow: auto;
-    padding-top: calc(var(--navbar-height) + 25px);
+    padding-top: calc(var(--navbar-height) + 25px) !important;
+    padding: var(--container-padding);
     background: url("../../assets/images/Background_Pattern.png"), radial-gradient(40.49% 54.50% at 45.80% 18.10%, var(--primary-background-color) 0%, var(--secondary-background-color) 100%);
 }
