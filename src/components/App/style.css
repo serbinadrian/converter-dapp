@@ -12,6 +12,7 @@
 }
 
 * {
+    box-sizing: border-box;
     transition: .3s;
     margin: 0;
     padding: 0;
@@ -25,7 +26,7 @@ html, body, #root {
 #root {
     font-family: "Muli";
     font-weight: 500;
-    overflow: hidden;
+    overflow: auto;
 }
 
 @font-face {
