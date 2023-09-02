@@ -1,0 +1,29 @@
+.nav-element {
+    height: 100%;
+    align-items: center;
+    display: flex;
+    margin-right: 50px;
+    text-decoration: none;
+    color: var(--default-color);
+    font-weight: 500;
+    transition: .3s;
+}
+
+.nav-element:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    color: var(--secondary-accent-color);
+}
+
+.nav-element:last-of-type {
+    margin-right: auto !important;
+}
+
+.nav-element.active {
+    color: var(--secondary-accent-color) !important;
+    font-weight: 600 !important;
+}
+
+.nav-element img {
+    height: 60%;
+}

@@ -1,6 +1,7 @@
 import { Drawer } from "@mui/material";
 import React, { useState } from "react";
-import SnetDrawerButton from "./SnetDrawerButton";
+import SnetDrawerButton from "../SnetDrawerButton";
+import "./style.css";
 
 interface Props {
     children: React.ReactElement;

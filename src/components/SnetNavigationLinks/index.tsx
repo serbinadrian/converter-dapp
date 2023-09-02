@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { linksMeta, type NavigationLink } from "./meta";
+import "./style.css";
 
 interface NavigationLinkProps {
     link: NavigationLink;

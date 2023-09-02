@@ -1,5 +1,6 @@
 import React from "react";
 import MenuIcon from '@mui/icons-material/Menu';
+import "./style.css";
 
 interface Props {
     onCLick: () => void;

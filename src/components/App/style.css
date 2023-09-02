@@ -49,6 +49,7 @@ main {
     src: url("../../assets//fonts/Muli-Regular.ttf");
 }
 
+/* look for 950 and 950px in project if changed */
 @media (max-width: 950px) {
     :root {
         --container-padding: 0 30px;

@@ -1,0 +1,13 @@
+.footer-divider {
+    background-color: var(--inactive-element-color);
+    opacity: 70%;
+    margin-bottom: 20px;
+}
+
+.copyright-text {
+    color: var(--inactive-element-color);
+    opacity: 70%;
+    font-size: 14px;
+    text-align: center;
+    line-height: 21px;
+}

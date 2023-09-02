@@ -1,0 +1,34 @@
+
+.footer-column {
+    padding: 20px;
+}
+
+.footer-column.primary {
+    flex: 0 0 150px;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.column-title {
+    color: var(--primary-font-color);
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 10px;
+    cursor: default;
+}
+
+.column-link {
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--inactive-element-color);
+    text-decoration: none !important;
+    opacity: 70%;
+}
+
+.column-link:hover {
+    cursor: pointer;
+    opacity: 100%;
+    color: var(--primary-font-color);
+}

@@ -1,5 +1,5 @@
 import { Link } from "@mui/material";
-import { paths } from "../../../utils/constants/constants";
+import { paths } from "../../utils/constants/constants";
 import React from "react";
 import "./style.css";
 

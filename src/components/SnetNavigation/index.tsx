@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import SnetLogo, { logoVariants } from "./SnetLogo";
+import SnetLogo, { logoVariants } from "../SnetLogo";
 import SnetModal from "../SnetModal";
-import SnetAsideMenu from "./SnetAsideMenu";
+import SnetAsideMenu from "../SnetAsideMenu";
 import SnetWalletsButton from "../SnetWalletsButton";
 import SnetConnectWallets from "../SnetConnectWallets";
-import SnetNavigationLinks from "./SnetNavigationLinks";
-import "./style.css";
-import { useResize } from "../../hooks/ResizeHook/ResizeHook";
+import SnetNavigationLinks from "../SnetNavigationLinks";
+import { useResize } from "../../hooks/ResizeHook";
 import { windowSizes } from "../../utils/constants/constants";
+import "./style.css";
 
 const SnetNavigation = (): React.ReactElement => {
     

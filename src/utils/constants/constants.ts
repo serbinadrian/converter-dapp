@@ -12,8 +12,10 @@ export const enum paths {
     VIEWING_HISTORY = "https://singularitynet.gitbook.io/welcome-to-gitbook/bridge/viewing-history",
 }
 
+/* look for 450, 950, 1280 and 450px, 950px, 1280px in project if changed */
 export const enum windowSizes {
     SMALL = 450,
     MIDDLE = 950,
     REGULAR = 1280,
+    LARGE = 1920
 }

@@ -1,4 +1,4 @@
-import { paths } from "../../../utils/constants/constants";
+import { paths } from "../../utils/constants/constants";
 
 export interface NavigationLink {
     key: number;

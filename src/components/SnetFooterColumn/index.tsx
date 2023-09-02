@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Link } from "@mui/material";
-import type { FooterColumn, FooterLink } from "./../meta";
+import type { FooterColumn, FooterLink } from "../SnetFooterColumns/meta";
+import "./style.css";
 
 interface Props {
     column: FooterColumn;
