@@ -12,6 +12,7 @@
     --default-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
     --container-padding: 0 50px;
     --footer-padding: 30px 10% 55px 10%;
+    --snet-background-gradient: radial-gradient(40.49% 54.50% at 45.80% 18.10%, var(--primary-background-color) 0%, var(--secondary-background-color) 100%);
 }
 
 * {
@@ -33,6 +34,15 @@ body,
     font-weight: 500;
     overflow: auto;
 }
+
+main {
+    width: 100%;
+    height: 100vh;
+    padding-top: calc(var(--navbar-height) + 25px) !important;
+    padding: var(--container-padding);
+    background: url("../../assets/images/background/background-pattern.png"), var(--snet-background-gradient);
+}
+
 
 @font-face {
     font-family: "Muli";
