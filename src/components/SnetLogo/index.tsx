@@ -9,22 +9,22 @@ export const enum logoVariants {
 }
 interface Props {
     variant: string;
+    additionalClassName?: string;
 }
 
-const SnetLogo = ({ variant }: Props): React.ReactElement => {
-
-    const logoClassName: string = variant + " snet-logo";
+const SnetLogo = ({ variant, additionalClassName = "" }: Props): React.ReactElement => {
+    console.log(additionalClassName);
 
     return (
         <React.Fragment>
-            <Link href={paths.CONVERTER} className="nav-element">
+            <Link href={paths.CONVERTER} className={`${additionalClassName} nav-element`}>
                 <svg
                     width="175px"
                     height="43px"
                     viewBox="0 0 175 43"
                     version="1.1"
                     xmlns="http://www.w3.org/2000/svg"
-                    className={logoClassName}
+                    className={`${variant} snet-logo`}
                 >
                     <title>SingularityNet Bridge</title>
                     <g>

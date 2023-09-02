@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Link } from "@mui/material";
+import SnetLogo, { logoVariants } from "../SnetLogo";
 import type { FooterColumn, FooterLink } from "../SnetFooterColumns/meta";
 import "./style.css";
 
@@ -15,7 +16,14 @@ const SnetFooterColumn = ({ column }: Props): React.ReactElement => {
     const ColumnTitle = (): React.ReactElement => {
         return (
             <React.Fragment>
-                <h3 className="column-title">{column.title}</h3>
+                {column.isPrimary ? (
+                    <SnetLogo
+                        variant={logoVariants.LIGHT}
+                        additionalClassName={"column-title"}
+                    />
+                ) : (
+                    <h3 className="column-title">{column.title}</h3>
+                )}
             </React.Fragment>
         );
     };

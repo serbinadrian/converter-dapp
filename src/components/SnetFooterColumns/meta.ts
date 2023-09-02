@@ -11,11 +11,12 @@ export interface FooterColumn {
     links: FooterLink[];
 }
 
+//primary flag replaces title with Snet logo and changes block behavior
 export const columnsMeta: FooterColumn[] = [
     {
         key: 0,
         isPrimary: true,
-        title: "Snet",
+        title: "SingularityNet",
         links: [
             {
                 key: 0,

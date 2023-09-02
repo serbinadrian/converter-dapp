@@ -9,3 +9,7 @@
 .snet-logo.light polygon {
     fill: whitesmoke; 
 }
+
+.snet-logo {
+    max-width: 150px !important;
+}
