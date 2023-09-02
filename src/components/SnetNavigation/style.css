@@ -64,3 +64,18 @@
     margin-bottom: 25px;
     border-bottom: 1px solid var(--default-color);
 }
+
+.drawer-button {
+    border: none;
+    background: transparent;
+}
+
+.drawer-button svg {
+    width: 40px;
+    height: 40px;
+}
+
+.drawer-button:hover path {
+    fill: var(--primary-accent-color);
+    cursor: pointer;
+}

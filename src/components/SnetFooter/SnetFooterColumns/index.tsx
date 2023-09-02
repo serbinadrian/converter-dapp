@@ -1,9 +1,24 @@
 import React from "react";
+import { Box } from "@mui/material";
+import { columnsMeta, type FooterColumn } from "./meta";
+import SnetFooterColumn from "./SnetFooterColumn";
 
 const SnetFooterColumns = (): React.ReactElement => {
+    const FooterColumnsContent = (): React.ReactElement => {
+        return (
+            <React.Fragment>
+                {columnsMeta.map((column: FooterColumn) => (
+                    <SnetFooterColumn key={column.key} column={column} />
+                ))}
+            </React.Fragment>
+        );
+    };
+
     return (
         <React.Fragment>
-            <h1>columns</h1>
+            <Box className="columns-container">
+                <FooterColumnsContent />
+            </Box>
         </React.Fragment>
     );
 };

@@ -1,11 +1,48 @@
 import React from "react";
+import { Box, Link } from "@mui/material";
+import type { FooterColumn, FooterLink } from "./../meta";
 
-const SnetFooterColumn = (): React.ReactElement => {
-    return <React.Fragment>
-        <h1>
-            column
-        </h1>
-    </React.Fragment>;
+interface Props {
+    column: FooterColumn;
+}
+
+const SnetFooterColumn = ({ column }: Props): React.ReactElement => {
+    const columnClassName = column.isPrimary
+        ? "footer-column primary"
+        : "footer-column";
+
+    const ColumnTitle = (): React.ReactElement => {
+        return (
+            <React.Fragment>
+                <h3 className="column-title">{column.title}</h3>
+            </React.Fragment>
+        );
+    };
+
+    const ColumnLinks = (): React.ReactElement => {
+        return (
+            <React.Fragment>
+                <ul className="column-links">
+                    {column.links.map((link: FooterLink) => (
+                        <li key={link.key}>
+                            <Link href={link.href} className="column-link">
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </React.Fragment>
+        );
+    };
+
+    return (
+        <React.Fragment>
+            <Box className={columnClassName}>
+                <ColumnTitle />
+                <ColumnLinks />
+            </Box>
+        </React.Fragment>
+    );
 };
 
 export default SnetFooterColumn;
