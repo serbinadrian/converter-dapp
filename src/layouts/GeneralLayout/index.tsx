@@ -1,5 +1,4 @@
 import React from "react";
-import "./style.css";
 import SnetNavigation from "../../components/SnetNavigation";
 import SnetFooter from "../../components/SnetFooter";
 

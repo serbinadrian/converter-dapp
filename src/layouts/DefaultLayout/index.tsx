@@ -1,5 +1,4 @@
 import React from "react";
-import "./style.css";
 
 interface Props {
     children: React.ReactElement;

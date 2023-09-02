@@ -1,0 +1,11 @@
+.snet-logo.dark path,
+.snet-logo.dark polyline,
+.snet-logo.dark polygon {
+    fill: black; 
+}
+
+.snet-logo.light path,
+.snet-logo.light polyline,
+.snet-logo.light polygon {
+    fill: whitesmoke; 
+}
