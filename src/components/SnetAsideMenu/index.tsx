@@ -1,6 +1,6 @@
-import { Drawer } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 import React, { useState } from "react";
-import SnetDrawerButton from "../SnetDrawerButton";
+import SnetDrawerButton, { drawerButtonVariants } from "../SnetDrawerButton";
 import "./style.css";
 
 interface Props {
@@ -16,9 +16,18 @@ const SnetAsideMenu = ({ children }: Props): React.ReactElement => {
 
     return (
         <React.Fragment>
-            <SnetDrawerButton onCLick={toggleDrawer} />
+            <SnetDrawerButton
+                onCLick={toggleDrawer}
+                variant={drawerButtonVariants.OPEN}
+            />
             <Drawer variant="persistent" anchor="right" open={isOpen}>
-                {children}
+                <Box className="aside-menu">
+                    <SnetDrawerButton
+                        onCLick={toggleDrawer}
+                        variant={drawerButtonVariants.CLOSE}
+                    />
+                    {children}
+                </Box>
             </Drawer>
         </React.Fragment>
     );

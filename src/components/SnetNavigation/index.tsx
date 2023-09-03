@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
 import SnetLogo, { logoVariants } from "../SnetLogo";
 import SnetModal from "../SnetModal";
 import SnetAsideMenu from "../SnetAsideMenu";
@@ -11,7 +10,6 @@ import { windowSizes } from "../../utils/constants/constants";
 import "./style.css";
 
 const SnetNavigation = (): React.ReactElement => {
-    
     const [isWalletModalOpen, setIsWalletModalOpen] = useState<boolean>(false);
 
     const { windowWidth } = useResize();
@@ -39,10 +37,7 @@ const SnetNavigation = (): React.ReactElement => {
         return (
             <React.Fragment>
                 <SnetAsideMenu>
-                    <Box className="aside-menu">
-                        <SnetNavigationLinks />
-                        <SnetWalletsButton onClick={openWalletsModal} />
-                    </Box>
+                    <RegularNavigation />
                 </SnetAsideMenu>
             </React.Fragment>
         );
@@ -50,7 +45,7 @@ const SnetNavigation = (): React.ReactElement => {
 
     return (
         <React.Fragment>
-            <SnetLogo variant={logoVariants.DARK}/>
+            <SnetLogo variant={logoVariants.DARK} />
             {isMobile ? <MobileNavigation /> : <RegularNavigation />}
             <SnetModal isOpen={isWalletModalOpen} onClose={closeWalletModal}>
                 <SnetConnectWallets />
