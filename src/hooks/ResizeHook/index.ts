@@ -22,8 +22,6 @@ export const useResize = () => {
         };
     });
 
-    console.log(windowWidth);
-
     return {
         windowWidth,
     };

@@ -13,7 +13,6 @@ interface Props {
 }
 
 const SnetLogo = ({ variant, additionalClassName = "" }: Props): React.ReactElement => {
-    console.log(additionalClassName);
 
     return (
         <React.Fragment>
