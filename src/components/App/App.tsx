@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { Provider } from "react-redux";
 import { LinearProgress } from "@mui/material";
-import UnderConstruction from "../SnetUnderConstruction";
+import UnderConstruction from "../../pages/UnderConstruction";
 import useGATracker from "../../hooks/GATracker";
 import ApplicationRouter from "../../router";
 import store from "../../store/index";

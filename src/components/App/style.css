@@ -43,6 +43,16 @@ main {
     background: url("../../assets/images/background/background-pattern.png"), var(--snet-background-gradient);
 }
 
+.under-construction {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.under-construction img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
 @font-face {
     font-family: "Muli";
