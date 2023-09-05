@@ -1,3 +1,5 @@
+import { footerLinks } from "../../utils/constants/constants";
+
 export interface FooterLink {
     key: number;
     label: string;
@@ -21,12 +23,12 @@ export const columnsMeta: FooterColumn[] = [
             {
                 key: 0,
                 label: "Contact Us",
-                href: "https://singularitynet.io/contact/",
+                href: footerLinks.CONTACT_US,
             },
             {
                 key: 1,
                 label: "PrivacyPolicy",
-                href: "https://public.singularitynet.io/privacy_policy.html",
+                href: footerLinks.PRIVACY_POLICY,
             },
         ],
     },
@@ -38,22 +40,22 @@ export const columnsMeta: FooterColumn[] = [
             {
                 key: 0,
                 label: "AI Marketplace",
-                href: "https://beta.singularitynet.io",
+                href: footerLinks.AI_MARKETPLACE,
             },
             {
                 key: 1,
                 label: "AGI Staking",
-                href: "https://staking.singularitynet.io",
+                href: footerLinks.AGI_STAKING,
             },
             {
                 key: 2,
                 label: "AI publisher",
-                href: "https://publisher.singularitynet.io/",
+                href: footerLinks.AI_PUBLISHER,
             },
             {
                 key: 3,
                 label: "Developer Portal",
-                href: "https://dev.singularitynet.io/",
+                href: footerLinks.DEVELOPER_PORTAL,
             },
         ],
     },
@@ -65,22 +67,22 @@ export const columnsMeta: FooterColumn[] = [
             {
                 key: 0,
                 label: "Official Blog",
-                href: "https://blog.singularitynet.io/",
+                href: footerLinks.BLOG,
             },
             {
                 key: 1,
                 label: "Documentation",
-                href: "https://singularitynet.gitbook.io/welcome-to-gitbook/",
+                href: footerLinks.DOCUMENTATION,
             },
             {
                 key: 2,
                 label: "Forum",
-                href: "https://community.singularitynet.io/",
+                href: footerLinks.FORUM,
             },
             {
                 key: 3,
                 label: "Telegram",
-                href: "https://telegram.me/singularitynet",
+                href: footerLinks.TELEGRAM,
             },
         ],
     },
@@ -92,17 +94,17 @@ export const columnsMeta: FooterColumn[] = [
             {
                 key: 0,
                 label: "Singularity DAO",
-                href: "https://singularitydao.ai/",
+                href: footerLinks.SDAO,
             },
             {
                 key: 1,
                 label: "Rejuve",
-                href: "https://rejuve.ai/",
+                href: footerLinks.REJUVE,
             },
             {
                 key: 2,
                 label: "Nunet",
-                href: "https://nunet.io/",
+                href: footerLinks.NUNET,
             },
         ],
     },
@@ -114,27 +116,27 @@ export const columnsMeta: FooterColumn[] = [
             {
                 key: 0,
                 label: "Twitter",
-                href: "https://twitter.com/singularity_net",
+                href: footerLinks.TWITTER,
             },
             {
                 key: 1,
                 label: "Facebook",
-                href: "https://www.facebook.com/singularityNET.io",
+                href: footerLinks.FACEBOOK,
             },
             {
                 key: 2,
                 label: "LinkedIn",
-                href: "https://www.linkedin.com/company/singularitynet/",
+                href: footerLinks.LINKED_IN,
             },
             {
                 key: 3,
                 label: "YouTube",
-                href: "https://www.youtube.com/channel/UCbTE8vfz5zuEK5uRnc2yjrw",
+                href: footerLinks.YOU_TUBE,
             },
             {
                 key: 4,
                 label: "Instagram",
-                href: "https://instagram.com/singularitynet.io",
+                href: footerLinks.INSTAGRAM,
             },
         ],
     },
